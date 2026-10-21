@@ -36,6 +36,50 @@ def evaluate(
     # clauses distinguish the listener's owner from the player that caused the
     # event; without this, a card reading "when an enemy unit attacks" either
     # never fires or incorrectly fires for its controller's own attacks.
+    # ── Hand position (OCEANIA STORM / RING OF FIRE) ────────────────────────
+    # "if this card was left-most in hand" / "unless ... left-most".  The played
+    # card's position is captured by PlayCardAction before it leaves hand.
+    if "left-most in hand" in c or "right-most in hand" in c:
+        from simulator.rules import hand_position
+        index, size = metadata.get("hand_index"), metadata.get("hand_size")
+        at_edge = (hand_position.is_leftmost(index, size) if "left-most" in c
+                   else hand_position.is_rightmost(index, size))
+        return not at_edge if c.strip().startswith("unless") else at_edge
+    # FEROCIOUS ASSAULT: "Lose a kredit slot if its attack was greater than your
+    # kredit slots."  "its" is the targeted unit, which this action is ordered
+    # before the destroy so that the unit is still on the battlefield here.
+    if "attack was greater than your kredit slots" in c:
+        if state is None or not getattr(context, "target_unit_id", None):
+            return False
+        from simulator.actions.validator import ActionValidationError, find_unit
+        try:
+            target = find_unit(state, context.target_unit_id)
+        except ActionValidationError:
+            return False
+        return target.attack > state.players[listener_player_id].resources.max_kredits
+    # ── Weather (OCEANIA STORM) ─────────────────────────────────────────────
+    # Three shapes appear on cards: the Forecast event, the "you played a
+    # weather card" event, and a per-turn question about what was played.
+    # Each is gated on the matching event so the effect cannot fire on deploy.
+    if "you forecast" in c:
+        return event == "on_forecast" and (not event_player_id or event_player_id == listener_player_id)
+    weather_event = re.search(r"\b(?:when|after)\s+you\s+play\s+a\s+(.+?)\s*card", c)
+    if weather_event and _weather_categories(weather_event.group(1)):
+        if event != "on_weather_played":
+            return False
+        if event_player_id and event_player_id != listener_player_id:
+            return False
+        return metadata.get("weather") in _weather_categories(weather_event.group(1))
+    weather_turn = re.search(
+        r"\b(?:if\s+)?(?:you\s+played\s+a\s+)?([a-z ,]*?)\s*(?:card\s+)?was\s+played\s+this\s+turn", c)
+    weather_turn = weather_turn or re.search(r"\bif\s+you\s+played\s+a\s+(.+?)\s*card\s+this\s+turn", c)
+    if weather_turn:
+        categories = _weather_categories(weather_turn.group(1))
+        if categories:
+            if state is None:
+                return False
+            from simulator.rules import weather as weather_rules
+            return weather_rules.was_played_this_turn(state, listener_player_id, *categories)
     if "at the start of your turn" in c:
         return event == "on_turn_start"
     if "at the end of your turn" in c or "at the end of turn" in c:
@@ -135,6 +179,17 @@ def evaluate(
     # State-based / other conditions: retained leniently for existing parsed
     # persistent effects. Training readiness audits report this as a blocker.
     return True
+
+
+def _weather_categories(phrase: str) -> tuple[str, ...]:
+    """Weather categories named in a clause ("a Rain or a Storm" -> rain, storm).
+
+    Returns () when the clause names no weather, which keeps non-weather
+    "when you play a X card" clauses on their existing code path.
+    """
+    lower = (phrase or "").lower()
+    names = {"sunny": "sunny", "rain": "rain", "storm": "storm"}
+    return tuple(category for word, category in names.items() if re.search(r"\b" + word + r"\b", lower))
 
 
 def _played_card(context, cards: CardDatabase):

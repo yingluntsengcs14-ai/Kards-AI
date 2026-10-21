@@ -16,6 +16,8 @@ from simulator.rules.battlefield import BattlefieldRules
 from simulator.rules.keywords import KeywordEngine
 from simulator.rules.abilities import AbilityEngine
 from simulator.rules.native import engine_for
+from simulator.rules import weather as weather_rules
+from simulator.rules import counters
 from simulator.countermeasures import CountermeasureResolver
 from simulator.rules import intel as intel_rules
 
@@ -149,6 +151,10 @@ class PlayCardAction(Action):
             player.active_countermeasures.append({"card_id": card.id, "activated_turn": state.turn_number})
             state.event_log.append({"event": "countermeasure_activated", "player_id": self.player_id, "card_id": card.id})
             return state
+        # Capture the hand position BEFORE the card leaves hand: cards that read
+        # "if this card was left-most in hand" are resolved after the removal.
+        hand_index = player.hand.index(self.card_id)
+        hand_size = len(player.hand)
         player.hand.remove(self.card_id)
         intel_rules.refresh(state)
         player.resources.kredits -= card_play_cost(state, self.player_id, card, cards) + _target_tax(state, self.target_unit_id, self.player_id)
@@ -167,6 +173,7 @@ class PlayCardAction(Action):
             apply_op_cost_rules(state, self.player_id, unit, cards)
             state.event_log.append({"event": "unit_deployed", "player_id": self.player_id, "card_id": self.card_id, "unit_id": instance_id})
             metadata = {key: value for key, value in (("selected_card_id", self.selected_card_id), ("selected_option", self.selected_option), ("selected_card_zone", self.selected_card_zone)) if value is not None}
+            metadata.update({"hand_index": hand_index, "hand_size": hand_size})
             context = EffectContext(self.player_id, self.card_id, instance_id, self.target_unit_id, metadata=metadata)
             if self.target_unit_id is not None:
                 engine_for(cards).emit("on_targeted_by_enemy_effect", state, EffectContext(self.player_id, card.id, instance_id, self.target_unit_id, event="on_targeted_by_enemy_effect"))
@@ -220,11 +227,21 @@ class PlayCardAction(Action):
                 return state
             state.graveyard.setdefault(self.player_id, []).append(self.card_id)
             state.event_log.append({"event": "command_played", "player_id": self.player_id, "card_id": self.card_id})
+            # Record the weather BEFORE the card resolves, so an effect that
+            # reads "if Rain was played this turn" already sees this card.
+            weather_category = weather_rules.note_weather_played(state, self.player_id, self.card_id)
             metadata = {key: value for key, value in (("selected_card_id", self.selected_card_id), ("selected_option", self.selected_option), ("selected_card_zone", self.selected_card_zone)) if value is not None}
+            metadata.update({"hand_index": hand_index, "hand_size": hand_size})
             context = EffectContext(self.player_id, self.card_id, target_unit_id=self.target_unit_id, metadata=metadata)
             if self.target_unit_id is not None:
                 engine_for(cards).emit("on_targeted_by_enemy_effect", state, EffectContext(self.player_id, card.id, target_unit_id=self.target_unit_id, event="on_targeted_by_enemy_effect"))
             engine_for(cards).execute(card.id, "on_play", state, context)
+            if weather_category is not None:
+                state.event_log.append({"event": "on_weather_played", "player_id": self.player_id,
+                                        "weather": weather_category})
+                engine_for(cards).emit("on_weather_played", state, EffectContext(
+                    self.player_id, card.id, event="on_weather_played",
+                    metadata={"played_card_id": card.id, "weather": weather_category}))
             engine_for(cards).emit("on_command_played", state, context)
             engine_for(cards).emit("on_friendly_card_played", state, EffectContext(self.player_id, card.id, event="on_friendly_card_played", metadata={"played_card_id": card.id}))
             EffectResolver(cards).emit("on_play", state, context)
@@ -317,7 +334,9 @@ class AttackAction(Action):
         if CountermeasureResolver.intercept(state, cards, self.player_id, "on_attack", EffectContext(self.player_id, attacker.card_id, attacker.instance_id, self.target_unit_id)):
             state.event_log.append({"event": "action_cancelled", "action": "attack", "unit_id": attacker.instance_id})
             return state
-        state.players[self.player_id].resources.kredits -= _operation_cost(attacker, cards.get(attacker.card_id)) + _target_tax(state, self.target_unit_id, self.player_id)
+        operating_cost = _operation_cost(attacker, cards.get(attacker.card_id)) + _target_tax(state, self.target_unit_id, self.player_id)
+        state.players[self.player_id].resources.kredits -= operating_cost
+        counters.note_operating_spend(state, self.player_id, operating_cost)
         resolver = EffectResolver(cards)
         resolver.emit("before_attack", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, self.target_unit_id))
         resolver.emit("on_attack", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, self.target_unit_id))
@@ -407,7 +426,9 @@ class AttackAction(Action):
             AbilityEngine.consume(attacker, "shock")
         if not shock and attacker.instance_id in live_unit_ids and target.instance_id in live_unit_ids:
             death_start = len(state.event_log)
-            return_damage = _cap_combat_damage(attacker, target.attack)
+            # The counter-attack is damage dealt by the DEFENDER, so its own
+            # side's damage auras apply (e.g. 110. PANZERGRENADIER).
+            return_damage = _cap_combat_damage(attacker, target.attack + resolver.unit_damage_bonus(state, target))
             resolver.resolve({"type": "damage", "target": "self", "value": {"amount": return_damage}}, state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, metadata={"combat_damage": True}))
             engine_for(cards).emit_damage_since(state, death_start)
             engine_for(cards).emit_deaths_since(state, death_start)
@@ -467,7 +488,9 @@ class MoveUnitAction(Action):
         if AbilityEngine.has_smokescreen(cards.get(unit.card_id), unit):
             AbilityEngine.consume(unit, "smokescreen")
         unit = find_unit(state, self.unit_id)
-        state.players[self.player_id].resources.kredits -= _operation_cost(unit, cards.get(unit.card_id))
+        move_cost = _operation_cost(unit, cards.get(unit.card_id))
+        state.players[self.player_id].resources.kredits -= move_cost
+        counters.note_operating_spend(state, self.player_id, move_cost)
         state.battlefield["support_line"].remove(unit.instance_id)
         state.battlefield["frontline"].append(unit.instance_id)
         unit.position = "frontline"
@@ -539,6 +562,10 @@ def card_play_cost(state: GameState, player_id: str, card, cards: CardDatabase) 
             total = mod["set_cost"]
         else:
             total += mod.get("amount", 0)
+    # Cards that re-price themselves from live state (DETAILED RECON,
+    # SURPRISE ENGAGEMENT); see simulator.rules.dynamic_costs.
+    from simulator.rules import dynamic_costs
+    total -= dynamic_costs.reduction_for(state, player_id, card)
     total = max(0, total)
     min_cost = max(
         (mod.get("min_cost", 0) for mod in player.cost_modifiers if _cost_mod_applies(mod, card, cards) and mod.get("min_cost")),

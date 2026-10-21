@@ -4,6 +4,8 @@ from simulator.core.state import GameState, UnitState
 
 SUPPORT_UNIT_LIMIT = 4
 FRONTLINE_UNIT_LIMIT = 5
+# A player may never hold more than 9 cards; a 10th card is lost instead.
+HAND_CARD_LIMIT = 9
 
 
 class BattlefieldRules:

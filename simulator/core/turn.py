@@ -30,6 +30,13 @@ class TurnManager:
             unit.status.pop("deployed_this_turn", None)
             unit.status.pop("moved_this_turn", None)
             unit.status.pop("ambush_used_this_round", None)
+        # "this turn" counters belong to the turn now starting, for both players:
+        # a player's HQ can be damaged during the opponent's turn.
+        from simulator.rules import counters
+        counters.clear_turn_counters(state)
+        # A forecast made on an earlier turn produces its weather card now.
+        from simulator.rules import weather
+        weather.resolve_pending_forecast(state, player_id)
         if draw_card:
             TurnManager.draw_card(state, player_id)
         state.event_log.append({"event": "turn_started", "player_id": player_id, "turn": state.turn_number})
@@ -75,6 +82,9 @@ class TurnManager:
         # Fire scheduled one-shot effects due at the end of this player's turn
         # (e.g. "discarded end of turn" / "discard it at the end of your next turn").
         NativeRuleEngine.fire_scheduled(state, player_id, "end")
+        # "if Rain was played this turn" only ever asks about the current turn.
+        from simulator.rules import weather as weather_rules
+        weather_rules.clear_turn_state(state, player_id)
         state.event_log.append({"event": "turn_ended", "player_id": player_id, "turn": state.turn_number})
         state.current_player = next_player
         state.turn_number += 1

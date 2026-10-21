@@ -62,6 +62,8 @@ class HQResolver:
             })
             return applied
         hq.current_health -= applied
+        from simulator.rules import counters
+        counters.note_hq_damage(state, target_player_id, applied)
         state.event_log.append({"event": "hq_damaged", "player_id": target_player_id, "amount": applied, "source_player_id": source_player_id})
         HQResolver.check_victory(state, source_player_id)
         return applied

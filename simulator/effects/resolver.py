@@ -13,6 +13,9 @@ from simulator.core.hq import HQResolver
 from simulator.core.state import GameState, UnitState
 from simulator.effects import basic_effects
 
+# Ground (land) unit types for damage auras such as 110. PANZERGRENADIER.
+_GROUND_TYPES = frozenset({"infantry", "tank", "artillery"})
+
 
 @dataclass(frozen=True)
 class EffectContext:
@@ -190,22 +193,40 @@ class EffectResolver:
             if isinstance((bonus := unit.status.get("order_damage_bonus")), int) and bonus > 0
         )
 
-    def _unit_damage_bonus(self, state: GameState, context: EffectContext) -> int:
-        """Apply in-play unit damage auras to non-combat unit effects."""
-        if context.metadata.get("combat_damage") or not context.source_unit_id:
+    def unit_damage_bonus(self, state: GameState, unit: UnitState | None) -> int:
+        """Bonus that friendly auras add to damage dealt BY ``unit``.
+
+        110. PANZERGRENADIER ("Your ground units with 4 or more attack deal +3
+        damage") boosts every damage that the unit itself deals: attacks,
+        counter-attacks and deployment effects alike (confirmed in client).
+        Damage dealt by an Order has no source unit, so it is never boosted.
+        """
+        if unit is None:
             return 0
-        source = find_unit(state, context.source_unit_id)
-        if source is None:
-            return 0
-        source_card = self.cards.get(source.card_id)
+        card = self.cards.get(unit.card_id)
         total = 0
-        for unit in state.players[context.player_id].units:
-            rule = unit.status.get("noncombat_unit_damage_bonus")
-            if isinstance(rule, dict) and isinstance(rule.get("amount"), int):
-                total += rule["amount"]
-            ground = unit.status.get("ground_damage_bonus")
-            if isinstance(ground, dict) and source_card.type in {"infantry", "tank", "artillery"} and source.attack >= ground.get("minimum_attack", 4):
+        for other in state.players[unit.owner_id].units:
+            ground = other.status.get("ground_damage_bonus")
+            if (isinstance(ground, dict) and card.type in _GROUND_TYPES
+                    and unit.attack >= int(ground.get("minimum_attack", 4) or 4)):
                 total += int(ground.get("amount", 0))
+        return total
+
+    def _unit_damage_bonus(self, state: GameState, context: EffectContext) -> int:
+        """Apply in-play unit damage auras to damage dealt by a source unit."""
+        if not context.source_unit_id:
+            return 0
+        try:
+            source = find_unit(state, context.source_unit_id)
+        except ActionValidationError:
+            return 0
+        total = self.unit_damage_bonus(state, source)
+        # "noncombat" auras stay restricted to non-combat unit effects.
+        if not context.metadata.get("combat_damage"):
+            for unit in state.players[context.player_id].units:
+                rule = unit.status.get("noncombat_unit_damage_bonus")
+                if isinstance(rule, dict) and isinstance(rule.get("amount"), int):
+                    total += rule["amount"]
         return total
 
     @staticmethod
@@ -226,10 +247,18 @@ class EffectResolver:
         )
 
     def _targets(self, selector: str, state: GameState, context: EffectContext) -> list[UnitState | str]:
+        # The selector vocabulary is declared in simulator.rules.selectors
+        # (EFFECT_SELECTORS covers this method).  Imported lazily because
+        # simulator.rules.__init__ pulls in the native engine, which imports
+        # this module — the same cycle turn.py and native.py work around.
+        from simulator.rules import selectors
         opponent = opponent_id(state, context.player_id)
-        if selector in {"self", "source"} and context.source_unit_id:
+        if selector in selectors.SOURCE and context.source_unit_id:
             return [find_unit(state, context.source_unit_id)]
-        if selector in {"selected_target", "target"} and context.target_unit_id:
+        # selected_enemy / selected_friendly are the same chosen unit as
+        # selected_target; without them the resolver returned no target and the
+        # effect silently did nothing (163 rule actions use these two names).
+        if selector in selectors.CHOSEN and context.target_unit_id:
             return [find_unit(state, context.target_unit_id)]
         if selector == "enemy_hq":
             return [opponent]
@@ -237,6 +266,8 @@ class EffectResolver:
             return [context.player_id]
         if selector in {"friendly", "friendly_units"}:
             return list(state.players[context.player_id].units)
+        if selector in {"all_units", "all"}:
+            return list(state.players[context.player_id].units) + list(state.players[opponent].units)
         if selector in {"enemy", "enemy_units"}:
             return list(state.players[opponent].units)
         return []

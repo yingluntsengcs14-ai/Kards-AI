@@ -1055,17 +1055,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "friendly_air_total_attack",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -2524,17 +2524,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "other_friendly_air_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -3978,7 +3978,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "at the start of its third turn on the battlefield."
         }
       ],
       "status": "implemented",
@@ -4654,7 +4654,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after it Shock attacks."
         }
       ],
       "status": "implemented",
@@ -5158,17 +5158,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "enemy_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "friendly_bomber_count_plus_one",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -6017,15 +6017,15 @@
       ],
       "actions": [
         {
-          "kind": "modify_defense",
+          "kind": "set_defense",
           "target": "enemy_units",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
-          "set_cost": 1,
+          "set_cost": null,
           "duration": null,
           "condition": null
         }
@@ -8746,17 +8746,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "enemy_hand_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -9226,17 +9226,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "enemy_hq",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
-          "scope": "",
+          "card_name": "non_nation_friendly_unit_count",
+          "scope": "french",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -9520,8 +9520,10 @@
           "condition": null
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[selector contract: kind=discard does not read a chosen target]"
+      ]
     },
     {
       "card_id": "cross_of_lorraine",
@@ -9863,9 +9865,9 @@
           "condition": null
         },
         {
-          "kind": "delayed_discard",
-          "target": "source",
-          "amount": 0,
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -9909,23 +9911,11 @@
       "triggers": [
         "on_play"
       ],
-      "actions": [
-        {
-          "kind": "move_to_frontline",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null
-        }
-      ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "actions": [],
+      "status": "unresolved",
+      "unresolved_fragments": [
+        "Move two random Navy cards in your deck to the top."
+      ]
     },
     {
       "card_id": "aunt_frieda",
@@ -10144,12 +10134,12 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "enemy_hq",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "target_cost",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -11424,17 +11414,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "friendly_unit_type_count_plus_one",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -12208,7 +12198,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "After this unit attacks and survives combat, your other units with an active Pincer get +1+1."
         }
       ],
       "status": "implemented",
@@ -13586,7 +13576,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after each time this unit attacks."
         }
       ],
       "status": "implemented",
@@ -13672,10 +13662,26 @@
           "set_cost": null,
           "duration": null,
           "condition": null
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Reduce the cost of German cards with odd cost in your deck by 1.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "Reduce the cost of German cards with odd cost in your deck by 1.",
+        "[engine does not implement kind=special_effect] Reduce the cost of German cards with odd cost in your deck by 1."
+      ]
     },
     {
       "card_id": "fw_190_f9",
@@ -14255,7 +14261,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after it attacks until the start of your next turn."
         }
       ],
       "status": "implemented",
@@ -14366,7 +14372,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after an enemy ground unit is destroyed."
         }
       ],
       "status": "implemented",
@@ -14537,7 +14543,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after giving an order."
         }
       ],
       "status": "implemented",
@@ -14661,17 +14667,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "enemy_hq",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
-          "scope": "",
+          "card_name": "frontline_nation_tank_total_cost",
+          "scope": "german",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -14906,6 +14912,19 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "modify_attack",
+          "target": "source",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
         {
           "kind": "fight",
           "target": "selected_enemy",
@@ -15556,7 +15575,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after each time this unit attacks."
         }
       ],
       "status": "implemented",
@@ -15626,12 +15645,12 @@
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "Veteran",
+          "card_name": "veteran",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "at the start of your turn."
         }
       ],
       "status": "implemented",
@@ -15752,17 +15771,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "enemy_hq",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "enemy_hand_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         },
         {
           "kind": "discard",
@@ -17704,17 +17723,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "enemy_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "friendly_air_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -18188,6 +18207,19 @@
       ],
       "actions": [
         {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you play a Navy card."
+        },
+        {
           "kind": "shuffle_named",
           "target": "owner",
           "amount": 0,
@@ -18198,7 +18230,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when you play a Navy card.\\r\\nDestruction: Shuffle your deck"
+          "condition": null
         },
         {
           "kind": "draw",
@@ -18966,7 +18998,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": "this_turn",
-          "condition": null
+          "condition": "after you attack with a Japanese unit."
         }
       ],
       "status": "implemented",
@@ -19549,6 +19581,19 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "copy",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -20177,7 +20222,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "elite",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -20805,17 +20850,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "enemy_hq",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "kredit_slots_lost_this_battle",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -21159,17 +21204,17 @@
           "condition": null
         },
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "target_attack",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -22102,23 +22147,12 @@
           "set_cost": null,
           "duration": null,
           "condition": null
-        },
-        {
-          "kind": "damage",
-          "target": "selected_enemy",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": "equal to referenced value"
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "Deal damage to all units equal to Navy cards shuffled in."
+      ]
     },
     {
       "card_id": "toyama_regiment",
@@ -23121,7 +23155,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "After this unit attacks the enemy HQ, draw a card.\\\""
         }
       ],
       "status": "implemented",
@@ -24587,7 +24621,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after it attacks the enemy HQ."
         }
       ],
       "status": "implemented",
@@ -25364,6 +25398,19 @@
           "set_cost": null,
           "duration": null,
           "condition": null
+        },
+        {
+          "kind": "target_select",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -25873,7 +25920,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after the third time."
         }
       ],
       "status": "implemented",
@@ -25911,17 +25958,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
-          "scope": "",
+          "card_name": "nation_units_destroyed_this_battle",
+          "scope": "polish",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -25983,17 +26030,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "known_enemy_hand_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -27692,7 +27739,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "at the start of its fourth turn on the battlefield."
         }
       ],
       "status": "implemented",
@@ -30197,7 +30244,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "veteran",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -30321,7 +30368,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "at the start of its third turn on the battlefield."
         }
       ],
       "status": "implemented",
@@ -30378,7 +30425,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "After this unit destroys a unit in combat give it Shock."
         }
       ],
       "status": "implemented",
@@ -30775,17 +30822,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "friendly_unit_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -30860,17 +30907,17 @@
           "condition": null
         },
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "hq_damage_this_turn",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -31842,6 +31889,19 @@
           "attack": 3,
           "defense": 3,
           "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "two suppressed copies",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -33068,7 +33128,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null
+          "condition": "after it Shock attacks."
         }
       ],
       "status": "implemented",
@@ -34763,11 +34823,24 @@
     },
     {
       "card_id": "overcast",
-      "source_text": "All HQs get +2 defense. All players gain an extra kredit slot and draw a card.",
+      "source_text": "Forecast. All HQs get +2 defense. All players gain an extra kredit slot and draw a card.",
       "triggers": [
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "forecast",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
         {
           "kind": "modify_defense",
           "target": "selected_target",
@@ -36415,6 +36488,19 @@
       ],
       "actions": [
         {
+          "kind": "draw_matching",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "air",
+          "scope": "air",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when drawn: Draw a random air unit from your deck."
+        },
+        {
           "kind": "buff",
           "target": "friendly_units",
           "amount": 0,
@@ -36425,7 +36511,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when drawn: Draw a random air unit from your deck.\\r\\nYour air units get +1+1."
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -37673,7 +37759,20 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when drawn: Add a BREWSTER F2A to the support line.\\r\\nYour fighters have +1 attack."
+          "condition": "when drawn: Add a BREWSTER F2A to the support line."
+        },
+        {
+          "kind": "modify_attack",
+          "target": "friendly_units",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -38702,17 +38801,17 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "unspent_kredits",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "equal to referenced value"
+          "condition": null
         }
       ],
       "status": "implemented",
@@ -39806,6 +39905,4309 @@
           "set_cost": null,
           "duration": null,
           "condition": "if you control the frontline."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "blue_sky",
+      "source_text": "It will be Sunny.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "mist",
+      "source_text": "Rain is on its way.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "gale",
+      "source_text": "A Storm is coming.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "heatwave",
+      "source_text": "All units get +2 attack until end of turn. Air units get +3 instead.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "modify_attack",
+          "target": "all_units",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": "this_turn",
+          "condition": null
+        },
+        {
+          "kind": "modify_attack",
+          "target": "all_units",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "air",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": "this_turn",
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "jungle_fever",
+      "source_text": "All units get +3 attack this turn. Pin friendly units that do not attack.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "modify_attack",
+          "target": "all_units",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": "this_turn",
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Pin friendly units that do not attack."
+      ]
+    },
+    {
+      "card_id": "scorching_sun",
+      "source_text": "Put all units in your hand onto the battlefield. Pin them until end of turn.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Put all units in your hand onto the battlefield.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "pin",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Put all units in your hand onto the battlefield.",
+        "[engine does not implement kind=special_effect] Put all units in your hand onto the battlefield."
+      ]
+    },
+    {
+      "card_id": "deluge",
+      "source_text": "Distribute 6 defense between random friendly targets.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "distribute_defense",
+          "target": "owner",
+          "amount": 6,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "torrential_rain",
+      "source_text": "Your infantry and HQ get +3 defense. Your other units get +2 defense.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "modify_defense",
+          "target": "friendly_units",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "infantry",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "modify_defense",
+          "target": "friendly_units",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "monsoon_rain",
+      "source_text": "Each player removes their 2 most expensive cards in hand and/or on the battlefield.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Each player removes their 2 most expensive cards in hand and/or on the battlefield.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Each player removes their 2 most expensive cards in hand and/or on the battlefield.",
+        "[engine does not implement kind=special_effect] Each player removes their 2 most expensive cards in hand and/or on the battlefield."
+      ]
+    },
+    {
+      "card_id": "thunderstorm",
+      "source_text": "Distribute 3 damage randomly between all enemies.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "random_enemy",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "tropical_storm",
+      "source_text": "Players shuffle their hand into their deck, then draw equal to greatest number shuffled.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "return_to_deck",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "draw_top_matching",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "equal to greatest number shuffled",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "cyclone",
+      "source_text": "Draw 3 cards, then deal damage to your HQ equal to cards in your hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "damage_own_hq_equal_to_hand",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "coastwatchers",
+      "source_text": "Your weather cards cost you 1 less. Deployment: Forecast.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Your weather cards cost you 1 less.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "forecast",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Your weather cards cost you 1 less.",
+        "[engine does not implement kind=special_effect] Your weather cards cost you 1 less."
+      ]
+    },
+    {
+      "card_id": "us_weather_bureau",
+      "source_text": "Choose One - Forecast OR draw a card.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "task_force_44",
+      "source_text": "Forecast. Deal 2 damage to a unit. Deal 3 damage instead if this card was left-most in hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "forecast",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "damage",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "unless this card was left-most in hand"
+        },
+        {
+          "kind": "damage",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if this card was left-most in hand"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "cruiser_scouts",
+      "source_text": "Pin a unit and Forecast. Also Intel 3 if you have 0 kredits.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "pin",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "kredit_effect",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Also Intel 3 if you have 0 kredits.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if you have 0 kredits."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "duck",
+      "source_text": "Gets +1+1 and you Forecast when you move it into the frontline.",
+      "triggers": [
+        "on_forecast",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you move it into the frontline."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "kingfisher",
+      "source_text": "Forecast after this unit attacks the enemy HQ.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "forecast",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after this unit attacks the enemy HQ."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "yokosuka_e14y",
+      "source_text": "Deployment: Forecast. Draw a card if you have 0 kredits.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "forecast",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if you have 0 kredits."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "kawanishi_h8k",
+      "source_text": "Draw a card when you Forecast.\\r\\nDeployment: Forecast.",
+      "triggers": [
+        "on_deploy",
+        "on_forecast"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you Forecast."
+        },
+        {
+          "kind": "forecast",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "raaf_walrus",
+      "source_text": "Deployment: Forecast. \\r\\nBecomes Veteran at the end of turn.",
+      "triggers": [
+        "on_deploy",
+        "on_turn_end"
+      ],
+      "actions": [
+        {
+          "kind": "forecast",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "at the end of turn."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "22nd_pioneers",
+      "source_text": "Your other units get +1+1 when you Forecast.",
+      "triggers": [
+        "on_forecast",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you Forecast."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "6th_marine_regiment",
+      "source_text": "Has Blitz and 0 operation cost if Sunny or Rain was played this turn.",
+      "triggers": [
+        "on_weather_played",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "blitz",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": "this_turn",
+          "condition": "if Sunny or Rain was played this turn."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "162nd_regiment",
+      "source_text": "Combat damage dealt to your infantry is reduced to 2. Fully repair your infantry when you play a Rain card.",
+      "triggers": [
+        "on_weather_played",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Combat damage dealt to your infantry is reduced to 2.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "repair",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you play a Rain card."
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Combat damage dealt to your infantry is reduced to 2.",
+        "[engine does not implement kind=special_effect] Combat damage dealt to your infantry is reduced to 2."
+      ]
+    },
+    {
+      "card_id": "16th_infantry_brigade",
+      "source_text": "Becomes Veteran after you play a Rain or a Storm card.",
+      "triggers": [
+        "on_weather_played",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after you play a Rain or a Storm card."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "16th_infantry_brigade_vet",
+      "source_text": "Your units get +2+2 after you play a Rain or a Storm card.",
+      "triggers": [
+        "on_weather_played",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 2,
+          "defense": 2,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after you play a Rain or a Storm card."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "79th_infantry_regiment",
+      "source_text": "When you play a Sunny card, give your units +2 attack and remove pin on them.",
+      "triggers": [
+        "on_weather_played",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "modify_attack",
+          "target": "friendly_units",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When you play a Sunny card"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "out_of_the_sun",
+      "source_text": "Give your air units -1 operation cost. If you played a Sunny card this turn, they get +2 attack as well.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Give your air units -1 operation cost.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "modify_attack",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": "this_turn",
+          "condition": "If you played a Sunny card this turn"
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Give your air units -1 operation cost.",
+        "[engine does not implement kind=special_effect] Give your air units -1 operation cost."
+      ]
+    },
+    {
+      "card_id": "surprise_engagement",
+      "source_text": "Costs 2 less if Rain was played this turn. Destroy a random enemy unit. Draw the top unit of your deck.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "destroy",
+          "target": "random_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "draw_top_matching",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "unit",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "hmas_warramunga",
+      "source_text": "Choose a card in hand. Move it all the way to the left. Reduce its cost by 1 if it is an ANZAC card.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "choose_one",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "hand",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "move_hand_card_leftmost",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "modify_hand_cost",
+          "target": "owner",
+          "amount": -1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it is an ANZAC card."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "102_grenadier",
+      "source_text": "Becomes Veteran after it operates.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after it operates."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "27th_mg_battalion",
+      "source_text": "Units you deploy get Blitz if they were left-most in hand, Shock if they were right-most.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "blitz",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if they were left-most in hand, Shock if they were right-most."
+        },
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "shock",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if they were left-most in hand, Shock if they were right-most."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "2nd_west_africa",
+      "source_text": "Deployment: Draw the cheapest order from your deck. Repeat if it did not start there.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw_top_matching",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "the cheapest order from your deck",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "repeat_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Repeat if it did not start there.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it did not start there."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "30_infantry_regiment",
+      "source_text": "Reduce operation cost by 1 after you operate a German unit.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "modify_operation_cost",
+          "target": "source",
+          "amount": -1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after you operate a German unit."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "3rd_morskoi_pekhoty",
+      "source_text": "Deployment: Add a LIGHT INFANTRY to your support line and a BLAST to your hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "LIGHT INFANTRY to your support line and a BLAST",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "78th_yongsan",
+      "source_text": "Has +1 attack for each kredit slot the enemy has over you.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "modify_attack",
+          "target": "source",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "7th_brigade",
+      "source_text": "Becomes Veteran when your hand is empty. Deployment: Discard your left-most card.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when your hand is empty."
+        },
+        {
+          "kind": "discard_leftmost",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "7th_recon",
+      "source_text": "Destruction: Draw a card if you know a card in the enemy hand.",
+      "triggers": [
+        "on_destroy",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if you know a card in the enemy hand."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "anders_army",
+      "source_text": "Draw 2 cards. Deal 2 damage to your HQ.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "damage",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "colossus",
+      "source_text": "Copy three random orders in the enemy deck and shuffle them into yours. They get: \\\"Draw a card.\\\"",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "copy_unit",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "dingo",
+      "source_text": "When this unit attacks the enemy HQ, your HQ gets +1 defense and you draw a card.",
+      "triggers": [
+        "on_attack",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When this unit attacks the enemy HQ"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "guerilla_warfare_school",
+      "source_text": "Costs 1 less if right-most in hand. Retreat a random enemy unit.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "modify_hand_cost",
+          "target": "owner",
+          "amount": -1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if right-most in hand."
+        },
+        {
+          "kind": "move_to_support_line",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "irregular_recruits",
+      "source_text": "Add a random combination of two LIGHT INFANTRY and/or BLAST to your hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "random combination of two LIGHT INFANTRY and/or BLAST",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "murase_battalion",
+      "source_text": "Once per turn, gain 3 additional kredits when you lose a kredit slot.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "lose_kredit_slot",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you lose a kredit slot."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "no_46_commando",
+      "source_text": "Deployment: Add a BLAST and a PLAN to your hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "BLAST and a PLAN",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "pams",
+      "source_text": "Develop a British order costing 4 or less. Add it to your deck with a cost of 0.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "british order costing 4 or less",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Add it to your deck with a cost of 0.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Add it to your deck with a cost of 0.",
+        "[engine does not implement kind=special_effect] Add it to your deck with a cost of 0."
+      ]
+    },
+    {
+      "card_id": "provence_landing",
+      "source_text": "Units you deploy this turn move into the frontline if possible.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "move_to_frontline",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if possible."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "quinine",
+      "source_text": "Target infantry gets +1+2 and -1 operation cost.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 2,
+          "card_name": "",
+          "scope": "infantry",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "shinyo_motorboats",
+      "source_text": "Lose a kredit slot. Deal damage to target unit equal to kredit slots lost this battle plus 1.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "lose_kredit_slot",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "damage_equal_to",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "kredit_slots_lost_this_battle_plus_one",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "ski_troops",
+      "source_text": "When the enemy deploys a unit, suppress it, then add a SISSI to your support line.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "suppress",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When the enemy deploys a unit"
+        },
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "SISSI",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "sustained_pressure",
+      "source_text": "Deal damage to a unit equal to kredits spent operating this turn.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "damage_equal_to",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "kredits_spent_operating_this_turn",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "tank_wedge",
+      "source_text": "Target friendly German tank and its adjacent units get +1+1.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": "Germany",
+          "scope": "tank",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "universal_carrier",
+      "source_text": "Your PLANS cost 1 less. When you play a PLAN, add a BLAST to your hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "modify_hand_cost",
+          "target": "owner",
+          "amount": -1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "BLAST",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When you play a PLAN"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "17th_infantry_brigade",
+      "source_text": "Deployment: Deal 2 damage to a unit. If you do, draw a card if deployed from left-most in hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "If you do ; if deployed from left-most in hand."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "238th_regiment",
+      "source_text": "Deals double damage if you have 3 or fewer kredit slots.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "double_damage",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if you have 3 or fewer kredit slots."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "28th_infantry_regiment",
+      "source_text": "Gets +1+1 when it survives combat.",
+      "triggers": [
+        "on_survives_combat",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "source",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when it survives combat."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "2e_zouaves",
+      "source_text": "Gets +2+2 if it is moved into the frontline.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 2,
+          "defense": 2,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it is moved into the frontline."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "3_7_inch_mountain_howitzer",
+      "source_text": "This unit also deals damage to enemies to the left of the enemy it attacks.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "enemy_hq",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "511th_regiment",
+      "source_text": "Defense of this unit cannot go lower than 1. Becomes Veteran after it takes damage.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "control_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Defense of this unit cannot go lower than 1.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after it takes damage."
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Defense of this unit cannot go lower than 1.",
+        "[engine does not implement kind=control_effect] Defense of this unit cannot go lower than 1."
+      ]
+    },
+    {
+      "card_id": "866th_rifles",
+      "source_text": "Destruction: Add two BLASTS to your hand.",
+      "triggers": [
+        "on_destroy",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "two BLASTS",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "claim_objective",
+      "source_text": "Your units get +1 attack for each kredit spent operating this turn.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "modify_attack",
+          "target": "friendly_units",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": "this_turn",
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "do_or_die",
+      "source_text": "When a friendly unit is destroyed this turn, add a BLAST and a PRODUCTION to your hand.",
+      "triggers": [
+        "on_destroy"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "BLAST and a PRODUCTION",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When a friendly unit is destroyed this turn"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "ferocious_assault",
+      "source_text": "Destroy target infantry. Lose a kredit slot if its attack was greater than your kredit slots.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "lose_kredit_slot",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if its attack was greater than your kredit slots"
+        },
+        {
+          "kind": "destroy",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "infantry",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "forward_base",
+      "source_text": "Discard your left-most card. Deal damage to target unit equal to its cost.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "discard_leftmost",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "damage_equal_to",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "target_cost",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "heinkel_he_59",
+      "source_text": "Once per turn, when a friendly unit becomes Veteran, draw a card and gain a kredit.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when a friendly unit becomes Veteran, draw a card and gain a kredit."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "katzmann_regiment",
+      "source_text": "Increase operation cost by 1 until end of turn each time you play another card.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "modify_operation_cost",
+          "target": "source",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "maori_battalion",
+      "source_text": "Gets +2+2 when a friendly unit becomes Veteran.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 2,
+          "defense": 2,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when a friendly unit becomes Veteran."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "planned_attack",
+      "source_text": "Choose One - deal 2 damage and add a PLAN to hand OR draw a card and add a BLAST to hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "rally_caledonia",
+      "source_text": "Add a ROUTED TROOPS to your support line with Blitz and +1+1 for each enemy unit.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ROUTED TROOPS",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "rasputitsa",
+      "source_text": "Each unit is dealt damage equal to its operation cost.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "aura_buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Each unit is dealt damage equal to its operation cost.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "regia_marina",
+      "source_text": "Draw the highest cost card in your deck. Repeat if it did not start there.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw_top_matching",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "the highest cost card in your deck",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "repeat_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Repeat if it did not start there.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it did not start there."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "ruffians",
+      "source_text": "Deployment: Gets +1+1 for each other infantry you control.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "salpa_line",
+      "source_text": "Add a SISSI to your support line, then give all your SISSI units +3 defense.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "SISSI",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "modify_defense",
+          "target": "friendly_units",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "special_attack",
+      "source_text": "Lose a kredit slot. Your units get: \\\"Destruction: Deal 1 damage to the enemy HQ. Gain a kredit slot.\\\"",
+      "triggers": [
+        "on_destroy"
+      ],
+      "actions": [
+        {
+          "kind": "lose_kredit_slot",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "damage",
+          "target": "enemy_hq",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "gain_kredit_slot",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "the_biscuit_boys",
+      "source_text": "Your HQ gets +1 defense when you play a neutral card.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "gain_hq_defense",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you play a neutral card."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "the_double_sunrise",
+      "source_text": "Give a random friendly unit on the battlefield and in hand +2+1.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_friendly",
+          "amount": 0,
+          "attack": 2,
+          "defense": 1,
+          "card_name": "",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "usaaf",
+      "source_text": "Draw a US bomber and a US fighter from your deck.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw_top_matching",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "US bomber and a US fighter",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "102nd_rifles",
+      "source_text": "Becomes Veteran at the start of your turn. Destruction: Draw a card.",
+      "triggers": [
+        "on_destroy",
+        "on_turn_start",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "at the start of your turn."
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "14_panzergrenadier",
+      "source_text": "Becomes Veteran when you deploy a tank.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you deploy a tank."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "1st_infantry_regiment",
+      "source_text": "After you deploy or add an infantry unit, it operates for free this turn.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "After you deploy or add an infantry unit, it operates for free this turn.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "After you deploy or add an infantry unit"
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "After you deploy or add an infantry unit, it operates for free this turn.",
+        "[engine does not implement kind=special_effect] After you deploy or add an infantry unit, it operates for free this turn."
+      ]
+    },
+    {
+      "card_id": "216th_guards",
+      "source_text": "At the start of your turn, deal 2 damage to your HQ and draw a card. Becomes Veteran after the second time.",
+      "triggers": [
+        "on_turn_start",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "At the start of your turn"
+        },
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after the second time."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "38th_independent",
+      "source_text": "Cannot attack or move. Suppress it if you have 4+ copies. Duplicate this unit when you lose a kredit slot.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "cannot",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "attack_or_move",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "suppress",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if you have 4+ copies."
+        },
+        {
+          "kind": "lose_kredit_slot",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you lose a kredit slot."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "3_panzergrenadier",
+      "source_text": "Gets +1+1 after you operate a German unit.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after you operate a German unit."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "46th_indian_brigade",
+      "source_text": "Deployment: Draw a card from your deck that did not start there. Get +1+1 and Blitz if you do.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if you do."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "4th_brigade_nz",
+      "source_text": "Deployment: If you have less than 3 cards in hand, draw until you have 3.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw_top_matching",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "until you have 3",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "If you have less than 3 cards in hand, draw until you have 3."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "641st_rifles",
+      "source_text": "Becomes Veteran at the start of your turn if damaged.",
+      "triggers": [
+        "on_turn_start",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if damaged."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "6th_brigade_nz",
+      "source_text": "Deployment: Becomes Veteran if deployed from right-most in hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if deployed from right-most in hand."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "6th_infantry_brigade",
+      "source_text": "Deployment: Has 0 operation cost this turn.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "set_operation_cost",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "93rd_messina",
+      "source_text": "Units that did not start in your deck cost 2 less to deploy.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "op_cost_rule",
+          "target": "owner",
+          "amount": -2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Deck",
+          "scope": "name",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "blue_legion",
+      "source_text": "After you operate a unit, give it +1+1 for each kredit spent to operate it.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "After you operate a unit"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "counterattack",
+      "source_text": "Your Veteran units get +2+2. Then each friendly unit fights a random enemy unit.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 2,
+          "defense": 2,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Then each friendly unit fights a random enemy unit.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Then each friendly unit fights a random enemy unit.",
+        "[engine does not implement kind=special_effect] Then each friendly unit fights a random enemy unit."
+      ]
+    },
+    {
+      "card_id": "fifth_ohio",
+      "source_text": "Deployment: Destroy target enemy unit with combined attack and defense of 6 or less.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "destroy",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "imperial_research",
+      "source_text": "Choose One - Add BALLOON BOMBS to hand OR add EXPANDED IMPERIAL R&D to hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "BALLOON BOMBS",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "nzans",
+      "source_text": "Your HQ gets +3 defense. Gain 1 extra kredit slot.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "gain_hq_defense",
+          "target": "owner",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "gain_kredit_slot",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "panther_a_zimmerit",
+      "source_text": "After this unit operates, increase all its stats by how often it has operated.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "After this unit operates, increase all its stats by how often it has operated.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "After this unit operates"
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "After this unit operates, increase all its stats by how often it has operated.",
+        "[engine does not implement kind=special_effect] After this unit operates, increase all its stats by how often it has operated."
+      ]
+    },
+    {
+      "card_id": "raaf_hurricane_trop",
+      "source_text": "Deployment: Gets +1+1 and Blitz if deployed from right-most in hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if deployed from right-most in hand."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "seac",
+      "source_text": "Draw a card from your deck that did not start there. Duplicate it.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "copy_unit",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "unit",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "soviet_military_research",
+      "source_text": "Choose One - Add AEROSANI to hand OR EXPANDED SOVIET RESEARCH to hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "AEROSANI",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "stz5_katyusha",
+      "source_text": "When this unit deals combat damage, add equal amount of BLASTS to your hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "equal amount of BLASTS",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When this unit deals combat damage"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "uusimaa_regiment",
+      "source_text": "Your SISSI units deal +4 damage to HQs. At the end of your turn, add a SISSI to the same front.",
+      "triggers": [
+        "on_turn_end",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "hq_damage_bonus",
+          "target": "source",
+          "amount": 4,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "spawn_named_same_front",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "SISSI",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "At the end of your turn"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "wolfhounds",
+      "source_text": "Gets +1+1 when you deploy or add an infantry, then becomes Veteran if it has 6 or more attack.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you deploy or add an infantry"
+        },
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it has 6 or more attack."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "z_special_unit",
+      "source_text": "Deal 4 damage to a unit. If played from left-most in hand, your HQ gains +5 defense.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "selected_target",
+          "amount": 4,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "gain_hq_defense",
+          "target": "owner",
+          "amount": 5,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "If played from left-most in hand"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "1081st_smolensk",
+      "source_text": "When you play a BLAST, distribute 2 damage randomly between all enemies.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "random_enemy",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When you play a BLAST"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "14th_brigade_nz",
+      "source_text": "Deployment: Gain an extra kredit slot if deployed from left-most in hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "gain_kredit_slot",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if deployed from left-most in hand."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "182_landwehr",
+      "source_text": "Becomes Veteran after you have operated units three times.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after you have operated units three times."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "4th_alpini_regiment",
+      "source_text": "Deployment: Add a 4th ALPINI REGIMENT to your deck for every 10 cards in it.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Add a 4th ALPINI REGIMENT to your deck for every 10 cards in it.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Deployment: Add a 4th ALPINI REGIMENT to your deck for every 10 cards in it.",
+        "[engine does not implement kind=special_effect] Add a 4th ALPINI REGIMENT to your deck for every 10 cards in it."
+      ]
+    },
+    {
+      "card_id": "corps_command",
+      "source_text": "Your left and right-most cards in hand get: \\\"Destroy a random enemy unit when played.\\\"",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "destroy",
+          "target": "random_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when played.\\\""
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "detailed_recon",
+      "source_text": "Cost is reduced by the amount spent operating this turn. Draw a card, reduce its cost by the same amount.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Draw a card, reduce its cost by the same amount."
+      ]
+    },
+    {
+      "card_id": "form_battle_line",
+      "source_text": "Choose One - Add three LIGHT INFANTRY to your support line with Blitz OR +1+1.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "three LIGHT INFANTRY",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "fw_ta_152",
+      "source_text": "Becomes Veteran when it attacks and destroys a unit.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when it attacks and destroys a unit."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "j2m_raiden",
+      "source_text": "Gets +1+1 and -1 operation cost when the enemy gives an order.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when the enemy gives an order."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "matilda_frog",
+      "source_text": "Deals double damage to infantry and HQ. Units to the left of this unit have +2 attack.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "double_damage_against_type",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "infantry",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "modify_attack",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "meteor",
+      "source_text": "Remove after this unit attacks. Add a copy to your deck with double attack and defense.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Remove after this unit attacks.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after this unit attacks."
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Add a copy to your deck with double attack and defense.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Remove after this unit attacks.",
+        "Add a copy to your deck with double attack and defense.",
+        "[engine does not implement kind=special_effect] Remove after this unit attacks.",
+        "[engine does not implement kind=special_effect] Add a copy to your deck with double attack and defense."
+      ]
+    },
+    {
+      "card_id": "parachute_assault",
+      "source_text": "Fill your support line with 506th AIRBORNE. Give them Blitz and Shock.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "506th airborne",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "grant_ability",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "blitz",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "grant_ability",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "shock",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "repel_the_attack",
+      "source_text": "All enemy units Retreat. End the turn unless played from right-most in hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "move_to_support_line",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "end_turn",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "unless played from right-most in hand."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "the_holy_boys",
+      "source_text": "Once per turn, give your units +1+1 after you play a neutral card.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after you play a neutral card."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "the_rock_of_gibraltar",
+      "source_text": "Develop a card in the enemy deck, then in your deck.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "card in the enemy deck",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "in your deck.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "in your deck.",
+        "[engine does not implement kind=special_effect] in your deck."
+      ]
+    },
+    {
+      "card_id": "the_tigers",
+      "source_text": "Gets +1+1 when you play a card that did not start in your deck.",
+      "triggers": [
+        "on_friendly_card_played",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you play a card that did not start in your deck."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "tupolev_tu2",
+      "source_text": "Draw a random unit from your deck when a friendly unit becomes Veteran.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw_matching",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "unit",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when a friendly unit becomes Veteran."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "116th_infantry_regiment",
+      "source_text": "Deployment: Give a friendly infantry and all units with the same name in hand and deck +5+5.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 5,
+          "defense": 5,
+          "card_name": "",
+          "scope": "infantry",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "909th_roslavl",
+      "source_text": "Your infantry have Blitz.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "blitz",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "royal_sussex_regiment",
+      "source_text": "Your BLASTS deal +1 damage.\\r\\nYour PLANS draw +1 card.\\r\\nYour PRODUCTIONS give +1 kredit.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Your BLASTS deal +1 damage.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Your PLANS draw +1 card.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "kredit_effect",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Your PRODUCTIONS give +1 kredit.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Your BLASTS deal +1 damage.",
+        "Your PLANS draw +1 card.",
+        "[engine does not implement kind=special_effect] Your BLASTS deal +1 damage.",
+        "[engine does not implement kind=special_effect] Your PLANS draw +1 card."
+      ]
+    },
+    {
+      "card_id": "the_silent_seventh",
+      "source_text": "Once per turn, draw a card when you play your left-most card. Becomes Veteran after the third time.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you play your left-most card."
+        },
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after the third time."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "tropic_lightning",
+      "source_text": "Draw a card the first time you gain an extra kredit slot. Your units get +2+2 the second time. Becomes Veteran the third time.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "gain_kredit_slot",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 2,
+          "defense": 2,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "windhund_division",
+      "source_text": "Can operate again after it attacks and destroys a unit.",
+      "triggers": [
+        "on_attack",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Can operate again after it attacks and destroys a unit.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after it attacks and destroys a unit."
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Can operate again after it attacks and destroys a unit.",
+        "[engine does not implement kind=special_effect] Can operate again after it attacks and destroys a unit."
+      ]
+    },
+    {
+      "card_id": "75th_rifle_regiment",
+      "source_text": "Add a copy next to your HQ when targeted by an enemy effect.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "spawn_named_same_front",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "copy",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when targeted by an enemy effect."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "area_bombardment",
+      "source_text": "Add a LANCASTER Mk I to your support line. Shuffle it into your deck at the end of turn.",
+      "triggers": [
+        "on_turn_end"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "LANCASTER Mk I",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "shuffle_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "it",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "stirling_mk_iii",
+      "source_text": "Deployment: Shuffle a CARPET BOMBING into your deck.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "shuffle_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "a CARPET BOMBING",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "naval_battle",
+      "source_text": "Choose One - Destroy all units with an odd cost OR even cost.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "destroy",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "the_anzac_spirit",
+      "source_text": "Deal 2 damage to all enemies. Draw 2 cards. Gain 2 extra kredit slots.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "gain_kredit_slot",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "last_ditch_force",
+      "source_text": "Destroy all units. Players lose 6 kredit slots. Units in decks get +3 attack.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "destroy",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "lose_kredit_slot",
+          "target": "owner",
+          "amount": 6,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        },
+        {
+          "kind": "modify_attack",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "raaf_walrus_vet",
+      "source_text": "Units to the left of this unit operate for 1 less.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "op_cost_rule",
+          "target": "owner",
+          "amount": -1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "102_grenadier_vet",
+      "source_text": "{}",
+      "triggers": [],
+      "actions": [],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "7th_brigade_vet",
+      "source_text": "When this unit becomes Veteran, draw 2 cards.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When this unit becomes Veteran"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "511th_regiment_vet",
+      "source_text": "Your infantry with 1 defense have +2 attack.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "modify_attack",
+          "target": "friendly_units",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "infantry",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "102nd_rifles_vet",
+      "source_text": "When this unit becomes Veteran, add a THE HAMMER to your hand.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "THE HAMMER",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "When this unit becomes Veteran"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "14_panzergrenadier_vet",
+      "source_text": "Your Pinned units can operate.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "pin",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "216th_guards_vet",
+      "source_text": "Your other units and HQ get +3 defense when this unit becomes Veteran.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "veteran",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when this unit becomes Veteran."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "641st_rifles_vet",
+      "source_text": "Destruction: Draw a card if this unit destroyed an enemy unit this turn.",
+      "triggers": [
+        "on_destroy",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if this unit destroyed an enemy unit this turn."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "6th_brigade_nz_vet",
+      "source_text": "Deal 1 damage to a random enemy when a friendly unit becomes Veteran.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "random_enemy",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when a friendly unit becomes Veteran."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "wolfhounds_vet",
+      "source_text": "Once per turn, give your infantry units +1+2 after you deploy or add an infantry.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "buff",
+          "target": "friendly_units",
+          "amount": 0,
+          "attack": 1,
+          "defense": 2,
+          "card_name": null,
+          "scope": "infantry",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after you deploy or add an infantry."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "182_landwehr_vet",
+      "source_text": "After you operate a unit, gain kredits equal to the kredits spent to operate it.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "kredit_effect",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "After you operate a unit, gain kredits equal to the kredits spent to operate it.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "After you operate a unit"
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "fw_ta_152_vet",
+      "source_text": "Enemy units are pinned until end of turn after they operate or are deployed.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "pin",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "after they operate or are deployed."
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "the_silent_seventh_vet",
+      "source_text": "Your left-most card costs 2 less, to a minimum of 1.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "modify_hand_cost",
+          "target": "owner",
+          "amount": -2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "tropic_lightning_vet",
+      "source_text": "At the start of your turn, Develop A FEW GOOD MEN, DURESS or FOR FREEDOM.",
+      "triggers": [
+        "on_turn_start",
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "few good men, duress or for freedom",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "At the start of your turn"
         }
       ],
       "status": "implemented",

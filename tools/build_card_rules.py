@@ -85,6 +85,14 @@ _GENUINELY_EXECUTED_KINDS: frozenset[str] = frozenset({
     "hand_cost_on_friendly_death",
     "noncombat_unit_damage_bonus",
     "ground_damage_bonus",
+    # ── weather (OCEANIA STORM) ──
+    "forecast",
+    "distribute_defense",
+    # ── hand position (OCEANIA STORM / RING OF FIRE) ──
+    "damage_equal_to",
+    "discard_leftmost",
+    "move_hand_card_leftmost",
+    "damage_own_hq_equal_to_hand",
     "enemy_card_damage_reduction",
     "friendly_order_damage_armor",
     "next_order_damage_bonus",
@@ -224,6 +232,59 @@ _GENUINELY_EXECUTED_KINDS: frozenset[str] = frozenset({
 #   hq_defense_lock, destroy_cost_lte, convert_to, copy_unit
 
 
+# ── Selector contract ───────────────────────────────────────────────────────
+# _GENUINELY_EXECUTED_KINDS only answers "does this kind have a handler".  It
+# says nothing about whether that handler can resolve the action's TARGET, so a
+# card could be marked implemented while resolving to no target and doing
+# nothing: modify_attack+all_units (5 cards), move_to_frontline+source (3),
+# move_to_support_line+random_enemy, damage+selected_enemy (99 actions) were all
+# real, and all were silently inert.
+#
+# tools/probe_selector_matrix.py measured which (kind, selector) pairs actually
+# change state.  Most kinds turned out to ignore the target, so only the checks
+# that are demonstrably true are made here; a wider table produced false alarms.
+_KIND_SELECTOR_FAMILY: dict[str, str] = {
+    # Movement is the one family where the target decides the outcome, and the
+    # one that has broken three times.
+    "move_to_frontline": "movement",
+    "move_to_support_line": "movement",
+    # Unit-only effects: the probe shows each of these works for every unit
+    # selector and for none of the player selectors, and no card in the store
+    # pairs them with a player selector today — so declaring them costs nothing
+    # now and catches a future parser change that points one at a player.
+    "add_keyword": "unit_effect",
+    "buff": "unit_effect",
+    "destroy": "unit_effect",
+    "heal": "unit_effect",
+    "modify_attack": "unit_effect",
+    "modify_defense": "unit_effect",
+    "modify_deployment_cost": "unit_effect",
+    "modify_health": "unit_effect",
+    "modify_operation_cost": "unit_effect",
+    "pin": "unit_effect",
+    "remove_keyword": "unit_effect",
+    "suppress": "unit_effect",
+}
+
+
+def unsupported_selector(kind: str, target: str) -> str | None:
+    """Return why ``target`` cannot be resolved for ``kind``, else None."""
+    from simulator.rules import selectors
+    if target and target not in selectors.ALL_SELECTORS:
+        return "no path resolves target={0}".format(target)
+    if not selectors.chosen_link_ok(kind, target):
+        return "kind={0} does not read a chosen target".format(kind)
+    family = _KIND_SELECTOR_FAMILY.get(kind)
+    if family is not None and not selectors.supports(family, target):
+        return "{0} path cannot resolve target={1}".format(family, target)
+    return None
+
+
+def selector_coverage() -> tuple[int, int]:
+    """(kinds with a declared selector family, kinds in the executed whitelist)."""
+    return len(_KIND_SELECTOR_FAMILY), len(_GENUINELY_EXECUTED_KINDS)
+
+
 def extract_executable_kinds() -> frozenset[str]:
     """Return the set of action kinds whose handlers produce real, verifiable
     game state changes consumed by downstream rules.
@@ -249,6 +310,13 @@ def recompute_status(entry: dict, executable: frozenset[str]) -> None:
             note = "[engine does not implement kind={0}] {1}".format(
                 kind, (action.get("card_name") or "").strip()
             ).strip()
+            if note not in fragments:
+                fragments.append(note)
+            continue
+        # The kind has a handler; check that the handler can resolve the target.
+        problem = unsupported_selector(kind, str(action.get("target", "")))
+        if problem is not None:
+            note = "[selector contract: {0}]".format(problem)
             if note not in fragments:
                 fragments.append(note)
     entry["unresolved_fragments"] = fragments

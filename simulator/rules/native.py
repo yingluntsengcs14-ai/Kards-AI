@@ -12,16 +12,31 @@ from simulator.effects import basic_effects
 from simulator.actions.validator import ActionValidationError, find_unit, opponent_id
 from simulator.core.hq import HQResolver
 from simulator.core.state import UnitState
-from simulator.rules.battlefield import BattlefieldRules, FRONTLINE_UNIT_LIMIT
+from simulator.rules.battlefield import BattlefieldRules, FRONTLINE_UNIT_LIMIT, HAND_CARD_LIMIT, SUPPORT_UNIT_LIMIT
 from simulator.rules.parser import CardRule, RuleAction, RuleParser
 from simulator.rules.store import CardRuleStore
 from simulator.rules.condition import evaluate as condition_evaluate
 from simulator.rules.keywords import KeywordEngine
-from simulator.rules import suppression
+from simulator.rules import selectors, suppression
 
 # Lowercased nation names used by scoped combat filters (card.nation is
 # capitalized, e.g. "Germany"; RuleAction.card_name carries the lowercased form).
 _NATION_LOWER = {"britain", "germany", "usa", "soviet", "japan", "france", "italy", "poland", "finland"}
+
+# simulator.rules.condition treats text it does not model as satisfied, so a
+# conditional "Becomes Veteran" would swap the card on deploy.  Only the
+# turn-boundary clauses that condition.evaluate models exactly are trusted to
+# drive the card swap; any other clause leaves the promotion pending.
+_VETERAN_MODELED_CONDITIONS = (
+    "at the start of your turn",
+    "at the end of your turn",
+    "at the end of turn",
+    # Weather conditions are modeled in simulator.rules.condition and gated on
+    # the on_weather_played event, so they can be trusted to drive the swap.
+    "you play a rain",
+    "you play a storm",
+    "you play a sunny",
+)
 
 
 @dataclass(frozen=True)
@@ -33,6 +48,9 @@ class ActionGenerationSpec:
     convert_to: bool
     shock_tactics: bool
     develop_options: tuple[str, ...]
+    # True when the card forecasts: the player picks sunny / rain / storm, so
+    # the action layer must offer one action per category.
+    forecast: bool = False
 
 
 def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
@@ -42,6 +60,7 @@ def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
         swap_hand_unit=any(action.kind == "swap_hand_unit_with_friendly" for action in actions),
         convert_to=any(action.kind == "convert_to" for action in actions),
         shock_tactics=any(action.kind == "shock_tactics_choice" for action in actions),
+        forecast=any(action.kind == "forecast" for action in actions),
         develop_options=tuple(
             option.strip()
             for action in actions if action.kind == "develop_options"
@@ -60,18 +79,26 @@ def _expiry_turn(duration: str | None, current_turn: int) -> int | None:
 
 
 def _resolve_units(target: str, state, context) -> list:
-    """Resolve a target selector to a list of UnitState objects."""
+    """Resolve a target selector to a list of UnitState objects.
+
+    The selectors handled here are declared in simulator.rules.selectors as
+    UNIT_SELECTORS, which the rule-store generator checks against.
+    """
     opp = opponent_id(state, context.player_id)
-    if target in {"self", "source"} and context.source_unit_id:
+    if target in selectors.SOURCE and context.source_unit_id:
         unit = find_unit(state, context.source_unit_id)
         return [unit] if unit is not None else []
-    if target in {"selected_target", "target", "selected_friendly", "selected_enemy"} and context.target_unit_id:
+    if target in selectors.CHOSEN and context.target_unit_id:
         unit = find_unit(state, context.target_unit_id)
         return [unit] if unit is not None else []
     if target == "friendly_units":
         return list(state.players[context.player_id].units)
     if target == "enemy_units":
         return list(state.players[opp].units)
+    if target in {"all_units", "all"}:   # selectors.GROUPS
+        # "All units get +2 attack" covers both sides.  Without this the
+        # selector resolved to nothing and the effect silently did nothing.
+        return list(state.players[context.player_id].units) + list(state.players[opp].units)
     return []
 
 
@@ -590,6 +617,18 @@ class NativeRuleEngine:
                     granted.append(ability)
                 if ability.lower() == "veteran":
                     unit_obj.status["veteran"] = True
+                    # A conditional promotion ("Becomes Veteran when you have
+                    # destroyed 4 enemy units") must not swap the card on deploy;
+                    # see _VETERAN_MODELED_CONDITIONS.  The condition itself was
+                    # already evaluated before this action ran.
+                    condition_text = (action.condition or "").lower()
+                    if action.condition is None or any(
+                            phrase in condition_text for phrase in _VETERAN_MODELED_CONDITIONS):
+                        self._promote_to_veteran(state, unit_obj)
+                    else:
+                        state.event_log.append({"event": "veteran_promotion_pending",
+                                                "unit_id": unit_obj.instance_id,
+                                                "condition": action.condition})
             state.event_log.append({"event": "ability_granted", "ability": ability, "target": action.target})
             return
         if action.kind == "buff_on_enemy_target" and context.source_unit_id:
@@ -916,6 +955,81 @@ class NativeRuleEngine:
                     state.graveyard.setdefault(enemy_id, []).append(unit.card_id)
                     self._cleanup_continuous_effects(state, enemy_id, unit.instance_id)
                     state.event_log.append({"event": "black_prince_frontline_discarded", "unit_id": unit.instance_id, "card_id": unit.card_id})
+            return
+        if action.kind == "damage_equal_to":
+            # The amount is a named quantity (see simulator.rules.references);
+            # RuleAction has a fixed shape, so the reference travels in
+            # card_name and an optional nation filter in scope.
+            from simulator.rules import references
+            amount = references.evaluate(action.card_name or "", state, context, self.cards,
+                                         action.scope or None)
+            if amount is None:
+                state.event_log.append({"event": "native_rule_reference_unresolved",
+                                        "reference": action.card_name,
+                                        "source_card_id": context.source_card_id})
+                return
+            EffectResolver(self.cards).resolve(
+                {"type": "damage", "target": action.target, "value": {"amount": max(0, int(amount))}},
+                state, context)
+            state.event_log.append({"event": "damage_equal_to", "reference": action.card_name,
+                                    "amount": int(amount), "target": action.target})
+            return
+        if action.kind == "discard_leftmost":
+            from simulator.rules import hand_position
+            hand_position.discard_leftmost(state, context.player_id)
+            return
+        if action.kind == "move_hand_card_leftmost":
+            from simulator.rules import hand_position
+            chosen = context.metadata.get("selected_card_id")
+            if not chosen:
+                state.event_log.append({"event": "native_rule_no_hand_card_chosen",
+                                        "source_card_id": context.source_card_id})
+                return
+            hand_position.move_to_leftmost(state, context.player_id, str(chosen))
+            return
+        if action.kind == "distribute_defense":
+            # DELUGE: "Distribute 6 defense between random friendly targets."
+            # Points are handed out one at a time so the split is uneven, as the
+            # wording implies; the HQ counts as a friendly target.
+            owner = context.player_id
+            targets = list(state.players[owner].units)
+            rng = random.Random((state.rng_seed or 0) + len(state.event_log))
+            granted: dict[str, int] = {}
+            for _ in range(max(0, action.amount)):
+                choice = rng.randrange(len(targets) + 1)
+                if choice == len(targets):
+                    HQResolver.modify_defense(state, owner, 1)
+                    granted["hq"] = granted.get("hq", 0) + 1
+                else:
+                    unit = targets[choice]
+                    unit.defense += 1
+                    granted[unit.instance_id] = granted.get(unit.instance_id, 0) + 1
+            state.event_log.append({"event": "weather_defense_distributed", "player_id": owner,
+                                    "amount": action.amount, "granted": granted})
+            return
+        if action.kind == "damage_own_hq_equal_to_hand":
+            # CYCLONE: "deal damage to your HQ equal to cards in your hand."
+            owner = context.player_id
+            amount = len(state.players[owner].hand)
+            if amount:
+                HQResolver.damage(state, owner, amount)
+            state.event_log.append({"event": "weather_self_hq_damage", "player_id": owner,
+                                    "amount": amount})
+            return
+        if action.kind == "forecast":
+            from simulator.rules import weather
+            # The player chooses the weather category; the cost tier is random.
+            # Without a choice (a direct engine call, or an agent that did not
+            # pick) the category is drawn at random.
+            chosen = str(context.metadata.get("selected_option") or "")
+            weather.forecast(state, context.player_id, weather.TOKEN_FOR_CATEGORY.get(chosen))
+            # "Your other units get +1+1 when you Forecast", "Draw a card when
+            # you Forecast" listen for this event.  emit() does not log the
+            # broadcast itself, so the record is written here.
+            state.event_log.append({"event": "on_forecast", "player_id": context.player_id})
+            self.emit("on_forecast", state, EffectContext(
+                context.player_id, context.source_card_id, context.source_unit_id,
+                event="on_forecast"))
             return
         if action.kind == "frontline_attack_bonus" and context.source_unit_id:
             unit = find_unit(state, context.source_unit_id)
@@ -1384,6 +1498,8 @@ class NativeRuleEngine:
             player = state.players[owner]
             lost = min(action.amount, player.resources.max_kredits)
             player.resources.max_kredits -= lost
+            from simulator.rules import counters
+            counters.note_kredit_slots_lost(state, owner, lost)
             player.resources.kredits = min(player.resources.kredits, player.resources.max_kredits)
             state.event_log.append({"event": "kredit_slot_lost", "player_id": owner, "amount": lost})
             return
@@ -1541,6 +1657,19 @@ class NativeRuleEngine:
         if action.kind == "attack_equals_defense" and context.target_unit_id:
             find_unit(state, context.target_unit_id).attack = find_unit(state, context.target_unit_id).defense
             return
+        if action.kind in ("set_defense", "set_attack") and action.target in (
+                "friendly_units", "enemy_units", "all_units", "all"):
+            # "The defense of each enemy unit is set to 1" — a group form of the
+            # single-target set below.
+            for unit in _resolve_units(action.target, state, context):
+                if action.kind == "set_defense":
+                    unit.defense = action.amount
+                else:
+                    unit.attack = action.amount
+            basic_effects.remove_dead_units(state)
+            state.event_log.append({"event": "rule_" + action.kind + "_group",
+                                    "target": action.target, "amount": action.amount})
+            return
         if action.kind == "set_defense" and context.target_unit_id:
             find_unit(state, context.target_unit_id).defense = action.amount
             return
@@ -1650,9 +1779,14 @@ class NativeRuleEngine:
                 unit.defense = card.defense or unit.defense
                 state.event_log.append({"event": "unit_repaired", "unit_id": unit.instance_id})
             return
-        if action.target == "random_enemy":
-            enemy = opponent_id(state, context.player_id)
-            candidates = list(state.players[enemy].units)
+        if action.target in selectors.RANDOM:
+            # A random target is rewritten into the chosen one before the effect
+            # layer runs, because EffectResolver._targets has no random branch.
+            # Both sides are handled so "random_friendly" cannot become a
+            # silently inert selector the way "random_enemy" once was.
+            owner = (opponent_id(state, context.player_id)
+                     if action.target == "random_enemy" else context.player_id)
+            candidates = list(state.players[owner].units)
             if not candidates:
                 state.event_log.append({"event": "native_rule_no_random_target", "source_card_id": context.source_card_id})
                 return
@@ -2038,13 +2172,91 @@ class NativeRuleEngine:
         # Reset per-turn HQ flags.
         player.hq.immune_until_end_of_turn = False
 
+    def _displace_unit(self, state, unit: UnitState, returned_event: str, discarded_event: str) -> str:
+        """Take a unit out of play without destroying it (no death triggers).
+
+        The unit's card returns to its owner's hand, or is put into the graveyard
+        when that hand is already at ``HAND_CARD_LIMIT``.
+        """
+        owner = state.players[unit.owner_id]
+        if unit.instance_id in state.battlefield.get(unit.position, []):
+            state.battlefield[unit.position].remove(unit.instance_id)
+        if unit in owner.units:
+            owner.units.remove(unit)
+        if len(owner.hand) < HAND_CARD_LIMIT:
+            owner.hand.append(unit.card_id)
+            event = returned_event
+        else:
+            state.graveyard.setdefault(unit.owner_id, []).append(unit.card_id)
+            event = discarded_event
+        self._cleanup_continuous_effects(state, unit.owner_id, unit.instance_id)
+        state.event_log.append({"event": event, "unit_id": unit.instance_id, "card_id": unit.card_id})
+        return event
+
+    def _veteran_index(self) -> dict:
+        """Map each card id to its Veteran counterpart via kards.info "VeteranOf:"."""
+        index = getattr(self, "_veteran_ids", None)
+        if index is None:
+            index = {}
+            for card in self.cards:
+                for attribute in card.unknownAttributes:
+                    # The veteran card points back ("VeteranOf:<base>"), and the
+                    # base card points forward ("BecomesVeteran:<veteran>").
+                    if attribute.startswith("VeteranOf:"):
+                        index[attribute[len("VeteranOf:"):].strip()] = card.id
+                    elif attribute.startswith("BecomesVeteran:"):
+                        index[card.id] = attribute[len("BecomesVeteran:"):].strip()
+            self._veteran_ids = index
+        return index
+
+    def _promote_to_veteran(self, state, unit: UnitState) -> None:
+        """Swap a unit for its Veteran card.
+
+        Becoming a Veteran replaces the unit with a brand-new card: accumulated
+        damage, stat buffs and operation-cost modifiers are all lost.  Per-turn
+        bookkeeping (already attacked / deployed / moved this turn) is kept so the
+        promotion cannot be used to gain an extra action.
+        """
+        veteran_id = self._veteran_index().get(unit.card_id)
+        if veteran_id is None or veteran_id not in self.cards:
+            state.event_log.append({"event": "veteran_card_missing", "card_id": unit.card_id,
+                                    "unit_id": unit.instance_id})
+            return
+        card = self.cards.get(veteran_id)
+        preserved = {key: unit.status[key] for key in ("attack_count", "deployed_this_turn", "moved_this_turn")
+                     if key in unit.status}
+        previous = unit.card_id
+        unit.card_id = veteran_id
+        unit.attack = card.attack or 0
+        unit.defense = card.defense or 0
+        unit.modifiers.clear()
+        unit.status.clear()
+        unit.status.update(preserved)
+        unit.status["veteran"] = True
+        state.event_log.append({"event": "unit_became_veteran", "unit_id": unit.instance_id,
+                                "from_card_id": previous, "to_card_id": veteran_id})
+
     def _move_units(self, position: str, action: RuleAction, state, context) -> None:
         """Move resolved units (single target or a scoped group) to a position."""
         if action.target in ("friendly_units", "enemy_units"):
             units = self._resolve_units_scoped(action.target, action, state, context)
-        elif action.target in ("selected_friendly", "selected_enemy", "selected_target", "target") and context.target_unit_id:
+        elif action.target in selectors.CHOSEN and context.target_unit_id:
             unit = find_unit(state, context.target_unit_id)
             units = [unit] if unit is not None else []
+        elif action.target in selectors.SOURCE and context.source_unit_id:
+            # "Move this unit into the frontline" — without this the selector
+            # resolved to nothing and the move silently did not happen.
+            try:
+                units = [find_unit(state, context.source_unit_id)]
+            except ActionValidationError:
+                units = []
+        elif action.target in selectors.RANDOM:
+            # The generic random-target rewrite runs AFTER this branch, so a
+            # movement action with a random target would otherwise be dropped.
+            owner = opponent_id(state, context.player_id) if action.target == "random_enemy" else context.player_id
+            candidates = list(state.players[owner].units)
+            units = ([random.Random((state.rng_seed or 0) + len(state.event_log)).choice(candidates)]
+                     if candidates else [])
         else:
             units = []
         for unit in units:
@@ -2055,8 +2267,13 @@ class NativeRuleEngine:
                 state.event_log.append({"event": "native_rule_frontline_full_or_uncontrolled", "unit_id": unit.instance_id})
                 continue
             owner = state.players[unit.owner_id]
-            if position == "support_line" and sum(candidate.position == "support_line" for candidate in owner.units) >= 4:
-                state.event_log.append({"event": "native_rule_support_line_full", "unit_id": unit.instance_id})
+            if position == "support_line" and sum(candidate.position == "support_line" for candidate in owner.units) >= SUPPORT_UNIT_LIMIT:
+                # KARDS retreat overflow: with no free support slot the unit goes
+                # back to its owner's hand, and is removed from the game when the
+                # hand already holds the 9-card maximum.  It is not destroyed, so
+                # no death trigger fires.
+                self._displace_unit(state, unit, "native_rule_support_line_full_returned",
+                                    "native_rule_support_line_full_discarded")
                 continue
             if unit.instance_id in state.battlefield.get(unit.position, []):
                 state.battlefield[unit.position].remove(unit.instance_id)

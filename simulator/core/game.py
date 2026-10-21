@@ -14,6 +14,7 @@ from simulator.core.state import GameState, GameStatus, PlayerState
 from simulator.core.turn import TurnManager
 from simulator.rules.native import engine_for
 from simulator.rules.deck import DeckValidator
+from simulator.rules import weather as weather_rules
 
 
 @dataclass
@@ -128,6 +129,9 @@ class Simulator:
             selected_options = (
                 [None] if has_high_attack else ["blitz", "shock"]
                 if spec.shock_tactics
+                # Forecast is a three-way player choice: sunny / rain / storm.
+                else list(weather_rules.CATEGORIES)
+                if spec.forecast
                 else (None, *spec.develop_options)
             )
             for position in positions:

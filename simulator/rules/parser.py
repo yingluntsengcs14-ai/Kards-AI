@@ -140,7 +140,101 @@ class CardRule:
 class RuleParser:
     """Parse only stable, high-frequency KARDS text templates into an AST."""
 
+    # ── Weather cards (OCEANIA STORM) ───────────────────────────────────────
+    # These nine cards (plus the three forecast tokens) are parsed per card id
+    # rather than by sentence template: their wording carries exceptions ("Air
+    # units get +3 instead") and announcements ("It will be Sunny.") that the
+    # generic templates either drop or turn into a catch-all.  Entries hold
+    # (triggers, actions, status, unresolved_fragments).
+    _WEATHER_CARD_RULES: dict = {
+        # The forecast tokens only announce the coming weather; the mechanic
+        # itself lives in simulator.rules.weather, so they carry no action.
+        "blue_sky": (("on_play",), (), "implemented", ()),
+        "mist": (("on_play",), (), "implemented", ()),
+        "gale": (("on_play",), (), "implemented", ()),
+        # HEATWAVE: all units +2 attack, air +3 instead.  The air action carries
+        # the DELTA on top of the first action, so the two together give air +3.
+        # "All units" covers BOTH players (confirmed in the live client by the
+        # project owner, 2026-10-20) — the Japanese and Korean card texts say
+        # "your units", but the English wording and the real behaviour win.
+        "heatwave": (
+            ("on_play",),
+            (RuleAction("modify_attack", "all_units", amount=2, duration="this_turn"),
+             RuleAction("modify_attack", "all_units", amount=1, scope="air", duration="this_turn")),
+            "implemented", (),
+        ),
+        # JUNGLE FEVER: all units +3 attack this turn.  The second sentence
+        # ("Pin friendly units that do not attack") can only be settled at the
+        # end of the turn, so it stays an unresolved fragment instead of being
+        # parsed into a targeted pin that would wrongly demand a target.
+        "jungle_fever": (
+            ("on_play",),
+            (RuleAction("modify_attack", "all_units", amount=3, duration="this_turn"),),
+            "partial", ("Pin friendly units that do not attack.",),
+        ),
+        # TASK FORCE 44: "Forecast. Deal 2 damage to a unit. Deal 3 damage
+        # instead if this card was left-most in hand."  The generic templates
+        # produced BOTH damage actions, so a left-most play dealt 2+3=5.  The
+        # base damage is therefore gated on the negated condition.
+        "task_force_44": (
+            ("on_play",),
+            (RuleAction("forecast", "owner"),
+             RuleAction("damage", "selected_target", amount=2,
+                        condition="unless this card was left-most in hand"),
+             RuleAction("damage", "selected_target", amount=3,
+                        condition="if this card was left-most in hand")),
+            "implemented", (),
+        ),
+        # FEROCIOUS ASSAULT: "Destroy target infantry. Lose a kredit slot if its
+        # attack was greater than your kredit slots."  The kredit loss is ordered
+        # FIRST so the condition can still read the targeted unit's attack; the
+        # unit's attack cannot change in between, so the outcome is the same.
+        "ferocious_assault": (
+            ("on_play",),
+            (RuleAction("lose_kredit_slot", "owner", amount=1,
+                        condition="if its attack was greater than your kredit slots"),
+             RuleAction("destroy", "selected_target", scope="infantry")),
+            "implemented", (),
+        ),
+        # SURPRISE ENGAGEMENT: "Costs 2 less if Rain was played this turn.
+        # Destroy a random enemy unit. Draw the top unit of your deck."  The
+        # first sentence re-prices THIS card, which simulator.rules.dynamic_costs
+        # handles at play time; parsing it as an effect made every OTHER card in
+        # hand 2 cheaper instead.
+        "surprise_engagement": (
+            ("on_play",),
+            (RuleAction("destroy", "random_enemy"),
+             RuleAction("draw_top_matching", "owner", scope="unit")),
+            "implemented", (),
+        ),
+        # DETAILED RECON: own cost reduction is handled by dynamic_costs; the
+        # drawn card's matching reduction still has no mechanism, so it stays an
+        # unresolved fragment rather than being silently dropped.
+        "detailed_recon": (
+            ("on_play",),
+            (RuleAction("draw", "owner", amount=1),),
+            "partial", ("Draw a card, reduce its cost by the same amount.",),
+        ),
+        # DELUGE: distribute 6 defense between random friendly targets.
+        "deluge": (
+            ("on_play",),
+            (RuleAction("distribute_defense", "owner", amount=6),),
+            "implemented", (),
+        ),
+        # CYCLONE: draw 3, then self-damage equal to hand size.
+        "cyclone": (
+            ("on_play",),
+            (RuleAction("draw", "owner", amount=3),
+             RuleAction("damage_own_hq_equal_to_hand", "owner")),
+            "implemented", (),
+        ),
+    }
+
     def parse(self, card: Card) -> CardRule:
+        weather_rule = self._WEATHER_CARD_RULES.get(card.id)
+        if weather_rule is not None:
+            triggers, actions, status, unresolved = weather_rule
+            return CardRule(card.id, card.text.strip(), triggers, actions, status, unresolved)
         text = card.text.strip()
         if not text or text == "{}":
             return CardRule(card.id, text, (), (), "implemented")
@@ -325,6 +419,12 @@ def _triggers(card: Card, text: str) -> tuple[str, ...]:
         triggers.extend(("on_targeted_by_enemy_effect", "on_targeted_by_enemy_attack"))
     if "when this unit takes damage" in lower or "when this unit is damaged" in lower or "when this unit is dealt damage" in lower:
         triggers.append("on_damage")
+    # Weather triggers (OCEANIA STORM).
+    if "you forecast" in lower:
+        triggers.append("on_forecast")
+    if re.search(r"\b(?:when|after)\s+you\s+play\s+a\s+(?:sunny|rain|storm)\b", lower) \
+            or re.search(r"\b(?:sunny|rain|storm)[a-z ,]*\s+was\s+played\s+this\s+turn", lower):
+        triggers.append("on_weather_played")
     # Turn-boundary triggers.
     if "at the start of your turn" in lower:
         triggers.append("on_turn_start")
@@ -377,9 +477,54 @@ def _triggers(card: Card, text: str) -> tuple[str, ...]:
             or re.search(r"has\s*\+\d+\s+attack\s+against\s+(?:tanks|infantry|fighters|bombers|artillery)", lower)
             or re.search(r"your\s+orders\s+deal\s*\+\d+\s+damage", lower)):
         triggers.append("on_deploy")
-    if not triggers and card.type == "order":
+    # An order only exists while it is being played, so it always needs
+    # on_play.  A weather trigger is an extra route, never the primary one:
+    # without this, "Costs 2 less if Rain was played this turn. Destroy a random
+    # enemy unit." would lose on_play and never destroy anything.
+    primary = [trigger for trigger in triggers if trigger not in ("on_forecast", "on_weather_played")]
+    if not primary and card.type == "order":
         triggers.append("on_play")
     return tuple(dict.fromkeys(triggers))
+
+
+# "equal to <quantity>" -> a named reference resolved by simulator.rules.references.
+# Order matters: the more specific phrase must be tested first.
+_DAMAGE_REFERENCES = (
+    (r"equal\s+to\s+its\s+cost", "target_cost"),
+    (r"equal\s+to\s+its\s+attack", "target_attack"),
+    (r"equal\s+to\s+known\s+cards\s+in\s+(?:the\s+)?enemy\s+hand", "known_enemy_hand_count"),
+    (r"equal\s+to\s+cards\s+in\s+(?:the\s+)?enemy\s+hand", "enemy_hand_count"),
+    (r"equal\s+to\s+other\s+friendly\s+air\s+units", "other_friendly_air_count"),
+    (r"equal\s+to\s+(?:the\s+)?total\s+attack\s+of\s+your\s+air\s+units", "friendly_air_total_attack"),
+    (r"equal\s+to\s+friendly\s+air\s+units", "friendly_air_count"),
+    (r"equal\s+to\s+1\s+plus\s+the\s+number\s+of\s+bombers", "friendly_bomber_count_plus_one"),
+    (r"equal\s+to\s+1\s+plus\s+the\s+number\s+of\s+unit\s+types", "friendly_unit_type_count_plus_one"),
+    (r"equal\s+to\s+your\s+unspent\s+kredits", "unspent_kredits"),
+    (r"equal\s+to\s+(?:the\s+)?number\s+of\s+units\s+you\s+control", "friendly_unit_count"),
+    # Counter-backed quantities (simulator.rules.counters).
+    (r"equal\s+to\s+kredit\s+slots\s+lost\s+this\s+battle\s+plus\s+1", "kredit_slots_lost_this_battle_plus_one"),
+    (r"equal\s+to\s+(?:the\s+)?kredit\s+slots\s+(?:you\s+have\s+)?lost\s+this\s+battle", "kredit_slots_lost_this_battle"),
+    (r"equal\s+to\s+damage\s+to\s+your\s+hq\s+this\s+turn", "hq_damage_this_turn"),
+    (r"equal\s+to\s+kredits\s+spent\s+operating\s+this\s+turn", "kredits_spent_operating_this_turn"),
+)
+
+
+def _damage_reference(lower: str) -> tuple[str, str] | None:
+    """Return (reference_name, nation_filter) for an "equal to ..." phrase."""
+    nation_tanks = re.search(
+        r"equal\s+to\s+(?:the\s+)?total\s+cost\s+of\s+your\s+([a-z]+)\s+tanks\s+in\s+the\s+frontline", lower)
+    if nation_tanks:
+        return ("frontline_nation_tank_total_cost", nation_tanks.group(1))
+    nation_destroyed = re.search(r"equal\s+to\s+([a-z]+)\s+units\s+destroyed\s+this\s+battle", lower)
+    if nation_destroyed:
+        return ("nation_units_destroyed_this_battle", nation_destroyed.group(1))
+    non_nation = re.search(r"equal\s+to\s+(?:the\s+)?number\s+of\s+non-([a-z]+)\s+units", lower)
+    if non_nation:
+        return ("non_nation_friendly_unit_count", non_nation.group(1))
+    for pattern, reference in _DAMAGE_REFERENCES:
+        if re.search(pattern, lower):
+            return (reference, "")
+    return None
 
 
 def _sentences(text: str) -> tuple[str, ...]:
@@ -391,6 +536,11 @@ def _sentences(text: str) -> tuple[str, ...]:
     is marked partial rather than falsely claiming the whole sentence is
     covered.
     """
+    # kards.info stores some card texts with a LITERAL backslash-r-backslash-n
+    # between sentences instead of a real line break (15 cards in the 2026-05
+    # catalog, plus OCEANIA STORM ones).  Without normalizing it, the second
+    # sentence is swallowed into the first one's condition clause.
+    text = text.replace("\\r\\n", " ").replace("\\n", " ").replace("\\r", " ")
     # First split on sentence delimiters.
     raw = [p.strip() for p in re.split(r"(?<=[.!?])\s+", text) if p.strip()]
     # Then further split each piece on ', then' / 'then ' between clauses.
@@ -507,7 +657,9 @@ def _strip_condition(sentence: str) -> tuple[str, str | None]:
         s = s[lead.end():].strip()
     # Trailing predicate clauses ("... if X", "... on your turn", ...).
     for pat in (
-        r",?\s*(?:if|when|whenever|unless)\b.*$",
+        # "after" belongs here too: without it, "Your units get +2+2 after you
+        # play a Rain card" keeps no condition and fires on deploy.
+        r",?\s*(?:if|when|whenever|unless|after)\b.*$",
         r"\s+on (?:your|the enemy) turn\b.*$",
     ):
         m = re.search(pat, s, re.I)
@@ -560,6 +712,14 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
         return (RuleAction("hq_damage_redirect_to_enemy_hq", "source"),)
     if lower in {"", "{}"}:
         return ()
+    # Weather (OCEANIA STORM): a bare "Forecast" clause creates a forecast
+    # token.  A trailing predicate is kept as the condition ("Forecast after
+    # this unit attacks the enemy HQ"); compound clauses such as "Pin a unit
+    # and Forecast" are left to the generic templates for now.
+    forecast_clause = re.match(r"^(?:also\s+|you\s+)?forecast\b\s*(?P<cond>(?:after|when|if|once)\b.*?)?\.?$", lower)
+    if forecast_clause:
+        forecast_condition = (forecast_clause.group("cond") or "").strip().rstrip(".") or None
+        return (RuleAction("forecast", "owner", condition=forecast_condition),)
     # --- M61: precise per-card patterns (before template matching) ---
     if "triggers twice" in original_lower: return (RuleAction("repeat_effect", "source"),)
     if "trigger an extra time" in original_lower: return (RuleAction("repeat_effect", "source"),)
@@ -1235,9 +1395,33 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
         return (RuleAction("move_to_support_line", "selected_enemy"),)
     if re.search(r"target\s+a\s+unit\b", lower):
         return (RuleAction("target_select", "selected_target"),)
+    # Hand position (OCEANIA STORM / RING OF FIRE).
+    if re.search(r"\bdiscard\s+your\s+left-?most\s+card", lower):
+        return (RuleAction("discard_leftmost", "owner"),)
+    if re.search(r"\bmove\s+it\s+all\s+the\s+way\s+to\s+the\s+left", lower):
+        return (RuleAction("move_hand_card_leftmost", "owner"),)
+    # "The defense of each enemy unit is set to 1."  The generic template put
+    # the 1 into set_cost and left amount at 0, so the card did nothing.
+    set_group = re.search(
+        r"\bthe\s+(defense|attack)\s+of\s+(each|all)\s+(enemy|friendly)\s+units?\s+is\s+set\s+to\s+(\d+)",
+        lower)
+    if set_group:
+        return (RuleAction("set_" + set_group.group(1), set_group.group(3) + "_units",
+                           amount=int(set_group.group(4))),)
+    # "Move two random Navy cards in your deck to the top" is deck manipulation,
+    # not unit movement; the generic template matched "move ... to the" and
+    # produced a move_to_frontline that could never fire.  Left unresolved.
+    if re.search(r"\bmove\b.*\bin\s+your\s+deck\s+to\s+the\s+top", lower):
+        return ()
     # Becomes veteran / becomes X (transformation; X kept as a descriptor).
     if re.search(r"\bbecomes\s+veteran\b", lower):
-        return (RuleAction("grant_ability", "source", card_name="veteran"),)
+        # Keep the trailing predicate ("after you play a Rain card", "at the
+        # start of your turn").  _strip_condition only splits if/when/whenever/
+        # unless, so an "after ..." clause would otherwise be dropped and the
+        # promotion would fire unconditionally on deploy.
+        trailing = re.search(r"\bbecomes\s+veteran\s+(after|at|once)\b(.*)$", lower)
+        veteran_condition = (trailing.group(1) + trailing.group(2)).strip() if trailing else None
+        return (RuleAction("grant_ability", "source", card_name="veteran", condition=veteran_condition),)
     becomes_x = re.search(r"\bbecomes\s+([a-z]+)\b", lower)
     if becomes_x:
         return (RuleAction("describes", "source", card_name=becomes_x.group(1).strip()),)
@@ -1557,7 +1741,7 @@ def _resolve_residual(sentence: str, lower: str, clean: str) -> tuple | None:
     # destroy). "this unit" is self-referential -> source.
     if re.search(r"\bdestroy\s+this\s+unit\b", lower):
         return (RuleAction("destroy", "source"),)
-    destroy_q = re.search(r"\bdestroy\s+(?:a|an|the|that|two|three|\d+)\s+(?:random\s+)?(enemy\s+|friendly\s+)?(air|ground|tank|infantry|artillery|bomber|fighter|veteran|elite|damaged|suppressed|pinned|undamaged|unit)\b", lower)
+    destroy_q = re.search(r"\bdestroy\s+(?:a|an|the|that|target|two|three|\d+)\s+(?:random\s+)?(enemy\s+|friendly\s+)?(air|ground|tank|infantry|artillery|bomber|fighter|veteran|elite|damaged|suppressed|pinned|undamaged|unit)\b", lower)
     if destroy_q:
         enemy = "enemy" in (destroy_q.group(1) or "")
         friendly = "friendly" in (destroy_q.group(1) or "")
@@ -1574,11 +1758,21 @@ def _resolve_residual(sentence: str, lower: str, clean: str) -> tuple | None:
     deal_hq_eq = re.search(r"deal\s+(?:damage|(\d+)\s+damage)\s+to\s+(?:the\s+)?(?:enemy\s+)?hq\s+equal\s+to", lower)
     if deal_hq_eq:
         amt = int(deal_hq_eq.group(1)) if deal_hq_eq.group(1) else 0
+        reference = _damage_reference(lower)
+        if reference:
+            return (RuleAction("damage_equal_to", "enemy_hq", card_name=reference[0], scope=reference[1]),)
+        if not amt:
+            return ()   # an unknown quantity: unresolved beats silently dealing 0
         return (RuleAction("damage", "enemy_hq", amount=amt, condition="equal to referenced value"),)
     deal_tgt_eq = re.search(r"deal\s+(?:damage|(\d+)\s+damage)\s+to\s+target\s+(?:unit|hq)\s+equal\s+to", lower)
     if deal_tgt_eq:
         amt = int(deal_tgt_eq.group(1)) if deal_tgt_eq.group(1) else 0
         tgt = "enemy_hq" if "hq" in deal_tgt_eq.group(0) else "selected_target"
+        reference = _damage_reference(lower)
+        if reference:
+            return (RuleAction("damage_equal_to", tgt, card_name=reference[0], scope=reference[1]),)
+        if not amt:
+            return ()
         return (RuleAction("damage", tgt, amount=amt, condition="equal to referenced value"),)
     deal_any = re.search(r"deal\s+(\d+)\s+damage\s+to\s+any\s+target", lower)
     if deal_any:
@@ -1718,8 +1912,12 @@ def _resolve_residual(sentence: str, lower: str, clean: str) -> tuple | None:
             tgt = "random_enemy"
         else:
             tgt = "selected_enemy"
-        cond = "equal to referenced value" if "equal to" in lower else None
-        return (RuleAction("damage", tgt, amount=0, condition=cond),)
+        if "equal to" in lower:
+            reference = _damage_reference(lower)
+            if reference:
+                return (RuleAction("damage_equal_to", tgt, card_name=reference[0], scope=reference[1]),)
+            return ()   # unknown quantity: unresolved beats silently dealing 0
+        return (RuleAction("damage", tgt, amount=0, condition=None),)
 
     # 23) Swap attack and operation cost of a unit.
     if re.search(r"\bswap\s+(?:the\s+)?attack\s+and\s+operation\s+cost\b", lower):
