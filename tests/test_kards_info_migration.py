@@ -23,10 +23,15 @@ class KardsInfoMigrationTests(unittest.TestCase):
         cls.cards = CardDatabase.from_file(CATALOG)
 
     def test_catalog_loads_all_cards_and_ids_are_unique(self) -> None:
-        self.assertEqual(len(self.cards), 1488)
-        self.assertEqual(self.cards.report.total_cards, 1488)
-        self.assertEqual(self.cards.report.metadata_total_cards, 1488)
-        self.assertEqual(sum(self.cards.report.type_counts.values()), 1488)
+        # The catalog grows when a new card set is merged in (see
+        # tools/merge_weather_cards.py), so the invariant is internal
+        # consistency with metadata, not a frozen total.  1488 is the size of
+        # the original 2026-05 dump and acts as a floor against truncation.
+        total = len(self.cards)
+        self.assertGreaterEqual(total, 1488)
+        self.assertEqual(self.cards.report.total_cards, total)
+        self.assertEqual(self.cards.report.metadata_total_cards, total)
+        self.assertEqual(sum(self.cards.report.type_counts.values()), total)
         self.assertEqual(set(self.cards.report.type_counts), CARD_TYPES)
 
     def test_catalog_types_and_stats_follow_kards_info_contract(self) -> None:
