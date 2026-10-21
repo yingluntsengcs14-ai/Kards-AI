@@ -1,11 +1,19 @@
+# ── 上游原有 ──
 __pycache__/
 *.py[cod]
 .pytest_cache/
-# 這幾輪改資料檔前留下的備份
+.venv/
+runs/
+.coverage
+.DS_Store
+
+.workbuddy/
+
+# ── 新增 ──
+# 改資料檔前留下的備份
 *.bak
 # 訓練產物
 checkpoints/
-runs/
 *.pt
 # 傳檔用的臨時打包
 _snapshot_for_git.tar.gz
