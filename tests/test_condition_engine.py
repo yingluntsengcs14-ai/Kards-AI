@@ -123,7 +123,7 @@ class ConditionEngineTests(unittest.TestCase):
             state, EffectContext("p2", target_unit_id=unit.instance_id),
         )
         self.engine.emit_damage_since(state, start)
-        self.assertEqual(state.players["p1"].hq.defense_modifier, 3)
+        self.assertEqual(state.players["p1"].hq.current_health, 23)  # HQ defense is its health
 
 
 if __name__ == "__main__":

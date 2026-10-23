@@ -120,8 +120,32 @@ def _record(card_id: str, payload: dict, veteran_bases: frozenset = frozenset())
     }
 
 
-def _wanted_ids(payloads: dict[str, dict], sets: tuple[str, ...]) -> list[str]:
-    """Explicit ids plus every card in the requested sets, plus Veteran versions.
+def _created_ids(payloads: dict[str, dict], known: set[str]) -> list[str]:
+    """Generated cards ("can_create") that some card makes but the catalog lacks.
+
+    kards.info leaves out several spawn-only cards -- BLAST among them, which a
+    dozen cards add to your hand -- so every rule naming them failed to find
+    the card.  The game's own can_create list says which cards are generated.
+    """
+    created: list[str] = []
+    for payload in payloads.values():
+        for card_id in payload.get("can_create") or ():
+            if card_id in payloads and card_id not in known:
+                created.append(card_id)
+    # A generated card can itself generate cards (research chains).
+    frontier = list(created)
+    while frontier:
+        card_id = frontier.pop()
+        for child in payloads[card_id].get("can_create") or ():
+            if child in payloads and child not in known and child not in created:
+                created.append(child)
+                frontier.append(child)
+    return created
+
+
+def _wanted_ids(payloads: dict[str, dict], sets: tuple[str, ...], known: set[str] = frozenset()) -> list[str]:
+    """Explicit ids, every card in the requested sets, missing generated cards,
+    plus Veteran versions.
 
     A Veteran counterpart is pulled in with its base card: the engine swaps the
     unit for that card, so a missing one leaves the promotion unimplementable.
@@ -130,6 +154,7 @@ def _wanted_ids(payloads: dict[str, dict], sets: tuple[str, ...]) -> list[str]:
     for card_id, payload in payloads.items():
         if payload.get("set") in sets:
             wanted.append(card_id)
+    wanted.extend(_created_ids(payloads, set(known)))
     for card_id in list(wanted):
         veteran_id = card_id + "_vet"
         if veteran_id in payloads:
@@ -147,7 +172,7 @@ def merge(raw: Path, extra: Path, dry_run: bool = False,
     missing_payloads = [card_id for card_id in WANTED if card_id not in payloads]
     if missing_payloads:
         raise SystemExit("No GraphQL payload for: " + ", ".join(missing_payloads))
-    wanted_ids = _wanted_ids(payloads, sets)
+    wanted_ids = _wanted_ids(payloads, sets, known)
     # Bases whose Veteran counterpart exists, so the record can carry the link.
     veteran_bases = frozenset(
         card_id[: -len("_vet")] for card_id in payloads if card_id.endswith("_vet"))

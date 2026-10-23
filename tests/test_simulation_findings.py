@@ -125,6 +125,55 @@ class SimulationFindingTests(unittest.TestCase):
         ids = [u.instance_id for u in state.players["p1"].units]
         self.assertEqual(len(ids), len(set(ids)))
 
+    # ── HQ defense is health (confirmed in game) ─────────────────────────────
+    def test_great_patriotic_war_sets_both_hqs_to_12(self) -> None:
+        """以前做成「每次受傷先減 12」，HQ 幾乎打不動。"""
+        state = self._state(hand=("great_patriotic_war",))
+        state.players["p2"].hq.current_health = 7
+        PlayCardAction("p1", "great_patriotic_war").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].hq.current_health, 12)
+        self.assertEqual(state.players["p2"].hq.current_health, 12)
+        from simulator.core.hq import HQResolver
+        HQResolver.damage(state, "p2", 3)
+        self.assertEqual(state.players["p2"].hq.current_health, 9)
+
+    # ── BLAST (spawn-only card missing from the kards.info catalog) ─────────
+    def test_blast_exists_and_deals_one_damage(self) -> None:
+        self.assertIn("blast", self.cards)
+        card = self.cards.get("blast")
+        self.assertEqual((card.nation, card.type, card.kredits), ("Neutral", "order", 0))
+        state = self._state(hand=("blast",), p2_units=(("e", "garrison", 1, 3),))
+        PlayCardAction("p1", "blast", target_unit_id="e").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units[0].defense, 2)
+
+    def test_866th_rifles_adds_two_blasts_when_destroyed(self) -> None:
+        state = self._state(hand=("866th_rifles",))
+        PlayCardAction("p1", "866th_rifles").execute(state, self.cards)
+        self.assertNotIn("blast", state.players["p1"].hand)
+        start = len(state.event_log)
+        basic_effects.destroy(state, state.players["p1"].units[0])
+        engine_for(self.cards).emit_deaths_since(state, start)
+        self.assertEqual(state.players["p1"].hand.count("blast"), 2)
+
+    # ── Kredits never below 0 (confirmed in game) ───────────────────────────
+    def test_lose_kredits_next_turn_waits_and_stops_at_zero(self) -> None:
+        """99th KHOLM：「下回合開始時失去 1 kredit」，以前部署當下就扣、還會扣到負數。"""
+        state = self._state(hand=("99th_kholm",))
+        state.players["p1"].resources.kredits = 1
+        PlayCardAction("p1", "99th_kholm").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].resources.kredits, 0)
+        self._end_turn(state)
+        self._end_turn(state)
+        resources = state.players["p1"].resources
+        self.assertEqual(resources.kredits, resources.max_kredits - 1)
+
+    def test_countermeasure_charges_the_price_it_was_validated_at(self) -> None:
+        state = self._state(hand=("dowding_system",))
+        state.players["p1"].cost_modifiers.append({"kind": "hand_cost", "amount": -2, "scope": "all"})
+        state.players["p1"].resources.kredits = 1
+        PlayCardAction("p1", "dowding_system").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].resources.kredits, 0)
+
 
 if __name__ == "__main__":
     unittest.main()

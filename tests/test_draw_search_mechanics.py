@@ -63,7 +63,7 @@ class DrawSearchMechanicsTests(unittest.TestCase):
         state = self._state(p1_hand=("free_french_navy",), p1_deck=("royal_fusiliers", "garrison"))
         PlayCardAction("p1", "free_french_navy").execute(state, self.cards)
         self.assertIn("royal_fusiliers", state.players["p1"].hand)
-        self.assertEqual(state.players["p1"].hq.defense_modifier, 3)
+        self.assertEqual(state.players["p1"].hq.current_health, 23)  # HQ defense is its health
 
     def test_draw_top_matching_skips_non_matching(self) -> None:
         # Top of deck is a unit with op cost != 3 -> must NOT be drawn.

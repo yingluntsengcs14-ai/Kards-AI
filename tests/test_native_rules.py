@@ -38,7 +38,7 @@ class NativeRuleTests(unittest.TestCase):
     def test_native_order_draw_and_hq_defense(self) -> None:
         state = self.state()
         PlayCardAction("p1", "radar").execute(state, self.cards)
-        self.assertEqual(state.players["p1"].hq.defense_modifier, 4)
+        self.assertEqual(state.players["p1"].hq.current_health, 24)  # HQ defense is its health
         self.assertIn("garrison", state.players["p1"].hand)
         self.assertIn("radar", state.graveyard["p1"])
 
@@ -310,7 +310,7 @@ class NativeRuleTests(unittest.TestCase):
         state.battlefield = {"frontline": [gun.instance_id, target.instance_id], "support_line": []}
         state.players["p1"].resources = ResourceState(5, 5)
         AttackAction("p1", gun.instance_id, target.instance_id).execute(state, self.cards)
-        self.assertEqual(state.players["p1"].hq.defense_modifier, gun.attack)
+        self.assertEqual(state.players["p1"].hq.current_health, 20 + gun.attack)
 
     def test_damage_taken_can_add_equal_hq_defense(self) -> None:
         state = self.state()
@@ -320,7 +320,7 @@ class NativeRuleTests(unittest.TestCase):
         start = len(state.event_log)
         EffectResolver(self.cards).resolve({"type": "damage", "target": "selected_target", "value": {"amount": 3}}, state, EffectContext("p2", target_unit_id=rifles.instance_id))
         self.engine.emit_damage_since(state, start)
-        self.assertEqual(state.players["p1"].hq.defense_modifier, 3)
+        self.assertEqual(state.players["p1"].hq.current_health, 23)
 
     def test_combat_damage_destroy_trigger_removes_target_before_return_fire(self) -> None:
         state = self.state()
@@ -734,7 +734,7 @@ class NativeRuleTests(unittest.TestCase):
         state.players["p2"].deck = ["garrison"]
         PassAction("p1").execute(state, self.cards)
         PassAction("p2").execute(state, self.cards)
-        self.assertEqual(state.players["p1"].hq.defense_modifier, 1)
+        self.assertEqual(state.players["p1"].hq.current_health, 21)
 
     def test_damage_trigger_dispatches_for_surviving_unit(self) -> None:
         state = self.state()

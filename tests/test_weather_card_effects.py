@@ -74,10 +74,10 @@ class WeatherCardEffectTests(unittest.TestCase):
         """暴雨：總共正好分配 6 點防禦給友方目標（含總部）。"""
         state = self._state(hand=("deluge",))
         before_units = [unit.defense for unit in state.players["p1"].units]
-        before_hq = state.players["p1"].hq.defense_modifier
+        before_hq = state.players["p1"].hq.current_health
         PlayCardAction("p1", "deluge").execute(state, self.cards)
         gained = sum(unit.defense - old for unit, old in zip(state.players["p1"].units, before_units))
-        gained += state.players["p1"].hq.defense_modifier - before_hq
+        gained += state.players["p1"].hq.current_health - before_hq
         self.assertEqual(gained, 6)
 
     def test_deluge_does_not_buff_the_enemy(self) -> None:
@@ -92,7 +92,7 @@ class WeatherCardEffectTests(unittest.TestCase):
             state = self._state(hand=("deluge",))
             PlayCardAction("p1", "deluge").execute(state, self.cards)
             results.append([unit.defense for unit in state.players["p1"].units]
-                           + [state.players["p1"].hq.defense_modifier])
+                           + [state.players["p1"].hq.current_health])
         self.assertEqual(results[0], results[1])
 
     # --- 旋風 ---

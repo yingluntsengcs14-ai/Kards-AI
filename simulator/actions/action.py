@@ -140,15 +140,20 @@ class PlayCardAction(Action):
         self.validate(state, cards)
         player = state.players[self.player_id]
         card = cards.get(self.card_id)
+        # Price the card exactly as validate() did: with the card still in hand.
+        # Pricing it again after it left the hand (or charging the printed cost
+        # for a countermeasure whose cost a modifier had changed) is how
+        # kredits went below 0.
+        cost = card_play_cost(state, self.player_id, card, cards) + _target_tax(state, self.target_unit_id, self.player_id)
         if card.type == "countermeasure":
             existing = next((entry for entry in player.active_countermeasures if entry.get("card_id") == card.id), None)
             if existing:
                 player.active_countermeasures.remove(existing)
-                player.resources.kredits += card.kredits
+                player.resources.kredits += int(existing.get("paid", card.kredits))
                 state.event_log.append({"event": "countermeasure_deactivated", "player_id": self.player_id, "card_id": card.id})
                 return state
-            player.resources.kredits -= card.kredits
-            player.active_countermeasures.append({"card_id": card.id, "activated_turn": state.turn_number})
+            player.resources.kredits -= cost
+            player.active_countermeasures.append({"card_id": card.id, "activated_turn": state.turn_number, "paid": cost})
             state.event_log.append({"event": "countermeasure_activated", "player_id": self.player_id, "card_id": card.id})
             return state
         # Capture the hand position BEFORE the card leaves hand: cards that read
@@ -157,7 +162,7 @@ class PlayCardAction(Action):
         hand_size = len(player.hand)
         player.hand.remove(self.card_id)
         intel_rules.refresh(state)
-        player.resources.kredits -= card_play_cost(state, self.player_id, card, cards) + _target_tax(state, self.target_unit_id, self.player_id)
+        player.resources.kredits -= cost
         intel = KeywordEngine.numeric(card, "intel")
         if intel:
             known = intel_rules.reveal(state, self.player_id, opponent_id(state, self.player_id), intel)

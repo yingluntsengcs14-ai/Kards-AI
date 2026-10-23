@@ -99,10 +99,30 @@ class HQResolver:
                 "source_count": len(replacements),
             })
             return total
+        # An HQ's defense IS its health (confirmed in game, 2026-10-24).  This
+        # used to raise ``defense_modifier``, which damage() subtracts from every
+        # hit -- "+3 defense" made the HQ shrug off 3 damage per hit forever.
+        # "+N defense" is not a repair, so it may lift the HQ above its
+        # starting value; the ceiling moves with it.
         hq = state.players[target_player_id].hq
-        hq.defense_modifier = max(0, hq.defense_modifier + int(amount))
-        state.event_log.append({"event": "hq_defense_modified", "player_id": target_player_id, "amount": int(amount), "defense_modifier": hq.defense_modifier})
-        return hq.defense_modifier
+        hq.current_health = max(0, hq.current_health + int(amount))
+        hq.max_health = max(hq.max_health, hq.current_health)
+        state.event_log.append({"event": "hq_defense_modified", "player_id": target_player_id,
+                                "amount": int(amount), "hq_health": hq.current_health})
+        if hq.current_health <= 0:
+            HQResolver.check_victory(state)
+        return hq.current_health
+
+    @staticmethod
+    def set_defense(state: GameState, target_player_id: str, value: int) -> int:
+        """"Set your HQ's defense to N": the HQ's health becomes N."""
+        hq = state.players[target_player_id].hq
+        hq.current_health = max(0, int(value))
+        hq.max_health = max(hq.max_health, hq.current_health)
+        state.event_log.append({"event": "hq_defense_set", "player_id": target_player_id, "amount": int(value)})
+        if hq.current_health <= 0:
+            HQResolver.check_victory(state)
+        return hq.current_health
 
     @staticmethod
     def check_victory(state: GameState, source_player_id: str | None = None) -> GameStatus:

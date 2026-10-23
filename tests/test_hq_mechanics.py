@@ -71,25 +71,23 @@ class HQMechanicsTests(unittest.TestCase):
     # --- set_hq_defense ---
 
     def test_set_hq_defense_via_alpenfestung(self) -> None:
-        """'Set your HQ's defense to 25' sets defense_modifier."""
+        """'Set your HQ's defense to 25': the HQ's health becomes 25 (defense is health)."""
         state = self._state(p1_hand=("alpenfestung",), p2_hand=(),
                             p1_deck=["garrison"]*15, p2_deck=["garrison"]*15)
         PlayCardAction("p1", "alpenfestung").execute(state, self.cards)
-        self.assertEqual(state.players["p1"].hq.defense_modifier, 25,
-                         "defense_modifier should be set to 25")
+        self.assertEqual(state.players["p1"].hq.current_health, 25)
+        self.assertEqual(state.players["p1"].hq.defense_modifier, 0, "defense is health, not damage reduction")
         self.assertTrue(
             any(e.get("event") == "hq_defense_set" and e.get("player_id") == "p1"
                 for e in state.event_log),
             "event log must contain hq_defense_set for p1")
 
     def test_set_hq_defense_rule_action_direct(self) -> None:
-        """Direct handler call: set_hq_defense overwrites defense_modifier."""
+        """Direct handler call: set_hq_defense sets the HQ's health."""
         state = self._state()
-        state.players["p1"].hq.defense_modifier = 5
         action = RuleAction("set_hq_defense", "owner", amount=10)
         self.engine._execute_action(action, state, EffectContext("p1", "test_card"))
-        self.assertEqual(state.players["p1"].hq.defense_modifier, 10,
-                         "set_hq_defense(10) should overwrite modifier to 10")
+        self.assertEqual(state.players["p1"].hq.current_health, 10)
 
     # --- hq_immune ---
 

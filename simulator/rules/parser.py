@@ -1266,12 +1266,15 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
                            min_cost=int(minc) if minc else 0),)
     # "lose N kredit(s)" -> negative gain_kredits (engine-supported, mutates player kredits).
     # Negative lookahead keeps "kredit slot" cases for the lose_kredit_slot templates below.
-    lose_k = re.search(r"\blose\s+(a|an|one|two|three|\d+)\s+kredit\b(?!\s+slot)", lower)
-    if lose_k:
-        return (RuleAction("gain_kredits", "owner", amount=-_number(lose_k.group(1))),)
-    enemy_lose_k = re.search(r"enemy\s+loses?\s+(a|an|one|two|three|\d+)\s+kredit\b(?!\s+slot)", lower)
+    # 99th KHOLM: "Lose 1 kredit at the start of your next turn" is paid next
+    # turn, not on deploy.
+    later = "start_of_next_turn" if "at the start of your next turn" in lower else None
+    enemy_lose_k = re.search(r"enemy\s+loses?\s+(a|an|one|two|three|\d+)\s+kredits?\b(?!\s+slot)", lower)
     if enemy_lose_k:
-        return (RuleAction("gain_kredits", "enemy_hand", amount=-_number(enemy_lose_k.group(1))),)
+        return (RuleAction("gain_kredits", "enemy_hand", amount=-_number(enemy_lose_k.group(1)), duration=later),)
+    lose_k = re.search(r"\blose\s+(a|an|one|two|three|\d+)\s+kredits?\b(?!\s+slot)", lower)
+    if lose_k:
+        return (RuleAction("gain_kredits", "owner", amount=-_number(lose_k.group(1)), duration=later),)
     gain_slot_enemy = re.search(r"enemy\s+gains?\s+(a|an|one|two|three|\d+)\s+(?:extra\s+)?kredit\s+slots?", lower)
     if gain_slot_enemy:
         return (RuleAction("gain_kredit_slot", "enemy_hand", amount=_number(gain_slot_enemy.group(1))),)

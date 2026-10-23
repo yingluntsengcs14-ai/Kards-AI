@@ -28407,7 +28407,7 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "start_of_next_turn",
           "condition": null,
           "on": [
             "on_deploy"
@@ -29925,16 +29925,16 @@
           "on": []
         },
         {
-          "kind": "lose_kredits",
+          "kind": "gain_kredits",
           "target": "owner",
-          "amount": 2,
+          "amount": -2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "start_of_next_turn",
           "condition": null,
           "on": []
         }
@@ -30244,16 +30244,16 @@
           ]
         },
         {
-          "kind": "lose_kredits",
+          "kind": "gain_kredits",
           "target": "owner",
-          "amount": 2,
+          "amount": -2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "start_of_next_turn",
           "condition": null,
           "on": [
             "on_deploy"
@@ -31826,16 +31826,16 @@
       ],
       "actions": [
         {
-          "kind": "lose_kredits",
+          "kind": "gain_kredits",
           "target": "owner",
-          "amount": 3,
+          "amount": -3,
           "attack": 0,
           "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "start_of_next_turn",
           "condition": null,
           "on": []
         }
@@ -47380,6 +47380,412 @@
           "on": [
             "on_turn_start"
           ]
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "blast",
+      "source_text": "Deal 1 damage to a unit.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "selected_target",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "balloon_bombs",
+      "source_text": "Pin all enemy units.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "pin",
+          "target": "enemy_units",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "expanded_imperial_rd",
+      "source_text": "Choose One - Add LONG LANCE to hand OR add ADVANCED IMPERIAL R&D to hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "LONG LANCE",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "long_lance",
+      "source_text": "Destroy target unit. Draw 2 cards if it had an attack of 3 or less.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "destroy",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it had an attack of 3 or less.",
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "advanced_imperial_rd",
+      "source_text": "Choose One - Add 7075 ALUMINIUM to hand OR add IMPERIAL WEAPON No. 2 to hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "aluminium",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "2 to hand.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "2 to hand.",
+        "[engine does not implement kind=special_effect] 2 to hand."
+      ]
+    },
+    {
+      "card_id": "7075_aluminium",
+      "source_text": "Add three 0-cost A6M2 ZERO to your hand with: \\\"Destruction: Add a 0-cost copy of this unit to your hand.\\\"",
+      "triggers": [
+        "on_destroy"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "0-cost A6M2 ZERO",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "imperial_weapon_no_2",
+      "source_text": "Add four KIKKA on top of your deck. They cost 0 to deploy and operate.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Add four KIKKA on top of your deck.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "They cost 0 to deploy and operate.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Add four KIKKA on top of your deck.",
+        "They cost 0 to deploy and operate.",
+        "[engine does not implement kind=special_effect] Add four KIKKA on top of your deck.",
+        "[engine does not implement kind=special_effect] They cost 0 to deploy and operate."
+      ]
+    },
+    {
+      "card_id": "aerosani",
+      "source_text": "Deal 2 damage to an enemy ground target and adjacent enemies.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "selected_enemy",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "expanded_soviet_research",
+      "source_text": "Choose One - Add STANDARD AMMO to hand OR ADVANCED SOVIET RESEARCH to hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "STANDARD AMMO",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "standard_ammo",
+      "source_text": "Reduce the deploy and operation cost of all units in your hand and deck by 1.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Reduce the deploy and operation cost of all units in your hand and deck by 1.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "Reduce the deploy and operation cost of all units in your hand and deck by 1.",
+        "[engine does not implement kind=special_effect] Reduce the deploy and operation cost of all units in your hand and deck by 1."
+      ]
+    },
+    {
+      "card_id": "advanced_soviet_research",
+      "source_text": "Choose One - Add SLOPED ARMOR to hand OR add three STALIN'S ORGAN to hand.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "stalin's organ",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "sloped_armor",
+      "source_text": "Add a IOSEF STALIN II to your support line. It fights target enemy unit. Send it to hand at the end of turn.",
+      "triggers": [
+        "on_turn_end"
+      ],
+      "actions": [
+        {
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "IOSEF STALIN II",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "fight",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "return_to_hand",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
+      "status": "implemented",
+      "unresolved_fragments": []
+    },
+    {
+      "card_id": "stalins_organ",
+      "source_text": "Randomly distribute 8 damage between enemies.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "damage",
+          "target": "random_enemy",
+          "amount": 8,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
         }
       ],
       "status": "implemented",

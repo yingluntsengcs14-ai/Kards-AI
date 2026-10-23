@@ -1527,8 +1527,19 @@ class NativeRuleEngine:
                 state.event_log.append({"event": "native_rule_unresolved_card_name", "name": action.card_name, "source_card_id": context.source_card_id})
             return
         if action.kind == "gain_kredits":
-            player = state.players[context.player_id]
-            player.resources.kredits = min(player.resources.max_kredits, player.resources.kredits + action.amount)
+            # target was ignored: "the enemy loses 1 kredit" took it from you.
+            owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
+            if action.duration == "start_of_next_turn":
+                state.players[context.player_id].scheduled.append({
+                    "trigger": "start_of_next_turn", "kind": "kredits", "amount": action.amount,
+                    "owner_id": owner, "source_card_id": context.source_card_id, "wait": 0,
+                })
+                state.event_log.append({"event": "rule_scheduled", "trigger": "start_of_next_turn",
+                                        "kind": "kredits", "player_id": context.player_id})
+                return
+            player = state.players[owner]
+            # Kredits never go below 0 (confirmed in game).
+            player.resources.kredits = max(0, min(player.resources.max_kredits, player.resources.kredits + action.amount))
             return
         if action.kind == "gain_kredit_slot":
             owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
@@ -1630,9 +1641,13 @@ class NativeRuleEngine:
             HQResolver.damage(state, owner, action.amount, context.player_id)
             return
         if action.kind == "set_hq_defense":
-            owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
-            state.players[owner].hq.defense_modifier = action.amount
-            state.event_log.append({"event": "hq_defense_set", "player_id": owner, "amount": action.amount})
+            # "Set the defense of each HQ to 12" (GREAT PATRIOTIC WAR) sets both.
+            if "each hq" in (self._current_rule.source_text.lower() if self._current_rule else ""):
+                owners = list(state.players)
+            else:
+                owners = [opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id]
+            for owner in owners:
+                HQResolver.set_defense(state, owner, action.amount)
             return
         if action.kind == "hq_immune":
             owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
@@ -1913,6 +1928,14 @@ class NativeRuleEngine:
         # The affected unit returns to / is discarded by its *owning* player
         # (e.g. an enemy unit removed by "Remove X. Return it" goes back to the
         # enemy's hand), not the player who scheduled the effect.
+        if entry["kind"] == "kredits":
+            player = state.players.get(entry.get("owner_id"))
+            if player is not None:
+                resources = player.resources
+                resources.kredits = max(0, min(resources.max_kredits, resources.kredits + int(entry.get("amount", 0))))
+                state.event_log.append({"event": "scheduled_kredits", "player_id": player.player_id,
+                                        "amount": int(entry.get("amount", 0))})
+            return
         if entry["kind"] == "destroy":
             # A real destruction: Destruction effects and the destroyed-unit
             # counters must see it (MOTHERLAND CALLS relies on exactly that).
