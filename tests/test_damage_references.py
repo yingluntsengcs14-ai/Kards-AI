@@ -201,6 +201,19 @@ class CounterTests(unittest.TestCase):
         self.assertEqual(counters.units_destroyed_of_nation(state, "poland", self.cards), 2)
         self.assertEqual(counters.units_destroyed_of_nation(state, "german", self.cards), 0)
 
+    def test_uprising_counts_both_sides_and_hits_every_unit(self) -> None:
+        """UPRISING（遊戲內確認）：雙方被消滅的波蘭單位都算，傷害打所有單位、包含自己的。"""
+        polish = [card.id for card in self.cards if card.nation == "Poland" and card.is_unit][:3]
+        state = self._state(hand=("uprising",),
+                            p1_units=(("d1", polish[0], 1, 1), ("mine", "garrison", 1, 30)),
+                            p2_units=(("d2", polish[1], 1, 1), ("d3", polish[2], 1, 1), TOUGH_ENEMY))
+        for unit in (*state.players["p1"].units[:1], *state.players["p2"].units[:2]):
+            unit.defense = 0
+        basic_effects.remove_dead_units(state)
+        PlayCardAction("p1", "uprising").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[0].defense, 30 - 3)   # 自己的單位也挨打
+        self.assertEqual(state.players["p2"].units[0].defense, 30 - 3)
+
     def test_push_damages_equal_to_hq_damage_this_turn(self) -> None:
         """PUSH：自己總部受 3 點，然後對目標造成 3 點。"""
         state = self._state(hand=("push",))

@@ -25959,7 +25959,7 @@
       "actions": [
         {
           "kind": "damage_equal_to",
-          "target": "selected_enemy",
+          "target": "all_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,

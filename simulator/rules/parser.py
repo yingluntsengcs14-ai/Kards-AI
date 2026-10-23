@@ -1903,7 +1903,17 @@ def _resolve_residual(sentence: str, lower: str, clean: str) -> tuple | None:
 
     # 22c) Deal damage to a/an/the target/each/random enemy <type> unit (with
     # optional "equal to X" computed amount).
-    deal_tgt = re.search(r"deal\s+damage\s+to\s+(?:a|an|the\s+target|target|each\s+enemy|each\s+enemy\s+unit|random\s+enemy|an?\s+random\s+enemy|a\s+random\s+enemy|enemy)\s*(unit|ground\s+unit|air\s+unit|tank|infantry|artillery|bomber|fighter|elite\s+unit)?", lower)
+    # "Deal damage to all units equal to ..." (UPRISING) hits both sides.  It
+    # must be tried first: the alternation below has no word boundary after
+    # "a", so "all" used to match as "a" and the card damaged one enemy only.
+    deal_all = re.search(r"deal\s+damage\s+to\s+all\s+(enemy\s+)?units\b", lower)
+    if deal_all and "equal to" in lower:
+        reference = _damage_reference(lower)
+        if reference:
+            tgt = "enemy_units" if deal_all.group(1) else "all_units"
+            return (RuleAction("damage_equal_to", tgt, card_name=reference[0], scope=reference[1]),)
+        return ()
+    deal_tgt = re.search(r"deal\s+damage\s+to\s+(?:a|an|the\s+target|target|each\s+enemy|each\s+enemy\s+unit|random\s+enemy|an?\s+random\s+enemy|a\s+random\s+enemy|enemy)\b\s*(unit|ground\s+unit|air\s+unit|tank|infantry|artillery|bomber|fighter|elite\s+unit)?", lower)
     if deal_tgt:
         phrase = deal_tgt.group(0)
         if "each enemy" in phrase:
