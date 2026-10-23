@@ -137,6 +137,13 @@ class SimulationFindingTests(unittest.TestCase):
         HQResolver.damage(state, "p2", 3)
         self.assertEqual(state.players["p2"].hq.current_health, 9)
 
+    def test_hq_defense_gain_can_exceed_the_starting_20(self) -> None:
+        """遊戲內確認：「+N defense」可以超過起始的 20；修復才有上限。"""
+        from simulator.core.hq import HQResolver
+        state = self._state()
+        HQResolver.modify_defense(state, "p1", 4)
+        self.assertEqual(state.players["p1"].hq.current_health, 24)
+
     # ── BLAST (spawn-only card missing from the kards.info catalog) ─────────
     def test_blast_exists_and_deals_one_damage(self) -> None:
         self.assertIn("blast", self.cards)
