@@ -56,6 +56,10 @@ EFFECT_PLAYERS = frozenset({"owner", "friendly_hq", "enemy_hq"})
 # ignored and the action quietly acts on the wrong thing.
 CHOSEN_LINK = frozenset({"chosen"})
 CHOSEN_LINK_KINDS = frozenset({"add_card", "return_to_deck"})
+# "it"/"them" in a later clause of the same card: the units an earlier clause
+# deployed, else the unit the card chose.  Only delayed_destroy reads it.
+REFERENT_LINK = frozenset({"referent"})
+REFERENT_LINK_KINDS = frozenset({"delayed_destroy"})
 
 UNIT_SELECTORS = SOURCE | CHOSEN | GROUPS
 # What a unit-only effect can reach: every unit selector, plus the group aliases
@@ -80,11 +84,13 @@ FAMILIES: dict[str, frozenset[str]] = {
 
 # Every selector any path can resolve; a target outside this set is resolvable
 # by nothing at all and is always a bug.
-ALL_SELECTORS = frozenset().union(*FAMILIES.values()) | CHOSEN_LINK | RANDOM | PLAYERS
+ALL_SELECTORS = frozenset().union(*FAMILIES.values()) | CHOSEN_LINK | REFERENT_LINK | RANDOM | PLAYERS
 
 
 def chosen_link_ok(kind: str, target: str) -> bool:
     """Whether a ``chosen`` target is read by this kind."""
+    if target in REFERENT_LINK:
+        return kind in REFERENT_LINK_KINDS
     if target not in CHOSEN_LINK:
         return True
     return kind in CHOSEN_LINK_KINDS

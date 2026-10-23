@@ -153,6 +153,7 @@ _GENUINELY_EXECUTED_KINDS: frozenset[str] = frozenset({
     "choose_one",
     "end_turn",
     "delayed_discard",
+    "delayed_destroy",
     # ── stat multipliers (implemented 2026-07-19) ──
     "double_stats",
     "double_damage",

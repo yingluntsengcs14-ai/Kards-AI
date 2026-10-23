@@ -53,5 +53,6 @@ def _rule_from_document(entry: Mapping[str, Any]) -> CardRule:
             attack=int(action.get("attack", 0)), defense=int(action.get("defense", 0)), card_name=action.get("card_name"),
             scope=str(action.get("scope", "")), min_cost=int(action.get("min_cost", 0)), set_cost=action.get("set_cost"),
             duration=action.get("duration"), condition=action.get("condition"),
+            on=tuple(action.get("on", ()) or ()),
         ))
     return CardRule(card_id, source_text, tuple(item for item in triggers if item), tuple(parsed_actions), status, tuple(entry.get("unresolved_fragments", ())))

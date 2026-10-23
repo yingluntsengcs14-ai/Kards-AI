@@ -39,6 +39,41 @@ from simulator.cards.card import Card
 
 NUMBER_WORDS = {"a": 1, "an": 1, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
 
+
+def _quantified_name(phrase: str) -> tuple[str, int]:
+    """Split "two T-70 units" into ("T-70", 2) and "a BLAST" into ("BLAST", 1).
+
+    Card names in add/deploy clauses used to keep their count word, so the
+    lookup searched for a card literally called "two BLASTS" and failed.  A
+    plural ending ("BLASTS") is left for the engine's name lookup to resolve,
+    since stripping an S here would break names that end in S.
+    """
+    text = phrase.strip()
+    amount = 1
+    count = re.match(r"^(a|an|one|two|three|four|five|\d+)\s+(.+)$", text, re.I)
+    if count:
+        amount = _number(count.group(1)) or 1
+        text = count.group(2).strip()
+    text = re.sub(r"\s+(?:units?|cards?)$", "", text, flags=re.I).strip()
+    return text, amount
+
+
+# "Destroy it at the end of your turn" / "Destroy them at the end of your next
+# turn" / "At the end of your turn, destroy it": the unit dies later, not now.
+_DELAYED_DESTROY = re.compile(
+    r"\bdestroy\s+(?:it|them)\s+(?:at\s+)?(?:the\s+)?end\s+of\s+(?P<when>your\s+next\s+turn|(?:your\s+|the\s+)?turn)\b"
+    r"|\bat\s+the\s+end\s+of\s+(?P<when2>your\s+next\s+turn|(?:your\s+|the\s+)?turn)\s*,\s*destroy\s+(?:it|them)\b",
+    re.I)
+
+
+def _delayed_destroy(sentence: str) -> tuple | None:
+    match = _DELAYED_DESTROY.search(sentence)
+    if not match:
+        return None
+    when = (match.group("when") or match.group("when2") or "").lower()
+    duration = "end_of_next_turn" if "next" in when else "end_of_turn"
+    return (RuleAction("delayed_destroy", "referent", duration=duration),)
+
 # Optional unit-type token used by scoped (multi-target) templates. "unit"/"units"
 # is the generic catch-all and carries no type filter.
 _UNIT_TYPE = r"(air|ground|tank|infantry|artillery|bomber|fighter|unit|units?)"
@@ -121,6 +156,9 @@ class RuleAction:
     condition: str | None = None  # normalized condition string ("if X", "on your turn",
                                    # "for each Y"); evaluated by ConditionEvaluator at runtime.
                                    # None means unconditional.
+    on: tuple[str, ...] = ()  # events this action belongs to; () = every trigger of the rule.
+                              # A unit's rule lists all its triggers, so without this a
+                              # "Destruction:" clause also ran when the unit was deployed.
 
 
 @dataclass(frozen=True)
@@ -305,8 +343,21 @@ class RuleParser:
         triggers = _triggers(card, text)
         actions: list[RuleAction] = []
         covered: list[str] = []
+        is_unit = card.type in {"infantry", "fighter", "tank", "bomber", "artillery"}
+        sentence_events: tuple[str, ...] = ()
         for sentence in _sentences(text):
             parsed = _parse_sentence(sentence)
+            if is_unit:
+                # Bind each clause of a unit to the event that introduces it.
+                # A clause with no trigger of its own continues the previous
+                # one ("Destruction: Deal 2 damage. Draw a card.").  A leading
+                # clause with none stays unbound (on=()): it may be an aura, or
+                # gated by a condition the engine wires to an extra trigger
+                # (FW 189's "when you play a Navy card").
+                own = _triggers(card, sentence)
+                sentence_events = own or sentence_events
+                if parsed and sentence_events:
+                    parsed = tuple(replace(a, on=sentence_events) for a in parsed)
             if parsed:
                 # Pin and Suppression are distinct KARDS states.  Older
                 # templates shared the suppress action as a parser shortcut;
@@ -369,7 +420,9 @@ class RuleParser:
 
 
 def _triggers(card: Card, text: str) -> tuple[str, ...]:
-    lower = text.lower()
+    # "Destroy it at the end of your turn" schedules a removal; it does not make
+    # the card trigger at turn end (HONOR and FINAL PUSH never fired at all).
+    lower = _DELAYED_DESTROY.sub(" ", text.lower())
     if card.type == "countermeasure":
         triggers: list[str] = []
         if "attacks" in lower or "attacked" in lower:
@@ -671,6 +724,9 @@ def _strip_condition(sentence: str) -> tuple[str, str | None]:
 
 
 def _parse_sentence(sentence: str) -> tuple[RuleAction, ...]:
+    delayed = _delayed_destroy(sentence)
+    if delayed:
+        return delayed
     main, condition = _strip_condition(sentence)
     if condition:
         # Try the FULL sentence first so condition-embedded, source-targeted
@@ -1142,18 +1198,18 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
         return (RuleAction("discard", "chosen"), RuleAction("add_card", "owner", card_name="chosen_copy"))
     if re.search(r"copy\s+it\b", lower) and re.search(r"convert\s+both\s+into", lower):
         return (RuleAction("discard", "chosen"), RuleAction("convert_to", "owner", card_name="PLAN"))
-    add = re.search(r"\badd\s+(?:an?\s+)?(.+?)\s+to\s+your\s+hand", clean, re.I)
+    add = re.search(r"\badd\s+(.+?)\s+to\s+your\s+hand", clean, re.I)
     if add:
-        return (RuleAction("add_card", "owner", card_name=add.group(1).strip()),)
-    add_enemy = re.search(r"\badd\s+(?:an?\s+)?(.+?)\s+to\s+the\s+enemy\s+hand", clean, re.I)
+        name, amount = _quantified_name(add.group(1))
+        return (RuleAction("add_card", "owner", card_name=name, amount=amount),)
+    add_enemy = re.search(r"\badd\s+(.+?)\s+to\s+the\s+enemy\s+hand", clean, re.I)
     if add_enemy:
-        return (RuleAction("add_card", "enemy_hand", card_name=add_enemy.group(1).strip()),)
-    deploy = re.search(r"\badd\s+(?:an?\s+)?(.+?)\s+to\s+your\s+support\s+line", clean, re.I)
+        name, amount = _quantified_name(add_enemy.group(1))
+        return (RuleAction("add_card", "enemy_hand", card_name=name, amount=amount),)
+    deploy = re.search(r"\badd\s+(.+?)\s+to\s+(?:your|the)\s+support\s+line", clean, re.I)
     if deploy:
-        return (RuleAction("deploy_named", "owner", card_name=deploy.group(1).strip()),)
-    deploy_n = re.search(r"\badd\s+(?:an?\s+)?(two|three|four|five|\d+)\s+(.+?)\s+to\s+your\s+support\s+line", clean, re.I)
-    if deploy_n:
-        return (RuleAction("deploy_named", "owner", card_name=deploy_n.group(2).strip(), amount=_number(deploy_n.group(1))),)
+        name, amount = _quantified_name(deploy.group(1))
+        return (RuleAction("deploy_named", "owner", card_name=name, amount=amount),)
     # Retreat (move to support line): single/selected target or mass group.
     if re.search(r"\bretreat\s+(?:a|an|another|the|target)\s+(?:friendly\s+|enemy\s+)?(?:air|ground|tank|infantry|artillery|bomber|fighter|unit|units?)\b", lower):
         tgt = "selected_enemy" if "enemy" in lower else "selected_friendly" if "friendly" in lower else "selected_target"

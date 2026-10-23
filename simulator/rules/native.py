@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 from pathlib import Path
 import random
+import re
 
 from simulator.cards.loader import CardDatabase
 from simulator.effects.resolver import EffectContext, EffectResolver
@@ -131,6 +132,8 @@ def _unit_scope_matches(unit: UnitState, action: RuleAction, cards) -> bool:
 class NativeRuleEngine:
     """Compile and execute only verified parser actions for native card text."""
 
+    _last_engine: "NativeRuleEngine | None" = None
+
     def __init__(self, cards: CardDatabase, parser: RuleParser | None = None, store: CardRuleStore | None = None) -> None:
         self.cards = cards
         self.parser = parser or RuleParser()
@@ -141,6 +144,11 @@ class NativeRuleEngine:
         }
         self._action_specs = {card_id: _action_generation_spec(rule) for card_id, rule in self._rules.items()}
         self._by_name = {card.name.upper(): card.id for card in cards}
+        self._deployed: list[str] = []
+        self._current_rule = None
+        # Scheduled effects fire from TurnManager, which holds no card
+        # database; they reach the engine through this (one catalog per run).
+        NativeRuleEngine._last_engine = self
         # Transient reference to the card selected by a choose_one action during
         # a single execute() run. Consumed by subsequent actions with
         # target="chosen" (Pattern B/C linkage). Reset per execute().
@@ -199,8 +207,9 @@ class NativeRuleEngine:
         once_key = None
         if "once per turn" in rule.source_text.lower() and context.source_unit_id:
             eligible = any(
-                action.condition is None
-                or condition_evaluate(action.condition, event, context, self.cards, state)
+                (not action.on or event in action.on)
+                and (action.condition is None
+                     or condition_evaluate(action.condition, event, context, self.cards, state))
                 for action in rule.actions
             )
             source = find_unit(state, context.source_unit_id)
@@ -214,6 +223,10 @@ class NativeRuleEngine:
         executed = False
         self._current_event = event
         self._chosen = None
+        # Units created by this rule, so "Destroy them at the end of your
+        # turn" can find what an earlier clause of the same card deployed.
+        self._deployed = []
+        self._current_rule = rule
         # Snapshot the targeted unit's card_id so delayed effects that fire
         # *after* a paired "Remove X" action can still resolve their referent.
         ctx = context
@@ -232,6 +245,8 @@ class NativeRuleEngine:
             if target is not None:
                 target.status.pop("covert", None)
         for action in rule.actions:
+            if action.on and event not in action.on:
+                continue
             try:
                 self._execute_action(action, state, ctx)
             except ActionValidationError as error:
@@ -1408,11 +1423,14 @@ class NativeRuleEngine:
                     return
                 self._add_to_hand(state, context.player_id, self._chosen[0])
                 return
-            card_id = self._by_name.get((action.card_name or "").upper())
-            if card_id:
+            card_ids = self._card_ids_for(action.card_name)
+            if card_ids:
                 target_player = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
-                state.players[target_player].hand.append(card_id)
-                state.event_log.append({"event": "card_added_to_hand", "player_id": target_player, "card_id": card_id})
+                # _add_to_hand keeps the 9-card limit; appending directly let
+                # generated cards push a hand to 10.
+                for card_id in card_ids:
+                    for _ in range(max(1, action.amount or 1)):
+                        self._add_to_hand(state, target_player, card_id)
             else:
                 state.event_log.append({"event": "native_rule_unresolved_card_name", "name": action.card_name, "source_card_id": context.source_card_id})
             return
@@ -1440,27 +1458,54 @@ class NativeRuleEngine:
                     else:
                         unit.defense += action.amount
             return
+        if action.kind == "delayed_destroy":
+            # "it/them" is what this card just created when it created
+            # anything (MOBILE DEFENSE, DANUTA); otherwise the unit it chose
+            # (HONOR, FINAL PUSH).  A card that deploys but failed to deploy
+            # destroys nothing rather than falling back to its target.
+            creates = self._current_rule is not None and any(
+                candidate.kind == "deploy_named" for candidate in self._current_rule.actions)
+            unit_ids = list(self._deployed) if creates else [context.target_unit_id] if context.target_unit_id else []
+            trigger = action.duration or "end_of_turn"
+            for unit_id in unit_ids:
+                state.players[context.player_id].scheduled.append({
+                    "trigger": trigger, "unit_id": unit_id, "kind": "destroy",
+                    "owner_id": context.player_id, "source_card_id": context.source_card_id,
+                    "wait": 1 if trigger == "end_of_next_turn" else 0,
+                })
+            state.event_log.append({"event": "rule_scheduled", "trigger": trigger, "kind": "destroy",
+                                    "player_id": context.player_id, "count": len(unit_ids)})
+            return
         if action.kind == "deploy_named":
-            card_id = self._by_name.get((action.card_name or "").upper())
+            card_ids = self._card_ids_for(action.card_name)
             player = state.players[context.player_id]
-            if card_id and self.cards.get(card_id).is_unit:
-                count = action.amount if action.amount and action.amount > 0 else 1
+            if not card_ids or not all(self.cards.get(card_id).is_unit for card_id in card_ids):
+                state.event_log.append({"event": "native_rule_deploy_failed", "name": action.card_name})
+                return
+            count = action.amount if action.amount and action.amount > 0 else 1
+            used_ids = {unit.instance_id for owner in state.players.values() for unit in owner.units}
+            for card_id in card_ids:
+                card = self.cards.get(card_id)
                 deployed = 0
                 for _ in range(count):
                     if sum(unit.position == "support_line" for unit in player.units) >= 4:
+                        # A full support line is a legal outcome, not a failure.
                         state.event_log.append({"event": "native_rule_support_line_full", "name": action.card_name})
                         break
-                    card = self.cards.get(card_id)
-                    instance_id = "{0}-rule-{1}".format(card_id, sum(len(candidate.units) for candidate in state.players.values()) + 1)
+                    # Counting units gave a dead unit's number back out, so two
+                    # live units could share an instance id.
+                    serial = sum(len(candidate.units) for candidate in state.players.values()) + 1
+                    instance_id = "{0}-rule-{1}".format(card_id, serial)
+                    while instance_id in used_ids:
+                        serial += 1
+                        instance_id = "{0}-rule-{1}".format(card_id, serial)
+                    used_ids.add(instance_id)
                     player.units.append(UnitState(instance_id, card_id, card.attack or 0, card.defense or 0, context.player_id))
                     state.battlefield["support_line"].append(instance_id)
+                    self._deployed.append(instance_id)
                     deployed += 1
                 if deployed:
                     state.event_log.append({"event": "rule_unit_deployed", "card_id": card_id, "player_id": context.player_id, "count": deployed})
-                else:
-                    state.event_log.append({"event": "native_rule_deploy_failed", "name": action.card_name})
-            else:
-                state.event_log.append({"event": "native_rule_deploy_failed", "name": action.card_name})
             return
         if action.kind == "add_to_enemy_deck":
             card_id = self._by_name.get((action.card_name or "").upper())
@@ -1868,6 +1913,23 @@ class NativeRuleEngine:
         # The affected unit returns to / is discarded by its *owning* player
         # (e.g. an enemy unit removed by "Remove X. Return it" goes back to the
         # enemy's hand), not the player who scheduled the effect.
+        if entry["kind"] == "destroy":
+            # A real destruction: Destruction effects and the destroyed-unit
+            # counters must see it (MOTHERLAND CALLS relies on exactly that).
+            try:
+                unit = find_unit(state, entry["unit_id"])
+            except Exception:
+                unit = None
+            if unit is None:
+                return
+            from simulator.effects import basic_effects
+            start = len(state.event_log)
+            basic_effects.destroy(state, unit)
+            state.event_log.append({"event": "delayed_destroy", "unit_id": unit.instance_id, "card_id": unit.card_id})
+            engine = NativeRuleEngine._last_engine
+            if engine is not None:
+                engine.emit_deaths_since(state, start)
+            return
         owner = state.players.get(entry.get("card_owner_id") or entry.get("owner_id"))
         if owner is None:
             return
@@ -1953,6 +2015,31 @@ class NativeRuleEngine:
             state.event_log.append({"event": "choose_one_hand_card", "card_id": chosen})
             return
         state.event_log.append({"event": "choose_one_no_scope", "scope": action.scope})
+
+    def _card_by_name(self, name: str | None) -> str | None:
+        """Card id for a name in rule text, accepting a plural ("two BLASTS")."""
+        key = (name or "").strip().upper()
+        if not key:
+            return None
+        found = self._by_name.get(key)
+        if found is None and key.endswith("S"):
+            found = self._by_name.get(key[:-1])
+        return found
+
+    def _card_ids_for(self, name: str | None) -> list[str]:
+        """Card ids named by a clause: one name, or "X and a Y" naming two.
+
+        A name that itself contains "and" (BLUE AND GRAY) wins over a split,
+        and a split only counts when every part is a real card.
+        """
+        whole = self._card_by_name(name)
+        if whole is not None:
+            return [whole]
+        parts = re.split(r"\s+and\s+(?:an?\s+)?", (name or "").strip(), flags=re.I)
+        if len(parts) < 2:
+            return []
+        ids = [self._card_by_name(part) for part in parts]
+        return ids if all(ids) else []
 
     def _add_to_hand(self, state, player_id: str, card_id: str) -> None:
         """Add a card to a player's hand, routing overflow to the graveyard."""
