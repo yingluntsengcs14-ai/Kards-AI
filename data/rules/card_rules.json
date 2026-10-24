@@ -230,7 +230,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -238,7 +238,7 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": "this_turn",
+          "duration": null,
           "condition": "if you have given an order this turn.",
           "on": [
             "on_deploy"
@@ -2859,7 +2859,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -3181,7 +3181,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -4883,7 +4883,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -5431,7 +5431,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -7242,7 +7242,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -7661,7 +7661,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -8266,7 +8266,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -9097,7 +9097,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -9266,7 +9266,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -9856,7 +9856,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -10043,7 +10043,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -11409,7 +11409,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -11554,7 +11554,7 @@
       "actions": [
         {
           "kind": "modify_defense",
-          "target": "selected_target",
+          "target": "source",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -11900,7 +11900,7 @@
         },
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -12802,7 +12802,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -12862,7 +12862,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -12870,7 +12870,7 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": "this_turn",
+          "duration": null,
           "condition": "if the enemy HQ has taken damage this turn.",
           "on": [
             "on_deploy"
@@ -13085,7 +13085,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -17705,7 +17705,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -18084,7 +18084,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -18189,7 +18189,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -18963,7 +18963,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -19535,7 +19535,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -20360,7 +20360,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -22062,7 +22062,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 6,
           "defense": 6,
@@ -22153,7 +22153,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -22230,7 +22230,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -22333,7 +22333,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -25386,7 +25386,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -27121,7 +27121,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -28156,7 +28156,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 2,
@@ -28211,7 +28211,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -28314,7 +28314,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 2,
@@ -29135,7 +29135,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -29310,7 +29310,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -29493,7 +29493,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -30179,7 +30179,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -31958,14 +31958,14 @@
         {
           "kind": "take_control",
           "target": "selected_enemy",
-          "amount": 0,
+          "amount": 3,
           "attack": 0,
           "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "this_turn",
           "condition": null,
           "on": []
         }
@@ -33494,7 +33494,7 @@
         {
           "kind": "take_control",
           "target": "selected_enemy",
-          "amount": 0,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -33568,12 +33568,13 @@
       "card_id": "b4_203mm_howitzer",
       "source_text": "Units damaged by this unit get -3 attack until end of turn.",
       "triggers": [
+        "on_damage_dealt",
         "on_deploy"
       ],
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "source",
+          "target": "selected_target",
           "amount": -3,
           "attack": 0,
           "defense": 0,
@@ -33583,7 +33584,9 @@
           "set_cost": null,
           "duration": "this_turn",
           "condition": null,
-          "on": []
+          "on": [
+            "on_damage_dealt"
+          ]
         }
       ],
       "status": "implemented",
@@ -34175,7 +34178,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 3,
           "defense": 3,
@@ -35390,7 +35393,7 @@
       "actions": [
         {
           "kind": "modify_attack",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -36678,7 +36681,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -43283,7 +43286,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -44615,7 +44618,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -44913,7 +44916,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 2,
           "defense": 2,
@@ -45052,7 +45055,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -45443,7 +45446,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -45484,7 +45487,7 @@
         },
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -45831,7 +45834,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -45989,7 +45992,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -46280,7 +46283,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -46548,7 +46551,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,

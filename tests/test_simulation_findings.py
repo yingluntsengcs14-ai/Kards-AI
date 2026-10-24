@@ -144,6 +144,64 @@ class SimulationFindingTests(unittest.TestCase):
         HQResolver.modify_defense(state, "p1", 4)
         self.assertEqual(state.players["p1"].hq.current_health, 24)
 
+    # ── States that should never occur ───────────────────────────────────────
+    def test_attack_never_goes_below_zero(self) -> None:
+        """ROOT OUT THE ENEMY 打在 0 攻單位上，以前會變成 -1。"""
+        state = self._state(hand=("root_out_the_enemy",), p2_units=(("e", "329th_engineer_battalion", 0, 4),))
+        PlayCardAction("p1", "root_out_the_enemy").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units[0].attack, 0)
+
+    def test_howitzer_weakens_the_unit_it_damages_not_itself(self) -> None:
+        """B-4 203mm：被它打到的單位 -3 攻到回合結束；以前是部署時自己 -3。"""
+        from simulator.actions.action import AttackAction
+        card = self.cards.get("b4_203mm_howitzer")
+        state = self._state(hand=("b4_203mm_howitzer",), p2_units=(("e", "garrison", 2, 9),))
+        PlayCardAction("p1", "b4_203mm_howitzer").execute(state, self.cards)
+        gun = state.players["p1"].units[0]
+        self.assertEqual(gun.attack, card.attack)
+        gun.status.pop("deployed_this_turn", None)
+        AttackAction("p1", gun.instance_id, "e").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units[0].attack, 0)        # 2 - 3，夾在 0
+        self._end_turn(state)
+        self.assertEqual(state.players["p2"].units[0].attack, 2)        # 回合結束還原成 2，不是 3
+
+    def test_confusion_takes_a_cheap_unit_to_your_support_line_until_end_of_turn(self) -> None:
+        state = self._state(hand=("confusion",), p2_units=(("e", "garrison", 1, 3),))
+        enemy = state.players["p2"].units[0]
+        state.battlefield["support_line"].remove("e"); state.battlefield["frontline"].append("e")
+        enemy.position = "frontline"
+        PlayCardAction("p1", "confusion", target_unit_id="e").execute(state, self.cards)
+        self.assertEqual([u.instance_id for u in state.players["p1"].units], ["e"])
+        self.assertEqual(enemy.position, "support_line")
+        self.assertNotIn("e", state.battlefield["frontline"])
+        self._end_turn(state)
+        self.assertEqual([u.instance_id for u in state.players["p2"].units], ["e"])
+
+    def test_confusion_respects_its_cost_limit(self) -> None:
+        from simulator.actions.validator import ActionValidationError
+        expensive = next(c.id for c in self.cards if c.is_unit and c.kredits >= 5 and c.attack and c.defense)
+        state = self._state(hand=("confusion",), p2_units=(("e", expensive, 3, 3),))
+        with self.assertRaises(ActionValidationError):
+            PlayCardAction("p1", "confusion", target_unit_id="e").execute(state, self.cards)
+
+    def test_deployment_buff_with_a_this_turn_condition_is_permanent_and_on_itself(self) -> None:
+        """10th PARA：「本回合下過指令就 +1+1」，加成給自己而且是永久的。"""
+        state = self._state(hand=("10th_para_battalion",))
+        state.players["p1"].status["orders_played_this_turn"] = 1
+        PlayCardAction("p1", "10th_para_battalion").execute(state, self.cards)
+        rule = engine_for(self.cards).rule_for("10th_para_battalion")
+        self.assertEqual([(a.target, a.duration) for a in rule.actions if a.kind == "buff"], [("source", None)])
+
+    def test_unit_sent_to_a_full_hand_is_lost_not_a_tenth_card(self) -> None:
+        """單位被送回手牌；對方手牌已 9 張時，以前會變 10 張。"""
+        from simulator.rules.parser import RuleAction
+        state = self._state(p2_units=(("e", "garrison", 1, 3),))
+        state.players["p2"].hand = ["garrison"] * 9
+        engine_for(self.cards)._execute_action(RuleAction("return_to_hand", "selected_target"), state,
+                                               EffectContext("p1", "test", target_unit_id="e"))
+        self.assertEqual(len(state.players["p2"].hand), 9)
+        self.assertEqual(state.players["p2"].units, [])
+
     # ── BLAST (spawn-only card missing from the kards.info catalog) ─────────
     def test_blast_exists_and_deals_one_damage(self) -> None:
         self.assertIn("blast", self.cards)

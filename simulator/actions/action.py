@@ -113,6 +113,14 @@ class PlayCardAction(Action):
                 owner = state.players[target.owner_id]
                 if sum(unit.position == "support_line" for unit in owner.units) >= 4:
                     raise ActionValidationError("Target owner's support line is full")
+            take = next((action for action in rule.actions if action.kind == "take_control"), None)
+            if take is not None:
+                # "Take control of an enemy unit with cost 3 or less": the cap
+                # was never checked, and a full support line has no room.
+                if take.amount and cards.get(target.card_id).kredits > take.amount:
+                    raise ActionValidationError("Target exceeds this card's take-control cost limit")
+                if sum(unit.position == "support_line" for unit in player.units) >= 4:
+                    raise ActionValidationError("No room in the support line for the taken unit")
             max_destroy_cost = next((action.amount for action in rule.actions if action.kind == "destroy_cost_lte"), None)
             if max_destroy_cost is not None and cards.get(target.card_id).kredits > max_destroy_cost:
                 raise ActionValidationError("Target exceeds this card's destroy cost limit")

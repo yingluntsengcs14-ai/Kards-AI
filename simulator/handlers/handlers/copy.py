@@ -12,4 +12,5 @@ class CopyHandler(BaseHandler):
         if destination == "deck":
             player.deck.append(card_id)
         else:
-            player.hand.append(card_id)
+            from simulator.rules.native import _hand_or_graveyard
+            _hand_or_graveyard(state, context.player_id, card_id)

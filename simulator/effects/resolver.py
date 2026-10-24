@@ -160,7 +160,9 @@ class EffectResolver:
                     card=self.cards.get(card_id); target.card_id, target.attack, target.defense=card_id, card.attack or 0, card.defense or 0
         elif kind == "copy_card":
             card_id=str(action.get("card_reference", context.source_card_id or ""))
-            if card_id in self.cards: state.players[context.player_id].hand.append(card_id)
+            if card_id in self.cards:
+                from simulator.rules.native import _hand_or_graveyard
+                _hand_or_graveyard(state, context.player_id, card_id)
         elif kind in {"random", "choice"}:
             options=list(action.get("options", ()))
             if options:

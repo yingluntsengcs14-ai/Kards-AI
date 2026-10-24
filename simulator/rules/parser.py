@@ -172,7 +172,15 @@ class CardRule:
 
     @property
     def needs_target(self) -> bool:
-        return any(action.target.startswith("selected_") for action in self.actions)
+        """Whether playing the card asks for a unit target.
+
+        Only clauses that run when the card is played count: B-4 203mm's
+        "Units damaged by this unit get -3 attack" targets the unit it damages
+        later (on_damage_dealt), not one chosen on deploy.
+        """
+        played = {"on_play", "on_deploy"}
+        return any(action.target.startswith("selected_") and (not action.on or played & set(action.on))
+                   for action in self.actions)
 
 
 class RuleParser:
@@ -358,6 +366,11 @@ class RuleParser:
                 sentence_events = own or sentence_events
                 if parsed and sentence_events:
                     parsed = tuple(replace(a, on=sentence_events) for a in parsed)
+            if (parsed and is_unit and re.match(r"^(?:deployment:\s*)?gets?\b", sentence.strip(), re.I)
+                    and not re.search(r"\btarget\b", sentence, re.I)):
+                # A unit's subjectless "Gets +1+1" is about the unit itself; the
+                # generic template aimed it at whatever was selected.
+                parsed = tuple(replace(a, target="source") if a.target == "selected_target" else a for a in parsed)
             if parsed:
                 # Pin and Suppression are distinct KARDS states.  Older
                 # templates shared the suppress action as a parser shortcut;
@@ -365,7 +378,15 @@ class RuleParser:
                 # pinned state while preserving explicit suppression text.
                 if re.search(r"\bpin(?:ned|s)?\b", sentence, re.I) and not re.search(r"\bsuppress", sentence, re.I):
                     parsed = tuple(replace(a, kind="pin") if a.kind == "suppress" else a for a in parsed)
-                dur = _sentence_duration(sentence)
+                # "Deployment: Gets +1+1 if you have given an order this turn"
+                # is a permanent one-shot buff: "this turn" belongs to the
+                # condition.  Only Deployment clauses are read this way; for
+                # other clauses the condition's "this turn" still bounds the
+                # effect ("Has Blitz if Rain was played this turn").
+                if re.match(r"^\s*deployment\s*:", sentence, re.I):
+                    dur = _sentence_duration(_strip_condition(sentence)[0])
+                else:
+                    dur = _sentence_duration(sentence)
                 if dur:
                     parsed = tuple(
                         replace(a, duration=dur) if a.kind in _TEMPORARY_KINDS else a
@@ -454,6 +475,8 @@ def _triggers(card: Card, text: str) -> tuple[str, ...]:
         triggers.append("on_destroy")
     if "when this unit attacks" in lower or "when you attack" in lower:
         triggers.append("on_attack")
+    if "units damaged by this unit" in lower:
+        triggers.append("on_damage_dealt")
     if "damage dealt by this unit" in lower:
         triggers.append("on_damage_dealt")
     if "units dealt combat damage by this unit are destroyed" in lower:
@@ -768,6 +791,12 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
         return (RuleAction("hq_damage_redirect_to_enemy_hq", "source"),)
     if lower in {"", "{}"}:
         return ()
+    # B-4 203mm HOWITZER: "Units damaged by this unit get -3 attack until end of
+    # turn" -- on_damage_dealt carries the damaged unit as the target.  It used
+    # to give the howitzer itself -3 attack on deploy.
+    damaged = re.match(r"^units\s+damaged\s+by\s+this\s+unit\s+get\s+([+-]\d+)\s+attack\b", lower)
+    if damaged:
+        return (RuleAction("modify_attack", "selected_target", amount=int(damaged.group(1))),)
     # Weather (OCEANIA STORM): a bare "Forecast" clause creates a forecast
     # token.  A trailing predicate is kept as the condition ("Forecast after
     # this unit attacks the enemy HQ"); compound clauses such as "Pin a unit
@@ -967,8 +996,12 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
     lose_kredit_slot = re.search(r"\blose\s+(a|one|two|three|\d+)\s+kredit\s+slots?", lower)
     if lose_kredit_slot:
         return (RuleAction("lose_kredit_slot", "owner", amount=_number(lose_kredit_slot.group(1))),)
-    if re.search(r"\btake\s+control\s+of\s+an?\s+enemy\s+unit", lower):
-        return (RuleAction("take_control", "selected_enemy"),)
+    take = re.search(r"\btake\s+control\s+of\s+an?\s+enemy\s+unit(?:\s+with\s+cost\s+(\d+)\s+or\s+less)?", lower)
+    if take:
+        # amount = highest cost that can be taken (0 = no limit); "until end
+        # of turn" gives it back (CONFUSION).
+        return (RuleAction("take_control", "selected_enemy", amount=int(take.group(1) or 0),
+                           duration="this_turn" if re.search(r"until\s+end\s+of\s+(?:the\s+|your\s+)?turn", lower) else None),)
     if re.search(r"\bfight\s+target\s+enemy\s+unit", lower):
         return (RuleAction("fight", "selected_enemy"),)
     # Countermeasure intercept: "Counter an enemy order ...", "Counter an order ...",

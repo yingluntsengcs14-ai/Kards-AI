@@ -249,6 +249,10 @@ class NativeRuleEngine:
                 continue
             try:
                 self._execute_action(action, state, ctx)
+                for owner in state.players.values():
+                    for unit in owner.units:
+                        if unit.attack < 0:
+                            unit.attack = 0   # attack never goes below 0
             except ActionValidationError as error:
                 # A multi-clause card can remove its selected unit before a
                 # later clause runs.  The later clause then has no target and
@@ -1711,7 +1715,8 @@ class NativeRuleEngine:
             if unit.instance_id in state.battlefield.get(unit.position, []):
                 state.battlefield[unit.position].remove(unit.instance_id)
             owner.units.remove(unit)
-            owner.hand.append(unit.card_id)
+            # A full hand (9) has no room: the card is lost, like an overdraw.
+            self._add_to_hand(state, owner.player_id, unit.card_id)
             state.event_log.append({"event": "unit_returned_to_hand", "unit_id": unit.instance_id})
             return
         if action.kind == "attack_equals_defense" and context.target_unit_id:
@@ -1818,13 +1823,18 @@ class NativeRuleEngine:
             return
         if action.kind == "take_control" and context.target_unit_id:
             unit = find_unit(state, context.target_unit_id)
-            old_owner = state.players[unit.owner_id]
-            new_owner = state.players[context.player_id]
             if unit.owner_id != context.player_id:
-                old_owner.units.remove(unit)
-                unit.owner_id = context.player_id
-                new_owner.units.append(unit)
-                state.event_log.append({"event": "unit_control_changed", "unit_id": unit.instance_id, "player_id": context.player_id})
+                previous_owner = unit.owner_id
+                # The unit joins its new owner's support line.  Keeping its old
+                # position put both sides on the frontline, or a fifth unit in a
+                # full support line.
+                if not self._change_control(state, unit, context.player_id):
+                    return
+                if action.duration == "this_turn":
+                    state.players[context.player_id].scheduled.append({
+                        "trigger": "end_of_turn", "unit_id": unit.instance_id, "kind": "return_control",
+                        "owner_id": previous_owner, "source_card_id": context.source_card_id, "wait": 0,
+                    })
             return
         if action.kind in ("move_to_frontline", "move_to_support_line"):
             self._move_units("frontline" if action.kind == "move_to_frontline" else "support_line", action, state, context)
@@ -1928,6 +1938,21 @@ class NativeRuleEngine:
         # The affected unit returns to / is discarded by its *owning* player
         # (e.g. an enemy unit removed by "Remove X. Return it" goes back to the
         # enemy's hand), not the player who scheduled the effect.
+        if entry["kind"] == "return_control":
+            try:
+                unit = find_unit(state, entry["unit_id"])
+            except Exception:
+                unit = None
+            if unit is not None and unit.owner_id != entry["owner_id"]:
+                if not NativeRuleEngine._change_control(state, unit, entry["owner_id"]):
+                    # Nowhere to go back to: the unit is destroyed.
+                    # (Assumption, not yet confirmed in game.)
+                    from simulator.effects import basic_effects
+                    start = len(state.event_log)
+                    basic_effects.destroy(state, unit)
+                    if NativeRuleEngine._last_engine is not None:
+                        NativeRuleEngine._last_engine.emit_deaths_since(state, start)
+            return
         if entry["kind"] == "kredits":
             player = state.players.get(entry.get("owner_id"))
             if player is not None:
@@ -1985,12 +2010,12 @@ class NativeRuleEngine:
         elif entry["kind"] == "return_to_hand":
             if unit is not None and unit in owner.units:
                 owner.units.remove(unit)
-                owner.hand.append(unit.card_id)
+                _hand_or_graveyard(state, owner.player_id, unit.card_id)
                 state.event_log.append({"event": "delayed_return", "unit_id": unit.instance_id, "card_id": unit.card_id})
             elif entry.get("card_id") and entry["card_id"] not in owner.hand:
                 # Unit was removed from the battlefield earlier (e.g. by a paired
                 # "Remove X" action); returning it means its card comes back to hand.
-                owner.hand.append(entry["card_id"])
+                _hand_or_graveyard(state, owner.player_id, entry["card_id"])
                 state.event_log.append({"event": "delayed_return", "card_id": entry["card_id"]})
 
     def _handle_choose_one(self, action: RuleAction, state, context: EffectContext) -> None:
@@ -2038,6 +2063,24 @@ class NativeRuleEngine:
             state.event_log.append({"event": "choose_one_hand_card", "card_id": chosen})
             return
         state.event_log.append({"event": "choose_one_no_scope", "scope": action.scope})
+
+    @staticmethod
+    def _change_control(state, unit, new_owner_id: str) -> bool:
+        """Move a unit to another player's support line; False when it is full."""
+        new_owner = state.players[new_owner_id]
+        if sum(candidate.position == "support_line" for candidate in new_owner.units) >= 4:
+            state.event_log.append({"event": "control_change_failed", "unit_id": unit.instance_id,
+                                    "reason": "support_line_full"})
+            return False
+        state.players[unit.owner_id].units.remove(unit)
+        if unit.instance_id in state.battlefield.get(unit.position, []):
+            state.battlefield[unit.position].remove(unit.instance_id)
+        unit.owner_id = new_owner_id
+        unit.position = "support_line"
+        state.battlefield.setdefault("support_line", []).append(unit.instance_id)
+        new_owner.units.append(unit)
+        state.event_log.append({"event": "unit_control_changed", "unit_id": unit.instance_id, "player_id": new_owner_id})
+        return True
 
     def _card_by_name(self, name: str | None) -> str | None:
         """Card id for a name in rule text, accepting a plural ("two BLASTS")."""
@@ -2207,13 +2250,17 @@ class NativeRuleEngine:
                     reverts.append({"unit_id": unit.instance_id, "attr": "pinned", "delta": 1})
                 continue
             if action.kind == "buff":
-                reverts.append({"unit_id": unit.instance_id, "attr": "attack", "delta": action.attack})
+                # Attack never drops below 0, so record what was actually
+                # applied: reverting "-3" from a 2-attack unit must give back 2.
+                applied = max(0, unit.attack + action.attack) - unit.attack
+                reverts.append({"unit_id": unit.instance_id, "attr": "attack", "delta": applied})
                 reverts.append({"unit_id": unit.instance_id, "attr": "defense", "delta": action.defense})
-                unit.attack += action.attack
+                unit.attack += applied
                 unit.defense += action.defense
             elif action.kind == "modify_attack":
-                reverts.append({"unit_id": unit.instance_id, "attr": "attack", "delta": action.amount})
-                unit.attack += action.amount
+                applied = max(0, unit.attack + action.amount) - unit.attack
+                reverts.append({"unit_id": unit.instance_id, "attr": "attack", "delta": applied})
+                unit.attack += applied
             elif action.kind == "modify_defense":
                 reverts.append({"unit_id": unit.instance_id, "attr": "defense", "delta": action.amount})
                 unit.defense += action.amount
@@ -2263,13 +2310,21 @@ class NativeRuleEngine:
                         unit.status.pop("pinned", None)
                     else:
                         if rev["attr"] == "attack":
-                            unit.attack -= rev["delta"]
+                            unit.attack = max(0, unit.attack - rev["delta"])
                         elif rev["attr"] == "defense":
                             unit.defense -= rev["delta"]
                 state.event_log.append({"event": "temporary_effect_reverted", "player_id": player_id})
             else:
                 remaining.append(entry)
         player.temporary_effects = remaining
+        # A damaged unit whose temporary defense runs out can reach 0; defense
+        # is its health, so it is destroyed (and its Destruction effect runs).
+        if any(unit.defense <= 0 for owner in state.players.values() for unit in owner.units):
+            from simulator.effects import basic_effects
+            start = len(state.event_log)
+            basic_effects.remove_dead_units(state)
+            if NativeRuleEngine._last_engine is not None:
+                NativeRuleEngine._last_engine.emit_deaths_since(state, start)
         # Purge expired cost modifiers / op-cost rules.
         player.cost_modifiers = [m for m in player.cost_modifiers if m.get("expires_turn") is None or m["expires_turn"] > current_turn]
         player.op_cost_rules = [r for r in player.op_cost_rules if r.get("expires_turn") is None or r["expires_turn"] > current_turn]
@@ -2466,6 +2521,16 @@ def default_rule_path() -> Path:
 
 
 _ENGINES: dict[int, NativeRuleEngine] = {}
+
+
+def _hand_or_graveyard(state, player_id: str, card_id: str) -> None:
+    """Put a card in hand, or in the graveyard when the hand already holds 9."""
+    player = state.players[player_id]
+    if len(player.hand) < HAND_CARD_LIMIT:
+        player.hand.append(card_id)
+    else:
+        state.graveyard.setdefault(player_id, []).append(card_id)
+        state.event_log.append({"event": "card_overdrawn", "player_id": player_id, "card_id": card_id})
 
 
 def engine_for(cards: CardDatabase) -> NativeRuleEngine:
