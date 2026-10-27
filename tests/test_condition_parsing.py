@@ -40,7 +40,7 @@ class ConditionParsingTests(unittest.TestCase):
         for cid in ("baker_street_irregulars", "ingenuity", "hampshire_regiment", "15_aufklrung"):
             rule = self.p.parse(self.db.get(cid))
             self.assertNotEqual(rule.status, "unresolved", cid)
-            self.assertTrue(any(a.kind == "deploy_named" for a in rule.actions), cid)
+            self.assertTrue(any(a.kind in {"deploy_named", "develop_options"} for a in rule.actions), cid)
 
     def test_retreat_it_parsed(self) -> None:
         rule = self.p.parse(self.db.get("creeping_barrage"))

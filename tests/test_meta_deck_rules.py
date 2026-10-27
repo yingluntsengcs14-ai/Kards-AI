@@ -240,6 +240,97 @@ class MetaDeckRuleTests(unittest.TestCase):
         engine_for(self.cards).emit_deaths_since(state, start)
         self.assertEqual(len(state.players["p1"].hand), 2)       # T-60：兩張 T-34 1942
 
+    # ── misread cards (batch 3) ─────────────────────────────────────────────
+    def test_24th_ulan_hurts_itself_unless_a_unit_died_this_turn(self) -> None:
+        from simulator.effects import basic_effects
+        state = self._state(p1_units=(("u", "24th_uan", 3, 4, "support_line"),),
+                            p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        PassAction("p1").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[0].defense, 3)
+        PassAction("p2").execute(state, self.cards)
+        basic_effects.destroy(state, state.players["p2"].units[0])
+        PassAction("p1").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[0].defense, 3)          # 有單位被消滅：不扣
+
+    def test_3rd_morskoi_deploys_light_infantry_and_adds_a_blast(self) -> None:
+        state = self._state(hand=("3rd_morskoi_pekhoty",))
+        PlayCardAction("p1", "3rd_morskoi_pekhoty").execute(state, self.cards)
+        self.assertIn("LIGHT INFANTRY", [self.cards.get(u.card_id).name for u in state.players["p1"].units])
+        self.assertIn("blast", state.players["p1"].hand)
+
+    def test_10th_recon_shuffles_the_card_the_player_picks(self) -> None:
+        state = self._state(hand=("10th_recon", "radar", "fortification"))
+        sim = Simulator(self.cards); sim.state = state
+        picks = {a.selected_card_id for a in sim.get_available_actions()
+                 if isinstance(a, PlayCardAction) and a.card_id == "10th_recon"}
+        self.assertEqual(picks, {"radar", "fortification"})
+        PlayCardAction("p1", "10th_recon", selected_card_id="fortification").execute(state, self.cards)
+        self.assertNotIn("fortification", state.players["p1"].hand)
+        self.assertIn("fortification", state.players["p1"].deck)
+
+    def test_surprise_attack_pins_then_destroys_a_pinned_unit(self) -> None:
+        state = self._state(hand=("surprise_attack", "surprise_attack"), p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        PlayCardAction("p1", "surprise_attack", target_unit_id="e").execute(state, self.cards)
+        self.assertTrue(state.players["p2"].units[0].status.get("pinned"))
+        PlayCardAction("p1", "surprise_attack", target_unit_id="e").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units, [])
+
+    def test_mosquito_b_converts_itself_at_end_of_turn(self) -> None:
+        state = self._state(p1_units=(("m", "mosquito_b_mk_iv", 4, 3, "support_line"),))
+        PassAction("p1").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[0].card_id, "mosquito_f_mk_ii")
+
+    def test_last_ditch_force_destroys_all_and_costs_both_players_slots(self) -> None:
+        state = self._state(hand=("last_ditch_force",), p1_units=(("u", "garrison", 1, 3, "support_line"),),
+                            p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        state.players["p1"].deck = ["5th_parachute_brigade"] + state.players["p1"].deck
+        PlayCardAction("p1", "last_ditch_force").execute(state, self.cards)
+        self.assertEqual((state.players["p1"].units, state.players["p2"].units), ([], []))
+        self.assertEqual(state.players["p1"].resources.max_kredits, 6)
+        self.assertEqual(state.players["p2"].resources.max_kredits, 6)
+        # 牌庫裡的單位之後打出來 +3 攻
+        state.players["p1"].hand.append(state.players["p1"].deck.pop(0))
+        state.players["p1"].resources.kredits = 9
+        PlayCardAction("p1", "5th_parachute_brigade").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[0].attack, self.cards.get("5th_parachute_brigade").attack + 3)
+
+    def test_fog_of_war_puts_two_copies_on_top_of_the_owners_deck(self) -> None:
+        state = self._state(hand=("fog_of_war",), p2_units=(("e", "panzer_iia", 1, 3, "frontline"),))
+        PlayCardAction("p1", "fog_of_war", target_unit_id="e").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units, [])
+        self.assertEqual(state.players["p2"].deck[:2], ["panzer_iia", "panzer_iia"])
+
+    def test_salamander_leaves_after_attacking_and_returns_next_turn(self) -> None:
+        state = self._state(p1_units=(("s", "salamander", 2, 3, "frontline"),))
+        state.battlefield["frontline"] = ["s"]
+        self._attack(state, "s", None)
+        self.assertEqual(state.players["p1"].units, [])
+        PassAction("p1").execute(state, self.cards)
+        PassAction("p2").execute(state, self.cards)
+        self.assertEqual([u.card_id for u in state.players["p1"].units], ["salamander"])
+
+    def test_mi5_puts_an_enemy_hand_card_on_top_of_their_deck(self) -> None:
+        state = self._state(hand=("mi5",))
+        state.players["p2"].hand = ["radar"]
+        PlayCardAction("p1", "mi5").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].hand, [])
+        self.assertEqual(state.players["p2"].deck[0], "radar")
+
+    def test_rm_roma_can_hit_the_hq_and_makes_the_top_card_navy(self) -> None:
+        from simulator.rules.condition import _is_navy
+        state = self._state(hand=("rm_roma",))
+        hq = state.players["p2"].hq.current_health
+        top = state.players["p1"].deck[0]
+        PlayCardAction("p1", "rm_roma").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].hq.current_health, hq - 4)
+        self.assertTrue(_is_navy(self.cards.get(top), state, "p1"))
+
+    def test_336th_copies_a_cheap_hand_unit_to_the_support_line(self) -> None:
+        state = self._state(hand=("336th_guards_naval", "5th_parachute_brigade"))
+        PlayCardAction("p1", "336th_guards_naval", selected_card_id="5th_parachute_brigade").execute(state, self.cards)
+        self.assertIn("5th_parachute_brigade", [u.card_id for u in state.players["p1"].units])
+        self.assertIn("5th_parachute_brigade", state.players["p1"].hand)      # 手上那張還在
+
 
 if __name__ == "__main__":
     unittest.main()

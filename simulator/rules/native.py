@@ -57,6 +57,10 @@ class ActionGenerationSpec:
     put_into_play: tuple[str, str] | None = None
     # "Deal 1 damage to an enemy" (BUZZ BOMB): the enemy HQ is a target too.
     may_target_enemy_hq: bool = False
+    # A card chosen from the player's own hand ("hand:any", "hand:unit:3").
+    hand_choice: str | None = None
+    # "Develop a card in your deck": number of deck cards offered.
+    develop_from_deck: int = 0
 
 
 def _hand_unit_matches(card, family: str, nation: str) -> bool:
@@ -64,6 +68,30 @@ def _hand_unit_matches(card, family: str, nation: str) -> bool:
     families = {"air": {"fighter", "bomber"}, "ground": {"infantry", "tank", "artillery"}}
     return bool(card.is_unit and card.type in families.get(family, {card.type})
                 and (not nation or card.nation == nation))
+
+
+def hand_choice_matches(scope: str, cards, chosen: str | None, hand, played_card_id: str) -> bool:
+    """Whether ``chosen`` is a legal pick for a "hand:..." choice."""
+    if chosen is None or chosen not in hand:
+        return False
+    if chosen == played_card_id and hand.count(chosen) < 2:
+        return False      # the card being played is no longer in hand
+    parts = scope.split(":")
+    card = cards.get(chosen) if chosen in cards else None
+    if card is None:
+        return False
+    if len(parts) > 1 and parts[1] == "unit" and not card.is_unit:
+        return False
+    if len(parts) > 2 and parts[2].isdigit() and card.kredits > int(parts[2]):
+        return False
+    return True
+
+
+def develop_offers(state, player_id: str, count: int) -> tuple[str, ...]:
+    """The deck cards "Develop a card in your deck" offers, fixed for the turn."""
+    deck = sorted(dict.fromkeys(state.players[player_id].deck))
+    rng = random.Random((state.rng_seed or 0) * 31 + state.turn_number * 7 + len(state.players[player_id].deck))
+    return tuple(rng.sample(deck, min(count, len(deck))))
 
 
 def _put_into_play_filter(actions) -> tuple[str, str] | None:
@@ -84,6 +112,9 @@ def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
         forecast=any(action.kind == "forecast" for action in actions),
         put_into_play=_put_into_play_filter(actions),
         may_target_enemy_hq=any(action.scope == "or_enemy_hq" for action in actions),
+        hand_choice=next((action.scope for action in actions if (action.scope or "").startswith("hand:")
+                          and action.kind in {"shuffle_selected_into_deck", "copy_hand_unit_to_support"}), None),
+        develop_from_deck=next((action.amount for action in actions if action.kind == "develop_from_deck"), 0),
         develop_options=tuple(
             option.strip()
             for action in actions if action.kind == "develop_options"
@@ -256,7 +287,8 @@ class NativeRuleEngine:
             try:
                 tu = find_unit(state, context.target_unit_id)
                 if tu is not None:
-                    ctx = replace(context, metadata={**context.metadata, "target_card_id": tu.card_id, "target_owner_id": tu.owner_id})
+                    ctx = replace(context, metadata={**context.metadata, "target_card_id": tu.card_id, "target_owner_id": tu.owner_id,
+                                                     "target_pinned": bool(tu.status.get("pinned"))})
             except Exception:
                 pass
         if "reveal target covert" in rule.source_text.lower() and context.target_unit_id:
@@ -644,6 +676,9 @@ class NativeRuleEngine:
             if card_id is None:
                 state.event_log.append({"event": "develop_failed", "name": chosen_name})
                 return
+            # A developed unit is deployed, any other card goes to hand.
+            # (Upstream behavior; NOT CONFIRMED IN GAME whether Develop puts a
+            # unit in hand instead.)
             card = self.cards.get(card_id)
             if card.is_unit:
                 self._deploy_named_card(state, context, card_id)
@@ -1530,6 +1565,82 @@ class NativeRuleEngine:
             known = intel_rules.reveal(state, context.player_id, opponent_id(state, context.player_id), action.amount)
             state.event_log.append({"event": "intel_revealed", "player_id": context.player_id, "count": len(known)})
             return
+        if action.kind == "shuffle_selected_into_deck":
+            player = state.players[context.player_id]
+            chosen = context.metadata.get("selected_card_id")
+            if chosen in player.hand:
+                player.hand.remove(chosen)
+                player.deck.append(chosen)
+                random.Random((state.rng_seed or 0) + len(state.event_log)).shuffle(player.deck)
+                state.event_log.append({"event": "card_shuffled_into_deck", "player_id": context.player_id, "card_id": chosen})
+            return
+        if action.kind == "shuffle_deck":
+            owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
+            random.Random((state.rng_seed or 0) + len(state.event_log)).shuffle(state.players[owner].deck)
+            state.event_log.append({"event": "deck_shuffled", "player_id": owner})
+            return
+        if action.kind == "develop_from_deck":
+            chosen = context.metadata.get("selected_card_id")
+            offers = develop_offers(state, context.player_id, action.amount)
+            if chosen not in offers:
+                chosen = offers[0] if offers else None
+            if chosen:
+                self._add_to_hand(state, context.player_id, chosen)
+                state.event_log.append({"event": "develop_selected", "card_id": chosen})
+            return
+        if action.kind == "copy_hand_unit_to_support":
+            chosen = context.metadata.get("selected_card_id")
+            player = state.players[context.player_id]
+            if chosen in player.hand and chosen in self.cards and self.cards.get(chosen).is_unit:
+                copy = self._new_unit(state, context.player_id, chosen)
+                if copy is not None:
+                    state.event_log.append({"event": "unit_copied_from_hand", "card_id": chosen, "unit_id": copy.instance_id})
+            return
+        if action.kind == "convert_owner_units_into_target" and context.target_unit_id:
+            model = find_unit(state, context.target_unit_id)
+            card = self.cards.get(model.card_id)
+            for unit in state.players[model.owner_id].units:
+                if unit.instance_id == model.instance_id:
+                    continue
+                unit.card_id, unit.attack, unit.defense = model.card_id, card.attack or 0, card.defense or 0
+                unit.modifiers.clear()
+                unit.status.clear()
+            state.event_log.append({"event": "units_converted_into_target", "player_id": model.owner_id, "card_id": model.card_id})
+            return
+        if action.kind == "remove_to_deck_top" and context.target_unit_id:
+            unit = find_unit(state, context.target_unit_id)
+            owner = state.players[unit.owner_id]
+            if unit.instance_id in state.battlefield.get(unit.position, []):
+                state.battlefield[unit.position].remove(unit.instance_id)
+            owner.units.remove(unit)
+            self._cleanup_continuous_effects(state, unit.owner_id, unit.instance_id)
+            for _ in range(max(1, action.amount)):
+                owner.deck.insert(0, unit.card_id)
+            state.event_log.append({"event": "unit_removed_to_deck_top", "unit_id": unit.instance_id, "copies": action.amount})
+            self.left_battlefield(state, unit, unit.owner_id)
+            return
+        if action.kind == "deck_attack_bonus":
+            owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
+            player = state.players[owner]
+            bonus = player.status.setdefault("deck_attack_bonus", {})
+            for card_id in player.deck:
+                if card_id in self.cards and self.cards.get(card_id).is_unit:
+                    bonus.setdefault(card_id, []).append(action.amount)
+            return
+        if action.kind == "enemy_hand_random_to_deck_top":
+            enemy = state.players[opponent_id(state, context.player_id)]
+            if enemy.hand:
+                card_id = random.Random((state.rng_seed or 0) + len(state.event_log)).choice(enemy.hand)
+                enemy.hand.remove(card_id)
+                enemy.deck.insert(0, card_id)
+                state.event_log.append({"event": "enemy_card_to_deck_top", "player_id": enemy.player_id})
+            return
+        if action.kind == "top_card_navy":
+            player = state.players[context.player_id]
+            if player.deck:
+                navy = player.status.setdefault("navy_until", {})
+                navy[player.deck[0]] = state.turn_number + 2   # through the end of your next turn
+            return
         if action.kind == "mark_draw_on_destroy" and context.target_unit_id:
             # 738. JÄGER: "Target a unit. Draw a card when it is destroyed."
             marks = state.players[context.player_id].status.setdefault("draw_when_destroyed", {})
@@ -1556,18 +1667,21 @@ class NativeRuleEngine:
         if action.kind == "flicker" and context.target_unit_id:
             self._flicker(action, state, context)
             return
-        if action.kind == "remove_until_return" and context.target_unit_id:
-            unit = find_unit(state, context.target_unit_id)
+        if action.kind == "remove_until_return" and (context.target_unit_id or action.target == "source"):
+            unit = find_unit(state, context.source_unit_id if action.target == "source" else context.target_unit_id)
             owner = state.players[unit.owner_id]
             if unit.instance_id in state.battlefield.get(unit.position, []):
                 state.battlefield[unit.position].remove(unit.instance_id)
             owner.units.remove(unit)
             self._cleanup_continuous_effects(state, unit.owner_id, unit.instance_id)
             # "at the end of the next enemy turn": the enemy's scheduled list
-            # fires at the end of the enemy's own (next) turn.
-            enemy = opponent_id(state, unit.owner_id)
-            state.players[enemy].scheduled.append({
-                "trigger": "end_of_turn", "kind": "return_to_play", "card_id": unit.card_id,
+            # fires at the end of the enemy's own (next) turn.  "until the start
+            # of your next turn" (SALAMANDER) waits on the owner's own list.
+            back_at_start = action.duration == "start_of_next_turn"
+            holder = unit.owner_id if back_at_start else opponent_id(state, unit.owner_id)
+            state.players[holder].scheduled.append({
+                "trigger": "start_of_next_turn" if back_at_start else "end_of_turn",
+                "kind": "return_to_play", "card_id": unit.card_id,
                 "card_owner_id": unit.owner_id, "owner_id": unit.owner_id, "copies": max(1, action.amount),
                 "source_card_id": context.source_card_id, "wait": 0,
             })
@@ -1883,13 +1997,14 @@ class NativeRuleEngine:
             # is added to the owner's hand. Descriptor names that do not resolve
             # to a real card (e.g. "target unit", "it") are left unresolved so
             # prior no-op behavior is preserved.
-            card_id = self._by_name.get((action.card_name or "").upper())
+            card_id = self._card_by_name((action.card_name or "").rstrip("."))
             if card_id:
                 card = self.cards.get(card_id)
                 target = None
-                if context.target_unit_id:
+                target_id = context.source_unit_id if action.target == "source" else context.target_unit_id
+                if target_id:
                     try:
-                        target = find_unit(state, context.target_unit_id)
+                        target = find_unit(state, target_id)
                     except ActionValidationError:
                         pass
                 if card is not None and card.is_unit and target is not None:

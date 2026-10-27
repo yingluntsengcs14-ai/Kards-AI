@@ -73,6 +73,22 @@ class PlayCardAction(Action):
             selected_card = cards.get(self.selected_card_id) if self.selected_card_id in cards else None
             if selected_card is None or not selected_card.is_unit:
                 raise ActionValidationError("Selected hand card must be a unit")
+        hand_choice = next((action for action in rule.actions
+                            if (action.scope or "").startswith("hand:") and action.kind in
+                            {"shuffle_selected_into_deck", "copy_hand_unit_to_support"}), None)
+        if hand_choice is not None:
+            from simulator.rules.native import hand_choice_matches
+            any_match = any(hand_choice_matches(hand_choice.scope, cards, candidate, player.hand, self.card_id)
+                            for candidate in set(player.hand))
+            if any_match and not hand_choice_matches(hand_choice.scope, cards, self.selected_card_id, player.hand, self.card_id):
+                raise ActionValidationError("This card needs a matching card chosen from hand")
+            if not any_match and self.selected_card_id is not None:
+                raise ActionValidationError("No card in hand can be chosen")
+        develop = next((action for action in rule.actions if action.kind == "develop_from_deck"), None)
+        if develop is not None and player.deck:
+            from simulator.rules.native import develop_offers
+            if self.selected_card_id not in develop_offers(state, self.player_id, develop.amount):
+                raise ActionValidationError("Choose one of the offered deck cards")
         put = next((action for action in rule.actions if action.kind == "put_into_play"), None)
         if put is not None:
             from simulator.rules.native import _hand_unit_matches
@@ -208,6 +224,14 @@ class PlayCardAction(Action):
             instance_id = _next_unit_id(state, self.card_id)
             unit = UnitState(instance_id, card.id, card.attack or 0, card.defense or 0, self.player_id, self.position)
             unit.status["deployed_this_turn"] = True
+            # LAST DITCH FORCE: "Units in decks get +3 attack" -- the copies that
+            # were in the deck then carry the bonus wherever they are played.
+            buffed = player.status.get("deck_attack_bonus")
+            if isinstance(buffed, dict) and buffed.get(card.id):
+                entry = buffed[card.id]
+                unit.attack += int(entry.pop(0))
+                if not entry:
+                    buffed.pop(card.id)
             if KeywordEngine.has(card, "covert", unit):
                 unit.status["covert"] = True
             player.units.append(unit)
@@ -397,6 +421,7 @@ class AttackAction(Action):
                 engine_for(cards).emit("on_enemy_hq_damaged", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, event="on_enemy_hq_damaged", metadata={"damage_amount": hq_damage}))
             state.event_log.append({"event": "hq_attacked", "attacker_id": attacker.instance_id, "player_id": target_owner, "damage": attacker.attack})
             resolver.emit("after_attack", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id))
+            _emit_after_attack(state, cards, self.player_id, attacker)
             return state
 
         # Attack listeners may legally remove or return the defender before
@@ -485,6 +510,7 @@ class AttackAction(Action):
             engine_for(cards).emit("on_survives_combat", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, target.instance_id))
         state.event_log.append({"event": "unit_attacked", "attacker_id": attacker.instance_id, "target_id": target.instance_id})
         resolver.emit("after_attack", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, target.instance_id))
+        _emit_after_attack(state, cards, self.player_id, attacker)
         return state
 
 
@@ -580,6 +606,13 @@ class UseAbilityAction(Action):
     def execute(self, state: GameState, cards: CardDatabase) -> GameState:
         self.validate(state, cards)
         return state
+
+
+def _emit_after_attack(state: GameState, cards: CardDatabase, player_id: str, attacker: UnitState) -> None:
+    """The attack is over (SALAMANDER: "Remove ... after it attacks")."""
+    if any(unit.instance_id == attacker.instance_id for player in state.players.values() for unit in player.units):
+        engine_for(cards).emit("on_after_attack", state, EffectContext(
+            player_id, attacker.card_id, attacker.instance_id, event="on_after_attack"))
 
 
 def _emit_operated(state: GameState, cards: CardDatabase, player_id: str, unit: UnitState) -> None:

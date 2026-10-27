@@ -3800,7 +3800,7 @@
       ],
       "actions": [
         {
-          "kind": "return_to_deck",
+          "kind": "enemy_hand_random_to_deck_top",
           "target": "enemy_hand",
           "amount": 0,
           "attack": 0,
@@ -4732,23 +4732,9 @@
       ],
       "actions": [
         {
-          "kind": "remove",
+          "kind": "remove_to_deck_top",
           "target": "selected_target",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "return_to_deck",
-          "target": "selected_target",
-          "amount": 0,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -5097,25 +5083,22 @@
       "card_id": "mosquito_b_mk_iv",
       "source_text": "At the end of turn, Convert into MOSQUITO F Mk II.",
       "triggers": [
-        "on_turn_end",
-        "on_deploy"
+        "on_turn_end"
       ],
       "actions": [
         {
           "kind": "convert_to",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "MOSQUITO F Mk II.",
+          "card_name": "MOSQUITO F Mk II",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "At the end of turn",
-          "on": [
-            "on_turn_end"
-          ]
+          "condition": null,
+          "on": []
         }
       ],
       "status": "implemented",
@@ -6489,20 +6472,18 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop_options",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "convoy hx 175, fortification or interception",
+          "card_name": "CONVOY HX 175|FORTIFICATION|INTERCEPTION",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -15485,25 +15466,22 @@
       "card_id": "salamander",
       "source_text": "Remove from the battlefield after it attacks until the start of your next turn.",
       "triggers": [
-        "on_attack",
-        "on_deploy"
+        "on_after_attack"
       ],
       "actions": [
         {
-          "kind": "remove",
+          "kind": "remove_until_return",
           "target": "source",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
-          "condition": "after it attacks until the start of your next turn.",
-          "on": [
-            "on_attack"
-          ]
+          "duration": "start_of_next_turn",
+          "condition": null,
+          "on": []
         }
       ],
       "status": "implemented",
@@ -19099,7 +19077,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -19107,16 +19085,16 @@
           "on": []
         },
         {
-          "kind": "grant_trait",
-          "target": "source",
+          "kind": "top_card_navy",
+          "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "navy_type",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "next_turn",
           "condition": null,
           "on": []
         }
@@ -19765,8 +19743,8 @@
       "card_id": "5th_sasebo_snlf",
       "source_text": "Gets +1+1 when you play a Navy card.\\r\\nDestruction: Shuffle your deck, then draw a card.",
       "triggers": [
-        "on_destroy",
-        "on_deploy"
+        "on_friendly_card_played",
+        "on_destroy"
       ],
       "actions": [
         {
@@ -19780,11 +19758,13 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when you play a Navy card.",
-          "on": []
+          "condition": "when you play a navy card",
+          "on": [
+            "on_friendly_card_played"
+          ]
         },
         {
-          "kind": "shuffle_named",
+          "kind": "shuffle_deck",
           "target": "owner",
           "amount": 0,
           "attack": 0,
@@ -19907,12 +19887,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop_from_deck",
           "target": "owner",
-          "amount": 0,
+          "amount": 3,
           "attack": 0,
           "defense": 0,
-          "card_name": "card in your deck",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -20966,6 +20946,20 @@
       ],
       "actions": [
         {
+          "kind": "destroy",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it is already pinned",
+          "on": []
+        },
+        {
           "kind": "pin",
           "target": "selected_enemy",
           "amount": 0,
@@ -20976,28 +20970,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "destroy",
-          "target": "selected_target",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": "If already pinned",
+          "condition": "unless it is already pinned",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If already pinned"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "swift_victory",
@@ -21278,36 +21256,18 @@
       ],
       "actions": [
         {
-          "kind": "choose_one",
+          "kind": "shuffle_selected_into_deck",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "hand",
+          "scope": "hand:any",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
-        },
-        {
-          "kind": "shuffle_named",
-          "target": "owner",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "it",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         },
         {
           "kind": "draw",
@@ -21321,9 +21281,7 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -22070,10 +22028,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If it is already pinned"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "kurume_regiment",
@@ -25613,10 +25569,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if already pinned."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "costly_victory",
@@ -27379,13 +27333,12 @@
       "card_id": "24th_uan",
       "source_text": "Is dealt 1 damage at the end of your turn unless a unit was destroyed.",
       "triggers": [
-        "on_turn_end",
-        "on_deploy"
+        "on_turn_end"
       ],
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -27394,16 +27347,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "unless a unit was destroyed.",
-          "on": [
-            "on_turn_end"
-          ]
+          "condition": "unless a unit was destroyed this turn",
+          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] unless a unit was destroyed."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "35th_infantry_regiment",
@@ -33103,36 +33052,18 @@
       ],
       "actions": [
         {
-          "kind": "choose_one",
+          "kind": "copy_hand_unit_to_support",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "hand",
+          "scope": "hand:unit:3",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
-        },
-        {
-          "kind": "deploy_named",
-          "target": "owner",
-          "amount": 1,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "copy",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -35081,26 +35012,12 @@
       ],
       "actions": [
         {
-          "kind": "target_select",
+          "kind": "convert_owner_units_into_target",
           "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "convert_to",
-          "target": "selected_target",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "the targeted unit",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -44466,20 +44383,32 @@
       ],
       "actions": [
         {
-          "kind": "add_card",
+          "kind": "deploy_named",
           "target": "owner",
           "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "LIGHT INFANTRY to your support line and a BLAST",
+          "card_name": "LIGHT INFANTRY",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "BLAST",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
         }
       ],
       "status": "implemented",
@@ -47607,7 +47536,7 @@
       "actions": [
         {
           "kind": "destroy",
-          "target": "selected_target",
+          "target": "all_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -47634,8 +47563,36 @@
           "on": []
         },
         {
-          "kind": "modify_attack",
-          "target": "selected_target",
+          "kind": "lose_kredit_slot",
+          "target": "enemy_hand",
+          "amount": 6,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "deck_attack_bonus",
+          "target": "owner",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "deck_attack_bonus",
+          "target": "enemy_hand",
           "amount": 3,
           "attack": 0,
           "defense": 0,

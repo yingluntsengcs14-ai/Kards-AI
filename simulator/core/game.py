@@ -12,7 +12,7 @@ from simulator.actions.validator import opponent_id
 from simulator.cards.loader import CardDatabase
 from simulator.core.state import GameState, GameStatus, PlayerState
 from simulator.core.turn import TurnManager
-from simulator.rules.native import _hand_unit_matches, engine_for
+from simulator.rules.native import _hand_unit_matches, develop_offers, engine_for, hand_choice_matches
 from simulator.rules.deck import DeckValidator
 from simulator.rules import weather as weather_rules
 
@@ -127,6 +127,13 @@ class Simulator:
                 else [(candidate_id, zone) for candidate_id, zone in dict.fromkeys(unit_hand)
                       if _hand_unit_matches(self.cards.get(candidate_id), *spec.put_into_play)]
                 if spec.put_into_play
+                else ([(candidate_id, "hand") for candidate_id in dict.fromkeys(hand_ids)
+                       if hand_choice_matches(spec.hand_choice, self.cards, candidate_id, hand_ids, card_id)]
+                      or [(None, None)])
+                if spec.hand_choice
+                else ([(candidate_id, "deck") for candidate_id in develop_offers(self.state, player_id, spec.develop_from_deck)]
+                      or [(None, None)])
+                if spec.develop_from_deck
                 else [(candidate_id, zone) for candidate_id, zone in convert_choices if zone != "hand" or candidate_id != card_id]
                 if spec.convert_to
                 else [(None, None)]

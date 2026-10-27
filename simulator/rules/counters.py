@@ -23,10 +23,11 @@ DESTROYED_CARD_IDS = "destroyed_card_ids_this_battle"
 HQ_DAMAGE_THIS_TURN = "hq_damage_this_turn"
 OPERATING_SPEND_THIS_TURN = "kredits_spent_operating_this_turn"
 ORDERS_THIS_TURN = "orders_given_this_turn"
+UNITS_DESTROYED_THIS_TURN = "units_destroyed_this_turn"
 DEPLOYED_BY_TURN = "units_deployed_by_turn"   # battle: {turn number: [card ids]}
 
 # Cleared at the start of every turn.
-TURN_KEYS = (HQ_DAMAGE_THIS_TURN, OPERATING_SPEND_THIS_TURN, ORDERS_THIS_TURN)
+TURN_KEYS = (HQ_DAMAGE_THIS_TURN, OPERATING_SPEND_THIS_TURN, ORDERS_THIS_TURN, UNITS_DESTROYED_THIS_TURN)
 
 
 def _bump(state, player_id: str, key: str, amount: int) -> int:
@@ -71,6 +72,12 @@ def note_unit_destroyed(state, player_id: str, card_id: str) -> None:
         return
     destroyed = player.status.setdefault(DESTROYED_CARD_IDS, [])
     destroyed.append(card_id)
+    _bump(state, player_id, UNITS_DESTROYED_THIS_TURN, 1)
+
+
+def units_destroyed_this_turn(state) -> int:
+    """Units destroyed this turn, both sides (24th UŁAN)."""
+    return sum(_read(state, player_id, UNITS_DESTROYED_THIS_TURN) for player_id in state.players)
 
 
 def destroyed_card_ids(state, player_id: str | None = None) -> tuple[str, ...]:

@@ -351,6 +351,107 @@ class RuleParser:
             (),
             (RuleAction("repeat_destruction", "owner"),),
             "implemented", ()),
+        # ── misread by the templates, found in tournament-deck games ──────────
+        # "Is dealt 1 damage at the end of your turn unless a unit was
+        # destroyed."  (It hit a selected unit; and "this turn" is implied.)
+        "24th_uan": (
+            ("on_turn_end",),
+            (RuleAction("damage", "source", amount=1, condition="unless a unit was destroyed this turn"),),
+            "implemented", ()),
+        # "Deployment: Add a LIGHT INFANTRY to your support line and a BLAST to
+        # your hand."
+        "3rd_morskoi_pekhoty": (
+            ("on_deploy",),
+            (RuleAction("deploy_named", "owner", card_name="LIGHT INFANTRY", amount=1),
+             RuleAction("add_card", "owner", card_name="BLAST", amount=1)),
+            "implemented", ()),
+        # "Deployment: Develop CONVOY HX 175, FORTIFICATION or INTERCEPTION."
+        "hampshire_regiment": (
+            ("on_deploy",),
+            (RuleAction("develop_options", "owner", card_name="CONVOY HX 175|FORTIFICATION|INTERCEPTION"),),
+            "implemented", ()),
+        # "Deployment: Choose a card in hand. Shuffle it into your deck, then
+        # draw a card."  The player picks the card (selected_card_id).
+        "10th_recon": (
+            ("on_deploy",),
+            (RuleAction("shuffle_selected_into_deck", "owner", scope="hand:any"),
+             RuleAction("draw", "owner", amount=1)),
+            "implemented", ()),
+        # "Pin an enemy unit. If already pinned, destroy it instead."  Whether it
+        # was pinned is read before this card pins it.
+        "surprise_attack": (
+            ("on_play",),
+            (RuleAction("destroy", "selected_enemy", condition="if it is already pinned"),
+             RuleAction("pin", "selected_enemy", condition="unless it is already pinned")),
+            "implemented", ()),
+        # "At the end of turn, Convert into MOSQUITO F Mk II."
+        "mosquito_b_mk_iv": (
+            ("on_turn_end",),
+            (RuleAction("convert_to", "source", card_name="MOSQUITO F Mk II"),),
+            "implemented", ()),
+        # "Gets +1+1 when you play a Navy card. Destruction: Shuffle your deck,
+        # then draw a card."
+        "5th_sasebo_snlf": (
+            ("on_friendly_card_played", "on_destroy"),
+            (RuleAction("buff", "source", attack=1, defense=1, condition="when you play a navy card",
+                        on=("on_friendly_card_played",)),
+             RuleAction("shuffle_deck", "owner", on=("on_destroy",)),
+             RuleAction("draw", "owner", amount=1, on=("on_destroy",))),
+            "implemented", ()),
+        # "Develop a card in your deck. Lose a kredit slot."  Three cards from
+        # the deck are offered; a copy of the chosen one goes to hand.
+        "air_land_sea": (
+            ("on_play",),
+            (RuleAction("develop_from_deck", "owner", amount=3),
+             RuleAction("lose_kredit_slot", "owner", amount=1)),
+            "implemented", ()),
+        # "Deployment: Choose a unit in hand with a cost of 3 or less. Add a copy
+        # to your support line."
+        "336th_guards_naval": (
+            ("on_deploy",),
+            (RuleAction("copy_hand_unit_to_support", "owner", scope="hand:unit:3"),),
+            "implemented", ()),
+        # "Target a unit. Convert all units on the battlefield belonging to the
+        # owner into the targeted unit."
+        "victory_banners": (
+            ("on_play",),
+            (RuleAction("convert_owner_units_into_target", "selected_target"),),
+            "implemented", ()),
+        # "Remove target unit from the battlefield. Put two copies on top of
+        # owner's deck."
+        "fog_of_war": (
+            ("on_play",),
+            (RuleAction("remove_to_deck_top", "selected_target", amount=2),),
+            "implemented", ()),
+        # "Remove from the battlefield after it attacks until the start of your
+        # next turn."
+        "salamander": (
+            ("on_after_attack",),
+            (RuleAction("remove_until_return", "source", amount=1, duration="start_of_next_turn"),),
+            "implemented", ()),
+        # "Destroy all units. Players lose 6 kredit slots. Units in decks get +3
+        # attack."  (It destroyed one selected unit and only you lost slots.)
+        "last_ditch_force": (
+            ("on_play",),
+            (RuleAction("destroy", "all_units"),
+             RuleAction("lose_kredit_slot", "owner", amount=6),
+             RuleAction("lose_kredit_slot", "enemy_hand", amount=6),
+             RuleAction("deck_attack_bonus", "owner", amount=3),
+             RuleAction("deck_attack_bonus", "enemy_hand", amount=3)),
+            "implemented", ()),
+        # "Your enemy puts a random card in hand on top of their deck. You draw a
+        # card."
+        "mi5": (
+            ("on_play",),
+            (RuleAction("enemy_hand_random_to_deck_top", "enemy_hand"), RuleAction("draw", "owner", amount=1)),
+            "implemented", ()),
+        # "Deal 4 damage to an enemy. The top card of your deck has the Navy type
+        # until the end of your next turn."
+        "rm_roma": (
+            ("on_play",),
+            (RuleAction("damage", "selected_enemy", amount=4, scope="or_enemy_hq"),
+             RuleAction("top_card_navy", "owner", duration="next_turn")),
+            "implemented", ()),
         # "Cannot be deployed if you have deployed a unit this turn."  Checked
         # when the card is played (PlayCardAction.validate), not on deploy.
         "13e_dragons": (

@@ -189,7 +189,7 @@ def _evaluate(
         return (
             event == "on_friendly_card_played"
             and played is not None
-            and ("navy" in played.name.lower() or _has_ability(played, "navy"))
+            and _is_navy(played, state, listener_player_id)
         )
     if "moves into the frontline" in c or "moves to the frontline" in c:
         if event != "on_deploy" or not metadata.get("moved_to_frontline"):
@@ -249,7 +249,7 @@ def _evaluate(
             if not player.deck or player.deck[0] not in cards:
                 return False
             top = cards.get(player.deck[0])
-            return "navy" in top.name.lower() or any("navy" in ability.lower() for ability in top.abilities)
+            return _is_navy(top, state, context.player_id)
     # A condition that only restates the trigger holds on that trigger.
     events = _phrase_events(c)
     if events:
@@ -406,6 +406,10 @@ def _board_predicate(c, context, cards, state):
         if not operated or operated not in cards:
             return False
         return _unit_matches_words(cards.get(operated), [w for w in match.group(1).split() if w != "unit"])
+    if re.fullmatch(r"if (?:it is |it was )?already pinned", text):
+        return bool(metadata.get("target_pinned"))
+    if re.fullmatch(r"if a unit (?:was|has been) destroyed(?: this turn)?", text):
+        return counters.units_destroyed_this_turn(state) > 0
     # "it" = the unit this card targeted, snapshotted before the effect ran.
     target_owner = metadata.get("target_owner_id")
     if re.fullmatch(r"if it (?:was|is) friendly", text):
@@ -449,6 +453,20 @@ def _weather_categories(phrase: str) -> tuple[str, ...]:
     lower = (phrase or "").lower()
     names = {"sunny": "sunny", "rain": "rain", "storm": "storm"}
     return tuple(category for word, category in names.items() if re.search(r"\b" + word + r"\b", lower))
+
+
+def _is_navy(card, state, player_id) -> bool:
+    """Navy type, printed or granted (RM ROMA: "the top card of your deck has
+    the Navy type until the end of your next turn")."""
+    if card is None:
+        return False
+    if "navy" in card.name.lower() or any("navy" in str(ability).lower() for ability in card.abilities):
+        return True
+    if state is not None and player_id in state.players:
+        granted = state.players[player_id].status.get("navy_until") or {}
+        expiry = granted.get(card.id)
+        return isinstance(expiry, int) and state.turn_number <= expiry
+    return False
 
 
 def _played_card(context, cards: CardDatabase):
