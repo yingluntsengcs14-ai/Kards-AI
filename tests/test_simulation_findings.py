@@ -264,6 +264,34 @@ class SimulationFindingTests(unittest.TestCase):
         with self.assertRaises(ActionValidationError):
             PlayCardAction("p1", "second_front", target_unit_id="a").execute(state, self.cards)
 
+    # ── Conditions (2026-10-27) ─────────────────────────────────────────────
+    def test_m2a4_has_blitz_only_while_it_has_3_or_more_attack(self) -> None:
+        """M2A4「攻擊力 3 以上才有閃擊」：以前條件沒檢查，永遠有閃擊。"""
+        from simulator.rules.keywords import KeywordEngine
+        state = self._state(hand=("m2a4",))
+        PlayCardAction("p1", "m2a4").execute(state, self.cards)
+        unit = state.players["p1"].units[0]
+        card = self.cards.get("m2a4")
+        self.assertLess(unit.attack, 3)
+        self.assertFalse(KeywordEngine.has(card, "blitz", unit))
+        unit.attack = 3                      # 例如場上的加攻效果
+        self.assertTrue(KeywordEngine.has(card, "blitz", unit))
+
+    def test_no_implemented_rule_carries_an_unmodeled_condition(self) -> None:
+        """看不懂條件的卡不能標成 implemented（擋住以後新增的卡）。"""
+        from simulator.rules.condition import handled_by_kind, is_modeled
+        engine = engine_for(self.cards)
+        offenders = []
+        for card in self.cards:
+            rule = engine.rule_for(card.id)
+            if rule.status != "implemented":
+                continue
+            for action in rule.actions:
+                if action.condition and not handled_by_kind(action.kind, action.condition) \
+                        and not is_modeled(action.condition, action.on or rule.triggers, self.cards):
+                    offenders.append((card.id, action.condition))
+        self.assertEqual(offenders, [])
+
     # ── BLAST (spawn-only card missing from the kards.info catalog) ─────────
     def test_blast_exists_and_deals_one_damage(self) -> None:
         self.assertIn("blast", self.cards)

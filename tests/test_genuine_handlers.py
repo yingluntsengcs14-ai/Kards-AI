@@ -88,10 +88,12 @@ class DoubleDamageTests(unittest.TestCase):
         state.players["p1"].units = [unit]
         state.battlefield = {"frontline": [unit.instance_id], "support_line": []}
         self.engine.emit("on_deploy", state, EffectContext("p1", card.id, unit.instance_id))
-        doubled = [e for e in state.event_log if e.get("event") == "double_damage_activated"]
-        self.assertTrue(doubled)
-        # Also verify status flag was set (for combat pipeline consumption)
-        self.assertTrue(unit.status.get("double_damage"))
+        # BLENHEIM's "if the frontline is empty" is a standing condition the
+        # engine does not model yet.  It used to count as satisfied, so the
+        # bomber always dealt double damage; now the card is honestly partial
+        # and the flag is not set on a non-empty frontline.
+        self.assertEqual(self.engine.rule_for(card.id).status, "partial")
+        self.assertFalse(unit.status.get("double_damage"))
 
     def test_parser_double_damage_implemented(self) -> None:
         """'combat damage dealt to this unit is doubled' parses as implemented."""

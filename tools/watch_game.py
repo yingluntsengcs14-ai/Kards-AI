@@ -55,6 +55,7 @@ SUSPECT_EVENTS = {
     "custom_deploy_failed": "特殊部署失敗",
     "copy_failed": "複製失敗",
     "choice_required": "需要玩家選擇但沒有選",
+    "native_rule_condition_unmodeled": "條件看不懂（當成不成立）",
 }
 # Shown in the per-step effect list; everything else is engine bookkeeping.
 SHOWN_EVENTS = {

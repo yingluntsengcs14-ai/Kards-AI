@@ -155,6 +155,7 @@ _GENUINELY_EXECUTED_KINDS: frozenset[str] = frozenset({
     "delayed_discard",
     "delayed_destroy",
     "delayed_to_hand",
+    "conditional_keyword",
     "put_into_play",
     "flicker",
     "remove_until_return",
@@ -302,7 +303,7 @@ def extract_executable_kinds() -> frozenset[str]:
     return _GENUINELY_EXECUTED_KINDS
 
 
-def recompute_status(entry: dict, executable: frozenset[str]) -> None:
+def recompute_status(entry: dict, executable: frozenset[str], cards: CardDatabase | None = None) -> None:
     """Make ``status`` honest w.r.t. engine coverage; record gaps.
 
     Mutates ``entry`` in place: appends any un-executed action text to
@@ -324,6 +325,16 @@ def recompute_status(entry: dict, executable: frozenset[str]) -> None:
             note = "[selector contract: {0}]".format(problem)
             if note not in fragments:
                 fragments.append(note)
+        # A condition the engine cannot read is never satisfied, so the action
+        # never runs: the card is not fully implemented.
+        condition = action.get("condition")
+        if cards is not None and condition:
+            from simulator.rules.condition import handled_by_kind, is_modeled
+            events = tuple(action.get("on") or entry.get("triggers") or ())
+            if not handled_by_kind(kind, condition) and not is_modeled(condition, events, cards):
+                note = "[condition not modeled] {0}".format(condition.strip())
+                if note not in fragments:
+                    fragments.append(note)
     entry["unresolved_fragments"] = fragments
     # Honest status: 'implemented' when nothing remains unresolved (every action
     # maps to an executed kind). An un-executed action keeps it 'partial'; text we
@@ -352,7 +363,7 @@ def main() -> None:
 
     executable = extract_executable_kinds()
     for entry in rules:
-        recompute_status(entry, executable)
+        recompute_status(entry, executable, cards)
 
     DESTINATION.write_text(json.dumps({"schema_version": 1, "rules": rules}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

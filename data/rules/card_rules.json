@@ -218,8 +218,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it has Blitz"
+      ]
     },
     {
       "card_id": "10th_para_battalion",
@@ -245,8 +247,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have given an order this turn."
+      ]
     },
     {
       "card_id": "111th_indian_brigade",
@@ -270,8 +274,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When your HQ gains defense"
+      ]
     },
     {
       "card_id": "1st_airborne",
@@ -442,8 +448,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you control a Commando"
+      ]
     },
     {
       "card_id": "breakout",
@@ -573,8 +581,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it doesn't have any adjacent units"
+      ]
     },
     {
       "card_id": "cup_of_tea",
@@ -774,8 +784,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If your HQ is about to receive lethal damage"
+      ]
     },
     {
       "card_id": "home_guard",
@@ -854,8 +866,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] target_friendly"
+      ]
     },
     {
       "card_id": "kangaroo_transport",
@@ -1297,8 +1311,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] target_friendly"
+      ]
     },
     {
       "card_id": "swordfish_mk_i",
@@ -1552,8 +1568,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this unit isn't Navy, put on top of your deck with the Navy type."
+      ]
     },
     {
       "card_id": "5th_brigade",
@@ -1585,8 +1603,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit would deal 1 combat damage"
+      ]
     },
     {
       "card_id": "7th_scottish_borderers",
@@ -1704,8 +1724,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control a bomber with 5+ attack."
+      ]
     },
     {
       "card_id": "bpf",
@@ -1836,8 +1858,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] target_friendly"
+      ]
     },
     {
       "card_id": "creeping_barrage",
@@ -1875,8 +1899,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the Pin is removed"
+      ]
     },
     {
       "card_id": "defiant_mk_i",
@@ -1900,8 +1926,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you deployed a British infantry last turn. ; on your turn"
+      ]
     },
     {
       "card_id": "delaying_tactics",
@@ -1975,8 +2003,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if another of your units is attacked.\\\""
+      ]
     },
     {
       "card_id": "emergency_measures",
@@ -2350,8 +2380,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the enemy gives the second order this turn"
+      ]
     },
     {
       "card_id": "m3a3_honey",
@@ -2403,8 +2435,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When your HQ receives damage this turn"
+      ]
     },
     {
       "card_id": "naval_support",
@@ -2678,8 +2712,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If its an air unit"
+      ]
     },
     {
       "card_id": "shark_mk_iii",
@@ -2744,8 +2780,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control a Guard."
+      ]
     },
     {
       "card_id": "supply_drop",
@@ -2874,8 +2912,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you deployed a British infantry last turn."
+      ]
     },
     {
       "card_id": "timely_supplies",
@@ -2940,8 +2980,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you deployed a British infantry last turn."
+      ]
     },
     {
       "card_id": "vildebeest",
@@ -2965,8 +3007,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit deals 1 combat damage"
+      ]
     },
     {
       "card_id": "15th_recce",
@@ -3008,8 +3052,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when the targeted unit deals damage."
+      ]
     },
     {
       "card_id": "1st_airlanding_brigade",
@@ -3051,8 +3097,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is empty"
+      ]
     },
     {
       "card_id": "26_engineer_regiment",
@@ -3169,8 +3217,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is now empty"
+      ]
     },
     {
       "card_id": "argyllshire_highlanders",
@@ -3246,8 +3296,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this HQ has taken 3+ damage this turn, you draw a card.\\\""
+      ]
     },
     {
       "card_id": "baluch_regiment",
@@ -3358,8 +3410,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you give a British order"
+      ]
     },
     {
       "card_id": "desert_dust",
@@ -3739,8 +3793,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it already has Bond."
+      ]
     },
     {
       "card_id": "mi5",
@@ -3999,8 +4055,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] While in hand"
+      ]
     },
     {
       "card_id": "the_rangers",
@@ -4263,8 +4321,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] at the start of its third turn on the battlefield."
+      ]
     },
     {
       "card_id": "22nd_guards_brigade_vet",
@@ -4288,8 +4348,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit becomes Veteran"
+      ]
     },
     {
       "card_id": "25_pounder",
@@ -4443,8 +4505,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this card spent 4+ turns in your deck."
+      ]
     },
     {
       "card_id": "baltimore_mk_iii",
@@ -4470,8 +4534,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you deployed a British infantry last turn."
+      ]
     },
     {
       "card_id": "blackburn_skua_mk_ii",
@@ -4513,8 +4579,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If the enemy is a unit"
+      ]
     },
     {
       "card_id": "blenheim_mk_i",
@@ -4538,8 +4606,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if the frontline is empty."
+      ]
     },
     {
       "card_id": "bloody_eleventh",
@@ -4591,8 +4661,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When an enemy unit is pinned"
+      ]
     },
     {
       "card_id": "cruiser_mk_iii",
@@ -4735,8 +4807,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you deployed a British infantry last turn"
+      ]
     },
     {
       "card_id": "green_howards",
@@ -4760,8 +4834,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a unit becomes Veteran."
+      ]
     },
     {
       "card_id": "hms_belfast",
@@ -4863,8 +4939,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When Hudson destroys a unit"
+      ]
     },
     {
       "card_id": "lancashire_fusiliers",
@@ -4898,8 +4976,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if your HQ has 25 or more defense."
+      ]
     },
     {
       "card_id": "materials",
@@ -4937,8 +5017,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this card spent 4+ turns in your deck."
+      ]
     },
     {
       "card_id": "matilda_mk_ii",
@@ -5152,8 +5234,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have a bomber unit on the battlefield"
+      ]
     },
     {
       "card_id": "raf_mustang",
@@ -5191,8 +5275,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when the enemy targets or attacks this unit."
+      ]
     },
     {
       "card_id": "rescue_mission",
@@ -5330,8 +5416,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] on the enemy turn."
+      ]
     },
     {
       "card_id": "second_chance",
@@ -5419,8 +5507,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if Guarded."
+      ]
     },
     {
       "card_id": "spitfire_mk_iia",
@@ -5462,8 +5552,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if not."
+      ]
     },
     {
       "card_id": "strong_bond",
@@ -5565,8 +5657,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a ground unit retreats"
+      ]
     },
     {
       "card_id": "barracuda",
@@ -5608,8 +5702,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If the enemy is a unit"
+      ]
     },
     {
       "card_id": "beaufighter_vi_f",
@@ -5855,8 +5951,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit deals damage to a unit, destroy it.\\\""
+      ]
     },
     {
       "card_id": "m4_firefly",
@@ -5907,8 +6005,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] For each British card in your deck ; if a unit, otherwise reduce the cost by 1."
+      ]
     },
     {
       "card_id": "no_43_commando",
@@ -6643,8 +6743,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this is the second order you give this turn"
+      ]
     },
     {
       "card_id": "whirlwind",
@@ -6668,8 +6770,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the enemy targets or attacks this unit"
+      ]
     },
     {
       "card_id": "9_2_coastal_gun",
@@ -6721,8 +6825,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you give your second order in a turn."
+      ]
     },
     {
       "card_id": "carpet_bombing",
@@ -6823,8 +6929,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit damages a HQ"
+      ]
     },
     {
       "card_id": "lend_lease",
@@ -6952,8 +7060,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If in your hand"
+      ]
     },
     {
       "card_id": "halifax_b_mk_i",
@@ -7138,8 +7248,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if your HQ has 30 or more defense."
+      ]
     },
     {
       "card_id": "dark_deeds",
@@ -7230,8 +7342,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When your HQ receives damage"
+      ]
     },
     {
       "card_id": "light_detachment_15",
@@ -7255,8 +7369,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a unit with higher attack is deployed."
+      ]
     },
     {
       "card_id": "scrap_metal",
@@ -7294,8 +7410,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if the unit was Salvaged."
+      ]
     },
     {
       "card_id": "sissi",
@@ -7674,8 +7792,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when an enemy unit is added, deployed or destroyed."
+      ]
     },
     {
       "card_id": "through_the_ice",
@@ -7724,8 +7844,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when they target or attack this unit.\\\""
+      ]
     },
     {
       "card_id": "finnish_boys",
@@ -8438,8 +8560,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have deployed a unit this turn."
+      ]
     },
     {
       "card_id": "chasing_shadows",
@@ -8463,8 +8587,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "resistance_b",
@@ -8544,8 +8670,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when drawn."
+      ]
     },
     {
       "card_id": "sally",
@@ -8569,8 +8697,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if a tank, suppressed if an infantry, destroyed if an artillery and retreats if an air unit."
+      ]
     },
     {
       "card_id": "152e_rgiment",
@@ -8594,8 +8724,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] unless you have 6 or more kredit slots."
+      ]
     },
     {
       "card_id": "73e_rgiment_dinfanterie",
@@ -8619,8 +8751,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when your HQ gains defense."
+      ]
     },
     {
       "card_id": "defend_the_nation",
@@ -8697,8 +8831,11 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible.",
+        "[condition not modeled] if this is the first order this turn."
+      ]
     },
     {
       "card_id": "fortified_position",
@@ -8736,8 +8873,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is in the frontline"
+      ]
     },
     {
       "card_id": "frappe",
@@ -8761,8 +8900,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you control a unit with Mobilize"
+      ]
     },
     {
       "card_id": "honor_and_loyalty",
@@ -8942,8 +9083,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it doesn't have Mobilize."
+      ]
     },
     {
       "card_id": "5e_cuirassiers",
@@ -8969,8 +9112,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this is the first unit you deploy this turn, add a 18e RÉGIMENT to hand."
+      ]
     },
     {
       "card_id": "commandos_kieffer",
@@ -8994,8 +9139,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when your HQ gains defense."
+      ]
     },
     {
       "card_id": "expeditionary_corps",
@@ -9176,8 +9323,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this was the only unit you deployed."
+      ]
     },
     {
       "card_id": "1er_bcp",
@@ -9201,8 +9350,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when the enemy draws a RESISTANCE order."
+      ]
     },
     {
       "card_id": "1er_hussards",
@@ -9254,8 +9405,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] adjacent non-french units"
+      ]
     },
     {
       "card_id": "4e_brigade",
@@ -9362,8 +9515,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this is the first unit you deploy this turn, draw a card."
+      ]
     },
     {
       "card_id": "defend_in_depth",
@@ -9426,8 +9581,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If the enemy now has no units"
+      ]
     },
     {
       "card_id": "h75c1",
@@ -9625,8 +9782,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when the enemy draws a RESISTANCE order."
+      ]
     },
     {
       "card_id": "2e_brigade",
@@ -9844,8 +10003,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you add or deploy a unit with Mobilize"
+      ]
     },
     {
       "card_id": "1er_rgiment_tranger",
@@ -9981,8 +10142,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "char_b1_bis",
@@ -10006,8 +10169,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit loses Mobilize"
+      ]
     },
     {
       "card_id": "phoney_war",
@@ -10083,8 +10248,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit loses Mobilize"
+      ]
     },
     {
       "card_id": "saar_offensive",
@@ -10122,8 +10289,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this is the first order given this turn."
+      ]
     },
     {
       "card_id": "western_allies",
@@ -10454,8 +10623,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "28_jger_regiment",
@@ -10584,8 +10755,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it is destroyed."
+      ]
     },
     {
       "card_id": "arado_ar_196",
@@ -10611,8 +10784,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have equal or less units on the battlefield, draw an order."
+      ]
     },
     {
       "card_id": "atlantic_command",
@@ -10726,8 +10901,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is the HQ."
+      ]
     },
     {
       "card_id": "careless_talk",
@@ -10995,8 +11172,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the enemy draws an extra card"
+      ]
     },
     {
       "card_id": "lurking_danger",
@@ -11150,8 +11329,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit becomes Veteran"
+      ]
     },
     {
       "card_id": "panzer_iia",
@@ -11183,8 +11364,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when they become Veteran."
+      ]
     },
     {
       "card_id": "propaganda",
@@ -11372,8 +11555,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have an air unit."
+      ]
     },
     {
       "card_id": "sd_kfz_222",
@@ -11397,8 +11582,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] adjacent ground units"
+      ]
     },
     {
       "card_id": "sd_kfz_10_pak_38",
@@ -11422,8 +11609,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if another card increases the attack of this unit."
+      ]
     },
     {
       "card_id": "sd_kfz_2509",
@@ -11515,8 +11704,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if the unit is in a support line."
+      ]
     },
     {
       "card_id": "104_panzergrenadier",
@@ -11569,8 +11760,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if the enemy controls a Blitz unit."
+      ]
     },
     {
       "card_id": "141_gebirgsjger",
@@ -11676,8 +11869,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a German unit enters your hand"
+      ]
     },
     {
       "card_id": "3_fallschirmjger",
@@ -11847,8 +12042,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it starts your turn in the frontline."
+      ]
     },
     {
       "card_id": "64_panzergrenadier_vet",
@@ -11872,8 +12069,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit becomes Veteran gain 2 additional kredits."
+      ]
     },
     {
       "card_id": "74_panzergrenadier",
@@ -11915,8 +12114,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you do."
+      ]
     },
     {
       "card_id": "8_fallschirmjger",
@@ -11948,8 +12149,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when the enemy triggers your countermeasure."
+      ]
     },
     {
       "card_id": "957_volksgrenadier",
@@ -12146,8 +12349,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is destroyed this turn."
+      ]
     },
     {
       "card_id": "heinkel_he_115",
@@ -12375,8 +12580,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this unit is in hand ; when you take it."
+      ]
     },
     {
       "card_id": "rally",
@@ -12467,8 +12674,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is pinned"
+      ]
     },
     {
       "card_id": "retaliation",
@@ -12492,8 +12701,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] After your HQ receives damage"
+      ]
     },
     {
       "card_id": "ride_of_the_valkyries",
@@ -12517,8 +12728,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this HQ has taken 3+ damage this turn, you gain 2 kredits.\\\""
+      ]
     },
     {
       "card_id": "shifting_attack",
@@ -12761,8 +12974,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] While in frontline"
+      ]
     },
     {
       "card_id": "101_infantry_regiment",
@@ -12815,8 +13030,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you add or deploy an Alpine unit."
+      ]
     },
     {
       "card_id": "136_gebirgsjger",
@@ -13100,8 +13317,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this is your only unit."
+      ]
     },
     {
       "card_id": "air_blitz",
@@ -13239,8 +13458,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when the enemy triggers your countermeasure."
+      ]
     },
     {
       "card_id": "breakthrough",
@@ -13278,8 +13499,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is destroyed"
+      ]
     },
     {
       "card_id": "dornier_do_17z",
@@ -13303,8 +13526,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when an undestroyed unit leaves the battlefield."
+      ]
     },
     {
       "card_id": "dornier_do_18g",
@@ -13328,8 +13553,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "eagle_claws",
@@ -13551,8 +13778,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have an air unit."
+      ]
     },
     {
       "card_id": "heinkel_he_111",
@@ -13673,8 +13902,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit destroys an enemy unit"
+      ]
     },
     {
       "card_id": "me_bf_109_e",
@@ -14153,8 +14384,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if the unit is in a support line."
+      ]
     },
     {
       "card_id": "u48",
@@ -14255,8 +14488,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you add or deploy an Alpine unit."
+      ]
     },
     {
       "card_id": "2_marine_division",
@@ -14348,8 +14583,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is friendly."
+      ]
     },
     {
       "card_id": "43_infantry_regiment",
@@ -14401,8 +14638,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it attacks and destroys a unit."
+      ]
     },
     {
       "card_id": "7_schtzen_vet",
@@ -14426,8 +14665,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit becomes Veteran"
+      ]
     },
     {
       "card_id": "81_infantry_regiment",
@@ -14494,8 +14735,11 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control a tank or infantry.",
+        "[condition not modeled] if you control both."
+      ]
     },
     {
       "card_id": "bf_110_c_zerstrer",
@@ -14653,8 +14897,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if they did not deploy a unit."
+      ]
     },
     {
       "card_id": "h39_swg",
@@ -14921,8 +15167,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is not enemy controlled."
+      ]
     },
     {
       "card_id": "night_hunters",
@@ -15003,8 +15251,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is a tank."
+      ]
     },
     {
       "card_id": "panzer_iiie",
@@ -15135,8 +15385,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it costs 3 or less."
+      ]
     },
     {
       "card_id": "pursuit",
@@ -15224,8 +15476,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] For each of your units with 4 or more attack"
+      ]
     },
     {
       "card_id": "salamander",
@@ -15341,8 +15595,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after an enemy ground unit is destroyed."
+      ]
     },
     {
       "card_id": "stuka_87g_vet",
@@ -15524,8 +15780,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after giving an order."
+      ]
     },
     {
       "card_id": "171_infantry_regiment",
@@ -15549,8 +15807,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this is your only unit."
+      ]
     },
     {
       "card_id": "20_panzergrenadier",
@@ -15643,8 +15903,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "bypass",
@@ -15760,8 +16022,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if any unit is destroyed."
+      ]
     },
     {
       "card_id": "eagle_day",
@@ -15972,8 +16236,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you control a tank, target enemy unit must retreat."
+      ]
     },
     {
       "card_id": "ju_88_g6",
@@ -15997,8 +16263,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit destroys a unit"
+      ]
     },
     {
       "card_id": "junkers_ju_88_a",
@@ -16209,8 +16477,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control 35."
+      ]
     },
     {
       "card_id": "119_grenadier_vet",
@@ -16276,8 +16546,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control 119."
+      ]
     },
     {
       "card_id": "35_grenadier_vet",
@@ -16354,8 +16626,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When DORNIER DO 217 destroys a unit"
+      ]
     },
     {
       "card_id": "expanded_reich_rd",
@@ -17040,8 +17314,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If in your hand"
+      ]
     },
     {
       "card_id": "gathering_storm",
@@ -17378,8 +17654,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have 4+ units with active Pincer"
+      ]
     },
     {
       "card_id": "king_tiger",
@@ -17512,8 +17790,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] random 0-2"
+      ]
     },
     {
       "card_id": "3rd_alpini_regiment",
@@ -17573,8 +17853,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] unless you control more units than the enemy."
+      ]
     },
     {
       "card_id": "colonial_dreams",
@@ -17637,8 +17919,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is pinned"
+      ]
     },
     {
       "card_id": "fiat_c_r_42",
@@ -17664,8 +17948,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control more units than the enemy."
+      ]
     },
     {
       "card_id": "l640",
@@ -17820,8 +18106,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you started the battle."
+      ]
     },
     {
       "card_id": "186th_folgore",
@@ -17874,8 +18162,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you control another Alpine unit, draw a card."
+      ]
     },
     {
       "card_id": "air_escort",
@@ -17988,8 +18278,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When your HQ gains defense"
+      ]
     },
     {
       "card_id": "fiat_g_50",
@@ -18121,8 +18413,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] While this unit is in the frontline"
+      ]
     },
     {
       "card_id": "1st_san_marco",
@@ -18385,8 +18679,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you control more units than the enemy"
+      ]
     },
     {
       "card_id": "obice_da_7513",
@@ -18476,8 +18772,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it has the single highest attack on the battlefield."
+      ]
     },
     {
       "card_id": "125th_la_spezia",
@@ -19602,8 +19900,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have an air unit on the battlefield"
+      ]
     },
     {
       "card_id": "air_land_sea",
@@ -19858,8 +20158,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you control a Japanese unit in the frontline"
+      ]
     },
     {
       "card_id": "experimental_flight",
@@ -20317,8 +20619,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after you attack with a Japanese unit."
+      ]
     },
     {
       "card_id": "ki51_sonia",
@@ -20461,8 +20765,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is destroyed this turn"
+      ]
     },
     {
       "card_id": "outmaneuver",
@@ -20500,8 +20806,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it has Smokescreen it gets +2+2."
+      ]
     },
     {
       "card_id": "sakura_regiment",
@@ -20525,8 +20833,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have fewer cards in hand than the enemy."
+      ]
     },
     {
       "card_id": "shadow_strike",
@@ -20692,8 +21002,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If already pinned"
+      ]
     },
     {
       "card_id": "swift_victory",
@@ -20961,8 +21273,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it's the enemy turn, add a copy to your hand."
+      ]
     },
     {
       "card_id": "10th_recon",
@@ -21108,8 +21422,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you shuffle your deck."
+      ]
     },
     {
       "card_id": "51st_recon",
@@ -21562,8 +21878,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if put from your hand to deck."
+      ]
     },
     {
       "card_id": "engage_up_close",
@@ -21705,8 +22023,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If discarded"
+      ]
     },
     {
       "card_id": "ijn_shirakumo",
@@ -21758,8 +22078,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is already pinned"
+      ]
     },
     {
       "card_id": "kurume_regiment",
@@ -21944,8 +22266,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this HQ has taken 3+ damage this turn, give your air units +1+1.\\\""
+      ]
     },
     {
       "card_id": "shock_attack",
@@ -21969,8 +22293,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit loses Smokescreen this turn it gets +2+2"
+      ]
     },
     {
       "card_id": "soul_of_old_japan",
@@ -22162,8 +22488,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When an order is given"
+      ]
     },
     {
       "card_id": "type_98_keni",
@@ -22187,8 +22515,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have attacked with another unit this turn."
+      ]
     },
     {
       "card_id": "way_of_subjects",
@@ -22212,8 +22542,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you play this card.\\\""
+      ]
     },
     {
       "card_id": "yamagata_regiment",
@@ -22290,8 +22622,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a Destruction effect triggers."
+      ]
     },
     {
       "card_id": "144th_infantry_regiment",
@@ -22463,8 +22797,11 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you add or deploy an Alpine unit",
+        "[condition not modeled] if a unit."
+      ]
     },
     {
       "card_id": "3rd_mixed_regiment",
@@ -22488,8 +22825,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you shuffle your deck."
+      ]
     },
     {
       "card_id": "40th_cavalry_regiment",
@@ -22557,8 +22896,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] After this unit destroys a unit"
+      ]
     },
     {
       "card_id": "9th_guards_regiment",
@@ -22613,8 +22954,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is the enemy turn, add an AICHI D3A-2 to your support line."
+      ]
     },
     {
       "card_id": "aichi_d3a2",
@@ -22989,8 +23332,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you lose a kredit slot"
+      ]
     },
     {
       "card_id": "flight_to_oblivion",
@@ -23053,8 +23398,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit loses Smokescreen"
+      ]
     },
     {
       "card_id": "honor",
@@ -23167,8 +23514,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is your turn."
+      ]
     },
     {
       "card_id": "kumamoto_regiment",
@@ -23255,8 +23604,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if the enemy controls no air units. ; on your turn"
+      ]
     },
     {
       "card_id": "ki46_dinah_iii",
@@ -23375,8 +23726,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a Destruction effect triggers."
+      ]
     },
     {
       "card_id": "mikawa_regiment",
@@ -23597,8 +23950,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when an undestroyed unit leaves the battlefield."
+      ]
     },
     {
       "card_id": "scouting_party",
@@ -23874,8 +24229,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly Destruction effect triggers"
+      ]
     },
     {
       "card_id": "54th_infantry_regiment",
@@ -23907,8 +24264,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you lose a kredit slot ; if on the battlefield or -2 cost if in hand."
+      ]
     },
     {
       "card_id": "61st_infantry_regiment",
@@ -24037,8 +24396,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you discard a card"
+      ]
     },
     {
       "card_id": "bombing_raid",
@@ -24399,8 +24760,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if undamaged."
+      ]
     },
     {
       "card_id": "ki21_sally",
@@ -24424,8 +24787,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this unit is discarded"
+      ]
     },
     {
       "card_id": "ki43_hayabusa",
@@ -24506,8 +24871,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this is the first Ki-45 DRAGON SLAYER you deploy this battle."
+      ]
     },
     {
       "card_id": "ki45_dragon_slayer_vet",
@@ -24660,8 +25027,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have lost 2 or more kredit slots this battle."
+      ]
     },
     {
       "card_id": "p1y1_model_11",
@@ -24685,8 +25054,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit loses Smokescreen it gets +2+2."
+      ]
     },
     {
       "card_id": "redeployment",
@@ -24749,8 +25120,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you shuffle, distribute damage randomly to enemies equal to units in play."
+      ]
     },
     {
       "card_id": "seek_and_destroy",
@@ -25068,8 +25441,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] on your turn."
+      ]
     },
     {
       "card_id": "type_4_chito",
@@ -25126,8 +25501,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it Salvages a unit."
+      ]
     },
     {
       "card_id": "1st_taipei_regiment",
@@ -25252,8 +25629,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if already pinned."
+      ]
     },
     {
       "card_id": "costly_victory",
@@ -25343,8 +25722,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you play a Japanese card, and Guard when attack is 10+."
+      ]
     },
     {
       "card_id": "kanazawa_regiment",
@@ -25368,8 +25749,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When an undestroyed unit leaves the battlefield"
+      ]
     },
     {
       "card_id": "kokuras_sword",
@@ -25396,8 +25779,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it's the enemy turn, add a random Japanese ground unit to your support line and give it this ability."
+      ]
     },
     {
       "card_id": "ki100_goshikisen",
@@ -25729,8 +26114,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 4 or less kredit slots."
+      ]
     },
     {
       "card_id": "cedar_division_vet",
@@ -25915,8 +26302,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When discarded"
+      ]
     },
     {
       "card_id": "thunder_division",
@@ -25940,8 +26329,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you play an Intel card, your other units get +2+2."
+      ]
     },
     {
       "card_id": "kawanishi_h6k",
@@ -26034,8 +26425,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if your HQ is at 10 or less."
+      ]
     },
     {
       "card_id": "sneak_attack",
@@ -26313,8 +26706,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if your unit survives."
+      ]
     },
     {
       "card_id": "12th_uan",
@@ -26428,8 +26823,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When an enemy unit enters the frontline"
+      ]
     },
     {
       "card_id": "orp_orze",
@@ -26716,8 +27113,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the enemy plays a known card"
+      ]
     },
     {
       "card_id": "pilot_escape",
@@ -26808,8 +27207,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it was known."
+      ]
     },
     {
       "card_id": "rapid_response",
@@ -27003,8 +27404,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] unless a unit was destroyed."
+      ]
     },
     {
       "card_id": "35th_infantry_regiment",
@@ -27309,8 +27712,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly Polish air unit is destroyed"
+      ]
     },
     {
       "card_id": "16th_tarnow_regiment",
@@ -27334,8 +27739,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you play an Intel card"
+      ]
     },
     {
       "card_id": "2nd_infantry_regiment",
@@ -27516,8 +27923,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have played an Exile card this turn."
+      ]
     },
     {
       "card_id": "t34_76_pl",
@@ -27659,8 +28068,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it was friendly."
+      ]
     },
     {
       "card_id": "exiled_forces",
@@ -27742,8 +28153,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after the third time."
+      ]
     },
     {
       "card_id": "m4_firefly_pl",
@@ -28088,8 +28501,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when this unit becomes Veteran."
+      ]
     },
     {
       "card_id": "146th_infantry_regiment",
@@ -28271,8 +28686,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you Convert one or more cards."
+      ]
     },
     {
       "card_id": "6th_naval_brigade",
@@ -28797,8 +29214,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this HQ has taken 3+ damage this turn, give your HQ +3 defense.\\\""
+      ]
     },
     {
       "card_id": "rush",
@@ -28914,8 +29333,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] same cost"
+      ]
     },
     {
       "card_id": "surveil",
@@ -29175,8 +29596,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly Covert unit is Revealed"
+      ]
     },
     {
       "card_id": "190th_guard_rifles",
@@ -29214,8 +29637,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you have destroyed 4 enemy units."
+      ]
     },
     {
       "card_id": "190th_guard_rifles_vet",
@@ -29553,8 +29978,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit gets a Pincer effect"
+      ]
     },
     {
       "card_id": "95th_rifle_regiment",
@@ -29691,8 +30118,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] at the start of its fourth turn on the battlefield."
+      ]
     },
     {
       "card_id": "bt7_1937_vet",
@@ -29947,8 +30376,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it now has 2 or more."
+      ]
     },
     {
       "card_id": "frontal_assault",
@@ -29986,8 +30417,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have none"
+      ]
     },
     {
       "card_id": "heroes_of_the_soviet_union",
@@ -30075,8 +30508,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When it is deployed"
+      ]
     },
     {
       "card_id": "i15_chaika",
@@ -30136,8 +30571,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when an enemy countermeasure triggers."
+      ]
     },
     {
       "card_id": "katyusha",
@@ -30268,8 +30705,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "mobile_defense",
@@ -30410,8 +30849,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if friendly."
+      ]
     },
     {
       "card_id": "patriotic_firestorm",
@@ -30485,8 +30926,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit deals damage, deal equal damage to your HQ.\\\""
+      ]
     },
     {
       "card_id": "red_banner",
@@ -30524,8 +30967,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] costs 2 more"
+      ]
     },
     {
       "card_id": "scorched_earth",
@@ -30933,8 +31378,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] costs 3 more"
+      ]
     },
     {
       "card_id": "ural_factories",
@@ -30972,8 +31419,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] costs 1 more"
+      ]
     },
     {
       "card_id": "vystrel_course",
@@ -31276,8 +31725,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if attack is 6+."
+      ]
     },
     {
       "card_id": "252nd_rifles_vet",
@@ -31417,8 +31868,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if a friendly unit was destroyed this turn."
+      ]
     },
     {
       "card_id": "38th_guard_rifles",
@@ -31442,8 +31895,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this unit was Covert for 3 or more turns."
+      ]
     },
     {
       "card_id": "42nd_rifles",
@@ -31522,8 +31977,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When an enemy unit becomes Veteran"
+      ]
     },
     {
       "card_id": "4th_kuban_cossacks",
@@ -31889,8 +32346,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it is attacked."
+      ]
     },
     {
       "card_id": "confusion",
@@ -32233,8 +32692,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it is deployed."
+      ]
     },
     {
       "card_id": "stand_fast",
@@ -32416,8 +32877,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control a non-Soviet unit."
+      ]
     },
     {
       "card_id": "1005th_rifles",
@@ -32441,8 +32904,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the opponent targets 1005th RIFLES with an order"
+      ]
     },
     {
       "card_id": "125th_rifle_regiment",
@@ -32466,8 +32931,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the enemy draws a card"
+      ]
     },
     {
       "card_id": "14th_guard_rifles",
@@ -32491,8 +32958,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] at the start of its third turn on the battlefield."
+      ]
     },
     {
       "card_id": "14th_guard_rifles_vet",
@@ -32552,8 +33021,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] After this unit destroys a unit in combat give it Shock."
+      ]
     },
     {
       "card_id": "214th_amur",
@@ -32627,8 +33098,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you Convert one or more cards."
+      ]
     },
     {
       "card_id": "336th_guards_naval",
@@ -32695,8 +33168,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this unit is removed from your deck"
+      ]
     },
     {
       "card_id": "392nd_rifles",
@@ -32734,8 +33209,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it has dealt 4+ damage."
+      ]
     },
     {
       "card_id": "392nd_rifles_vet",
@@ -33012,8 +33489,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If in your hand"
+      ]
     },
     {
       "card_id": "mother_russia",
@@ -33220,8 +33699,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if damaged."
+      ]
     },
     {
       "card_id": "su85",
@@ -33799,8 +34280,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] For each card discarded"
+      ]
     },
     {
       "card_id": "kv1s",
@@ -33946,8 +34429,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When the opponent targets T-34-85 with an order"
+      ]
     },
     {
       "card_id": "tupolev_tb3",
@@ -34513,8 +34998,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If in your hand"
+      ]
     },
     {
       "card_id": "756th_regiment",
@@ -34854,8 +35341,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If in your hand"
+      ]
     },
     {
       "card_id": "front_formation",
@@ -35272,8 +35761,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] adjacent ground units"
+      ]
     },
     {
       "card_id": "112th_infantry_regiment",
@@ -35352,8 +35843,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have a US unit in the frontline."
+      ]
     },
     {
       "card_id": "32nd_infantry_regiment",
@@ -35404,8 +35897,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When 463rd BATTALION attacks"
+      ]
     },
     {
       "card_id": "4th_alabama",
@@ -35429,8 +35924,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when drawn: Give your units +1 attack until end of turn."
+      ]
     },
     {
       "card_id": "506th_airborne",
@@ -35529,8 +36026,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have 5 or more unspent kredits"
+      ]
     },
     {
       "card_id": "allied_research_effort",
@@ -35593,8 +36092,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this destroys it"
+      ]
     },
     {
       "card_id": "bocage_warfare",
@@ -35668,8 +36169,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "direct_hit",
@@ -35707,8 +36210,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If the unit has 0 operation cost"
+      ]
     },
     {
       "card_id": "enemy_spotted",
@@ -35732,8 +36237,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If your enemy captures the frontline"
+      ]
     },
     {
       "card_id": "for_freedom",
@@ -35835,8 +36342,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] Until your next turn"
+      ]
     },
     {
       "card_id": "hidden_plans",
@@ -35980,8 +36489,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] While in the frontline"
+      ]
     },
     {
       "card_id": "magic",
@@ -36361,8 +36872,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this destroys it"
+      ]
     },
     {
       "card_id": "12th_infantry_regiment",
@@ -36456,8 +36969,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit destroys an enemy unit"
+      ]
     },
     {
       "card_id": "17th_infantry_regiment",
@@ -36729,8 +37244,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it's an air unit"
+      ]
     },
     {
       "card_id": "attrition",
@@ -36768,8 +37285,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is Veteran."
+      ]
     },
     {
       "card_id": "counter_strike",
@@ -37095,9 +37614,9 @@
       ],
       "actions": [
         {
-          "kind": "grant_ability",
+          "kind": "conditional_keyword",
           "target": "source",
-          "amount": 0,
+          "amount": 3,
           "attack": 0,
           "defense": 0,
           "card_name": "blitz",
@@ -37105,7 +37624,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "if it has 3 or more attack.",
+          "condition": null,
           "on": []
         }
       ],
@@ -37176,8 +37695,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] at end of turn"
+      ]
     },
     {
       "card_id": "night_patrol",
@@ -37385,8 +37906,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it had 4 or more attack"
+      ]
     },
     {
       "card_id": "rationing",
@@ -37563,8 +38086,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you gain an extra kredit slot"
+      ]
     },
     {
       "card_id": "seabees",
@@ -37588,8 +38113,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit is fully repaired"
+      ]
     },
     {
       "card_id": "seagull",
@@ -37730,8 +38257,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If SUPPLY CHAIN is discarded"
+      ]
     },
     {
       "card_id": "supply_shipment",
@@ -37958,8 +38487,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this unit was Covert for 2 or more turns."
+      ]
     },
     {
       "card_id": "11th_infantry_regiment",
@@ -38130,8 +38661,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you gain an extra kredit slot."
+      ]
     },
     {
       "card_id": "306th_regiment",
@@ -38208,8 +38741,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this destroys it"
+      ]
     },
     {
       "card_id": "327th_pathfinders_vet",
@@ -38332,8 +38867,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if in the frontline."
+      ]
     },
     {
       "card_id": "3rd_marine_regiment",
@@ -38368,8 +38905,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is the enemy turn, add a copy of this unit to your hand."
+      ]
     },
     {
       "card_id": "4th_marines",
@@ -38409,8 +38948,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "america_at_war",
@@ -38448,8 +38989,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 2 or more unspent kredits."
+      ]
     },
     {
       "card_id": "c47_skytrain",
@@ -38546,8 +39089,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If it is a unit with Alpine"
+      ]
     },
     {
       "card_id": "f6f5_hellcat",
@@ -38649,8 +39194,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If this HQ has taken 3+ damage this turn, a random friendly unit gets +2+2.\\\""
+      ]
     },
     {
       "card_id": "m10a1",
@@ -38886,8 +39433,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly bomber is destroyed"
+      ]
     },
     {
       "card_id": "p40_warhawk",
@@ -39075,8 +39624,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when drawn: Draw a random air unit from your deck."
+      ]
     },
     {
       "card_id": "the_regulars",
@@ -39100,8 +39651,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it is fully repaired."
+      ]
     },
     {
       "card_id": "the_regulars_vet",
@@ -39125,8 +39678,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit becomes Veteran"
+      ]
     },
     {
       "card_id": "thunderbolt",
@@ -39436,8 +39991,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you gain an extra kredit slot"
+      ]
     },
     {
       "card_id": "155mm_1918_model",
@@ -39514,8 +40071,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you operate a unit with 3 or more operation cost."
+      ]
     },
     {
       "card_id": "3inch_m5",
@@ -39671,8 +40230,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit is fully repaired"
+      ]
     },
     {
       "card_id": "62nd_armored_infantry",
@@ -39714,8 +40275,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have none"
+      ]
     },
     {
       "card_id": "7th_regiment",
@@ -39764,8 +40327,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] on your turn."
+      ]
     },
     {
       "card_id": "8th_marines",
@@ -39962,8 +40527,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 5 or more unspent kredits."
+      ]
     },
     {
       "card_id": "cadet_nurse_corps",
@@ -40115,8 +40682,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 2 or more unspent kredits."
+      ]
     },
     {
       "card_id": "hell_on_wheels",
@@ -40154,8 +40723,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if a Sherman."
+      ]
     },
     {
       "card_id": "in_hour_of_need",
@@ -40206,8 +40777,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have a US unit in the frontline, draw 2 cards."
+      ]
     },
     {
       "card_id": "m4a1",
@@ -40245,8 +40818,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if enemy makes you discard."
+      ]
     },
     {
       "card_id": "mayhem",
@@ -40309,8 +40884,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if the enemy controls the frontline."
+      ]
     },
     {
       "card_id": "p38d_lightning",
@@ -40423,8 +41000,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when drawn: Add a BREWSTER F2A to the support line."
+      ]
     },
     {
       "card_id": "pby_catalina",
@@ -40690,8 +41269,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a unit is fully repaired"
+      ]
     },
     {
       "card_id": "15th_engineers",
@@ -40887,8 +41468,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if able"
+      ]
     },
     {
       "card_id": "corsair_f4u1c",
@@ -40920,8 +41503,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When LONG TOM attacks"
+      ]
     },
     {
       "card_id": "m36_jackson",
@@ -40945,8 +41530,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If the enemy discards M36 JACKSON from your hand"
+      ]
     },
     {
       "card_id": "m4a2",
@@ -41169,8 +41756,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit destroys an enemy unit"
+      ]
     },
     {
       "card_id": "p61_black_widow",
@@ -41413,8 +42002,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "victory_march",
@@ -41568,8 +42159,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When A-36 APACHE attacks"
+      ]
     },
     {
       "card_id": "b25_mitchell",
@@ -41620,8 +42213,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When a friendly unit (including this) is destroyed"
+      ]
     },
     {
       "card_id": "corsair_f4u1d",
@@ -41691,8 +42286,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you have deployed 2 Shermans."
+      ]
     },
     {
       "card_id": "cyclone_division_vet",
@@ -42051,8 +42648,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If US is Ally"
+      ]
     },
     {
       "card_id": "b24_liberator",
@@ -42084,8 +42683,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you control a unit with 3 or more operation cost."
+      ]
     },
     {
       "card_id": "b24j",
@@ -42336,8 +42937,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 13 or more kredit slots."
+      ]
     },
     {
       "card_id": "47th_infantry_regiment_vet",
@@ -42581,8 +43184,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] While in the frontline"
+      ]
     },
     {
       "card_id": "mass_deployment",
@@ -43217,8 +43822,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 0 kredits."
+      ]
     },
     {
       "card_id": "duck",
@@ -43245,8 +43852,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you move it into the frontline."
+      ]
     },
     {
       "card_id": "kingfisher",
@@ -43313,8 +43922,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 0 kredits."
+      ]
     },
     {
       "card_id": "kawanishi_h8k",
@@ -43720,8 +44331,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is an ANZAC card."
+      ]
     },
     {
       "card_id": "102_grenadier",
@@ -43745,8 +44358,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after it operates."
+      ]
     },
     {
       "card_id": "27th_mg_battalion",
@@ -43827,8 +44442,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it did not start there."
+      ]
     },
     {
       "card_id": "30_infantry_regiment",
@@ -43852,8 +44469,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after you operate a German unit."
+      ]
     },
     {
       "card_id": "3rd_morskoi_pekhoty",
@@ -43945,8 +44564,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when your hand is empty."
+      ]
     },
     {
       "card_id": "7th_recon",
@@ -43973,8 +44594,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you know a card in the enemy hand."
+      ]
     },
     {
       "card_id": "anders_army",
@@ -44168,8 +44791,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you lose a kredit slot."
+      ]
     },
     {
       "card_id": "no_46_commando",
@@ -44262,8 +44887,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if possible."
+      ]
     },
     {
       "card_id": "quinine",
@@ -44454,8 +45081,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you play a PLAN"
+      ]
     },
     {
       "card_id": "17th_infantry_brigade",
@@ -44522,8 +45151,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 3 or fewer kredit slots."
+      ]
     },
     {
       "card_id": "28th_infantry_regiment",
@@ -44575,8 +45206,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it is moved into the frontline."
+      ]
     },
     {
       "card_id": "3_7_inch_mountain_howitzer",
@@ -44823,8 +45456,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a friendly unit becomes Veteran, draw a card and gain a kredit."
+      ]
     },
     {
       "card_id": "katzmann_regiment",
@@ -44873,8 +45508,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a friendly unit becomes Veteran."
+      ]
     },
     {
       "card_id": "planned_attack",
@@ -44987,8 +45624,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it did not start there."
+      ]
     },
     {
       "card_id": "ruffians",
@@ -45131,8 +45770,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you play a neutral card."
+      ]
     },
     {
       "card_id": "the_double_sunrise",
@@ -45325,8 +45966,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after the second time."
+      ]
     },
     {
       "card_id": "38th_independent",
@@ -45378,8 +46021,11 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you have 4+ copies.",
+        "[condition not modeled] when you lose a kredit slot."
+      ]
     },
     {
       "card_id": "3_panzergrenadier",
@@ -45403,8 +46049,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after you operate a German unit."
+      ]
     },
     {
       "card_id": "46th_indian_brigade",
@@ -45446,8 +46094,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if you do."
+      ]
     },
     {
       "card_id": "4th_brigade_nz",
@@ -45473,8 +46123,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] If you have less than 3 cards in hand, draw until you have 3."
+      ]
     },
     {
       "card_id": "641st_rifles",
@@ -45501,8 +46153,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if damaged."
+      ]
     },
     {
       "card_id": "6th_brigade_nz",
@@ -45605,8 +46259,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] After you operate a unit"
+      ]
     },
     {
       "card_id": "counterattack",
@@ -45882,8 +46538,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit deals combat damage"
+      ]
     },
     {
       "card_id": "uusimaa_regiment",
@@ -45967,8 +46625,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it has 6 or more attack."
+      ]
     },
     {
       "card_id": "z_special_unit",
@@ -46031,8 +46691,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When you play a BLAST"
+      ]
     },
     {
       "card_id": "14th_brigade_nz",
@@ -46083,8 +46745,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after you have operated units three times."
+      ]
     },
     {
       "card_id": "4th_alpini_regiment",
@@ -46138,8 +46802,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when played.\\\""
+      ]
     },
     {
       "card_id": "detailed_recon",
@@ -46215,8 +46881,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when it attacks and destroys a unit."
+      ]
     },
     {
       "card_id": "j2m_raiden",
@@ -46440,8 +47108,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after you play a neutral card."
+      ]
     },
     {
       "card_id": "the_rock_of_gibraltar",
@@ -46535,8 +47205,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a friendly unit becomes Veteran."
+      ]
     },
     {
       "card_id": "116th_infantry_regiment",
@@ -46684,8 +47356,11 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you play your left-most card.",
+        "[condition not modeled] after the third time."
+      ]
     },
     {
       "card_id": "tropic_lightning",
@@ -46793,8 +47468,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when targeted by an enemy effect."
+      ]
     },
     {
       "card_id": "area_bombardment",
@@ -47048,8 +47725,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit becomes Veteran"
+      ]
     },
     {
       "card_id": "511th_regiment_vet",
@@ -47098,8 +47777,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] When this unit becomes Veteran"
+      ]
     },
     {
       "card_id": "14_panzergrenadier_vet",
@@ -47148,8 +47829,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when this unit becomes Veteran."
+      ]
     },
     {
       "card_id": "641st_rifles_vet",
@@ -47176,8 +47859,10 @@
           ]
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if this unit destroyed an enemy unit this turn."
+      ]
     },
     {
       "card_id": "6th_brigade_nz_vet",
@@ -47201,8 +47886,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when a friendly unit becomes Veteran."
+      ]
     },
     {
       "card_id": "wolfhounds_vet",
@@ -47226,8 +47913,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after you deploy or add an infantry."
+      ]
     },
     {
       "card_id": "182_landwehr_vet",
@@ -47251,8 +47940,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] After you operate a unit"
+      ]
     },
     {
       "card_id": "fw_ta_152_vet",
@@ -47276,8 +47967,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after they operate or are deployed."
+      ]
     },
     {
       "card_id": "the_silent_seventh_vet",
@@ -47443,8 +48136,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] if it had an attack of 3 or less."
+      ]
     },
     {
       "card_id": "advanced_imperial_rd",

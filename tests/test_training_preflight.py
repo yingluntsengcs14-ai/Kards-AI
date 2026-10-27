@@ -20,9 +20,12 @@ class TrainingPreflightTests(unittest.TestCase):
         # The gate admits every active card whose rule is fully implemented, so
         # the count moves as rules land or a card set is merged in.  The
         # invariants are: retired cards stay out, nothing "partial" leaks in,
-        # and the gate never shrinks below the original 2026-05 baseline.
+        # and the gate does not shrink below the current honest count.
+        # (2026-10-27: unmodeled conditions stopped counting as satisfied, which
+        # took the honest count from ~1620 to ~1270; the old 1486 floor was
+        # only reachable while those conditions were silently assumed true.)
         eligible = eligible_card_ids(self.cards)
-        self.assertGreaterEqual(len(eligible), 1486)
+        self.assertGreaterEqual(len(eligible), 1260)
         self.assertNotIn("fortunes_of_war", eligible)
         self.assertNotIn("night_bombing", eligible)
         rules = engine_for(self.cards)

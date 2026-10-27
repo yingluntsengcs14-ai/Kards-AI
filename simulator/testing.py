@@ -28,7 +28,8 @@ class SimulationReport:
 
 
 def build_random_deck(cards: CardDatabase, size: int = 40, seed: int | None = None, main_nation: str = "France", ally_nation: str | None = None,
-                      ally_limit: int = 12, enforce_official_nations: bool = False) -> list[str]:
+                      ally_limit: int = 12, enforce_official_nations: bool = False,
+                      allowed: set[str] | None = None) -> list[str]:
     """Build a seeded, 40-card-deck-builder-legal kards.info deck.
 
     ``OnlySpawnable`` is excluded; ``reserved`` is intentionally allowed.
@@ -45,6 +46,7 @@ def build_random_deck(cards: CardDatabase, size: int = 40, seed: int | None = No
     candidates = [
         card for card in cards
         if is_card_available(card.id) and not card.is_token and card.nation in allowed_nations
+        and (allowed is None or card.id in allowed)
     ]
     rng = random.Random(seed)
     rng.shuffle(candidates)

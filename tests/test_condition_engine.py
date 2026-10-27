@@ -44,8 +44,28 @@ class ConditionEngineTests(unittest.TestCase):
         self.assertFalse(evaluate("when you give an order.", "on_friendly_card_played", unit_ctx, self.cards))
         self.assertFalse(evaluate("when you play a card with Intel.", "on_friendly_card_played", unit_ctx, self.cards))
 
-    def test_evaluator_unknown_condition_is_lenient(self) -> None:
-        self.assertTrue(evaluate("if enemy has 3 or more units.", "on_play", EffectContext("p1"), self.cards))
+    def test_evaluator_unmodeled_condition_is_not_satisfied(self) -> None:
+        """看不懂的條件不成立，並記一筆事件（以前一律當成立）。"""
+        state = GameState(current_player="p1", players={"p1": PlayerState("p1", "Britain"), "p2": PlayerState("p2", "Germany")})
+        self.assertFalse(evaluate("if the moon is full.", "on_play", EffectContext("p1"), self.cards, state))
+        self.assertTrue(any(e.get("event") == "native_rule_condition_unmodeled" for e in state.event_log))
+        # Without a state there is no board to read, so a board condition is unmodeled too.
+        self.assertFalse(evaluate("if enemy has 3 or more units.", "on_play", EffectContext("p1"), self.cards))
+
+    def test_controls_predicate_reads_nation_type_and_threshold(self) -> None:
+        state = GameState(current_player="p1", players={
+            "p1": PlayerState("p1", "Germany", units=[UnitState("t", "panzer_ivh", 5, 5, "p1", "support_line")]),
+            "p2": PlayerState("p2", "Britain", units=[]),
+        }, battlefield={"frontline": [], "support_line": ["t"]})
+        ctx = EffectContext("p1")
+        self.assertTrue(evaluate("if you control a german tank", "on_play", ctx, self.cards, state))
+        self.assertTrue(evaluate("if you control a tank with 5 or more attack.", "on_play", ctx, self.cards, state))
+        self.assertFalse(evaluate("if you control a tank with 6 or more attack.", "on_play", ctx, self.cards, state))
+        self.assertFalse(evaluate("if you control a bomber", "on_play", ctx, self.cards, state))
+        self.assertFalse(evaluate("if the enemy controls an air unit", "on_play", ctx, self.cards, state))
+        # An unknown descriptor ("commando") is not silently ignored.
+        self.assertFalse(evaluate("if you control a commando", "on_play", ctx, self.cards, state))
+        self.assertTrue(any(e.get("event") == "native_rule_condition_unmodeled" for e in state.event_log))
 
     def test_evaluator_models_common_board_state_conditions(self) -> None:
         state = GameState(

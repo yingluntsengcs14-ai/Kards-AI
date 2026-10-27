@@ -49,8 +49,8 @@ def eligible_card_ids(cards: CardDatabase) -> set[str]:
 
 def _build_eligible_deck(cards: CardDatabase, seed: int, nation: str) -> list[str]:
     """Build a legal deck and assert the status filter did not leak."""
-    deck = build_random_deck(cards, seed=seed, main_nation=nation)
     allowed = eligible_card_ids(cards)
+    deck = build_random_deck(cards, seed=seed, main_nation=nation, allowed=allowed)
     rejected = set(deck) - allowed
     if rejected:
         raise AssertionError("Training deck contains non-eligible cards: " + ", ".join(sorted(rejected)))

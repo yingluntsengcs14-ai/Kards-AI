@@ -793,6 +793,14 @@ def _parse_sentence(sentence: str) -> tuple[RuleAction, ...]:
     delayed = _delayed_destroy(sentence)
     if delayed:
         return delayed
+    # M2A4: "Has Blitz if it has 3 or more attack."  A standing property of
+    # the unit, true whenever its attack reaches the threshold (a buff in hand
+    # or on the battlefield); it used to be checked once on deploy, and the
+    # check was never modeled, so M2A4 always had Blitz.
+    keyword_if = re.match(r"^\s*has\s+([a-z]+)\s+if\s+it\s+has\s+(\d+)\s+or\s+more\s+attack\.?\s*$", sentence, re.I)
+    if keyword_if:
+        return (RuleAction("conditional_keyword", "source", amount=int(keyword_if.group(2)),
+                           card_name=keyword_if.group(1).lower()),)
     main, condition = _strip_condition(sentence)
     if condition:
         # Try the FULL sentence first so condition-embedded, source-targeted

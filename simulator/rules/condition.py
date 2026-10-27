@@ -5,9 +5,8 @@ hq.``, ``if enemy has 3 or more units.``). The native engine uses this to decide
 whether a conditional action should actually execute for the current event/context.
 
 Modeled phrases are strictly gated to the matching event + (where applicable) the
-played card's type/ability. Unrecognized conditions are retained as satisfied
-for backward-compatible execution until the parser can distinguish persistent
-text from unresolved event predicates.
+played card's type/ability. An unrecognized condition is not satisfied; see
+:func:`evaluate`.
 """
 
 from __future__ import annotations
@@ -17,6 +16,16 @@ import re
 from simulator.cards.loader import CardDatabase
 
 
+class _Unmodeled:
+    """Returned by _evaluate when no branch understands the condition."""
+
+    def __repr__(self) -> str:
+        return "UNMODELED"
+
+
+UNMODELED = _Unmodeled()
+
+
 def evaluate(
     condition: str | None,
     event: str,
@@ -24,7 +33,70 @@ def evaluate(
     cards: CardDatabase,
     state=None,
 ) -> bool:
-    """Return True if the action should execute for ``event``/``context``."""
+    """Return True if the action should execute for ``event``/``context``.
+
+    A condition no branch understands is NOT satisfied (changed 2026-10-27).
+    It used to count as satisfied, so 371 cards fired effects whose condition
+    was never checked -- about a third of all condition checks in simulated
+    games -- while their rules still read "implemented".  The miss is logged
+    as ``native_rule_condition_unmodeled`` and tools/build_card_rules.py marks
+    such a card partial (see :func:`is_modeled`).
+    """
+    result = _evaluate(condition, event, context, cards, state)
+    if result is UNMODELED:
+        if state is not None:
+            state.event_log.append({"event": "native_rule_condition_unmodeled", "condition": condition,
+                                    "source_card_id": getattr(context, "source_card_id", None)})
+        return False
+    return bool(result)
+
+
+def _phrase_events(c: str) -> tuple[str, ...]:
+    """Events a trigger phrase names ("when you draw a card" -> on_card_drawn).
+
+    Many conditions only restate the card's trigger.  The parser's trigger
+    table already maps those phrases, so the condition holds exactly when the
+    firing event is one of them.
+    """
+    from types import SimpleNamespace
+    from simulator.rules.parser import _triggers
+    if not re.match(r"^(?:when|whenever|after|each time|at the (?:start|end) of)\b", c.strip()):
+        return ()
+    return tuple(t for t in _triggers(SimpleNamespace(type="infantry", id=""), c) if t != "on_deploy")
+
+
+def is_modeled(condition: str, events, cards: CardDatabase) -> bool:
+    """Whether some branch understands ``condition`` for any of ``events``.
+
+    Used by tools/build_card_rules.py to keep a card's status honest.  The
+    probe state is a minimal board; a branch that raises on it still counts as
+    understanding the phrase.
+    """
+    from simulator.core.state import GameState, PlayerState, ResourceState, UnitState
+    from simulator.effects.resolver import EffectContext
+    state = GameState(current_player="p1", players={
+        "p1": PlayerState("p1", "Germany", deck=["garrison"], hand=["garrison"], resources=ResourceState(5, 5),
+                          units=[UnitState("u", "garrison", 1, 3, "p1", "support_line")]),
+        "p2": PlayerState("p2", "Soviet", deck=["garrison"], resources=ResourceState(5, 5),
+                          units=[UnitState("e", "garrison", 1, 3, "p2", "frontline")]),
+    }, battlefield={"frontline": ["e"], "support_line": ["u"]})
+    for event in (events or ("on_play",)):
+        context = EffectContext("p1", "garrison", "u", "e", event=event, metadata={"played_card_id": "garrison"})
+        try:
+            if _evaluate(condition, event, context, cards, state) is not UNMODELED:
+                return True
+        except Exception:
+            return True
+    return False
+
+
+def _evaluate(
+    condition: str | None,
+    event: str,
+    context,
+    cards: CardDatabase,
+    state=None,
+):
     if not condition:
         return True
     c = condition.lower()
@@ -153,11 +225,9 @@ def evaluate(
         match = re.search(r"you control (\d+) or more units?", c)
         if match:
             return own_count >= int(match.group(1))
-        match = re.search(r"you control (?:another )?(?:unit )?with (\d+) or more attack", c)
-        if match:
-            source_id = getattr(context, "source_unit_id", None)
-            units = [unit for unit in player.units if "another" not in c or unit.instance_id != source_id]
-            return any(unit.attack >= int(match.group(1)) for unit in units)
+        controls = _controls_predicate(c, context, cards, state, player, opponent)
+        if controls is not None:
+            return controls
         if re.search(r"you control (?:an? )?infantry", c):
             return any(cards.get(unit.card_id).type == "infantry" for unit in player.units if unit.card_id in cards)
         if "you control the frontline" in c:
@@ -176,9 +246,78 @@ def evaluate(
                 return False
             top = cards.get(player.deck[0])
             return "navy" in top.name.lower() or any("navy" in ability.lower() for ability in top.abilities)
-    # State-based / other conditions: retained leniently for existing parsed
-    # persistent effects. Training readiness audits report this as a blocker.
-    return True
+    # A condition that only restates the trigger holds on that trigger.
+    events = _phrase_events(c)
+    if events:
+        return event in events
+    return UNMODELED
+
+
+# Words that may describe a unit in "if you control a German tank with 4 or
+# more attack".  Any other word makes the predicate unreadable, which keeps it
+# UNMODELED instead of quietly ignoring part of the condition.
+_UNIT_TYPE_WORDS = {
+    "unit": None, "units": None,
+    "infantry": {"infantry"}, "tank": {"tank"}, "tanks": {"tank"}, "artillery": {"artillery"},
+    "fighter": {"fighter"}, "fighters": {"fighter"}, "bomber": {"bomber"}, "bombers": {"bomber"},
+    "air": {"fighter", "bomber"}, "ground": {"infantry", "tank", "artillery"},
+}
+
+
+def _controls_predicate(c, context, cards, state, player, opponent):
+    """``if you control a/an/another <descriptor> [with N or more attack|defense]``
+    and ``if the enemy controls ...``; None when the clause is not of that shape."""
+    from simulator.rules import nations
+    match = re.search(
+        r"\b(you control|the enemy controls|your enemy controls|enemy controls)\s+(a|an|another|any)\s+"
+        r"([a-z -]+?)(?:\s+with\s+(\d+)\s+or\s+more\s+(attack|defense))?\s*[.,;]?\s*$", c)
+    if not match:
+        return None
+    side = player if match.group(1) == "you control" else opponent
+    if side is None:
+        return False
+    words = match.group(3).split()
+    wanted_types: set | None = None
+    wanted_nation = None
+    for word in words:
+        if word in _UNIT_TYPE_WORDS:
+            if _UNIT_TYPE_WORDS[word] is not None:
+                wanted_types = _UNIT_TYPE_WORDS[word] if wanted_types is None else wanted_types & _UNIT_TYPE_WORDS[word]
+        elif word in nations.NATION_BY_ADJECTIVE:
+            wanted_nation = word
+        else:
+            return None       # an unknown descriptor: not readable here
+    source_id = getattr(context, "source_unit_id", None)
+    threshold = int(match.group(4)) if match.group(4) else None
+    for unit in side.units:
+        if match.group(2) == "another" and unit.instance_id == source_id:
+            continue
+        card = cards.get(unit.card_id) if unit.card_id in cards else None
+        if card is None:
+            continue
+        if wanted_types is not None and card.type not in wanted_types:
+            continue
+        if wanted_nation and not nations.matches(card.nation, wanted_nation):
+            continue
+        if threshold is not None and (unit.attack if match.group(5) == "attack" else unit.defense) < threshold:
+            continue
+        return True
+    return False
+
+
+# (action kind, condition pattern) pairs where the condition describes when an
+# installed ability acts, and the kind's own handler checks that moment.  The
+# condition must not gate installing the ability (TYPE 89 CHI-RO, KATYUSHA).
+_HANDLER_OWNED = (
+    ("hq_defense_becomes_damage", r"^when a hq gains defense"),
+    ("random_combat_damage", r"^when .+ attacks"),
+)
+
+
+def handled_by_kind(kind: str, condition: str | None) -> bool:
+    """Whether ``kind``'s handler itself implements ``condition``."""
+    c = (condition or "").strip().lower()
+    return any(kind == owned_kind and re.search(pattern, c) for owned_kind, pattern in _HANDLER_OWNED)
 
 
 def _weather_categories(phrase: str) -> tuple[str, ...]:

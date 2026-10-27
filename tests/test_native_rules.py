@@ -251,7 +251,10 @@ class NativeRuleTests(unittest.TestCase):
         # with the conditional clause captured as a second action carrying a
         # condition, rather than left unresolved.
         rule = self.engine.rule_for("critical_damage")
-        self.assertEqual(rule.status, "implemented")
+        # "If it doesn't have any adjacent units" is not modeled yet, so the
+        # card is honestly partial (it used to read implemented while the
+        # condition was assumed true).
+        self.assertEqual(rule.status, "partial")
         conditional = [a for a in rule.actions if a.condition]
         self.assertTrue(conditional, "conditional 'deal 2 instead' clause should be captured")
         state = self.state()

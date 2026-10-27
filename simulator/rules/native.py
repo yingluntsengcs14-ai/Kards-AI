@@ -522,7 +522,9 @@ class NativeRuleEngine:
     def _execute_action(self, action: RuleAction, state, context: EffectContext) -> None:
         # Conditional actions are skipped when their condition is not satisfied
         # for the current event/context (M8 condition engine).
-        if action.condition is not None and not condition_evaluate(action.condition, self._current_event, context, self.cards, state):
+        from simulator.rules.condition import handled_by_kind
+        if (action.condition is not None and not handled_by_kind(action.kind, action.condition)
+                and not condition_evaluate(action.condition, self._current_event, context, self.cards, state)):
             state.event_log.append({"event": "native_rule_condition_false", "kind": action.kind, "condition": action.condition})
             return
         # Delayed one-shot effects (M10): schedule a discard/return-to-hand to a
@@ -1495,6 +1497,12 @@ class NativeRuleEngine:
                         unit.defense += action.defense
                     else:
                         unit.defense += action.amount
+            return
+        if action.kind == "conditional_keyword" and context.source_unit_id:
+            # M2A4: the unit holds the keyword whenever its attack is high
+            # enough; KeywordEngine.has reads this.
+            unit = find_unit(state, context.source_unit_id)
+            unit.status.setdefault("keyword_if_attack", {})[action.card_name or ""] = action.amount
             return
         if action.kind == "put_into_play":
             self._put_into_play(action, state, context)
