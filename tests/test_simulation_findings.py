@@ -292,6 +292,22 @@ class SimulationFindingTests(unittest.TestCase):
                     offenders.append((card.id, action.condition))
         self.assertEqual(offenders, [])
 
+    def test_confusion_removes_the_unit_when_its_owner_has_no_room(self) -> None:
+        """遊戲內確認：歸還時原主人支援線已滿 → 移除（不是消滅，不觸發消滅效果）。"""
+        state = self._state(hand=("confusion",), p2_units=(("e", "13th_rifle_regiment", 2, 2),))
+        PlayCardAction("p1", "confusion", target_unit_id="e").execute(state, self.cards)
+        for index in range(4):
+            uid = "f{0}".format(index)
+            state.players["p2"].units.append(UnitState(uid, "garrison", 1, 3, "p2", "support_line"))
+            state.battlefield["support_line"].append(uid)
+        hand_before = list(state.players["p2"].hand)
+        self._end_turn(state)
+        self.assertNotIn("e", [u.instance_id for p in state.players.values() for u in p.units])
+        self.assertIn("13th_rifle_regiment", state.removed_cards)
+        self.assertNotIn("13th_rifle_regiment", state.graveyard.get("p2", []))
+        # 13th RIFLE 的「消滅時加一張蘇聯步兵」不觸發（p2 回合開始只抽了正常那一張）
+        self.assertEqual(len(state.players["p2"].hand), len(hand_before) + 1)
+
     # ── BLAST (spawn-only card missing from the kards.info catalog) ─────────
     def test_blast_exists_and_deals_one_damage(self) -> None:
         self.assertIn("blast", self.cards)

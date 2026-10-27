@@ -2388,13 +2388,19 @@ class NativeRuleEngine:
                 unit = None
             if unit is not None and unit.owner_id != entry["owner_id"]:
                 if not NativeRuleEngine._change_control(state, unit, entry["owner_id"]):
-                    # Nowhere to go back to: the unit is destroyed.
-                    # (Assumption, not yet confirmed in game.)
-                    from simulator.effects import basic_effects
-                    start = len(state.event_log)
-                    basic_effects.destroy(state, unit)
+                    # Nowhere to go back to: the unit is REMOVED, not destroyed
+                    # (confirmed in game 2026-10-27), so no Destruction effect
+                    # runs and it does not count as destroyed.
+                    holder = state.players[unit.owner_id]
+                    if unit.instance_id in state.battlefield.get(unit.position, []):
+                        state.battlefield[unit.position].remove(unit.instance_id)
+                    holder.units.remove(unit)
+                    state.removed_cards.append(unit.card_id)
+                    state.event_log.append({"event": "unit_removed", "unit_id": unit.instance_id,
+                                            "reason": "control_returned_to_full_support_line"})
                     if NativeRuleEngine._last_engine is not None:
-                        NativeRuleEngine._last_engine.emit_deaths_since(state, start)
+                        NativeRuleEngine._last_engine._cleanup_continuous_effects(state, holder.player_id, unit.instance_id)
+                        NativeRuleEngine._last_engine.left_battlefield(state, unit, holder.player_id)
             return
         if entry["kind"] == "kredits":
             player = state.players.get(entry.get("owner_id"))
