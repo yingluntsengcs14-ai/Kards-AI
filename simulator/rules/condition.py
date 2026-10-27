@@ -435,6 +435,8 @@ def _board_predicate(c, context, cards, state):
 _HANDLER_OWNED = (
     ("hq_defense_becomes_damage", r"^when a hq gains defense"),
     ("random_combat_damage", r"^when .+ attacks"),
+    # INTERCEPTION: CountermeasureResolver checks the target before firing.
+    ("cancel", r"^target_friendly$"),
 )
 
 

@@ -99,7 +99,9 @@ class CoreRuleGapsTests(unittest.TestCase):
             RuleAction("develop_options", "owner", card_name="GREIF|GARRISON"),
             state, EffectContext("p1", metadata={"selected_option": "GARRISON"}),
         )
-        self.assertEqual(state.players["p1"].units[-1].card_id, "garrison")
+        # Develop adds the chosen card to hand, units included (confirmed in game).
+        self.assertIn("garrison", state.players["p1"].hand)
+        self.assertNotIn("greif", state.players["p1"].hand)
 
     def test_convert_replaces_selected_hand_card_in_place(self) -> None:
         state = self._state()

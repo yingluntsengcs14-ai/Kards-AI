@@ -418,12 +418,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "british special force unit",
+          "card_name": "a British special force unit",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -432,12 +432,12 @@
           "on": []
         },
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "british order",
+          "card_name": "a British order",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -448,6 +448,7 @@
       ],
       "status": "partial",
       "unresolved_fragments": [
+        "[develop: cannot read] a British special force unit",
         "[condition not modeled] If you control a Commando"
       ]
     },
@@ -864,10 +865,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] target_friendly"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "kangaroo_transport",
@@ -1309,10 +1308,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] target_friendly"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "swordfish_mk_i",
@@ -1856,10 +1853,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] target_friendly"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "creeping_barrage",
@@ -2259,12 +2254,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "british or us bomber",
+          "card_name": "a British or US bomber",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -2696,12 +2691,12 @@
           "on": []
         },
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "british air unit with 2 or less attack",
+          "card_name": "a British air unit with 2 or less attack",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -10376,10 +10371,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[selector contract: kind=discard does not read a chosen target]"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "cross_of_lorraine",
@@ -11779,12 +11772,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "german countermeasure",
+          "card_name": "a German countermeasure",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -12226,12 +12219,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "german light tank",
+          "card_name": "a German light tank",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -12254,8 +12247,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[develop: cannot read] a German light tank"
+      ]
     },
     {
       "card_id": "conquest",
@@ -12718,26 +12713,12 @@
       ],
       "actions": [
         {
-          "kind": "return_to_hand",
+          "kind": "return_to_hand_free_this_turn",
           "target": "selected_friendly",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "kredit_effect",
-          "target": "owner",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "It costs 0 kredits to deploy this turn.",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -14760,12 +14741,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "german medium or heavy tank",
+          "card_name": "a German medium or heavy tank",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -14788,8 +14769,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[develop: cannot read] a German medium or heavy tank"
+      ]
     },
     {
       "card_id": "enigma",
@@ -15825,20 +15808,18 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop_options",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "eagle claws, sky barons or tactical strike",
+          "card_name": "EAGLE CLAWS|SKY BARONS|TACTICAL STRIKE",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -18174,12 +18155,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "navy card",
+          "card_name": "a Navy card",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -22611,20 +22592,18 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop_options",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "mphibious assault, expansion or for prosperity",
+          "card_name": "AMPHIBIOUS ASSAULT|EXPANSION|FOR PROSPERITY",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -27076,42 +27055,14 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "n air unit of your main nation",
+          "card_name": "an air unit of your main nation",
           "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "modify_deployment_cost",
-          "target": "source",
-          "amount": -1,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "modify_operation_cost",
-          "target": "source",
-          "amount": -1,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
+          "min_cost": 1,
           "set_cost": null,
           "duration": null,
           "condition": null,
@@ -27129,9 +27080,9 @@
       ],
       "actions": [
         {
-          "kind": "discard",
+          "kind": "discard_random_enemy_draw_if_known",
           "target": "enemy_hand",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -27141,26 +27092,10 @@
           "duration": null,
           "condition": null,
           "on": []
-        },
-        {
-          "kind": "draw",
-          "target": "owner",
-          "amount": 1,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": "if it was known.",
-          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if it was known."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "rapid_response",
@@ -29289,27 +29224,13 @@
       ],
       "actions": [
         {
-          "kind": "choose_one",
-          "target": "owner",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "hand",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "convert_to",
+          "kind": "convert_hand_card_into_target",
           "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "target unit.",
-          "scope": "",
+          "card_name": null,
+          "scope": "hand:any",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -30552,20 +30473,18 @@
       ],
       "actions": [
         {
-          "kind": "convert_to",
-          "target": "selected_target",
+          "kind": "convert_hand_card_into_last_destroyed",
+          "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "your last destroyed unit",
-          "scope": "",
+          "card_name": null,
+          "scope": "hand:any",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         },
         {
           "kind": "gain_kredits",
@@ -30579,9 +30498,7 @@
           "set_cost": null,
           "duration": "start_of_next_turn",
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -34615,20 +34532,18 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop_options",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "rctic convoy, burning sky or the hammer",
+          "card_name": "ARCTIC CONVOY|BURNING SKY|THE HAMMER",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -34841,27 +34756,13 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "fill_hand_and_support",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "grant_ability",
-          "target": "friendly_units",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "blitz",
-          "scope": "",
+          "card_name": "LIGHT INFANTRY",
+          "scope": "blitz",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -37660,12 +37561,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "retribution",
+          "card_name": "a RETRIBUTION",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -39736,12 +39637,12 @@
       ],
       "actions": [
         {
-          "kind": "destroy",
+          "kind": "retreat_adjacent",
           "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "frontline",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -39750,8 +39651,8 @@
           "on": []
         },
         {
-          "kind": "move_to_support_line",
-          "target": "selected_friendly",
+          "kind": "destroy",
+          "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -40006,20 +39907,18 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop_options",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "death from above, unity is strength or we can do it!",
+          "card_name": "DEATH FROM ABOVE|UNITY IS STRENGTH|WE CAN DO IT",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -40396,12 +40295,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "us bomber",
+          "card_name": "a US bomber",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -42324,12 +42223,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
-          "card_name": "two retributions",
+          "card_name": "RETRIBUTIONS",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -42788,12 +42687,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "each turn, also develop a retribution",
+          "card_name": "each turn, also Develop a RETRIBUTION",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -42802,8 +42701,10 @@
           "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[develop: cannot read] each turn, also Develop a RETRIBUTION"
+      ]
     },
     {
       "card_id": "47th_infantry_regiment",
@@ -43487,26 +43388,12 @@
       ],
       "actions": [
         {
-          "kind": "return_to_deck",
+          "kind": "tropical_storm",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "draw_top_matching",
-          "target": "owner",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "equal to greatest number shuffled",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -44744,12 +44631,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "british order costing 4 or less",
+          "card_name": "a British order costing 4 or less",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -47033,12 +46920,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "card in the enemy deck",
+          "card_name": "a card in the enemy deck",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -47064,6 +46951,7 @@
       "status": "partial",
       "unresolved_fragments": [
         "in your deck.",
+        "[develop: cannot read] a card in the enemy deck",
         "[engine does not implement kind=special_effect] in your deck."
       ]
     },
@@ -47942,12 +47830,12 @@
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "develop",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "few good men, duress or for freedom",
+          "card_name": "A FEW GOOD MEN, DURESS or FOR FREEDOM",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,

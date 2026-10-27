@@ -13,6 +13,7 @@ from simulator.cards.loader import CardDatabase
 from simulator.core.state import GameState, GameStatus, PlayerState
 from simulator.core.turn import TurnManager
 from simulator.rules.native import _hand_unit_matches, develop_offers, engine_for, hand_choice_matches
+from simulator.rules.develop import offers as develop_offers_for
 from simulator.rules.deck import DeckValidator
 from simulator.rules import weather as weather_rules
 
@@ -134,6 +135,9 @@ class Simulator:
                 else ([(candidate_id, "deck") for candidate_id in develop_offers(self.state, player_id, spec.develop_from_deck)]
                       or [(None, None)])
                 if spec.develop_from_deck
+                else ([(candidate_id, "offer") for candidate_id in develop_offers_for(self.state, player_id, self.cards, spec.develop_phrase)]
+                      or [(None, None)])
+                if spec.develop_phrase
                 else [(candidate_id, zone) for candidate_id, zone in convert_choices if zone != "hand" or candidate_id != card_id]
                 if spec.convert_to
                 else [(None, None)]
@@ -144,7 +148,8 @@ class Simulator:
                 # Forecast is a three-way player choice: sunny / rain / storm.
                 else list(weather_rules.CATEGORIES)
                 if spec.forecast
-                else (None, *spec.develop_options)
+                # Develop A, B or C: the player picks one; no "no choice" action.
+                else (list(spec.develop_options) or [None])
             )
             for position in positions:
                 for target_unit_id in targets:

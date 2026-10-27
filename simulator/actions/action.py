@@ -75,7 +75,7 @@ class PlayCardAction(Action):
                 raise ActionValidationError("Selected hand card must be a unit")
         hand_choice = next((action for action in rule.actions
                             if (action.scope or "").startswith("hand:") and action.kind in
-                            {"shuffle_selected_into_deck", "copy_hand_unit_to_support"}), None)
+                            {"shuffle_selected_into_deck", "copy_hand_unit_to_support", "convert_hand_card_into_target", "convert_hand_card_into_last_destroyed"}), None)
         if hand_choice is not None:
             from simulator.rules.native import hand_choice_matches
             any_match = any(hand_choice_matches(hand_choice.scope, cards, candidate, player.hand, self.card_id)
@@ -84,6 +84,13 @@ class PlayCardAction(Action):
                 raise ActionValidationError("This card needs a matching card chosen from hand")
             if not any_match and self.selected_card_id is not None:
                 raise ActionValidationError("No card in hand can be chosen")
+        described = next((action for action in rule.actions if action.kind == "develop"), None)
+        if described is not None:
+            from simulator.rules.develop import offers as develop_offers_for, parse_descriptor
+            if parse_descriptor(described.card_name or "") is not None:
+                offered = develop_offers_for(state, self.player_id, cards, described.card_name or "")
+                if offered and self.selected_card_id not in offered:
+                    raise ActionValidationError("Choose one of the developed cards")
         develop = next((action for action in rule.actions if action.kind == "develop_from_deck"), None)
         if develop is not None and player.deck:
             from simulator.rules.native import develop_offers
@@ -209,6 +216,8 @@ class PlayCardAction(Action):
         player.hand.remove(self.card_id)
         intel_rules.refresh(state)
         player.resources.kredits -= cost
+        for mod in [mod for mod in player.cost_modifiers if mod.get("single_use") and _cost_mod_applies(mod, card, cards)][:1]:
+            player.cost_modifiers.remove(mod)      # a discount for one copy only
         reductions = player.status.get("hand_cost_on_enemy_draw")
         if isinstance(reductions, dict) and self.card_id not in player.hand:
             reductions.pop(self.card_id, None)   # the last copy left the hand
@@ -679,6 +688,8 @@ def _cost_mod_applies(mod: dict, card, cards: CardDatabase) -> bool:
     if scope == "ability":
         abilities = cards.get(card.id).abilities if card.id in cards else []
         return any(fv.lower() in ability.lower() for ability in abilities)
+    if scope == "card_id":
+        return card.id == fv
     if scope == "name":
         # Catalog text commonly uses a plural family name ("Spitfires")
         # while individual card names use its singular form.  Name-scoped
@@ -693,10 +704,13 @@ def apply_op_cost_rules(state: GameState, player_id: str, unit: UnitState, cards
     card = cards.get(unit.card_id)
     if card is None:
         return
-    for rule in state.players[player_id].op_cost_rules:
+    player = state.players[player_id]
+    for rule in list(player.op_cost_rules):
         if not _op_rule_matches(rule, card):
             continue
         _apply_op_cost_rule_to_unit(unit, rule)
+        if rule.get("single_use"):
+            player.op_cost_rules.remove(rule)   # PILOT ESCAPE: only the developed copy
 
 
 def _apply_op_cost_rule_to_unit(unit: UnitState, rule: dict) -> None:
@@ -742,6 +756,8 @@ def _op_rule_matches(rule: dict, card) -> bool:
         return any(fv in ability.lower() for ability in card.abilities)
     if scope == "name":
         return fv in card.name.lower()
+    if scope == "card_id":
+        return card.id == fv
     return True
 
 

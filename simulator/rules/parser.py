@@ -452,6 +452,48 @@ class RuleParser:
             (RuleAction("damage", "selected_enemy", amount=4, scope="or_enemy_hq"),
              RuleAction("top_card_navy", "owner", duration="next_turn")),
             "implemented", ()),
+        # ── batch 3b ────────────────────────────────────────────────────────
+        # "Players shuffle their hand into their deck, then draw equal to
+        # greatest number shuffled."
+        "tropical_storm": (
+            ("on_play",), (RuleAction("tropical_storm", "owner"),), "implemented", ()),
+        # "Fill your hand and support line with LIGHT INFANTRY. Give them all
+        # Blitz."  ("them" = the ones put in the support line.)
+        "the_peoples_army": (
+            ("on_play",), (RuleAction("fill_hand_and_support", "owner", card_name="LIGHT INFANTRY", scope="blitz"),),
+            "implemented", ()),
+        # "Send a friendly unit to hand. It costs 0 kredits to deploy this turn."
+        "shifting_attack": (
+            ("on_play",),
+            (RuleAction("return_to_hand_free_this_turn", "selected_friendly"),),
+            "implemented", ()),
+        # "Destroy target unit in the frontline. Retreat adjacent units."
+        # (It retreated a selected friendly unit instead.)
+        "uss_missouri": (
+            ("on_play",),
+            (RuleAction("retreat_adjacent", "selected_target", card_name="frontline"),
+             RuleAction("destroy", "selected_target")),   # frontline check rides on the first action
+            "implemented", ()),
+        # "Develop an air unit of your main nation. It costs 1 less to deploy
+        # and operate."  Three air units of the main nation are offered.
+        "pilot_escape": (
+            ("on_play",), (RuleAction("develop", "owner", card_name="an air unit of your main nation", amount=1, min_cost=1),),
+            "implemented", ()),
+        # "Choose a card in hand. Convert it into target unit."
+        "surveil": (
+            ("on_play",), (RuleAction("convert_hand_card_into_target", "selected_target", scope="hand:any"),),
+            "implemented", ()),
+        # "Deployment: Convert a card in hand into your last destroyed unit.
+        # Lose 2 kredits at the start of your next turn."
+        "kv85": (
+            ("on_deploy",),
+            (RuleAction("convert_hand_card_into_last_destroyed", "owner", scope="hand:any"),
+             RuleAction("gain_kredits", "owner", amount=-2, duration="start_of_next_turn")),
+            "implemented", ()),
+        # "The enemy discards a random card. Draw a card if it was known."
+        # (The engine discarded the left-most card.)
+        "punish": (
+            ("on_play",), (RuleAction("discard_random_enemy_draw_if_known", "enemy_hand"),), "implemented", ()),
         # "Cannot be deployed if you have deployed a unit this turn."  Checked
         # when the card is played (PlayCardAction.validate), not on deploy.
         "13e_dragons": (
@@ -598,11 +640,16 @@ class RuleParser:
             return CardRule(card.id, text, ("on_play",),
                             (RuleAction("destroy_undamaged", "selected_target"),
                              RuleAction("rearrange_enemy_units", "enemy_units")), "implemented")
-        develop_options = re.match(r"develop\s+(.+?)\s+or\s+([^\.]+)\.?$", text.strip(), re.I) if "," in text else None
+        # "Develop A, B or C" -- also as a unit's "Deployment: Develop ..."
+        # (41st INFANTRY REGIMENT, 740th RIFLE REGIMENT), which the template
+        # missed and turned into a deploy of "a, b or c".
+        develop_text = re.sub(r"^\s*deployment\s*:\s*", "", text.strip(), flags=re.I)
+        develop_options = re.match(r"develop\s+(.+?)\s+or\s+([^\.!]+)[\.!]?$", develop_text, re.I) if "," in text else None
         if develop_options:
             choices = [part.strip() for part in (develop_options.group(1) + "," + develop_options.group(2)).split(",") if part.strip()]
             if len(choices) >= 2:
-                return CardRule(card.id, text, ("on_play",),
+                trigger = "on_deploy" if card.is_unit else "on_play"
+                return CardRule(card.id, text, (trigger,),
                                 (RuleAction("develop_options", "owner", card_name="|".join(choices)),), "implemented")
         if "random effects always choose this unit" in text.lower():
             return CardRule(card.id, text, ("on_deploy",),
@@ -1710,10 +1757,13 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
     if frontline:
         return (RuleAction("move_to_frontline", "selected_enemy" if "enemy" in lower else "selected_friendly" if "friendly" in lower else "selected_target"),)
     # --- M7 batch: high-yield generic templates (condition already stripped) ---
-    # Develop X (a unit / order / countermeasure / named card).
-    develop_n = re.search(r"\bdevelop\s+(?:a|an|another|the\s+)?(.+?)(?:\.|$)", lower)
+    # Develop X: choose 1 of 3 and add it to hand (simulator.rules.develop).
+    # It used to be a deploy of X, which also failed for orders.
+    develop_n = re.search(r"\bdevelop\s+(?:(two|three)\s+)?(.+?)(?:\.|$)", clean, re.I)
     if develop_n:
-        return (RuleAction("deploy_named", "owner", card_name=develop_n.group(1).strip()),)
+        phrase = develop_n.group(2).strip()
+        count = _number(develop_n.group(1)) if develop_n.group(1) else 1
+        return (RuleAction("develop", "owner", card_name=phrase, amount=count),)
     # Retreat it / mass "must retreat".
     if re.search(r"\bretreat\s+it\b", lower):
         return (RuleAction("move_to_support_line", "selected_target"),)

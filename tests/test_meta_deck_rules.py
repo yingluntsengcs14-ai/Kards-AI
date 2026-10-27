@@ -331,6 +331,79 @@ class MetaDeckRuleTests(unittest.TestCase):
         self.assertIn("5th_parachute_brigade", [u.card_id for u in state.players["p1"].units])
         self.assertIn("5th_parachute_brigade", state.players["p1"].hand)      # 手上那張還在
 
+    # ── Develop and batch 3b ─────────────────────────────────────────────────
+    def test_develop_adds_the_chosen_card_to_hand(self) -> None:
+        """遊戲內確認：Develop 選到的卡加進手牌（以前單位會直接部署）。"""
+        state = self._state(hand=("41st_infantry_regiment",))
+        sim = Simulator(self.cards); sim.state = state
+        options = {a.selected_option for a in sim.get_available_actions()
+                   if isinstance(a, PlayCardAction) and a.card_id == "41st_infantry_regiment"}
+        self.assertEqual(options, {"DEATH FROM ABOVE", "UNITY IS STRENGTH", "WE CAN DO IT"})
+        PlayCardAction("p1", "41st_infantry_regiment", selected_option="UNITY IS STRENGTH").execute(state, self.cards)
+        self.assertEqual([self.cards.get(card_id).name for card_id in state.players["p1"].hand], ["UNITY IS STRENGTH"])
+
+    def test_pilot_escape_offers_three_main_nation_air_units_at_a_discount(self) -> None:
+        state = self._state(hand=("pilot_escape",))
+        state.players["p1"].nation = "Japan"
+        sim = Simulator(self.cards); sim.state = state
+        offered = {a.selected_card_id for a in sim.get_available_actions()
+                   if isinstance(a, PlayCardAction) and a.card_id == "pilot_escape"}
+        self.assertEqual(len(offered), 3)
+        self.assertTrue(all(self.cards.get(c).nation == "Japan" and self.cards.get(c).type in {"fighter", "bomber"} for c in offered))
+        pick = sorted(offered)[0]
+        PlayCardAction("p1", "pilot_escape", selected_card_id=pick).execute(state, self.cards)
+        from simulator.actions.action import card_play_cost
+        self.assertEqual(state.players["p1"].hand, [pick])
+        self.assertEqual(card_play_cost(state, "p1", self.cards.get(pick), self.cards), max(0, self.cards.get(pick).kredits - 1))
+
+    def test_tropical_storm_reshuffles_both_hands(self) -> None:
+        state = self._state(hand=("tropical_storm", "radar", "radar"))
+        state.players["p2"].hand = ["garrison"] * 5
+        PlayCardAction("p1", "tropical_storm").execute(state, self.cards)
+        self.assertEqual(len(state.players["p1"].hand), 5)      # 最多洗回 5 張
+        self.assertEqual(len(state.players["p2"].hand), 5)
+
+    def test_peoples_army_fills_hand_and_support_line(self) -> None:
+        state = self._state(hand=("the_peoples_army",))
+        PlayCardAction("p1", "the_peoples_army").execute(state, self.cards)
+        names = {self.cards.get(c).name for c in state.players["p1"].hand}
+        self.assertEqual((len(state.players["p1"].hand), names), (9, {"LIGHT INFANTRY"}))
+        self.assertEqual(len(state.players["p1"].units), 4)
+        self.assertTrue(all("blitz" in u.status.get("added_abilities", []) for u in state.players["p1"].units))
+
+    def test_shifting_attack_makes_the_returned_unit_free_this_turn(self) -> None:
+        from simulator.actions.action import card_play_cost
+        state = self._state(hand=("shifting_attack",), p1_units=(("t", "panzer_iia", 1, 3, "support_line"),))
+        PlayCardAction("p1", "shifting_attack", target_unit_id="t").execute(state, self.cards)
+        self.assertIn("panzer_iia", state.players["p1"].hand)
+        self.assertEqual(card_play_cost(state, "p1", self.cards.get("panzer_iia"), self.cards), 0)
+
+    def test_uss_missouri_destroys_and_retreats_the_neighbours(self) -> None:
+        state = self._state(hand=("uss_missouri",), p2_units=(("a", "garrison", 1, 3, "frontline"),
+                                                               ("b", "garrison", 1, 3, "frontline"),
+                                                               ("c", "garrison", 1, 3, "frontline")))
+        PlayCardAction("p1", "uss_missouri", target_unit_id="b").execute(state, self.cards)
+        positions = {u.instance_id: u.position for u in state.players["p2"].units}
+        self.assertEqual(positions, {"a": "support_line", "c": "support_line"})
+
+    def test_surveil_and_kv85_convert_the_chosen_hand_card(self) -> None:
+        from simulator.effects import basic_effects
+        state = self._state(hand=("surveil", "radar"), p2_units=(("e", "panzer_iia", 1, 3, "frontline"),))
+        PlayCardAction("p1", "surveil", target_unit_id="e", selected_card_id="radar").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].hand, ["panzer_iia"])
+        state = self._state(hand=("kv85", "radar"), p1_units=(("g", "garrison", 1, 3, "support_line"),))
+        basic_effects.destroy(state, state.players["p1"].units[0])
+        PlayCardAction("p1", "kv85", selected_card_id="radar").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].hand, ["garrison"])
+
+    def test_punish_draws_only_for_a_known_card(self) -> None:
+        state = self._state(hand=("punish",))
+        state.players["p2"].hand = ["radar"]
+        state.players["p1"].status["known_enemy_hand"] = ["radar"]
+        before = len(state.players["p1"].deck)
+        PlayCardAction("p1", "punish").execute(state, self.cards)
+        self.assertEqual((state.players["p2"].hand, before - len(state.players["p1"].deck)), ([], 1))
+
 
 if __name__ == "__main__":
     unittest.main()

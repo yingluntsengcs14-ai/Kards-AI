@@ -170,6 +170,14 @@ _GENUINELY_EXECUTED_KINDS: frozenset[str] = frozenset({
     "deck_attack_bonus",
     "enemy_hand_random_to_deck_top",
     "top_card_navy",
+    "develop",
+    "tropical_storm",
+    "fill_hand_and_support",
+    "return_to_hand_free_this_turn",
+    "retreat_adjacent",
+    "convert_hand_card_into_target",
+    "convert_hand_card_into_last_destroyed",
+    "discard_random_enemy_draw_if_known",
     "put_into_play",
     "flicker",
     "remove_until_return",
@@ -339,6 +347,20 @@ def recompute_status(entry: dict, executable: frozenset[str], cards: CardDatabas
             note = "[selector contract: {0}]".format(problem)
             if note not in fragments:
                 fragments.append(note)
+        # Develop needs a real card name or a description develop.py reads.
+        if kind == "develop" and cards is not None:
+            from simulator.rules.develop import parse_descriptor
+            name = (action.get("card_name") or "").strip()
+            by_name = {card.name.upper() for card in cards}
+            import re as _re
+            bare = _re.sub(r"^(?:A|AN)\s+", "", name.upper())
+            listed = _re.split(r"\s*,\s*|\s+OR\s+", name.upper())
+            plural_ok = bare in by_name or bare.rstrip("S") in by_name or (
+                len(listed) >= 2 and all(item in by_name for item in listed))
+            if parse_descriptor(name) is None and not plural_ok:
+                note = "[develop: cannot read] {0}".format(name)
+                if note not in fragments:
+                    fragments.append(note)
         # A condition the engine cannot read is never satisfied, so the action
         # never runs: the card is not fully implemented.
         condition = action.get("condition")

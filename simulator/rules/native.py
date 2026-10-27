@@ -61,6 +61,8 @@ class ActionGenerationSpec:
     hand_choice: str | None = None
     # "Develop a card in your deck": number of deck cards offered.
     develop_from_deck: int = 0
+    # "Develop a German countermeasure": the description the offer is drawn from.
+    develop_phrase: str | None = None
 
 
 def _hand_unit_matches(card, family: str, nation: str) -> bool:
@@ -68,6 +70,11 @@ def _hand_unit_matches(card, family: str, nation: str) -> bool:
     families = {"air": {"fighter", "bomber"}, "ground": {"infantry", "tank", "artillery"}}
     return bool(card.is_unit and card.type in families.get(family, {card.type})
                 and (not nation or card.nation == nation))
+
+
+def _is_develop_description(phrase: str | None) -> bool:
+    from simulator.rules.develop import parse_descriptor
+    return bool(phrase) and parse_descriptor(phrase) is not None
 
 
 def hand_choice_matches(scope: str, cards, chosen: str | None, hand, played_card_id: str) -> bool:
@@ -113,8 +120,10 @@ def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
         put_into_play=_put_into_play_filter(actions),
         may_target_enemy_hq=any(action.scope == "or_enemy_hq" for action in actions),
         hand_choice=next((action.scope for action in actions if (action.scope or "").startswith("hand:")
-                          and action.kind in {"shuffle_selected_into_deck", "copy_hand_unit_to_support"}), None),
+                          and action.kind in {"shuffle_selected_into_deck", "copy_hand_unit_to_support", "convert_hand_card_into_target", "convert_hand_card_into_last_destroyed"}), None),
         develop_from_deck=next((action.amount for action in actions if action.kind == "develop_from_deck"), 0),
+        develop_phrase=next((action.card_name for action in actions if action.kind == "develop"
+                             and _is_develop_description(action.card_name)), None),
         develop_options=tuple(
             option.strip()
             for action in actions if action.kind == "develop_options"
@@ -676,14 +685,9 @@ class NativeRuleEngine:
             if card_id is None:
                 state.event_log.append({"event": "develop_failed", "name": chosen_name})
                 return
-            # A developed unit is deployed, any other card goes to hand.
-            # (Upstream behavior; NOT CONFIRMED IN GAME whether Develop puts a
-            # unit in hand instead.)
-            card = self.cards.get(card_id)
-            if card.is_unit:
-                self._deploy_named_card(state, context, card_id)
-            else:
-                self._add_to_hand(state, context.player_id, card_id)
+            # Develop puts the chosen card in hand, units included (confirmed
+            # in game 2026-10-27; it used to deploy a unit).
+            self._add_to_hand(state, context.player_id, card_id)
             state.event_log.append({"event": "develop_selected", "card_id": card_id})
             return
         if action.kind == "grant_ability":
@@ -1565,6 +1569,100 @@ class NativeRuleEngine:
             known = intel_rules.reveal(state, context.player_id, opponent_id(state, context.player_id), action.amount)
             state.event_log.append({"event": "intel_revealed", "player_id": context.player_id, "count": len(known)})
             return
+        if action.kind == "develop":
+            self._develop(action, state, context)
+            return
+        if action.kind == "tropical_storm":
+            # "Players shuffle their hand into their deck, then draw equal to
+            # greatest number shuffled."
+            rng = random.Random((state.rng_seed or 0) + len(state.event_log))
+            shuffled = 0
+            for player in state.players.values():
+                shuffled = max(shuffled, len(player.hand))
+                player.deck.extend(player.hand)
+                player.hand.clear()
+                rng.shuffle(player.deck)
+            from simulator.core.turn import TurnManager
+            for player_id in state.players:
+                for _ in range(shuffled):
+                    TurnManager.draw_card(state, player_id)
+            return
+        if action.kind == "fill_hand_and_support":
+            card_id = self._card_by_name(action.card_name)
+            if card_id is None:
+                state.event_log.append({"event": "native_rule_unresolved_card_name", "name": action.card_name,
+                                        "source_card_id": context.source_card_id})
+                return
+            player = state.players[context.player_id]
+            while len(player.hand) < HAND_CARD_LIMIT:
+                player.hand.append(card_id)
+            abilities = tuple(name for name in (action.scope or "").split(",") if name)
+            while self._new_unit(state, context.player_id, card_id, abilities) is not None:
+                pass
+            return
+        if action.kind == "return_to_hand_free_this_turn" and context.target_unit_id:
+            unit = find_unit(state, context.target_unit_id)
+            card_id = unit.card_id
+            self._execute_action(RuleAction("return_to_hand", "selected_target"), state, context)
+            state.players[context.player_id].cost_modifiers.append({
+                "kind": "hand_cost", "amount": 0, "set_cost": 0, "scope": "card_id", "filter_value": card_id,
+                "single_use": True, "expires_turn": state.turn_number})
+            return
+        if action.kind == "retreat_adjacent" and context.target_unit_id:
+            # USS MISSOURI: the units next to the target in its line retreat.
+            unit = find_unit(state, context.target_unit_id)
+            line = state.battlefield.get(unit.position, [])
+            if unit.instance_id in line:
+                index = line.index(unit.instance_id)
+                neighbours = [line[i] for i in (index - 1, index + 1) if 0 <= i < len(line)]
+                for neighbour_id in neighbours:
+                    neighbour = find_unit(state, neighbour_id)
+                    if neighbour is None or neighbour.position != "frontline":
+                        continue
+                    owner = state.players[neighbour.owner_id]
+                    if sum(other.position == "support_line" for other in owner.units) >= SUPPORT_UNIT_LIMIT:
+                        continue
+                    basic_effects.move(state, neighbour, "support_line")
+                    state.event_log.append({"event": "unit_retreated", "unit_id": neighbour_id})
+            return
+        if action.kind == "convert_hand_card_into_target" and context.target_unit_id:
+            chosen = context.metadata.get("selected_card_id")
+            player = state.players[context.player_id]
+            if chosen in player.hand:
+                into = find_unit(state, context.target_unit_id).card_id
+                player.hand[player.hand.index(chosen)] = into
+                state.event_log.append({"event": "hand_card_converted", "from_card_id": chosen, "card_id": into})
+                self.emit("on_convert", state, EffectContext(context.player_id, context.source_card_id, event="on_convert"))
+            return
+        if action.kind == "convert_hand_card_into_last_destroyed":
+            from simulator.rules import counters
+            chosen = context.metadata.get("selected_card_id")
+            player = state.players[context.player_id]
+            destroyed = [card_id for card_id in counters.destroyed_card_ids(state, context.player_id) if card_id in self.cards]
+            if chosen in player.hand and destroyed:
+                player.hand[player.hand.index(chosen)] = destroyed[-1]
+                state.event_log.append({"event": "hand_card_converted", "from_card_id": chosen, "card_id": destroyed[-1]})
+                self.emit("on_convert", state, EffectContext(context.player_id, context.source_card_id, event="on_convert"))
+            return
+        if action.kind == "discard_random_enemy_draw_if_known":
+            enemy_id = opponent_id(state, context.player_id)
+            enemy = state.players[enemy_id]
+            if not enemy.hand:
+                return
+            index = random.Random((state.rng_seed or 0) + len(state.event_log)).randrange(len(enemy.hand))
+            card_id = enemy.hand.pop(index)
+            state.graveyard.setdefault(enemy_id, []).append(card_id)
+            known = state.players[context.player_id].status.get("known_enemy_hand") or []
+            was_known = card_id in known
+            if was_known:
+                known.remove(card_id)
+            from simulator.rules.intel import refresh as refresh_intel
+            refresh_intel(state)
+            state.event_log.append({"event": "card_discarded", "player_id": enemy_id, "card_id": card_id, "known": was_known})
+            if was_known:
+                from simulator.core.turn import TurnManager
+                TurnManager.draw_card(state, context.player_id)
+            return
         if action.kind == "shuffle_selected_into_deck":
             player = state.players[context.player_id]
             chosen = context.metadata.get("selected_card_id")
@@ -2313,6 +2411,36 @@ class NativeRuleEngine:
         if card_id in self.cards and "on_sent_to_hand" in self.rule_for(card_id).triggers:
             self.execute(card_id, "on_sent_to_hand", state, EffectContext(owner_id, card_id, event="on_sent_to_hand"))
 
+    def _develop(self, action, state, context) -> None:
+        from simulator.rules import develop as develop_rules
+        player = state.players[context.player_id]
+        named = self._card_ids_for(action.card_name)
+        listed = re.split(r"\s*,\s*|\s+or\s+", (action.card_name or "").strip())
+        if not named and len(listed) >= 2 and all(self._card_by_name(name) for name in listed):
+            # "Develop A FEW GOOD MEN, DURESS or FOR FREEDOM" inside a longer sentence.
+            options = [self._card_by_name(name) for name in listed]
+            picked = context.metadata.get("selected_card_id")
+            named = [picked if picked in options else options[0]]
+        if named:
+            chosen_ids = [card_id for card_id in named for _ in range(max(1, action.amount))]
+        else:
+            offers = develop_rules.offers(state, context.player_id, self.cards, action.card_name or "")
+            if not offers:
+                state.event_log.append({"event": "develop_failed", "name": action.card_name,
+                                        "source_card_id": context.source_card_id})
+                return
+            picked = context.metadata.get("selected_card_id")
+            chosen_ids = [picked if picked in offers else offers[0]]
+        for card_id in chosen_ids:
+            self._add_to_hand(state, context.player_id, card_id)
+            if action.min_cost:
+                # PILOT ESCAPE: "It costs 1 less to deploy and operate."
+                player.cost_modifiers.append({"kind": "hand_cost", "amount": -action.min_cost, "scope": "card_id",
+                                              "filter_value": card_id, "single_use": True})
+                player.op_cost_rules.append({"amount": -action.min_cost, "scope": "card_id",
+                                             "filter_value": card_id, "single_use": True})
+            state.event_log.append({"event": "develop_selected", "card_id": card_id})
+
     def _schedule_referent(self, action, state, context, kind: str) -> None:
         """Schedule a later destroy / return-to-hand of "it" or "them".
 
@@ -2424,6 +2552,8 @@ class NativeRuleEngine:
         if not key:
             return None
         found = self._by_name.get(key)
+        if found is None and re.match(r"^(?:A|AN)\s+", key):
+            found = self._by_name.get(re.sub(r"^(?:A|AN)\s+", "", key))
         if found is None and key.endswith("S"):
             found = self._by_name.get(key[:-1])
         return found

@@ -55,7 +55,7 @@ EFFECT_PLAYERS = frozenset({"owner", "friendly_hq", "enemy_hq"})
 # Only the kinds in CHOSEN_LINK_KINDS read it; for any other kind the target is
 # ignored and the action quietly acts on the wrong thing.
 CHOSEN_LINK = frozenset({"chosen"})
-CHOSEN_LINK_KINDS = frozenset({"add_card", "return_to_deck"})
+CHOSEN_LINK_KINDS = frozenset({"add_card", "return_to_deck", "discard"})
 # "it"/"them" in a later clause of the same card: the units an earlier clause
 # deployed, else the unit the card chose.  Only delayed_destroy reads it.
 REFERENT_LINK = frozenset({"referent"})
