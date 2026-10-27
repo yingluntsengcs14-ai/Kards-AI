@@ -59,7 +59,7 @@ CHOSEN_LINK_KINDS = frozenset({"add_card", "return_to_deck"})
 # "it"/"them" in a later clause of the same card: the units an earlier clause
 # deployed, else the unit the card chose.  Only delayed_destroy reads it.
 REFERENT_LINK = frozenset({"referent"})
-REFERENT_LINK_KINDS = frozenset({"delayed_destroy"})
+REFERENT_LINK_KINDS = frozenset({"delayed_destroy", "delayed_to_hand"})
 
 UNIT_SELECTORS = SOURCE | CHOSEN | GROUPS
 # What a unit-only effect can reach: every unit selector, plus the group aliases

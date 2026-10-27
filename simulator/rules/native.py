@@ -52,6 +52,24 @@ class ActionGenerationSpec:
     # True when the card forecasts: the player picks sunny / rain / storm, so
     # the action layer must offer one action per category.
     forecast: bool = False
+    # "Put a German air unit into play": (type family, nation) of the hand unit
+    # the player picks, or None.  EAGLE DAY.
+    put_into_play: tuple[str, str] | None = None
+
+
+def _hand_unit_matches(card, family: str, nation: str) -> bool:
+    """Whether a hand card fits a put-into-play filter such as ("air", "Germany")."""
+    families = {"air": {"fighter", "bomber"}, "ground": {"infantry", "tank", "artillery"}}
+    return bool(card.is_unit and card.type in families.get(family, {card.type})
+                and (not nation or card.nation == nation))
+
+
+def _put_into_play_filter(actions) -> tuple[str, str] | None:
+    for action in actions:
+        if action.kind == "put_into_play":
+            family, _, nation = (action.scope or "").partition(":")
+            return family, nation
+    return None
 
 
 def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
@@ -62,6 +80,7 @@ def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
         convert_to=any(action.kind == "convert_to" for action in actions),
         shock_tactics=any(action.kind == "shock_tactics_choice" for action in actions),
         forecast=any(action.kind == "forecast" for action in actions),
+        put_into_play=_put_into_play_filter(actions),
         develop_options=tuple(
             option.strip()
             for action in actions if action.kind == "develop_options"
@@ -1396,17 +1415,32 @@ class NativeRuleEngine:
                 "card_name": action.card_name,
             })
             return
+        if action.kind == "fight" and action.card_name == "deployed":
+            # SLOPED ARMOR: "It fights target enemy unit" -- "it" is the unit
+            # this card just deployed, not the (absent) source unit.
+            if not self._deployed or not context.target_unit_id:
+                state.event_log.append({"event": "native_rule_fight_without_unit", "source_card_id": context.source_card_id})
+                return
+            context = replace(context, source_unit_id=self._deployed[-1])
         if action.kind == "fight" and context.source_unit_id and context.target_unit_id:
             source = find_unit(state, context.source_unit_id)
             target = find_unit(state, context.target_unit_id)
             resolver = EffectResolver(self.cards)
             start = len(state.event_log)
-            resolver.resolve({"type": "damage", "target": "selected_target", "value": {"amount": source.attack}}, state, EffectContext(context.player_id, source.card_id, source.instance_id, target.instance_id))
+            # A fight is combat: Heavy Armor reduces each hit, as in an attack.
+            from simulator.rules.keywords import KeywordEngine
+            hit = max(0, source.attack - KeywordEngine.heavy_armor(self.cards.get(target.card_id), target))
+            counter = max(0, target.attack - KeywordEngine.heavy_armor(self.cards.get(source.card_id), source))
+            resolver.resolve({"type": "damage", "target": "selected_target", "value": {"amount": hit}}, state, EffectContext(context.player_id, source.card_id, source.instance_id, target.instance_id))
             self.emit_damage_since(state, start)
             self.emit_deaths_since(state, start)
             if source.instance_id in {unit.instance_id for player in state.players.values() for unit in player.units} and target.instance_id in {unit.instance_id for player in state.players.values() for unit in player.units}:
                 start = len(state.event_log)
-                resolver.resolve({"type": "damage", "target": "self", "value": {"amount": target.attack}}, state, EffectContext(target.owner_id, target.card_id, target.instance_id, source.instance_id))
+                # The counter-hit lands on the attacker.  This used target
+                # "self", which resolves to the context's source unit -- here the
+                # defender -- so the defender hit itself and the attacker never
+                # took damage.
+                resolver.resolve({"type": "damage", "target": "selected_target", "value": {"amount": counter}}, state, EffectContext(target.owner_id, target.card_id, target.instance_id, source.instance_id))
                 self.emit_damage_since(state, start)
                 self.emit_deaths_since(state, start)
             return
@@ -1462,23 +1496,35 @@ class NativeRuleEngine:
                     else:
                         unit.defense += action.amount
             return
+        if action.kind == "put_into_play":
+            self._put_into_play(action, state, context)
+            return
+        if action.kind == "flicker" and context.target_unit_id:
+            self._flicker(action, state, context)
+            return
+        if action.kind == "remove_until_return" and context.target_unit_id:
+            unit = find_unit(state, context.target_unit_id)
+            owner = state.players[unit.owner_id]
+            if unit.instance_id in state.battlefield.get(unit.position, []):
+                state.battlefield[unit.position].remove(unit.instance_id)
+            owner.units.remove(unit)
+            self._cleanup_continuous_effects(state, unit.owner_id, unit.instance_id)
+            # "at the end of the next enemy turn": the enemy's scheduled list
+            # fires at the end of the enemy's own (next) turn.
+            enemy = opponent_id(state, unit.owner_id)
+            state.players[enemy].scheduled.append({
+                "trigger": "end_of_turn", "kind": "return_to_play", "card_id": unit.card_id,
+                "card_owner_id": unit.owner_id, "owner_id": unit.owner_id, "copies": max(1, action.amount),
+                "source_card_id": context.source_card_id, "wait": 0,
+            })
+            state.event_log.append({"event": "unit_removed_until_return", "unit_id": unit.instance_id,
+                                    "card_id": unit.card_id})
+            return
+        if action.kind == "delayed_to_hand":
+            self._schedule_referent(action, state, context, "return_to_hand")
+            return
         if action.kind == "delayed_destroy":
-            # "it/them" is what this card just created when it created
-            # anything (MOBILE DEFENSE, DANUTA); otherwise the unit it chose
-            # (HONOR, FINAL PUSH).  A card that deploys but failed to deploy
-            # destroys nothing rather than falling back to its target.
-            creates = self._current_rule is not None and any(
-                candidate.kind == "deploy_named" for candidate in self._current_rule.actions)
-            unit_ids = list(self._deployed) if creates else [context.target_unit_id] if context.target_unit_id else []
-            trigger = action.duration or "end_of_turn"
-            for unit_id in unit_ids:
-                state.players[context.player_id].scheduled.append({
-                    "trigger": trigger, "unit_id": unit_id, "kind": "destroy",
-                    "owner_id": context.player_id, "source_card_id": context.source_card_id,
-                    "wait": 1 if trigger == "end_of_next_turn" else 0,
-                })
-            state.event_log.append({"event": "rule_scheduled", "trigger": trigger, "kind": "destroy",
-                                    "player_id": context.player_id, "count": len(unit_ids)})
+            self._schedule_referent(action, state, context, "destroy")
             return
         if action.kind == "deploy_named":
             card_ids = self._card_ids_for(action.card_name)
@@ -1718,6 +1764,7 @@ class NativeRuleEngine:
             # A full hand (9) has no room: the card is lost, like an overdraw.
             self._add_to_hand(state, owner.player_id, unit.card_id)
             state.event_log.append({"event": "unit_returned_to_hand", "unit_id": unit.instance_id})
+            self._sent_to_hand(state, owner.player_id, unit.card_id)
             return
         if action.kind == "attack_equals_defense" and context.target_unit_id:
             find_unit(state, context.target_unit_id).attack = find_unit(state, context.target_unit_id).defense
@@ -1938,6 +1985,18 @@ class NativeRuleEngine:
         # The affected unit returns to / is discarded by its *owning* player
         # (e.g. an enemy unit removed by "Remove X. Return it" goes back to the
         # enemy's hand), not the player who scheduled the effect.
+        if entry["kind"] == "return_to_play":
+            engine = NativeRuleEngine._last_engine
+            owner_id = entry.get("card_owner_id") or entry.get("owner_id")
+            if engine is not None and owner_id in state.players:
+                for _ in range(int(entry.get("copies", 1))):
+                    unit = engine._new_unit(state, owner_id, entry["card_id"])
+                    if unit is None:
+                        break
+                    unit.status.pop("deployed_this_turn", None)
+                    state.event_log.append({"event": "unit_returned_to_play", "player_id": owner_id,
+                                            "card_id": entry["card_id"], "unit_id": unit.instance_id})
+            return
         if entry["kind"] == "return_control":
             try:
                 unit = find_unit(state, entry["unit_id"])
@@ -2012,6 +2071,8 @@ class NativeRuleEngine:
                 owner.units.remove(unit)
                 _hand_or_graveyard(state, owner.player_id, unit.card_id)
                 state.event_log.append({"event": "delayed_return", "unit_id": unit.instance_id, "card_id": unit.card_id})
+                if NativeRuleEngine._last_engine is not None:
+                    NativeRuleEngine._last_engine._sent_to_hand(state, owner.player_id, unit.card_id)
             elif entry.get("card_id") and entry["card_id"] not in owner.hand:
                 # Unit was removed from the battlefield earlier (e.g. by a paired
                 # "Remove X" action); returning it means its card comes back to hand.
@@ -2063,6 +2124,98 @@ class NativeRuleEngine:
             state.event_log.append({"event": "choose_one_hand_card", "card_id": chosen})
             return
         state.event_log.append({"event": "choose_one_no_scope", "scope": action.scope})
+
+    def _sent_to_hand(self, state, owner_id: str, card_id: str) -> None:
+        """A unit went from the battlefield to its owner's hand (IOSEF STALIN II)."""
+        if card_id in self.cards and "on_sent_to_hand" in self.rule_for(card_id).triggers:
+            self.execute(card_id, "on_sent_to_hand", state, EffectContext(owner_id, card_id, event="on_sent_to_hand"))
+
+    def _schedule_referent(self, action, state, context, kind: str) -> None:
+        """Schedule a later destroy / return-to-hand of "it" or "them".
+
+        "it/them" is what this card just put into play when it put anything
+        there (MOBILE DEFENSE, EAGLE DAY, NIGHT ATTACK); otherwise the unit it
+        chose (HONOR, FINAL PUSH).  A card that creates units but created none
+        affects nothing rather than falling back to its target.
+        """
+        creates = self._current_rule is not None and any(
+            candidate.kind in {"deploy_named", "put_into_play", "flicker"} for candidate in self._current_rule.actions)
+        unit_ids = list(self._deployed) if creates else [context.target_unit_id] if context.target_unit_id else []
+        trigger = action.duration or "end_of_turn"
+        for unit_id in unit_ids:
+            try:
+                owner_id = find_unit(state, unit_id).owner_id
+            except Exception:
+                owner_id = context.player_id
+            state.players[context.player_id].scheduled.append({
+                "trigger": trigger, "unit_id": unit_id, "kind": kind,
+                "owner_id": context.player_id, "card_owner_id": owner_id,
+                "source_card_id": context.source_card_id,
+                "wait": 1 if trigger == "end_of_next_turn" else 0,
+            })
+        state.event_log.append({"event": "rule_scheduled", "trigger": trigger, "kind": kind,
+                                "player_id": context.player_id, "count": len(unit_ids)})
+
+    def _new_unit(self, state, owner_id: str, card_id: str, abilities: tuple[str, ...] = ()):
+        """A fresh unit of ``card_id`` in its owner's support line (None if full)."""
+        owner = state.players[owner_id]
+        if sum(unit.position == "support_line" for unit in owner.units) >= SUPPORT_UNIT_LIMIT:
+            state.event_log.append({"event": "native_rule_support_line_full", "card_id": card_id})
+            return None
+        card = self.cards.get(card_id)
+        used = {unit.instance_id for candidate in state.players.values() for unit in candidate.units}
+        serial = sum(len(candidate.units) for candidate in state.players.values()) + 1
+        instance_id = "{0}-rule-{1}".format(card_id, serial)
+        while instance_id in used:
+            serial += 1
+            instance_id = "{0}-rule-{1}".format(card_id, serial)
+        unit = UnitState(instance_id, card_id, card.attack or 0, card.defense or 0, owner_id)
+        unit.status["deployed_this_turn"] = True
+        if abilities:
+            unit.status["added_abilities"] = list(abilities)
+        owner.units.append(unit)
+        state.battlefield.setdefault("support_line", []).append(instance_id)
+        return unit
+
+    def _put_into_play(self, action, state, context) -> None:
+        """EAGLE DAY: a chosen hand unit enters play for free.
+
+        Putting a unit into play is not deploying it, so its Deployment effect
+        does not run.  (Assumption, not yet confirmed in game.)
+        """
+        player = state.players[context.player_id]
+        chosen = context.metadata.get("selected_card_id")
+        family, _, nation = (action.scope or "").partition(":")
+        if not chosen or chosen not in player.hand or not _hand_unit_matches(self.cards.get(chosen), family, nation):
+            state.event_log.append({"event": "native_rule_no_hand_card_chosen", "source_card_id": context.source_card_id})
+            return
+        abilities = tuple(name for name in (action.card_name or "").split(",") if name)
+        unit = self._new_unit(state, context.player_id, chosen, abilities)
+        if unit is None:
+            return
+        player.hand.remove(chosen)
+        self._deployed.append(unit.instance_id)
+        state.event_log.append({"event": "unit_put_into_play", "player_id": context.player_id,
+                                "card_id": chosen, "unit_id": unit.instance_id})
+
+    def _flicker(self, action, state, context) -> None:
+        """NIGHT ATTACK: remove a unit, then return it fresh with new keywords."""
+        unit = find_unit(state, context.target_unit_id)
+        owner_id = unit.owner_id
+        owner = state.players[owner_id]
+        if unit.instance_id in state.battlefield.get(unit.position, []):
+            state.battlefield[unit.position].remove(unit.instance_id)
+        owner.units.remove(unit)
+        self._cleanup_continuous_effects(state, owner_id, unit.instance_id)
+        abilities = tuple(name for name in (action.card_name or "").split(",") if name)
+        returned = self._new_unit(state, owner_id, unit.card_id, abilities)
+        if returned is None:
+            # Removed from the frontline into a full support line: it cannot
+            # come back, so it stays removed.
+            state.removed_cards.append(unit.card_id)
+            return
+        self._deployed.append(returned.instance_id)
+        state.event_log.append({"event": "unit_flickered", "unit_id": unit.instance_id, "new_unit_id": returned.instance_id})
 
     @staticmethod
     def _change_control(state, unit, new_owner_id: str) -> bool:

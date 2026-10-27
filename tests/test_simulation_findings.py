@@ -202,6 +202,68 @@ class SimulationFindingTests(unittest.TestCase):
         self.assertEqual(len(state.players["p2"].hand), 9)
         self.assertEqual(state.players["p2"].units, [])
 
+    # ── "...send it back at the end of turn" (2026-10-27) ───────────────────
+    def test_eagle_day_puts_a_german_air_unit_from_hand_into_play_then_back(self) -> None:
+        """EAGLE DAY 以前把選中的單位立刻送回手牌，連敵方單位都會被送回去。"""
+        from simulator.core.game import Simulator
+        state = self._state(hand=("eagle_day",), p1_hand_extra=["arado_ar_196", "1_infantry_regiment"],
+                            p2_units=(("e", "garrison", 1, 3),))
+        sim = Simulator(self.cards); sim.state = state
+        plays = [a for a in sim.get_available_actions() if isinstance(a, PlayCardAction) and a.card_id == "eagle_day"]
+        self.assertEqual({a.selected_card_id for a in plays}, {"arado_ar_196"})    # 只能選德國空軍
+        PlayCardAction("p1", "eagle_day", selected_card_id="arado_ar_196").execute(state, self.cards)
+        plane = state.players["p1"].units[0]
+        self.assertEqual(plane.card_id, "arado_ar_196")
+        self.assertIn("blitz", plane.status["added_abilities"])
+        self.assertNotIn("arado_ar_196", state.players["p1"].hand)
+        self.assertEqual(len(state.players["p2"].units), 1)                          # 敵方單位不受影響
+        self._end_turn(state)
+        self.assertEqual(state.players["p1"].units, [])
+        self.assertIn("arado_ar_196", state.players["p1"].hand)
+
+    def test_night_attack_returns_the_unit_fresh_then_sends_it_to_hand(self) -> None:
+        state = self._state(hand=("night_attack",), p1_units=(("u", "1_infantry_regiment", 1, 1),))
+        PlayCardAction("p1", "night_attack", target_unit_id="u").execute(state, self.cards)
+        unit = state.players["p1"].units[0]
+        card = self.cards.get("1_infantry_regiment")
+        self.assertEqual((unit.card_id, unit.attack, unit.defense), ("1_infantry_regiment", card.attack, card.defense))
+        self.assertEqual(sorted(unit.status["added_abilities"]), ["blitz", "shock"])
+        self.assertEqual(state.players["p1"].hand, [])                                # 不是立刻回手牌
+        self._end_turn(state)
+        self.assertEqual(state.players["p1"].units, [])
+        self.assertEqual(state.players["p1"].hand, ["1_infantry_regiment"])
+
+    def test_sloped_armor_deploys_is2_which_fights_then_returns_to_hand(self) -> None:
+        """SLOPED ARMOR 以前只在回合結束觸發，打出時沒有效果。"""
+        state = self._state(hand=("sloped_armor",), p2_units=(("e", "garrison", 1, 12),))
+        PlayCardAction("p1", "sloped_armor", target_unit_id="e").execute(state, self.cards)
+        tank = state.players["p1"].units[0]
+        self.assertEqual(tank.card_id, "iosef_stalin_ii")
+        self.assertEqual(state.players["p2"].units[0].defense, 12 - 8)                 # IS-II 8 攻
+        self.assertEqual(tank.defense, 8)                                              # 反擊 1，被重裝甲 2 擋掉
+        self._end_turn(state)
+        self.assertIn("iosef_stalin_ii", state.players["p1"].hand)
+        # IS-II：「被送回手牌時，在支援線加一個複製」——這張卡的組合技。
+        board = state.players["p1"].units
+        self.assertEqual([u.card_id for u in board], ["iosef_stalin_ii"])
+        self.assertEqual(board[0].defense, 8)                                          # 新的一台，不是受傷的那台
+
+    def test_second_front_returns_the_unit_as_two_after_the_next_enemy_turn(self) -> None:
+        state = self._state(hand=("second_front",), p1_units=(("g", "1_infantry_regiment", 1, 1),))
+        PlayCardAction("p1", "second_front", target_unit_id="g").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units, [])
+        self._end_turn(state)                        # 自己回合結束：還沒回來
+        self.assertEqual(state.players["p1"].units, [])
+        self._end_turn(state)                        # 敵方回合結束：回場並複製
+        self.assertEqual([u.card_id for u in state.players["p1"].units], ["1_infantry_regiment"] * 2)
+        self.assertNotIn("1_infantry_regiment", state.players["p1"].hand)
+
+    def test_second_front_only_takes_a_german_ground_unit(self) -> None:
+        from simulator.actions.validator import ActionValidationError
+        state = self._state(hand=("second_front",), p1_units=(("a", "arado_ar_196", 1, 2),))
+        with self.assertRaises(ActionValidationError):
+            PlayCardAction("p1", "second_front", target_unit_id="a").execute(state, self.cards)
+
     # ── BLAST (spawn-only card missing from the kards.info catalog) ─────────
     def test_blast_exists_and_deals_one_damage(self) -> None:
         self.assertIn("blast", self.cards)

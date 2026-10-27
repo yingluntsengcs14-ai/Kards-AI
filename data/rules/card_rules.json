@@ -13748,8 +13748,22 @@
       ],
       "actions": [
         {
-          "kind": "remove",
+          "kind": "flicker",
           "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "blitz,shock",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "delayed_to_hand",
+          "target": "referent",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -13757,49 +13771,7 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "grant_ability",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "blitz",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "grant_ability",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "shock",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "return_to_hand",
-          "target": "selected_target",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
+          "duration": "end_of_turn",
           "condition": null,
           "on": []
         }
@@ -15291,44 +15263,16 @@
       ],
       "actions": [
         {
-          "kind": "remove",
-          "target": "selected_target",
-          "amount": 0,
+          "kind": "remove_until_return",
+          "target": "selected_friendly",
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "ground",
+          "scope": "ground:Germany",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "return_to_hand",
-          "target": "selected_target",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": "next_turn",
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "copy_unit",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "unit",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
+          "duration": "end_of_next_enemy_turn",
           "condition": null,
           "on": []
         }
@@ -15827,13 +15771,13 @@
       ],
       "actions": [
         {
-          "kind": "grant_ability",
-          "target": "source",
+          "kind": "put_into_play",
+          "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": "blitz",
-          "scope": "",
+          "scope": "air:Germany",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -15841,8 +15785,8 @@
           "on": []
         },
         {
-          "kind": "return_to_hand",
-          "target": "selected_target",
+          "kind": "delayed_to_hand",
+          "target": "referent",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -15850,7 +15794,7 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "end_of_turn",
           "condition": null,
           "on": []
         }
@@ -34983,7 +34927,7 @@
       "card_id": "iosef_stalin_ii",
       "source_text": "If sent to hand, add a copy to your support line.",
       "triggers": [
-        "on_deploy"
+        "on_sent_to_hand"
       ],
       "actions": [
         {
@@ -34992,12 +34936,12 @@
           "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "copy",
+          "card_name": "IOSEF STALIN II",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If sent to hand",
+          "condition": null,
           "on": []
         }
       ],
@@ -47720,7 +47664,7 @@
       "card_id": "sloped_armor",
       "source_text": "Add a IOSEF STALIN II to your support line. It fights target enemy unit. Send it to hand at the end of turn.",
       "triggers": [
-        "on_turn_end"
+        "on_play"
       ],
       "actions": [
         {
@@ -47743,7 +47687,7 @@
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "deployed",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -47752,8 +47696,8 @@
           "on": []
         },
         {
-          "kind": "return_to_hand",
-          "target": "selected_target",
+          "kind": "delayed_to_hand",
+          "target": "referent",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -47761,7 +47705,7 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "end_of_turn",
           "condition": null,
           "on": []
         }

@@ -73,6 +73,17 @@ class PlayCardAction(Action):
             selected_card = cards.get(self.selected_card_id) if self.selected_card_id in cards else None
             if selected_card is None or not selected_card.is_unit:
                 raise ActionValidationError("Selected hand card must be a unit")
+        put = next((action for action in rule.actions if action.kind == "put_into_play"), None)
+        if put is not None:
+            from simulator.rules.native import _hand_unit_matches
+            family, _, nation = (put.scope or "").partition(":")
+            chosen = cards.get(self.selected_card_id) if self.selected_card_id in cards else None
+            if self.selected_card_id not in player.hand or chosen is None or not _hand_unit_matches(chosen, family, nation):
+                raise ActionValidationError("This card puts a matching unit from hand into play")
+            if self.selected_card_id == self.card_id and player.hand.count(self.card_id) < 2:
+                raise ActionValidationError("The chosen unit must be another card in hand")
+            if not BattlefieldRules.can_deploy_to_support(state, self.player_id):
+                raise ActionValidationError("Support line is full")
         if any(action.kind == "convert_to" for action in rule.actions) and self.selected_card_id is not None:
             selected_zone = self.selected_card_zone or "hand"
             if selected_zone not in {"hand", "deck"}:
@@ -113,6 +124,13 @@ class PlayCardAction(Action):
                 owner = state.players[target.owner_id]
                 if sum(unit.position == "support_line" for unit in owner.units) >= 4:
                     raise ActionValidationError("Target owner's support line is full")
+            held = next((action for action in rule.actions if action.kind == "remove_until_return"), None)
+            if held is not None:
+                # SECOND FRONT: "Remove a German ground unit".
+                from simulator.rules.native import _hand_unit_matches
+                family, _, nation = (held.scope or "").partition(":")
+                if not _hand_unit_matches(cards.get(target.card_id), family, nation):
+                    raise ActionValidationError("Target is not a unit this card can remove")
             take = next((action for action in rule.actions if action.kind == "take_control"), None)
             if take is not None:
                 # "Take control of an enemy unit with cost 3 or less": the cap

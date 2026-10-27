@@ -192,6 +192,49 @@ class RuleParser:
     # units get +3 instead") and announcements ("It will be Sunny.") that the
     # generic templates either drop or turn into a catch-all.  Entries hold
     # (triggers, actions, status, unresolved_fragments).
+    # ── "...then send it back later" (found by simulated games, 2026-10-27) ─
+    # Four cards whose units come back to hand (or to play) at a later turn
+    # boundary.  The generic templates sent the selected unit to hand at once
+    # -- EAGLE DAY bounced an enemy unit -- and SLOPED ARMOR only ran at turn
+    # end.  "referent" is what the card itself put into play this turn.
+    _RETURN_LATER_CARD_RULES: dict = {
+        # "Put a German air unit into play with Blitz. Return it to your hand at
+        # the end of the turn."  The unit comes from hand (selected_card_id).
+        "eagle_day": (
+            ("on_play",),
+            (RuleAction("put_into_play", "owner", card_name="blitz", scope="air:Germany"),
+             RuleAction("delayed_to_hand", "referent", duration="end_of_turn")),
+            "implemented", ()),
+        # "Remove a unit from the battlefield, then return it with Blitz and
+        # Shock. Send it to hand end of turn."
+        "night_attack": (
+            ("on_play",),
+            (RuleAction("flicker", "selected_target", card_name="blitz,shock"),
+             RuleAction("delayed_to_hand", "referent", duration="end_of_turn")),
+            "implemented", ()),
+        # "Add a IOSEF STALIN II to your support line. It fights target enemy
+        # unit. Send it to hand at the end of turn."
+        "sloped_armor": (
+            ("on_play",),
+            (RuleAction("deploy_named", "owner", card_name="IOSEF STALIN II", amount=1),
+             RuleAction("fight", "selected_enemy", card_name="deployed"),
+             RuleAction("delayed_to_hand", "referent", duration="end_of_turn")),
+            "implemented", ()),
+        # "If sent to hand, add a copy to your support line."  The condition was
+        # left unchecked on an on_deploy trigger, so the copy arrived on deploy.
+        "iosef_stalin_ii": (
+            ("on_sent_to_hand",),
+            (RuleAction("deploy_named", "owner", card_name="IOSEF STALIN II", amount=1),),
+            "implemented", ()),
+        # "Remove a German ground unit. Return it at the end of the next enemy
+        # turn, then duplicate it."  It returns to play (not to hand) as two.
+        "second_front": (
+            ("on_play",),
+            (RuleAction("remove_until_return", "selected_friendly", amount=2, scope="ground:Germany",
+                        duration="end_of_next_enemy_turn"),),
+            "implemented", ()),
+    }
+
     _WEATHER_CARD_RULES: dict = {
         # The forecast tokens only announce the coming weather; the mechanic
         # itself lives in simulator.rules.weather, so they carry no action.
@@ -277,7 +320,7 @@ class RuleParser:
     }
 
     def parse(self, card: Card) -> CardRule:
-        weather_rule = self._WEATHER_CARD_RULES.get(card.id)
+        weather_rule = self._WEATHER_CARD_RULES.get(card.id) or self._RETURN_LATER_CARD_RULES.get(card.id)
         if weather_rule is not None:
             triggers, actions, status, unresolved = weather_rule
             return CardRule(card.id, card.text.strip(), triggers, actions, status, unresolved)
