@@ -28691,6 +28691,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "air",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "damage",
           "target": "selected_enemy",
           "amount": 4,
@@ -31986,25 +32000,21 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         },
         {
-          "kind": "convert_to",
-          "target": "selected_target",
-          "amount": 0,
+          "kind": "convert_deck_cards_into_self",
+          "target": "owner",
+          "amount": 2,
           "attack": 0,
           "defense": 0,
-          "card_name": "this unit",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -32593,6 +32603,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ground",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "damage",
           "target": "selected_target",
           "amount": 6,
@@ -33134,7 +33158,7 @@
           "amount": 2,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "unit",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -38117,13 +38141,27 @@
       ],
       "actions": [
         {
-          "kind": "buff",
-          "target": "selected_target",
+          "kind": "target_filter",
+          "target": "selected_friendly",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "buff_per_friendly_type",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 1,
           "defense": 1,
           "card_name": null,
-          "scope": "",
+          "scope": "infantry",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -41831,6 +41869,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "defense_to_units_and_hq",
+          "target": "owner",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "draw",
           "target": "owner",

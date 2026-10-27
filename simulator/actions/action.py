@@ -140,7 +140,9 @@ class PlayCardAction(Action):
             if card.type == "order" and target.owner_id != self.player_id and target.status.get("covert"):
                 if not any(action.card_name == "can_target_covert" for action in rule.actions):
                     raise ActionValidationError("Covert unit cannot be targeted by enemy orders")
-            target_categories = {action.card_name for action in rule.actions if action.card_name in {"air", "ground", "frontline"}}
+            target_categories = {action.card_name for action in rule.actions if action.card_name in {"air", "ground", "frontline", "infantry"}}
+            if "infantry" in target_categories and cards.get(target.card_id).type != "infantry":
+                raise ActionValidationError("This card requires an infantry target")
             if "air" in target_categories and cards.get(target.card_id).type not in {"fighter", "bomber"}:
                 raise ActionValidationError("This card requires an air unit target")
             if "ground" in target_categories and cards.get(target.card_id).type not in {"infantry", "tank", "artillery"}:

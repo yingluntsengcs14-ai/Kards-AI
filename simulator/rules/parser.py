@@ -494,6 +494,31 @@ class RuleParser:
         # (The engine discarded the left-most card.)
         "punish": (
             ("on_play",), (RuleAction("discard_random_enemy_draw_if_known", "enemy_hand"),), "implemented", ()),
+        # ── cards developed by tournament-deck units ────────────────────────
+        # "Draw two random units from your deck."
+        "arctic_convoy": (("on_play",), (RuleAction("draw_matching", "owner", amount=2, card_name="unit"),),
+                          "implemented", ()),
+        # "Deal 4 damage to an enemy air unit."  (Any enemy could be hit.)
+        "burning_sky": (("on_play",), (RuleAction("target_filter", "selected_enemy", card_name="air"),
+                                       RuleAction("damage", "selected_enemy", amount=4)), "implemented", ()),
+        # "Deal 6 damage to a ground unit."
+        "the_hammer": (("on_play",), (RuleAction("target_filter", "selected_target", card_name="ground"),
+                                      RuleAction("damage", "selected_target", amount=6)), "implemented", ()),
+        # "Give a friendly infantry +1+1 for each friendly infantry unit on the
+        # battlefield."
+        "unity_is_strength": (("on_play",), (RuleAction("target_filter", "selected_friendly", card_name="infantry"),
+                                             RuleAction("buff_per_friendly_type", "selected_friendly", attack=1,
+                                                        defense=1, scope="infantry")), "implemented", ()),
+        # "Give your units and HQ +3 defense and draw a card."  (Only the draw
+        # was parsed.)
+        "we_can_do_it": (("on_play",), (RuleAction("defense_to_units_and_hq", "owner", amount=3),
+                                        RuleAction("draw", "owner", amount=1)), "implemented", ()),
+        # "Deployment: Draw a card. Convert two cards in your deck into this
+        # unit."  (Spawned by 312th NOVGOROD.)
+        "6th_motor_rifles": (
+            ("on_deploy",),
+            (RuleAction("draw", "owner", amount=1), RuleAction("convert_deck_cards_into_self", "owner", amount=2)),
+            "implemented", ()),
         # ── batch 3c: standing mechanics ────────────────────────────────────
         # "Remove after this unit attacks. Add a copy to your deck with double
         # attack and defense."

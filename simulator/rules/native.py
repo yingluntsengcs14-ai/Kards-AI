@@ -1533,7 +1533,7 @@ class NativeRuleEngine:
                     return
                 self._add_to_hand(state, context.player_id, self._chosen[0])
                 return
-            card_ids = self._card_ids_for(action.card_name)
+            card_ids = self._card_ids_for(action.card_name) or self._last_destroyed(action.card_name, state, context.player_id)
             if card_ids:
                 target_player = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
                 # _add_to_hand keeps the 9-card limit; appending directly let
@@ -1549,6 +1549,9 @@ class NativeRuleEngine:
                 state.event_log.append({"event": "native_rule_unresolved_card_name", "name": action.card_name, "source_card_id": context.source_card_id})
             return
         if action.kind == "draw_matching" and action.card_name in {"unit", "order"}:
+            # "Draw two random units" draws two: amount was read but ignored.
+            for _ in range(max(1, action.amount) - 1):
+                self._execute_action(replace(action, amount=1), state, context)
             player = state.players[context.player_id]
             candidates = [card_id for card_id in player.deck if card_id in self.cards and (self.cards.get(card_id).is_unit if action.card_name == "unit" else self.cards.get(card_id).type == "order")]
             if candidates:
@@ -1579,6 +1582,31 @@ class NativeRuleEngine:
             return
         if action.kind == "develop":
             self._develop(action, state, context)
+            return
+        if action.kind == "target_filter":
+            return   # a validation marker (PlayCardAction reads card_name: air/ground/frontline)
+        if action.kind == "buff_per_friendly_type" and context.target_unit_id:
+            # UNITY IS STRENGTH: "+1+1 for each friendly infantry unit on the battlefield".
+            count = sum(1 for unit in state.players[context.player_id].units
+                        if unit.card_id in self.cards and self.cards.get(unit.card_id).type == action.scope)
+            target = find_unit(state, context.target_unit_id)
+            target.attack += action.attack * count
+            target.defense += action.defense * count
+            return
+        if action.kind == "defense_to_units_and_hq":
+            for unit in state.players[context.player_id].units:
+                unit.defense += action.amount
+            HQResolver.modify_defense(state, context.player_id, action.amount)
+            return
+        if action.kind == "convert_deck_cards_into_self":
+            player = state.players[context.player_id]
+            others = [index for index, card_id in enumerate(player.deck) if card_id != context.source_card_id]
+            rng = random.Random((state.rng_seed or 0) + len(state.event_log))
+            for index in rng.sample(others, min(action.amount, len(others))):
+                player.deck[index] = context.source_card_id
+            state.event_log.append({"event": "deck_cards_converted", "player_id": context.player_id,
+                                    "card_id": context.source_card_id, "count": min(action.amount, len(others))})
+            self.emit("on_convert", state, EffectContext(context.player_id, context.source_card_id, event="on_convert"))
             return
         if action.kind == "meteor_reforge" and context.source_unit_id:
             # METEOR: leave the battlefield; a copy with double attack and
@@ -1879,10 +1907,10 @@ class NativeRuleEngine:
             self._schedule_referent(action, state, context, "destroy")
             return
         if action.kind == "deploy_named":
-            card_ids = self._card_ids_for(action.card_name)
+            card_ids = self._card_ids_for(action.card_name) or self._last_destroyed(action.card_name, state, context.player_id)
             player = state.players[context.player_id]
             if not card_ids or not all(self.cards.get(card_id).is_unit for card_id in card_ids):
-                state.event_log.append({"event": "native_rule_deploy_failed", "name": action.card_name})
+                state.event_log.append({"event": "native_rule_deploy_failed", "name": action.card_name, "source_card_id": context.source_card_id})
                 return
             count = action.amount if action.amount and action.amount > 0 else 1
             used_ids = {unit.instance_id for owner in state.players.values() for unit in owner.units}
@@ -2642,6 +2670,22 @@ class NativeRuleEngine:
         if found is None and key.endswith("S"):
             found = self._by_name.get(key[:-1])
         return found
+
+    def _last_destroyed(self, name: str | None, state, player_id: str) -> list[str]:
+        """"your last destroyed (ground) unit" / "a copy of your last destroyed
+        unit" (ILYUSHIN IL-10, SPECIAL REINFORCEMENTS)."""
+        match = re.search(r"your last destroyed(?: (ground|air|infantry|tank|artillery))?(?: unit)?",
+                          (name or "").lower())
+        if not match:
+            return []
+        from simulator.rules import counters
+        families = {"ground": {"infantry", "tank", "artillery"}, "air": {"fighter", "bomber"}}
+        wanted = families.get(match.group(1) or "", {match.group(1)} if match.group(1) else None)
+        for card_id in reversed(counters.destroyed_card_ids(state, player_id)):
+            card = self.cards.get(card_id) if card_id in self.cards else None
+            if card is not None and card.is_unit and (wanted is None or card.type in wanted):
+                return [card_id]
+        return []
 
     def _card_ids_for(self, name: str | None) -> list[str]:
         """Card ids named by a clause: one name, or "X and a Y" naming two.

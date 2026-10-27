@@ -506,6 +506,24 @@ class MetaDeckRuleTests(unittest.TestCase):
         HQResolver.damage(state, "p2", 5, "p1")
         self.assertEqual(state.players["p2"].hq.current_health, hq - 2)
 
+    def test_developed_cards_from_tournament_units(self) -> None:
+        """740th／41st 開發出來的卡：以前 ARCTIC CONVOY 只抽 1、BURNING SKY 打任何單位、WE CAN DO IT 沒加防。"""
+        state = self._state(hand=("arctic_convoy",))
+        state.players["p1"].deck = ["garrison", "radar", "panzer_iia"]
+        PlayCardAction("p1", "arctic_convoy").execute(state, self.cards)
+        self.assertEqual(sorted(state.players["p1"].hand), ["garrison", "panzer_iia"])
+        state = self._state(hand=("burning_sky",), p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        with self.assertRaises(ActionValidationError):
+            PlayCardAction("p1", "burning_sky", target_unit_id="e").execute(state, self.cards)
+        state = self._state(hand=("we_can_do_it",), p1_units=(("u", "garrison", 1, 3, "support_line"),))
+        hq = state.players["p1"].hq.current_health
+        PlayCardAction("p1", "we_can_do_it").execute(state, self.cards)
+        self.assertEqual((state.players["p1"].units[0].defense, state.players["p1"].hq.current_health), (6, hq + 3))
+        state = self._state(hand=("unity_is_strength",), p1_units=(("a", "garrison", 1, 3, "support_line"),
+                                                                     ("b", "5th_parachute_brigade", 1, 1, "support_line")))
+        PlayCardAction("p1", "unity_is_strength", target_unit_id="b").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[1].attack, 1 + 2)
+
 
 if __name__ == "__main__":
     unittest.main()
