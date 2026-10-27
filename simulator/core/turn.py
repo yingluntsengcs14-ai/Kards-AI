@@ -60,6 +60,9 @@ class TurnManager:
         bonuses = player.status.get("hand_cost_on_friendly_death")
         if isinstance(bonuses, dict) and card_id not in player.hand:
             bonuses.pop(card_id, None)
+        reductions = player.status.get("hand_cost_on_enemy_draw")
+        if isinstance(reductions, dict) and card_id not in player.hand:
+            reductions.pop(card_id, None)
         if len(player.hand) >= 9:
             state.graveyard.setdefault(player_id, []).append(card_id)
             state.event_log.append({"event": "card_overdrawn", "player_id": player_id, "card_id": card_id})
@@ -68,7 +71,25 @@ class TurnManager:
         from simulator.rules.intel import refresh
         refresh(state)
         state.event_log.append({"event": "card_drawn", "player_id": player_id, "card_id": card_id})
+        TurnManager._enemy_drew(state, player_id)
         return card_id
+
+    @staticmethod
+    def _enemy_drew(state: GameState, drawer_id: str) -> None:
+        """4th GUARDS RIFLES: "If in your hand, reduce cost by 1 each time the
+        enemy draws a card."  The opponent's hand cards that say so get cheaper."""
+        from simulator.rules.native import NativeRuleEngine
+        engine = NativeRuleEngine._last_engine
+        if engine is None:
+            return
+        for other_id, other in state.players.items():
+            if other_id == drawer_id:
+                continue
+            for card_id in set(other.hand):
+                if card_id in engine.cards and any(
+                        action.kind == "hand_cost_on_enemy_draw" for action in engine.rule_for(card_id).actions):
+                    reductions = other.status.setdefault("hand_cost_on_enemy_draw", {})
+                    reductions[card_id] = int(reductions.get(card_id, 0)) + 1
 
     @staticmethod
     def end_turn(state: GameState, player_id: str) -> None:

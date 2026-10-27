@@ -193,6 +193,9 @@ class PlayCardAction(Action):
         player.hand.remove(self.card_id)
         intel_rules.refresh(state)
         player.resources.kredits -= cost
+        reductions = player.status.get("hand_cost_on_enemy_draw")
+        if isinstance(reductions, dict) and self.card_id not in player.hand:
+            reductions.pop(self.card_id, None)   # the last copy left the hand
         if card.type == "order":
             counters.note_order_given(state, self.player_id)
         elif card.is_unit:
@@ -379,6 +382,7 @@ class AttackAction(Action):
         resolver = EffectResolver(cards)
         resolver.emit("before_attack", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, self.target_unit_id))
         resolver.emit("on_attack", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, self.target_unit_id))
+        _emit_operated(state, cards, self.player_id, attacker)
         engine_for(cards).emit("on_attack", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, self.target_unit_id))
         if self.target_unit_id is None:
             hq_health_before = state.players[target_owner].hq.current_health
@@ -453,6 +457,12 @@ class AttackAction(Action):
             engine_for(cards).emit("on_combat_damage_dealt", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, target.instance_id, metadata={"damage_amount": damage}))
         engine_for(cards).emit_damage_since(state, death_start)
         engine_for(cards).emit_deaths_since(state, death_start)
+        living = {unit.instance_id for player in state.players.values() for unit in player.units}
+        if target.instance_id not in living and attacker.instance_id in living:
+            # 77th REGIMENT, 7. SCHÜTZEN: "after this unit destroys a unit".
+            engine_for(cards).emit("on_destroys_unit", state, EffectContext(
+                self.player_id, attacker.card_id, attacker.instance_id, event="on_destroys_unit",
+                metadata={"destroyed_card_id": target.card_id}))
         # hq_excess: deal excess damage to enemy HQ after killing a unit
         destroyed = target.instance_id not in {u.instance_id for p in state.players.values() for u in p.units}
         if attacker.status.get("hq_excess") and destroyed:
@@ -539,6 +549,7 @@ class MoveUnitAction(Action):
             unit.attack += bonus
             unit.status["frontline_attack_bonus_applied"] = True
         state.event_log.append({"event": "unit_moved_to_frontline", "player_id": self.player_id, "unit_id": unit.instance_id})
+        _emit_operated(state, cards, self.player_id, unit)
         # The parser normalizes move-into-frontline listeners onto the shared
         # deployment event family.  Mark the causal metadata so only those
         # listeners run, rather than replaying ordinary Deployment text.
@@ -569,6 +580,13 @@ class UseAbilityAction(Action):
     def execute(self, state: GameState, cards: CardDatabase) -> GameState:
         self.validate(state, cards)
         return state
+
+
+def _emit_operated(state: GameState, cards: CardDatabase, player_id: str, unit: UnitState) -> None:
+    """Operating = attacking or moving (3. PANZERGRENADIER, 30. INFANTRY REGIMENT)."""
+    engine_for(cards).emit("on_friendly_operate", state, EffectContext(
+        player_id, unit.card_id, unit.instance_id, event="on_friendly_operate",
+        metadata={"played_card_id": unit.card_id}))
 
 
 def _next_unit_id(state: GameState, card_id: str) -> str:
@@ -605,6 +623,9 @@ def card_play_cost(state: GameState, player_id: str, card, cards: CardDatabase) 
     # SURPRISE ENGAGEMENT); see simulator.rules.dynamic_costs.
     from simulator.rules import dynamic_costs
     total -= dynamic_costs.reduction_for(state, player_id, card)
+    enemy_draws = player.status.get("hand_cost_on_enemy_draw", {})
+    if isinstance(enemy_draws, dict):
+        total -= int(enemy_draws.get(card.id, 0) or 0)
     total = max(0, total)
     min_cost = max(
         (mod.get("min_cost", 0) for mod in player.cost_modifiers if _cost_mod_applies(mod, card, cards) and mod.get("min_cost")),

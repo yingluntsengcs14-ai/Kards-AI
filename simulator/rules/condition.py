@@ -397,6 +397,15 @@ def _board_predicate(c, context, cards, state):
     match = re.fullmatch(r"if you have an? ([a-z -]+?)", text)
     if match:
         return _controls_predicate("if you control a " + match.group(1), context, cards, state, player, opponent)
+    # "after you operate a German unit": the operate event carries the unit.
+    match = re.fullmatch(r"after you operate an? ([a-z -]+?)", text)
+    if match:
+        if getattr(context, "event", None) != "on_friendly_operate":
+            return False
+        operated = metadata.get("played_card_id")
+        if not operated or operated not in cards:
+            return False
+        return _unit_matches_words(cards.get(operated), [w for w in match.group(1).split() if w != "unit"])
     # "it" = the unit this card targeted, snapshotted before the effect ran.
     target_owner = metadata.get("target_owner_id")
     if re.fullmatch(r"if it (?:was|is) friendly", text):

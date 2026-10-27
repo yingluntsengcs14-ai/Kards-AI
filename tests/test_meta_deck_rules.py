@@ -158,6 +158,88 @@ class MetaDeckRuleTests(unittest.TestCase):
         PlayCardAction("p1", "cruiser_scouts", target_unit_id="e", selected_option="rain").execute(state, self.cards)
         self.assertEqual(len(state.players["p1"].status.get("known_enemy_hand", [])), 3)
 
+    # ── events (batch 2) ────────────────────────────────────────────────────
+    def _attack(self, state, attacker, target=None) -> None:
+        from simulator.actions.action import AttackAction
+        for unit in state.players["p1"].units:
+            unit.status.pop("deployed_this_turn", None)
+        AttackAction("p1", attacker, target).execute(state, self.cards)
+
+    def test_katyusha_adds_one_blast_per_damage_dealt(self) -> None:
+        """STZ-5 KATYUSHA：造成多少戰鬥傷害就加多少張 BLAST（以前部署就加）。"""
+        state = self._state(hand=("stz5_katyusha",), p2_units=(("e", "garrison", 1, 9, "frontline"),))
+        PlayCardAction("p1", "stz5_katyusha").execute(state, self.cards)
+        self.assertNotIn("blast", state.players["p1"].hand)
+        gun = state.players["p1"].units[0]
+        gun.attack = 3
+        self._attack(state, gun.instance_id, "e")
+        self.assertEqual(state.players["p1"].hand.count("blast"), 3)
+
+    def test_738_jager_draws_when_its_marked_unit_dies(self) -> None:
+        from simulator.effects import basic_effects
+        state = self._state(hand=("738_jger_regiment",), p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        PlayCardAction("p1", "738_jger_regiment", target_unit_id="e").execute(state, self.cards)
+        before = len(state.players["p1"].deck)
+        start = len(state.event_log)
+        basic_effects.destroy(state, state.players["p2"].units[0])
+        engine_for(self.cards).emit_deaths_since(state, start)
+        self.assertEqual(before - len(state.players["p1"].deck), 1)
+
+    def test_dornier_pays_once_per_turn_when_a_unit_leaves_undestroyed(self) -> None:
+        from simulator.rules.parser import RuleAction
+        from simulator.effects.resolver import EffectContext
+        state = self._state(p1_units=(("d", "dornier_do_17z", 2, 4, "support_line"),),
+                            p2_units=(("e1", "garrison", 1, 3, "frontline"), ("e2", "garrison", 1, 3, "frontline")), kredits=0)
+        engine = engine_for(self.cards)
+        before = len(state.players["p1"].deck)
+        for target in ("e1", "e2"):
+            engine._execute_action(RuleAction("return_to_hand", "selected_target"), state,
+                                   EffectContext("p1", "test", target_unit_id=target))
+        self.assertEqual(state.players["p1"].resources.kredits, 2)     # 一回合一次
+        self.assertEqual(before - len(state.players["p1"].deck), 1)
+
+    def test_77th_regiment_adds_20th_after_destroying_a_unit(self) -> None:
+        state = self._state(p1_units=(("r", "77th_regiment", 3, 4, "frontline"),),
+                            p2_units=(("e", "garrison", 1, 2, "frontline"),))
+        state.battlefield["frontline"] = ["r"]; state.players["p2"].units[0].position = "support_line"
+        state.battlefield["support_line"] = ["e"]
+        self._attack(state, "r", "e")
+        self.assertIn("20th INFANTRY REGIMENT", [self.cards.get(u.card_id).name for u in state.players["p1"].units])
+
+    def test_3_panzergrenadier_grows_when_you_operate_a_german_unit(self) -> None:
+        from simulator.actions.action import MoveUnitAction
+        state = self._state(p1_units=(("p", "3_panzergrenadier", 3, 3, "support_line"),
+                                      ("t", "panzer_iia", 1, 3, "support_line")))
+        state.players["p1"].nation = "Germany"
+        MoveUnitAction("p1", "t").execute(state, self.cards)
+        pzg = state.players["p1"].units[0]
+        self.assertEqual((pzg.attack, pzg.defense), (4, 4))
+
+    def test_216th_guards_hurts_your_hq_and_becomes_veteran_on_the_second_turn(self) -> None:
+        state = self._state(p1_units=(("g", "216th_guards", 3, 5, "support_line"),))
+        hq = state.players["p1"].hq.current_health
+        for _ in range(2):
+            PassAction("p1").execute(state, self.cards)
+            PassAction("p2").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].hq.current_health, hq - 4)
+        self.assertEqual(state.players["p1"].units[0].card_id, "216th_guards_vet")
+
+    def test_4th_guards_rifles_gets_cheaper_as_the_enemy_draws(self) -> None:
+        from simulator.actions.action import card_play_cost
+        state = self._state(hand=("4th_guards_rifles",))
+        card = self.cards.get("4th_guards_rifles")
+        PassAction("p1").execute(state, self.cards)          # p2 抽一張
+        self.assertEqual(card_play_cost(state, "p1", card, self.cards), card.kredits - 1)
+
+    def test_114th_makes_friendly_destruction_effects_trigger_twice(self) -> None:
+        from simulator.effects import basic_effects
+        state = self._state(p1_units=(("j", "114th_infantry_regiment", 3, 4, "support_line"),
+                                      ("t", "t60", 2, 4, "support_line")))
+        start = len(state.event_log)
+        basic_effects.destroy(state, state.players["p1"].units[1])
+        engine_for(self.cards).emit_deaths_since(state, start)
+        self.assertEqual(len(state.players["p1"].hand), 2)       # T-60：兩張 T-34 1942
+
 
 if __name__ == "__main__":
     unittest.main()

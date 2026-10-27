@@ -10749,24 +10749,8 @@
       ],
       "actions": [
         {
-          "kind": "target_select",
+          "kind": "mark_draw_on_destroy",
           "target": "selected_target",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": [
-            "on_deploy"
-          ]
-        },
-        {
-          "kind": "draw",
-          "target": "owner",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -10775,16 +10759,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when it is destroyed.",
-          "on": [
-            "on_deploy"
-          ]
+          "condition": null,
+          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when it is destroyed."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "arado_ar_196",
@@ -13524,9 +13504,23 @@
       "card_id": "dornier_do_17z",
       "source_text": "Once per turn, gain 2 kredits and draw a card when an undestroyed unit leaves the battlefield.",
       "triggers": [
-        "on_deploy"
+        "on_unit_left_battlefield"
       ],
       "actions": [
+        {
+          "kind": "gain_kredits",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "draw",
           "target": "owner",
@@ -13538,14 +13532,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when an undestroyed unit leaves the battlefield.",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when an undestroyed unit leaves the battlefield."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "dornier_do_18g",
@@ -14632,7 +14624,7 @@
       "card_id": "7_schtzen",
       "source_text": "Becomes Veteran when it attacks and destroys a unit.",
       "triggers": [
-        "on_deploy"
+        "on_destroys_unit"
       ],
       "actions": [
         {
@@ -14646,14 +14638,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when it attacks and destroys a unit.",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when it attacks and destroys a unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "7_schtzen_vet",
@@ -22880,7 +22870,7 @@
       "card_id": "77th_regiment",
       "source_text": "After this unit destroys a unit, add a 20th INFANTRY REGIMENT to your support line.",
       "triggers": [
-        "on_deploy"
+        "on_destroys_unit"
       ],
       "actions": [
         {
@@ -22894,14 +22884,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "After this unit destroys a unit",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] After this unit destroys a unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "9th_guards_regiment",
@@ -24212,13 +24200,11 @@
     {
       "card_id": "114th_infantry_regiment",
       "source_text": "When a friendly Destruction effect triggers, it triggers twice.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "repeat_effect",
-          "target": "source",
+          "kind": "repeat_destruction",
+          "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -24227,14 +24213,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When a friendly Destruction effect triggers",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When a friendly Destruction effect triggers"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "54th_infantry_regiment",
@@ -25731,7 +25715,7 @@
       "card_id": "kanazawa_regiment",
       "source_text": "When an undestroyed unit leaves the battlefield, deal 2 damage to the enemy HQ, give yours +2 defense.",
       "triggers": [
-        "on_deploy"
+        "on_unit_left_battlefield"
       ],
       "actions": [
         {
@@ -25745,14 +25729,26 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When an undestroyed unit leaves the battlefield",
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "gain_hq_defense",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When an undestroyed unit leaves the battlefield"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "kokuras_sword",
@@ -33078,7 +33074,7 @@
       "card_id": "312th_novgorod",
       "source_text": "Add a 6th MOTOR RIFLES to your support line when you Convert one or more cards.",
       "triggers": [
-        "on_deploy"
+        "on_convert"
       ],
       "actions": [
         {
@@ -33092,14 +33088,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when you Convert one or more cards.",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when you Convert one or more cards."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "336th_guards_naval",
@@ -35320,13 +35314,11 @@
     {
       "card_id": "4th_guards_rifles",
       "source_text": "If in your hand, reduce cost by 1 each time the enemy draws a card.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "draw",
-          "target": "enemy_hand",
+          "kind": "hand_cost_on_enemy_draw",
+          "target": "owner",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -35335,14 +35327,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If in your hand",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If in your hand"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "front_formation",
@@ -44447,7 +44437,7 @@
       "card_id": "30_infantry_regiment",
       "source_text": "Reduce operation cost by 1 after you operate a German unit.",
       "triggers": [
-        "on_deploy"
+        "on_friendly_operate"
       ],
       "actions": [
         {
@@ -44461,14 +44451,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "after you operate a German unit.",
+          "condition": "after you operate a german unit",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] after you operate a German unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "3rd_morskoi_pekhoty",
@@ -45925,10 +45913,23 @@
       "card_id": "216th_guards",
       "source_text": "At the start of your turn, deal 2 damage to your HQ and draw a card. Becomes Veteran after the second time.",
       "triggers": [
-        "on_turn_start",
-        "on_deploy"
+        "on_turn_start"
       ],
       "actions": [
+        {
+          "kind": "hq_take_damage",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "draw",
           "target": "owner",
@@ -45940,32 +45941,26 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "At the start of your turn",
-          "on": [
-            "on_turn_start"
-          ]
+          "condition": null,
+          "on": []
         },
         {
-          "kind": "grant_ability",
+          "kind": "count_then_veteran",
           "target": "source",
-          "amount": 0,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
-          "card_name": "veteran",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "after the second time.",
-          "on": [
-            "on_turn_start"
-          ]
+          "condition": null,
+          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] after the second time."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "38th_independent",
@@ -46027,7 +46022,7 @@
       "card_id": "3_panzergrenadier",
       "source_text": "Gets +1+1 after you operate a German unit.",
       "triggers": [
-        "on_deploy"
+        "on_friendly_operate"
       ],
       "actions": [
         {
@@ -46041,14 +46036,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "after you operate a German unit.",
+          "condition": "after you operate a german unit",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] after you operate a German unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "46th_indian_brigade",
@@ -46253,10 +46246,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] After you operate a unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "counterattack",
@@ -46514,28 +46505,26 @@
       "card_id": "stz5_katyusha",
       "source_text": "When this unit deals combat damage, add equal amount of BLASTS to your hand.",
       "triggers": [
-        "on_deploy"
+        "on_combat_damage_dealt"
       ],
       "actions": [
         {
           "kind": "add_card",
           "target": "owner",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "equal amount of BLASTS",
-          "scope": "",
+          "card_name": "BLAST",
+          "scope": "per_damage",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When this unit deals combat damage",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit deals combat damage"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "uusimaa_regiment",
@@ -47444,28 +47433,26 @@
       "card_id": "75th_rifle_regiment",
       "source_text": "Add a copy next to your HQ when targeted by an enemy effect.",
       "triggers": [
-        "on_deploy"
+        "on_targeted_by_enemy_effect"
       ],
       "actions": [
         {
-          "kind": "spawn_named_same_front",
-          "target": "source",
-          "amount": 0,
+          "kind": "deploy_named",
+          "target": "owner",
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "copy",
+          "card_name": "75th RIFLE REGIMENT",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when targeted by an enemy effect.",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when targeted by an enemy effect."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "area_bombardment",
@@ -47934,10 +47921,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] After you operate a unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "fw_ta_152_vet",

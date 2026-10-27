@@ -340,7 +340,10 @@ class NativeRuleEngine:
                         continue
                 elif context.source_unit_id and unit.instance_id != context.source_unit_id:
                     continue
-            if event in {"on_damage_dealt", "on_combat_damage_dealt", "on_enemy_hq_damaged", "on_survives_combat"} and context.source_unit_id and unit.instance_id != context.source_unit_id:
+            if event in {"on_damage_dealt", "on_combat_damage_dealt", "on_enemy_hq_damaged", "on_survives_combat",
+                         "on_destroys_unit"} and context.source_unit_id and unit.instance_id != context.source_unit_id:
+                continue
+            if event in {"on_friendly_operate", "on_convert"} and unit.owner_id != context.player_id:
                 continue
             if event == "on_damage" and context.target_unit_id and unit.instance_id != context.target_unit_id:
                 continue
@@ -403,8 +406,21 @@ class NativeRuleEngine:
                         bonuses[hand_card_id] = int(bonuses.get(hand_card_id, 0)) + 1
                         state.event_log.append({"event": "hand_unit_cost_increased_on_death", "player_id": player_id,
                                                 "card_id": hand_card_id, "amount": bonuses[hand_card_id]})
-                if self.execute(card_id, "on_destroy", state, EffectContext(player_id, card_id, event="on_destroy")):
-                    fired += 1
+                # 114th INFANTRY REGIMENT: "When a friendly Destruction effect
+                # triggers, it triggers twice."
+                repeats = 1 + sum(1 for unit in state.players[player_id].units if unit.card_id == "114th_infantry_regiment")
+                for _ in range(repeats):
+                    if self.execute(card_id, "on_destroy", state, EffectContext(player_id, card_id, event="on_destroy")):
+                        fired += 1
+                    else:
+                        break
+                # 738. JÄGER's mark: its owner draws when the marked unit dies.
+                for marker_id, marker in state.players.items():
+                    marks = marker.status.get("draw_when_destroyed") or {}
+                    if unit_id in marks:
+                        from simulator.core.turn import TurnManager
+                        for _ in range(int(marks.pop(unit_id))):
+                            TurnManager.draw_card(state, marker_id)
                 # The destroyed card's own Destruction effect above is not a
                 # broadcast.  Remaining units may still listen to a friendly
                 # or enemy unit being destroyed.
@@ -1475,8 +1491,12 @@ class NativeRuleEngine:
                 target_player = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
                 # _add_to_hand keeps the 9-card limit; appending directly let
                 # generated cards push a hand to 10.
+                copies = max(1, action.amount or 1)
+                if action.scope == "per_damage":
+                    # STZ-5 KATYUSHA: "add equal amount of BLASTS".
+                    copies = int(context.metadata.get("damage_amount", 0) or 0)
                 for card_id in card_ids:
-                    for _ in range(max(1, action.amount or 1)):
+                    for _ in range(copies):
                         self._add_to_hand(state, target_player, card_id)
             else:
                 state.event_log.append({"event": "native_rule_unresolved_card_name", "name": action.card_name, "source_card_id": context.source_card_id})
@@ -1510,6 +1530,20 @@ class NativeRuleEngine:
             known = intel_rules.reveal(state, context.player_id, opponent_id(state, context.player_id), action.amount)
             state.event_log.append({"event": "intel_revealed", "player_id": context.player_id, "count": len(known)})
             return
+        if action.kind == "mark_draw_on_destroy" and context.target_unit_id:
+            # 738. JÄGER: "Target a unit. Draw a card when it is destroyed."
+            marks = state.players[context.player_id].status.setdefault("draw_when_destroyed", {})
+            marks[context.target_unit_id] = int(marks.get(context.target_unit_id, 0)) + max(1, action.amount)
+            return
+        if action.kind == "count_then_veteran" and context.source_unit_id:
+            # 216th GUARDS: "Becomes Veteran after the second time."
+            unit = find_unit(state, context.source_unit_id)
+            unit.status["times_triggered"] = int(unit.status.get("times_triggered", 0)) + 1
+            if unit.status["times_triggered"] >= max(1, action.amount):
+                self._promote_to_veteran(state, unit)
+            return
+        if action.kind == "hand_cost_on_enemy_draw":
+            return   # a marker: TurnManager.draw_card reads it while the card is in hand
         if action.kind == "conditional_keyword" and context.source_unit_id:
             # M2A4: the unit holds the keyword whenever its attack is high
             # enough; KeywordEngine.has reads this.
@@ -1539,6 +1573,7 @@ class NativeRuleEngine:
             })
             state.event_log.append({"event": "unit_removed_until_return", "unit_id": unit.instance_id,
                                     "card_id": unit.card_id})
+            self.left_battlefield(state, unit, unit.owner_id)
             return
         if action.kind == "delayed_to_hand":
             self._schedule_referent(action, state, context, "return_to_hand")
@@ -1785,6 +1820,7 @@ class NativeRuleEngine:
             self._add_to_hand(state, owner.player_id, unit.card_id)
             state.event_log.append({"event": "unit_returned_to_hand", "unit_id": unit.instance_id})
             self._sent_to_hand(state, owner.player_id, unit.card_id)
+            self.left_battlefield(state, unit, owner.player_id)
             return
         if action.kind == "attack_equals_defense" and context.target_unit_id:
             find_unit(state, context.target_unit_id).attack = find_unit(state, context.target_unit_id).defense
@@ -1817,6 +1853,7 @@ class NativeRuleEngine:
             state.removed_cards.append(unit.card_id)
             state.event_log.append({"event": "unit_removed", "unit_id": unit.instance_id})
             self._cleanup_continuous_effects(state, unit.owner_id, unit.instance_id)
+            self.left_battlefield(state, unit, unit.owner_id)
             return
         if action.kind == "return_to_deck" and action.target == "chosen":
             # Move the card selected by a preceding choose_one to the top of the
@@ -1885,6 +1922,7 @@ class NativeRuleEngine:
                 else:
                     self._add_to_hand(state, context.player_id, card_id)
                 state.event_log.append({"event": "converted_to", "card_id": card_id, "player_id": context.player_id})
+                self.emit("on_convert", state, EffectContext(context.player_id, context.source_card_id, event="on_convert"))
             else:
                 state.event_log.append({"event": "native_rule_unresolved_card_name", "name": action.card_name, "source_card_id": context.source_card_id})
             return
@@ -2093,6 +2131,7 @@ class NativeRuleEngine:
                 state.event_log.append({"event": "delayed_return", "unit_id": unit.instance_id, "card_id": unit.card_id})
                 if NativeRuleEngine._last_engine is not None:
                     NativeRuleEngine._last_engine._sent_to_hand(state, owner.player_id, unit.card_id)
+                    NativeRuleEngine._last_engine.left_battlefield(state, unit, owner.player_id)
             elif entry.get("card_id") and entry["card_id"] not in owner.hand:
                 # Unit was removed from the battlefield earlier (e.g. by a paired
                 # "Remove X" action); returning it means its card comes back to hand.
@@ -2144,6 +2183,15 @@ class NativeRuleEngine:
             state.event_log.append({"event": "choose_one_hand_card", "card_id": chosen})
             return
         state.event_log.append({"event": "choose_one_no_scope", "scope": action.scope})
+
+    def left_battlefield(self, state, unit, owner_id: str) -> None:
+        """An undestroyed unit left the battlefield (sent to hand, removed).
+
+        DORNIER DO 17Z and KANAZAWA REGIMENT listen for this.
+        """
+        self.emit("on_unit_left_battlefield", state, EffectContext(
+            owner_id, unit.card_id, event="on_unit_left_battlefield",
+            metadata={"left_unit_id": unit.instance_id, "left_card_id": unit.card_id}))
 
     def _sent_to_hand(self, state, owner_id: str, card_id: str) -> None:
         """A unit went from the battlefield to its owner's hand (IOSEF STALIN II)."""

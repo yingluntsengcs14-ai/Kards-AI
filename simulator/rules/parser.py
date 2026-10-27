@@ -277,6 +277,80 @@ class RuleParser:
             (RuleAction("damage", "selected_enemy", amount=1, scope="or_enemy_hq"),
              RuleAction("draw", "owner", amount=1, condition="if it is the hq")),
             "implemented", ()),
+        # ── event-driven (batch 2) ──────────────────────────────────────────
+        # "When this unit deals combat damage, add equal amount of BLASTS to
+        # your hand."
+        "stz5_katyusha": (
+            ("on_combat_damage_dealt",),
+            (RuleAction("add_card", "owner", card_name="BLAST", scope="per_damage"),),
+            "implemented", ()),
+        # "Deployment: Target a unit. Draw a card when it is destroyed."
+        "738_jger_regiment": (
+            ("on_deploy",),
+            (RuleAction("mark_draw_on_destroy", "selected_target", amount=1),),
+            "implemented", ()),
+        # "Once per turn, gain 2 kredits and draw a card when an undestroyed
+        # unit leaves the battlefield."  (The kredits were never parsed.)
+        "dornier_do_17z": (
+            ("on_unit_left_battlefield",),
+            (RuleAction("gain_kredits", "owner", amount=2), RuleAction("draw", "owner", amount=1)),
+            "implemented", ()),
+        # "When an undestroyed unit leaves the battlefield, deal 2 damage to the
+        # enemy HQ, give yours +2 defense."
+        "kanazawa_regiment": (
+            ("on_unit_left_battlefield",),
+            (RuleAction("damage", "enemy_hq", amount=2), RuleAction("gain_hq_defense", "owner", amount=2)),
+            "implemented", ()),
+        # "After this unit destroys a unit, add a 20th INFANTRY REGIMENT to your
+        # support line."
+        "77th_regiment": (
+            ("on_destroys_unit",),
+            (RuleAction("deploy_named", "owner", card_name="20th INFANTRY REGIMENT", amount=1),),
+            "implemented", ()),
+        # "Becomes Veteran when it attacks and destroys a unit."
+        "7_schtzen": (
+            ("on_destroys_unit",),
+            (RuleAction("grant_ability", "source", card_name="veteran"),),
+            "implemented", ()),
+        # "Reduce operation cost by 1 after you operate a German unit."
+        "30_infantry_regiment": (
+            ("on_friendly_operate",),
+            (RuleAction("modify_operation_cost", "source", amount=-1, condition="after you operate a german unit"),),
+            "implemented", ()),
+        # "Gets +1+1 after you operate a German unit."
+        "3_panzergrenadier": (
+            ("on_friendly_operate",),
+            (RuleAction("buff", "source", attack=1, defense=1, condition="after you operate a german unit"),),
+            "implemented", ()),
+        # "Add a 6th MOTOR RIFLES to your support line when you Convert one or
+        # more cards."
+        "312th_novgorod": (
+            ("on_convert",),
+            (RuleAction("deploy_named", "owner", card_name="6th MOTOR RIFLES", amount=1),),
+            "implemented", ()),
+        # "Add a copy next to your HQ when targeted by an enemy effect."
+        "75th_rifle_regiment": (
+            ("on_targeted_by_enemy_effect",),
+            (RuleAction("deploy_named", "owner", card_name="75th RIFLE REGIMENT", amount=1),),
+            "implemented", ()),
+        # "At the start of your turn, deal 2 damage to your HQ and draw a card.
+        # Becomes Veteran after the second time."  (The HQ damage was dropped.)
+        "216th_guards": (
+            ("on_turn_start",),
+            (RuleAction("hq_take_damage", "owner", amount=2), RuleAction("draw", "owner", amount=1),
+             RuleAction("count_then_veteran", "source", amount=2)),
+            "implemented", ()),
+        # "If in your hand, reduce cost by 1 each time the enemy draws a card."
+        "4th_guards_rifles": (
+            (),
+            (RuleAction("hand_cost_on_enemy_draw", "owner", amount=1),),
+            "implemented", ()),
+        # "When a friendly Destruction effect triggers, it triggers twice."
+        # (Read by NativeRuleEngine.emit_deaths_since.)
+        "114th_infantry_regiment": (
+            (),
+            (RuleAction("repeat_destruction", "owner"),),
+            "implemented", ()),
         # "Cannot be deployed if you have deployed a unit this turn."  Checked
         # when the card is played (PlayCardAction.validate), not on deploy.
         "13e_dragons": (
