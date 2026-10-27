@@ -110,13 +110,15 @@ class Simulator:
         convert_choices = [(card_id, "hand") for card_id in hand_ids] + [(card_id, "deck") for card_id in player.deck]
         all_units: list[str] | None = None
         has_high_attack = any(unit.attack >= 4 for unit in player.units)
-        for card_id in hand_ids:
+        # Two copies of a card in hand give the same actions; listing them twice
+        # gave the search duplicate branches with identical features.
+        for card_id in dict.fromkeys(hand_ids):
             positions = ("support_line",)  # KARDS units deploy to the support line.
             spec = rule_engine.action_spec_for(card_id)
             if spec.needs_target:
                 if all_units is None:
                     all_units = [unit.instance_id for candidate in self.state.players.values() for unit in candidate.units]
-                targets = all_units
+                targets = [None, *all_units] if spec.may_target_enemy_hq else all_units
             else:
                 targets = (None,)
             selected_cards = (

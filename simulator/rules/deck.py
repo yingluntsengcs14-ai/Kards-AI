@@ -11,7 +11,9 @@ class DeckValidationResult:
 
 
 class DeckValidator:
-    def __init__(self, cards, deck_size=40, copy_limit=4):
+    def __init__(self, cards, deck_size=39, copy_limit=4):
+        # KARDS decks hold 39 cards (confirmed in game 2026-10-27; every exported
+        # tournament deck decodes to 39).  The engine used to require 40.
         self.cards, self.deck_size, self.copy_limit = cards, deck_size, copy_limit
 
     def validate(self, deck, main_nation, ally_nation=None, ally_limit=12):

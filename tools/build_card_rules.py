@@ -156,6 +156,7 @@ _GENUINELY_EXECUTED_KINDS: frozenset[str] = frozenset({
     "delayed_destroy",
     "delayed_to_hand",
     "conditional_keyword",
+    "intel",
     "put_into_play",
     "flicker",
     "remove_until_return",

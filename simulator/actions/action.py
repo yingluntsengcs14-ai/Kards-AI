@@ -99,7 +99,11 @@ class PlayCardAction(Action):
             has_high_attack = any(unit.attack >= 4 for unit in player.units)
             if not has_high_attack and self.selected_option not in {"blitz", "shock"}:
                 raise ActionValidationError("This card requires Blitz or Shock selection")
-        if card.type != "countermeasure" and rule.needs_target:
+        if any(action.kind == "cannot" and action.card_name == "be_deployed_after_unit" for action in rule.actions) \
+                and counters.units_deployed(state, self.player_id, 0):
+            raise ActionValidationError("Cannot be deployed after deploying a unit this turn")
+        aims_at_hq = any(action.scope == "or_enemy_hq" for action in rule.actions) and self.target_unit_id is None
+        if card.type != "countermeasure" and rule.needs_target and not aims_at_hq:
             if self.target_unit_id is None:
                 raise ActionValidationError("This card requires a unit target")
             target = find_unit(state, self.target_unit_id)
@@ -189,6 +193,10 @@ class PlayCardAction(Action):
         player.hand.remove(self.card_id)
         intel_rules.refresh(state)
         player.resources.kredits -= cost
+        if card.type == "order":
+            counters.note_order_given(state, self.player_id)
+        elif card.is_unit:
+            counters.note_unit_deployed(state, self.player_id, card.id)
         intel = KeywordEngine.numeric(card, "intel")
         if intel:
             known = intel_rules.reveal(state, self.player_id, opponent_id(state, self.player_id), intel)

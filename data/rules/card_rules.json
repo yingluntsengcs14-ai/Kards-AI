@@ -247,10 +247,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have given an order this turn."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "111th_indian_brigade",
@@ -2912,10 +2910,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you deployed a British infantry last turn."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "timely_supplies",
@@ -2980,10 +2976,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you deployed a British infantry last turn."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "vildebeest",
@@ -4534,10 +4528,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you deployed a British infantry last turn."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "blackburn_skua_mk_ii",
@@ -4807,10 +4799,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If you deployed a British infantry last turn"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "green_howards",
@@ -6725,12 +6715,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
+          "condition": "unless this is the second order you give this turn",
           "on": []
         },
         {
           "kind": "damage",
-          "target": "enemy_hq",
+          "target": "enemy_units",
           "amount": 4,
           "attack": 0,
           "defense": 0,
@@ -6739,14 +6729,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If this is the second order you give this turn",
+          "condition": "if this is the second order you give this turn",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If this is the second order you give this turn"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "whirlwind",
@@ -8556,14 +8544,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "if you have deployed a unit this turn.",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have deployed a unit this turn."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "chasing_shadows",
@@ -8683,6 +8669,20 @@
       ],
       "actions": [
         {
+          "kind": "pin",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it is a tank",
+          "on": []
+        },
+        {
           "kind": "suppress",
           "target": "selected_target",
           "amount": 0,
@@ -8693,14 +8693,40 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "if a tank, suppressed if an infantry, destroyed if an artillery and retreats if an air unit.",
+          "condition": "if it is an infantry",
+          "on": []
+        },
+        {
+          "kind": "destroy",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it is an artillery",
+          "on": []
+        },
+        {
+          "kind": "move_to_support_line",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it is an air unit",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if a tank, suppressed if an infantry, destroyed if an artillery and retreats if an air unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "152e_rgiment",
@@ -10768,7 +10794,7 @@
       ],
       "actions": [
         {
-          "kind": "draw_top_matching",
+          "kind": "draw_matching",
           "target": "owner",
           "amount": 0,
           "attack": 0,
@@ -10778,16 +10804,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If you have equal or less units on the battlefield, draw an order.",
-          "on": [
-            "on_deploy"
-          ]
+          "condition": "if you have equal or less units on the battlefield",
+          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If you have equal or less units on the battlefield, draw an order."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "atlantic_command",
@@ -10879,7 +10901,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -10897,14 +10919,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "if it is the HQ.",
+          "condition": "if it is the hq",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if it is the HQ."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "careless_talk",
@@ -11555,10 +11575,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have an air unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "sd_kfz_222",
@@ -12114,10 +12132,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you do."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "8_fallschirmjger",
@@ -13778,10 +13794,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have an air unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "heinkel_he_111",
@@ -14583,10 +14597,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if it is friendly."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "43_infantry_regiment",
@@ -15251,10 +15263,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if it is a tank."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "panzer_iiie",
@@ -17853,10 +17863,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] unless you control more units than the enemy."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "colonial_dreams",
@@ -17948,10 +17956,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you control more units than the enemy."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "l640",
@@ -18679,10 +18685,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If you control more units than the enemy"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "obice_da_7513",
@@ -20158,10 +20162,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If you control a Japanese unit in the frontline"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "experimental_flight",
@@ -25027,10 +25029,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have lost 2 or more kredit slots this battle."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "p1y1_model_11",
@@ -28068,10 +28068,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if it was friendly."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "exiled_forces",
@@ -35843,10 +35841,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have a US unit in the frontline."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "32nd_infantry_regiment",
@@ -36026,10 +36022,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If you have 5 or more unspent kredits"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "allied_research_effort",
@@ -37244,10 +37238,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If it's an air unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "attrition",
@@ -38989,10 +38981,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have 2 or more unspent kredits."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "c47_skytrain",
@@ -40527,10 +40517,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have 5 or more unspent kredits."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "cadet_nurse_corps",
@@ -40682,10 +40670,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have 2 or more unspent kredits."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "hell_on_wheels",
@@ -43808,24 +43794,36 @@
           "on": []
         },
         {
-          "kind": "kredit_effect",
+          "kind": "forecast",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "Also Intel 3 if you have 0 kredits.",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "if you have 0 kredits.",
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "intel",
+          "target": "owner",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if you have 0 kredits",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have 0 kredits."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "duck",
@@ -43922,10 +43920,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you have 0 kredits."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "kawanishi_h8k",
@@ -46094,10 +46090,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if you do."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "4th_brigade_nz",

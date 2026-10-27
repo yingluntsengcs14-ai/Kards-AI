@@ -117,6 +117,10 @@ def _evaluate(
         at_edge = (hand_position.is_leftmost(index, size) if "left-most" in c
                    else hand_position.is_rightmost(index, size))
         return not at_edge if c.strip().startswith("unless") else at_edge
+    # ── Board and history predicates (2026-10-27, tournament decks) ─────────
+    board = _board_predicate(c, context, cards, state)
+    if board is not None:
+        return board
     # FEROCIOUS ASSAULT: "Lose a kredit slot if its attack was greater than your
     # kredit slots."  "its" is the targeted unit, which this action is ordered
     # before the destroy so that the unit is still on the battlefield here.
@@ -303,6 +307,113 @@ def _controls_predicate(c, context, cards, state, player, opponent):
             continue
         return True
     return False
+
+
+_ORDINALS = {"first": 1, "second": 2, "third": 3, "fourth": 4}
+
+
+def _unit_matches_words(card, words) -> bool | None:
+    """Whether ``card`` fits descriptor words ("british infantry"); None if a
+    word is not understood."""
+    from simulator.rules import nations
+    for word in words:
+        if word in _UNIT_TYPE_WORDS:
+            wanted = _UNIT_TYPE_WORDS[word]
+            if wanted is not None and card.type not in wanted:
+                return False
+        elif word in nations.NATION_BY_ADJECTIVE:
+            if not nations.matches(card.nation, word):
+                return False
+        else:
+            return None
+    return True
+
+
+def _board_predicate(c, context, cards, state):
+    """Conditions the tournament decks rely on; None when ``c`` is none of them."""
+    text = c.strip().rstrip(".").strip()
+    if text.startswith("unless "):
+        inner = _board_predicate("if " + text[len("unless "):], context, cards, state)
+        return None if inner is None else not inner
+    if state is None or getattr(context, "player_id", None) not in state.players:
+        return None
+    from simulator.rules import counters
+    me = context.player_id
+    player = state.players[me]
+    opponent = next((candidate for pid, candidate in state.players.items() if pid != me), None)
+    metadata = getattr(context, "metadata", {}) or {}
+    # "if you have 0 kredits" / "5 or more (unspent) kredits"
+    match = re.fullmatch(r"if you have (\d+)( or more| or less)? (?:unspent )?kredits?", text)
+    if match:
+        value, mode = int(match.group(1)), match.group(2) or ""
+        kredits = player.resources.kredits
+        return kredits >= value if "more" in mode else kredits <= value if "less" in mode else kredits == value
+    # unit counts
+    enemy_units = len(opponent.units) if opponent else 0
+    if re.fullmatch(r"if you have equal or (?:less|fewer) units(?: on the battlefield)?(?: than the enemy)?", text):
+        return len(player.units) <= enemy_units
+    if re.fullmatch(r"if you (?:control|have) more units than the enemy", text):
+        return len(player.units) > enemy_units
+    if re.fullmatch(r"if you (?:control|have) fewer units than the enemy", text):
+        return len(player.units) < enemy_units
+    # battle counters
+    match = re.fullmatch(r"if you have lost (\d+) or more kredit slots this battle", text)
+    if match:
+        return counters.kredit_slots_lost(state, me) >= int(match.group(1))
+    # orders this turn ("this" order already counted when it was played)
+    match = re.fullmatch(r"if this is the (first|second|third|fourth) order you (?:give|play) this turn", text)
+    if match:
+        return counters.orders_given_this_turn(state, me) == _ORDINALS[match.group(1)]
+    if re.fullmatch(r"if you have (?:given|played) an order this turn", text):
+        return counters.orders_given_this_turn(state, me) >= 1
+    # deployment history: "if you deployed a British infantry last turn"
+    match = re.fullmatch(r"if you (?:have )?deployed an? ([a-z -]+?) (this|last) turn", text)
+    if match:
+        words = [word for word in match.group(1).split() if word != "unit"]
+        deployed = counters.units_deployed(state, me, 0 if match.group(2) == "this" else 1)
+        if match.group(2) == "this" and getattr(context, "source_unit_id", None):
+            # The unit whose own Deployment asks this has already been counted.
+            deployed = deployed[:-1]
+        results = [_unit_matches_words(cards.get(card_id), words) for card_id in deployed if card_id in cards]
+        from simulator.rules.nations import NATION_BY_ADJECTIVE
+        if any(result is None for result in results) or (not results and any(
+                word not in _UNIT_TYPE_WORDS and word not in NATION_BY_ADJECTIVE for word in words)):
+            return None
+        return any(results)
+    # "if you have/control a <descriptor> in the frontline / support line"
+    match = re.fullmatch(r"if you (?:have|control) an? ([a-z -]+?) in (?:the |your )?(frontline|support line)", text)
+    if match:
+        position = "frontline" if match.group(2) == "frontline" else "support_line"
+        words = [word for word in match.group(1).split() if word != "unit"]
+        found = False
+        for unit in player.units:
+            if unit.position != position or unit.card_id not in cards:
+                continue
+            fits = _unit_matches_words(cards.get(unit.card_id), words)
+            if fits is None:
+                return None
+            found = found or fits
+        return found
+    match = re.fullmatch(r"if you have an? ([a-z -]+?)", text)
+    if match:
+        return _controls_predicate("if you control a " + match.group(1), context, cards, state, player, opponent)
+    # "it" = the unit this card targeted, snapshotted before the effect ran.
+    target_owner = metadata.get("target_owner_id")
+    if re.fullmatch(r"if it (?:was|is) friendly", text):
+        return target_owner == me
+    if re.fullmatch(r"if it (?:was|is) (?:an )?enemy(?: unit)?", text):
+        return target_owner is not None and target_owner != me
+    if re.fullmatch(r"if you do", text):
+        return bool(getattr(context, "target_unit_id", None))
+    if re.fullmatch(r"if it is the hq", text):
+        return not getattr(context, "target_unit_id", None)
+    match = re.fullmatch(r"if (?:it is |it's )?an? (tank|infantry|artillery|fighter|bomber|air unit|ground unit)", text)
+    if match:
+        target_card = metadata.get("target_card_id")
+        if not target_card or target_card not in cards:
+            return False
+        return cards.get(target_card).type in (_UNIT_TYPE_WORDS.get(match.group(1).split()[0]) or {match.group(1)})
+    return None
 
 
 # (action kind, condition pattern) pairs where the condition describes when an

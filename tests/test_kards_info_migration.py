@@ -49,19 +49,19 @@ class KardsInfoMigrationTests(unittest.TestCase):
     def test_only_spawnable_cards_cannot_enter_decks(self) -> None:
         token = next(card for card in self.cards if card.set == "OnlySpawnable")
         self.assertTrue(token.is_token)
-        result = DeckValidator(self.cards).validate([token.id] * 40, token.nation)
+        result = DeckValidator(self.cards).validate([token.id] * 39, token.nation)
         self.assertFalse(result.valid)
         self.assertTrue(any("OnlySpawnable" in error for error in result.errors))
 
     def test_retired_cards_remain_catalogued_but_are_not_deck_legal(self) -> None:
         self.assertIn("night_bombing", self.cards)
-        result = DeckValidator(self.cards).validate(["night_bombing"] * 40, "Britain")
+        result = DeckValidator(self.cards).validate(["night_bombing"] * 39, "Britain")
         self.assertFalse(result.valid)
         self.assertTrue(any("Retired card" in error for error in result.errors))
 
-    def test_deck_builder_creates_40_legal_collectible_cards(self) -> None:
+    def test_deck_builder_creates_39_legal_collectible_cards(self) -> None:
         deck = build_random_deck(self.cards, seed=17, main_nation="France")
-        self.assertEqual(len(deck), 40)
+        self.assertEqual(len(deck), 39)
         self.assertTrue(DeckValidator(self.cards).validate(deck, "France").valid)
         self.assertFalse(any(self.cards.get(card_id).is_token for card_id in deck))
 

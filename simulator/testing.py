@@ -27,15 +27,15 @@ class SimulationReport:
     final_state: GameState
 
 
-def build_random_deck(cards: CardDatabase, size: int = 40, seed: int | None = None, main_nation: str = "France", ally_nation: str | None = None,
+def build_random_deck(cards: CardDatabase, size: int = 39, seed: int | None = None, main_nation: str = "France", ally_nation: str | None = None,
                       ally_limit: int = 12, enforce_official_nations: bool = False,
                       allowed: set[str] | None = None) -> list[str]:
-    """Build a seeded, 40-card-deck-builder-legal kards.info deck.
+    """Build a seeded, 39-card-deck-builder-legal kards.info deck.
 
     ``OnlySpawnable`` is excluded; ``reserved`` is intentionally allowed.
     """
-    if size != 40:
-        raise ValueError("KARDS decks must contain exactly 40 cards")
+    if size != 39:
+        raise ValueError("KARDS decks must contain exactly 39 cards")
     if enforce_official_nations and main_nation not in OFFICIAL_MAIN_NATIONS:
         raise ValueError(f"Main nation must be one of {OFFICIAL_MAIN_NATIONS}: {main_nation}")
     if enforce_official_nations and ally_nation is not None and ally_nation not in OFFICIAL_ALLY_NATIONS:
@@ -73,7 +73,7 @@ def build_random_deck(cards: CardDatabase, size: int = 40, seed: int | None = No
     return deck
 
 
-def run_random_simulation(cards: CardDatabase, turns: int = 100, deck_size: int = 40, seed: int = 0) -> SimulationReport:
+def run_random_simulation(cards: CardDatabase, turns: int = 100, deck_size: int = 39, seed: int = 0) -> SimulationReport:
     """Run a deterministic 100-turn-safe smoke simulation.
 
     A random non-attack action is taken when available, then the player passes.
@@ -85,8 +85,8 @@ def run_random_simulation(cards: CardDatabase, turns: int = 100, deck_size: int 
     rng = random.Random(seed)
     simulator = Simulator(cards)
     simulator.reset(
-        build_random_deck(cards, 40, rng.randrange(2**31)),
-        build_random_deck(cards, 40, rng.randrange(2**31)),
+        build_random_deck(cards, 39, rng.randrange(2**31)),
+        build_random_deck(cards, 39, rng.randrange(2**31)),
     )
     executed = 0
     completed = 0

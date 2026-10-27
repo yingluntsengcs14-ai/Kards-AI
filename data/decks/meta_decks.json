@@ -1,0 +1,22 @@
+{
+  "source": "Bilibili 主流卡組介紹（使用者提供，2026-10-27）",
+  "decks": [
+    {"name": "英法血牛", "tier": "未標示", "code": "%%26|0d0m0n19gvhDooq0qYsQsTtXyJ;2h2l2ngQw8;1V2iw2wb;yH"},
+    {"name": "美波煉鋼", "tier": "未標示", "code": "%%58|bEDBj8tYv6vYxAzj;bqEbjyohtyyzzi;dvE5xc;u5vS"},
+    {"name": "日澳控制", "tier": "未標示", "code": "%%3a|5C636BDJE8jjqDrktCwXycznzv;E7Eap9tFx3;matKy9yd;xX"},
+    {"name": "日法抵抗", "tier": "未標示", "code": "%%36|5C636BhHjjrktCtFtGx3zmznzv;2h2lE7Eap9;7a7eg3tK;2p"},
+    {"name": "奇蹟德法", "tier": "未標示", "code": "%%16|2Q2Z343NgUiau0vgvhwCxr;2l3f3XrVvcwAwJwM;eWoUq8xo;"},
+    {"name": "德日移除", "tier": "T2", "code": "%%13|3N3X454zE7eYgUmaoKqltGvgvhwXxo;3f5Bp9tswAwHwJwKwN;wMx8;"},
+    {"name": "蘇美快攻", "tier": "T2", "code": "%%45|7M8Cdvfrohppt3vevUwqxAxkxmyX;bqE0Ebt9z1;zC;8NvSz0"},
+    {"name": "日波煉鋼", "tier": "T2", "code": "%%38|5C6B6y7ahHrktCtFvkx3ziznzqzv;7elks0;5Z6xE5E7tK;u5"},
+    {"name": "德芬車", "tier": "T2", "code": "%%19|2S303N3XwCxr;2Z4ArKxp;3f4vE4nloUxoza;ux"},
+    {"name": "日澳快攻", "tier": "T2", "code": "%%3a|5C6B6yDJhHrktCznzqzv;5ZE7EatFy2;6x7a7ltKy9;xX"},
+    {"name": "英波流星", "tier": "T2", "code": "%%28|0d0m19gvhDooq0qYsQtXyJ;0leFjophs0tyw8;1Vwb;u5yH"},
+    {"name": "德意直空", "tier": "T2", "code": "%%17|2Q34gUu0vgvh;2Z3XjMlKlUuD;fUq8tq;3f5is5"},
+    {"name": "蘇波轉換", "tier": "T2", "code": "%%48|8CfrjWppqTrjt3tatmu4vewqwyyXz5zi;8Ns0t5tyww;88E5zC;u5"},
+    {"name": "蘇法控制", "tier": "T2", "code": "%%46|8CDZpkppqLqTrjt3tmvcvewqwwxjyX;2h2l2n8UE0frjZwozC;2ixm;"},
+    {"name": "日美OTK", "tier": "T1", "code": "%%35|5C63E8jjjQm8tCznzp;6wp4pe;5BbPp1p6;bKggma"},
+    {"name": "蘇澳中速", "tier": "T1", "code": "%%4a|8C9bfrjWppqTt3tmvewqyXz5;DJE0jZwwxWz1;zC;pvxXy9"},
+    {"name": "英澳流星", "tier": "T1", "code": "%%2a|0m19DRgvhDoosQsRsTtXw8y4yJ;0dDLqYycyH;1Vw2wbyd;y9"}
+  ]
+}

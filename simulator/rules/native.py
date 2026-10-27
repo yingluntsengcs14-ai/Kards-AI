@@ -55,6 +55,8 @@ class ActionGenerationSpec:
     # "Put a German air unit into play": (type family, nation) of the hand unit
     # the player picks, or None.  EAGLE DAY.
     put_into_play: tuple[str, str] | None = None
+    # "Deal 1 damage to an enemy" (BUZZ BOMB): the enemy HQ is a target too.
+    may_target_enemy_hq: bool = False
 
 
 def _hand_unit_matches(card, family: str, nation: str) -> bool:
@@ -81,6 +83,7 @@ def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
         shock_tactics=any(action.kind == "shock_tactics_choice" for action in actions),
         forecast=any(action.kind == "forecast" for action in actions),
         put_into_play=_put_into_play_filter(actions),
+        may_target_enemy_hq=any(action.scope == "or_enemy_hq" for action in actions),
         develop_options=tuple(
             option.strip()
             for action in actions if action.kind == "develop_options"
@@ -526,6 +529,10 @@ class NativeRuleEngine:
         if (action.condition is not None and not handled_by_kind(action.kind, action.condition)
                 and not condition_evaluate(action.condition, self._current_event, context, self.cards, state)):
             state.event_log.append({"event": "native_rule_condition_false", "kind": action.kind, "condition": action.condition})
+            return
+        # BUZZ BOMB aimed at the enemy HQ (no unit target).
+        if action.kind == "damage" and action.scope == "or_enemy_hq" and not context.target_unit_id:
+            HQResolver.damage(state, opponent_id(state, context.player_id), action.amount, context.player_id)
             return
         # Delayed one-shot effects (M10): schedule a discard/return-to-hand to a
         # future turn phase instead of executing immediately. The trigger phase
@@ -1497,6 +1504,11 @@ class NativeRuleEngine:
                         unit.defense += action.defense
                     else:
                         unit.defense += action.amount
+            return
+        if action.kind == "intel":
+            from simulator.rules import intel as intel_rules
+            known = intel_rules.reveal(state, context.player_id, opponent_id(state, context.player_id), action.amount)
+            state.event_log.append({"event": "intel_revealed", "player_id": context.player_id, "count": len(known)})
             return
         if action.kind == "conditional_keyword" and context.source_unit_id:
             # M2A4: the unit holds the keyword whenever its attack is high

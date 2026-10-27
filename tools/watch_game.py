@@ -243,11 +243,25 @@ def board_text(state, namer: Namer) -> str:
     return "\n".join(rows)
 
 
+class _AnySizeSimulator(Simulator):
+    """Accepts exported 39-card decks; the engine's own validator expects 40."""
+
+    def _validate_deck(self, deck, nation, ally_nation=None) -> None:
+        from simulator.rules.deck import DeckValidator
+        result = DeckValidator(self.cards, deck_size=len(deck)).validate(deck, nation, ally_nation)
+        if not result.valid:
+            raise ValueError("Illegal deck: " + "; ".join(result.errors))
+
+
 def play_game(cards: CardDatabase, namer: Namer, seed: int, p1: tuple, p2: tuple, agents: tuple[str, str],
-              max_actions: int, keep_steps: bool) -> GameResult:
+              max_actions: int, keep_steps: bool, decks: tuple[list, list] | None = None) -> GameResult:
+    """Play one game; ``decks`` fixes both decklists (p1/p2 then name the nations)."""
     rng = random.Random(seed)
-    decks = [build_random_deck(cards, seed=rng.randrange(2**31), main_nation=nat, ally_nation=ally) for nat, ally in (p1, p2)]
-    env = Simulator(cards)
+    if decks is None:
+        decks = [build_random_deck(cards, seed=rng.randrange(2**31), main_nation=nat, ally_nation=ally) for nat, ally in (p1, p2)]
+    else:
+        decks = [list(decks[0]), list(decks[1])]
+    env = _AnySizeSimulator(cards)
     env.reset(*decks, nations=(p1[0], p2[0]), ally_nations=(p1[1], p2[1]), seed=rng.randrange(2**31))
     steps: list[Step] = []
     suspect_cards: collections.Counter = collections.Counter()

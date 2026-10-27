@@ -22,9 +22,11 @@ KREDIT_SLOTS_LOST = "kredit_slots_lost_this_battle"
 DESTROYED_CARD_IDS = "destroyed_card_ids_this_battle"
 HQ_DAMAGE_THIS_TURN = "hq_damage_this_turn"
 OPERATING_SPEND_THIS_TURN = "kredits_spent_operating_this_turn"
+ORDERS_THIS_TURN = "orders_given_this_turn"
+DEPLOYED_BY_TURN = "units_deployed_by_turn"   # battle: {turn number: [card ids]}
 
 # Cleared at the start of every turn.
-TURN_KEYS = (HQ_DAMAGE_THIS_TURN, OPERATING_SPEND_THIS_TURN)
+TURN_KEYS = (HQ_DAMAGE_THIS_TURN, OPERATING_SPEND_THIS_TURN, ORDERS_THIS_TURN)
 
 
 def _bump(state, player_id: str, key: str, amount: int) -> int:
@@ -119,6 +121,41 @@ def note_operating_spend(state, player_id: str, amount: int) -> None:
 
 def operating_spend_this_turn(state, player_id: str) -> int:
     return _read(state, player_id, OPERATING_SPEND_THIS_TURN)
+
+
+# ── orders given (turn) ─────────────────────────────────────────────────────
+
+def note_order_given(state, player_id: str) -> int:
+    """Count an order as it is played, before its effects: "if this is the
+    second order you give this turn" counts the order being played."""
+    return _bump(state, player_id, ORDERS_THIS_TURN, 1)
+
+
+def orders_given_this_turn(state, player_id: str) -> int:
+    return _read(state, player_id, ORDERS_THIS_TURN)
+
+
+# ── units deployed (battle, by turn) ────────────────────────────────────────
+
+def note_unit_deployed(state, player_id: str, card_id: str) -> None:
+    player = state.players.get(player_id)
+    if player is None or not card_id:
+        return
+    by_turn = player.status.setdefault(DEPLOYED_BY_TURN, {})
+    by_turn.setdefault(str(state.turn_number), []).append(card_id)
+    # Only "this turn" and "last turn" are ever asked; keep the record small.
+    for key in [key for key in by_turn if int(key) < state.turn_number - 4]:
+        by_turn.pop(key)
+
+
+def units_deployed(state, player_id: str, turns_ago: int = 0) -> tuple[str, ...]:
+    """Card ids a player deployed on their own turn ``turns_ago`` turns back
+    (0 = this turn, 1 = their previous turn, two game turns earlier)."""
+    player = state.players.get(player_id)
+    if player is None:
+        return ()
+    by_turn = player.status.get(DEPLOYED_BY_TURN) or {}
+    return tuple(by_turn.get(str(state.turn_number - 2 * turns_ago), ()))
 
 
 # ── lifetime ───────────────────────────────────────────────────────────────

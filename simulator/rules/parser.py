@@ -235,6 +235,56 @@ class RuleParser:
             "implemented", ()),
     }
 
+    # ── Cards in tournament decks whose wording the templates misread ───────
+    # (data/decks/meta_decks.json, 2026-10-27).  Each comment quotes the card.
+    _META_DECK_CARD_RULES: dict = {
+        # "Deal 2 damage to all enemy units. If this is the second order you
+        # give this turn, deal 4 instead."  ("instead" hit the enemy HQ.)
+        "wave_after_wave": (
+            ("on_play",),
+            (RuleAction("damage", "enemy_units", amount=2,
+                        condition="unless this is the second order you give this turn"),
+             RuleAction("damage", "enemy_units", amount=4,
+                        condition="if this is the second order you give this turn")),
+            "implemented", ()),
+        # "Target unit is pinned if a tank, suppressed if an infantry, destroyed
+        # if an artillery and retreats if an air unit."
+        "sally": (
+            ("on_play",),
+            (RuleAction("pin", "selected_target", condition="if it is a tank"),
+             RuleAction("suppress", "selected_target", condition="if it is an infantry"),
+             RuleAction("destroy", "selected_target", condition="if it is an artillery"),
+             RuleAction("move_to_support_line", "selected_target", condition="if it is an air unit")),
+            "implemented", ()),
+        # "Pin a unit and Forecast. Also Intel 3 if you have 0 kredits."
+        "cruiser_scouts": (
+            ("on_play",),
+            (RuleAction("pin", "selected_target"),
+             RuleAction("forecast", "owner"),
+             RuleAction("intel", "owner", amount=3, condition="if you have 0 kredits")),
+            "implemented", ()),
+        # "Deployment: If you have equal or less units on the battlefield, draw
+        # an order."  (The unit itself is on the battlefield when this is read.)
+        "arado_ar_196": (
+            ("on_deploy",),
+            (RuleAction("draw_matching", "owner", card_name="order",
+                        condition="if you have equal or less units on the battlefield"),),
+            "implemented", ()),
+        # "Deal 1 damage to an enemy. Draw a card if it is the HQ."  An enemy
+        # includes the HQ, which the action list never offered.
+        "buzz_bomb": (
+            ("on_play",),
+            (RuleAction("damage", "selected_enemy", amount=1, scope="or_enemy_hq"),
+             RuleAction("draw", "owner", amount=1, condition="if it is the hq")),
+            "implemented", ()),
+        # "Cannot be deployed if you have deployed a unit this turn."  Checked
+        # when the card is played (PlayCardAction.validate), not on deploy.
+        "13e_dragons": (
+            ("on_deploy",),
+            (RuleAction("cannot", "source", card_name="be_deployed_after_unit"),),
+            "implemented", ()),
+    }
+
     _WEATHER_CARD_RULES: dict = {
         # The forecast tokens only announce the coming weather; the mechanic
         # itself lives in simulator.rules.weather, so they carry no action.
@@ -320,7 +370,8 @@ class RuleParser:
     }
 
     def parse(self, card: Card) -> CardRule:
-        weather_rule = self._WEATHER_CARD_RULES.get(card.id) or self._RETURN_LATER_CARD_RULES.get(card.id)
+        weather_rule = (self._WEATHER_CARD_RULES.get(card.id) or self._RETURN_LATER_CARD_RULES.get(card.id)
+                        or self._META_DECK_CARD_RULES.get(card.id))
         if weather_rule is not None:
             triggers, actions, status, unresolved = weather_rule
             return CardRule(card.id, card.text.strip(), triggers, actions, status, unresolved)

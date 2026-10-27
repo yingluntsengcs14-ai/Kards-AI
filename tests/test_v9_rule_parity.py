@@ -244,8 +244,8 @@ class V9RuleParityTests(unittest.TestCase):
         deck = build_random_deck(self.cards, seed=1, main_nation="Germany")
         sim.reset(list(deck), list(deck), nations=("Germany", "Germany"), seed=1)
         player = sim.state.players["p1"]
-        self.assertEqual(len(player.hand) + len(player.deck), 40,
-                         "換牌後手牌加牌庫總張數不是 40")
+        self.assertEqual(len(player.hand) + len(player.deck), len(deck),
+                         "換牌後手牌加牌庫總張數不等於牌組張數")
 
 
 if __name__ == "__main__":
