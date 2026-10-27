@@ -218,6 +218,21 @@ class PlayCardAction(Action):
         player.resources.kredits -= cost
         for mod in [mod for mod in player.cost_modifiers if mod.get("single_use") and _cost_mod_applies(mod, card, cards)][:1]:
             player.cost_modifiers.remove(mod)      # a discount for one copy only
+        from simulator.rules import hand_effects
+        hand_effects.card_played(player, self.card_id)
+        marks = player.status.get(hand_effects.ON_PLAY_DESTROY) or {}
+        if marks.get(self.card_id):
+            # CORPS COMMAND's granted text: "Destroy a random enemy unit when played."
+            marks[self.card_id] -= 1
+            if not marks[self.card_id]:
+                marks.pop(self.card_id)
+            enemy_units = state.players[opponent_id(state, self.player_id)].units
+            if enemy_units:
+                from simulator.effects import basic_effects
+                victim = random.Random((state.rng_seed or 0) + len(state.event_log)).choice(enemy_units)
+                start = len(state.event_log)
+                basic_effects.destroy(state, victim)
+                engine_for(cards).emit_deaths_since(state, start)
         reductions = player.status.get("hand_cost_on_enemy_draw")
         if isinstance(reductions, dict) and self.card_id not in player.hand:
             reductions.pop(self.card_id, None)   # the last copy left the hand
@@ -235,6 +250,12 @@ class PlayCardAction(Action):
             unit.status["deployed_this_turn"] = True
             # LAST DITCH FORCE: "Units in decks get +3 attack" -- the copies that
             # were in the deck then carry the bonus wherever they are played.
+            override = (player.status.get("deck_stat_override") or {}).get(card.id)
+            if override:
+                # METEOR's reforged copy: double attack and defense.
+                unit.attack, unit.defense = override.pop(0)
+                if not override:
+                    player.status["deck_stat_override"].pop(card.id)
             buffed = player.status.get("deck_attack_bonus")
             if isinstance(buffed, dict) and buffed.get(card.id):
                 entry = buffed[card.id]
@@ -458,7 +479,7 @@ class AttackAction(Action):
             if attacker.instance_id not in {unit.instance_id for player in state.players.values() for unit in player.units}:
                 state.event_log.append({"event": "ambush_destroyed_attacker", "attacker_id": attacker.instance_id, "target_id": target.instance_id})
                 return state
-        attack_value = attacker.attack
+        attack_value = attacker.attack + _adjacent_ground_bonus(state, attacker, cards)
         higher_attack_bonus = attacker.status.get("attack_bonus_against_higher_attack")
         if isinstance(higher_attack_bonus, int) and target.attack > attacker.attack:
             attack_value += higher_attack_bonus
@@ -483,7 +504,7 @@ class AttackAction(Action):
         random_bonus = attacker.status.get("random_combat_damage")
         if isinstance(random_bonus, int) and random_bonus > 0:
             damage += random.Random((state.rng_seed or 0) + len(state.event_log)).randint(0, random_bonus)
-        damage = _cap_combat_damage(target, damage)
+        damage = _infantry_cap(state, target, cards, _cap_combat_damage(target, damage))
         death_start = len(state.event_log)
         resolver.resolve({"type": "damage", "target": "selected_target", "value": {"amount": damage}}, state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, target.instance_id, metadata={"combat_damage": True}))
         engine_for(cards).emit("on_damage_dealt", state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, target.instance_id, metadata={"damage_amount": damage}))
@@ -511,7 +532,8 @@ class AttackAction(Action):
             death_start = len(state.event_log)
             # The counter-attack is damage dealt by the DEFENDER, so its own
             # side's damage auras apply (e.g. 110. PANZERGRENADIER).
-            return_damage = _cap_combat_damage(attacker, target.attack + resolver.unit_damage_bonus(state, target))
+            return_damage = _infantry_cap(state, attacker, cards, _cap_combat_damage(
+                attacker, target.attack + resolver.unit_damage_bonus(state, target) + _adjacent_ground_bonus(state, target, cards)))
             resolver.resolve({"type": "damage", "target": "self", "value": {"amount": return_damage}}, state, EffectContext(self.player_id, attacker.card_id, attacker.instance_id, metadata={"combat_damage": True}))
             engine_for(cards).emit_damage_since(state, death_start)
             engine_for(cards).emit_deaths_since(state, death_start)
@@ -668,6 +690,8 @@ def card_play_cost(state: GameState, player_id: str, card, cards: CardDatabase) 
     enemy_draws = player.status.get("hand_cost_on_enemy_draw", {})
     if isinstance(enemy_draws, dict):
         total -= int(enemy_draws.get(card.id, 0) or 0)
+    from simulator.rules import hand_effects
+    total = hand_effects.reduced_cost(player, card, total)
     total = max(0, total)
     min_cost = max(
         (mod.get("min_cost", 0) for mod in player.cost_modifiers if _cost_mod_applies(mod, card, cards) and mod.get("min_cost")),
@@ -770,6 +794,37 @@ def _target_tax(state: GameState, target_unit_id: str | None, acting_player_id: 
         return 0
     tax = target.status.get("target_or_attack_tax", 0)
     return tax if isinstance(tax, int) and tax > 0 else 0
+
+
+def _adjacent_ground_bonus(state: GameState, unit: UnitState, cards: CardDatabase) -> int:
+    """Sd KFz 222: "Adjacent ground units have +1 attack" (neighbours in the
+    same line, same owner)."""
+    card = cards.get(unit.card_id) if unit.card_id in cards else None
+    if card is None or card.type not in {"infantry", "tank", "artillery"}:
+        return 0
+    line = state.battlefield.get(unit.position, [])
+    if unit.instance_id not in line:
+        return 0
+    index = line.index(unit.instance_id)
+    bonus = 0
+    for neighbour_id in (line[index - 1] if index > 0 else None, line[index + 1] if index + 1 < len(line) else None):
+        if neighbour_id is None:
+            continue
+        neighbour = next((other for other in state.players[unit.owner_id].units if other.instance_id == neighbour_id), None)
+        if neighbour is not None and neighbour.card_id == "sd_kfz_222" and not neighbour.status.get("suppressed"):
+            bonus += 1
+    return bonus
+
+
+def _infantry_cap(state: GameState, unit: UnitState, cards: CardDatabase, amount: int) -> int:
+    """162nd REGIMENT: "Combat damage dealt to your infantry is reduced to 2"."""
+    card = cards.get(unit.card_id) if unit.card_id in cards else None
+    if card is None or card.type != "infantry":
+        return amount
+    if any(other.card_id == "162nd_regiment" and not other.status.get("suppressed")
+           for other in state.players[unit.owner_id].units):
+        return min(amount, 2)
+    return amount
 
 
 def _cap_combat_damage(unit: UnitState, amount: int) -> int:

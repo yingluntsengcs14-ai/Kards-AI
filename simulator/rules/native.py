@@ -311,11 +311,19 @@ class NativeRuleEngine:
             if action.on and event not in action.on:
                 continue
             try:
+                watchers = {unit.instance_id: unit.attack for owner in state.players.values() for unit in owner.units
+                            if unit.card_id == "sd_kfz_10_pak_38" and unit.instance_id != ctx.source_unit_id}
                 self._execute_action(action, state, ctx)
                 for owner in state.players.values():
                     for unit in owner.units:
                         if unit.attack < 0:
                             unit.attack = 0   # attack never goes below 0
+                        # Sd Kfz 10 PAK 38: "Gets +2 attack until end of turn if
+                        # another card increases the attack of this unit."
+                        if unit.instance_id in watchers and unit.attack > watchers[unit.instance_id] \
+                                and card_id != "sd_kfz_10_pak_38":
+                            self._apply_temporary(RuleAction("modify_attack", "source", amount=2, duration="this_turn"),
+                                                  state, EffectContext(unit.owner_id, "sd_kfz_10_pak_38", unit.instance_id))
             except ActionValidationError as error:
                 # A multi-clause card can remove its selected unit before a
                 # later clause runs.  The later clause then has no target and
@@ -1572,6 +1580,83 @@ class NativeRuleEngine:
         if action.kind == "develop":
             self._develop(action, state, context)
             return
+        if action.kind == "meteor_reforge" and context.source_unit_id:
+            # METEOR: leave the battlefield; a copy with double attack and
+            # defense goes into the deck (applied when that copy is deployed).
+            unit = find_unit(state, context.source_unit_id)
+            owner = state.players[unit.owner_id]
+            owner.status.setdefault("deck_stat_override", {}).setdefault(unit.card_id, []).append(
+                [unit.attack * 2, unit.defense * 2])
+            if unit.instance_id in state.battlefield.get(unit.position, []):
+                state.battlefield[unit.position].remove(unit.instance_id)
+            owner.units.remove(unit)
+            position = random.Random((state.rng_seed or 0) + len(state.event_log)).randint(0, len(owner.deck))
+            owner.deck.insert(position, unit.card_id)
+            state.event_log.append({"event": "unit_reforged_into_deck", "unit_id": unit.instance_id})
+            self.left_battlefield(state, unit, owner.player_id)
+            return
+        if action.kind == "defense_floor" and context.source_unit_id:
+            find_unit(state, context.source_unit_id).status["defense_floor"] = action.amount
+            return
+        if action.kind == "repair_group":
+            for unit in state.players[context.player_id].units:
+                card = self.cards.get(unit.card_id) if unit.card_id in self.cards else None
+                if card is None or (action.scope and card.type != action.scope):
+                    continue
+                if unit.status.get("cannot") in ("be_repaired", True):
+                    continue
+                unit.defense = max(unit.defense, card.defense or 0)
+            state.event_log.append({"event": "units_repaired", "player_id": context.player_id, "scope": action.scope})
+            return
+        if action.kind == "draw_cheapest_order_repeat_if_new":
+            player = state.players[context.player_id]
+            started = list(player.status.get("starting_deck") or [])
+            from simulator.core.turn import TurnManager
+            for _ in range(5):
+                orders = [card_id for card_id in player.deck if card_id in self.cards and self.cards.get(card_id).type == "order"]
+                if not orders:
+                    break
+                cheapest = min(orders, key=lambda card_id: (self.cards.get(card_id).kredits, player.deck.index(card_id)))
+                player.deck.remove(cheapest)
+                player.deck.insert(0, cheapest)
+                TurnManager.draw_card(state, context.player_id)
+                if cheapest in started:
+                    started.remove(cheapest)
+                    break           # it started there: no repeat
+            return
+        if action.kind == "grant_edge_cards_destroy_random":
+            player = state.players[context.player_id]
+            from simulator.rules import hand_effects
+            marks = player.status.setdefault(hand_effects.ON_PLAY_DESTROY, {})
+            for card_id in {player.hand[0], player.hand[-1]} if player.hand else set():
+                marks[card_id] = int(marks.get(card_id, 0)) + 1
+            return
+        if action.kind == "deck_cost_reduction":
+            player = state.players[context.player_id]
+            nation, _, parity = (action.scope or "").partition(":")
+            from simulator.rules import hand_effects
+            pending = player.status.setdefault(hand_effects.DECK_COST, {})
+            for card_id in player.deck:
+                card = self.cards.get(card_id) if card_id in self.cards else None
+                if card is None or (nation and card.nation != nation):
+                    continue
+                if parity == "odd" and card.kredits % 2 == 0:
+                    continue
+                pending[card_id] = int(pending.get(card_id, 0)) + 1
+            return
+        if action.kind == "frontal_assault":
+            player = state.players[context.player_id]
+            light = [unit for unit in player.units if self.cards.get(unit.card_id).name.upper() == (action.card_name or "").upper()]
+            if light:
+                for unit in light:
+                    unit.attack += action.attack
+                    unit.defense += action.defense
+            else:
+                card_id = self._card_by_name(action.card_name)
+                for _ in range(max(1, action.amount)):
+                    if card_id:
+                        self._add_to_hand(state, context.player_id, card_id)
+            return
         if action.kind == "tropical_storm":
             # "Players shuffle their hand into their deck, then draw equal to
             # greatest number shuffled."
@@ -2582,6 +2667,8 @@ class NativeRuleEngine:
                 bonuses.pop(card_id, None)
             player.hand.append(card_id)
             state.event_log.append({"event": "card_added_to_hand", "player_id": player_id, "card_id": card_id})
+            from simulator.rules import hand_effects
+            hand_effects.card_entered_hand(state, player_id, card_id, from_deck=False)
         else:
             state.graveyard.setdefault(player_id, []).append(card_id)
             state.event_log.append({"event": "card_overdrawn", "player_id": player_id, "card_id": card_id})

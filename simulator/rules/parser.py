@@ -494,6 +494,56 @@ class RuleParser:
         # (The engine discarded the left-most card.)
         "punish": (
             ("on_play",), (RuleAction("discard_random_enemy_draw_if_known", "enemy_hand"),), "implemented", ()),
+        # ── batch 3c: standing mechanics ────────────────────────────────────
+        # "Remove after this unit attacks. Add a copy to your deck with double
+        # attack and defense."
+        "meteor": (
+            ("on_after_attack",), (RuleAction("meteor_reforge", "source"),), "implemented", ()),
+        # "Defense of this unit cannot go lower than 1. Becomes Veteran after it
+        # takes damage."
+        "511th_regiment": (
+            ("on_deploy", "on_damage"),
+            (RuleAction("defense_floor", "source", amount=1, on=("on_deploy",)),
+             RuleAction("grant_ability", "source", card_name="veteran", on=("on_damage",))),
+            "implemented", ()),
+        # "Combat damage dealt to your infantry is reduced to 2. Fully repair your
+        # infantry when you play a Rain card."  The cap is read in combat.
+        "162nd_regiment": (
+            ("on_weather_played",),
+            (RuleAction("repair_group", "friendly_units", scope="infantry", condition="when you play a rain card"),),
+            "implemented", ()),
+        # "When a German unit enters your hand, reduce its cost by 1, to a
+        # minimum of 1."  (Read by the hand-entry hook.)
+        "27_fsiliers": ((), (RuleAction("hand_entry_discount", "owner", amount=1, scope="Germany"),), "implemented", ()),
+        # "Deployment: Draw the cheapest order from your deck. Repeat if it did
+        # not start there."
+        "2nd_west_africa": (
+            ("on_deploy",), (RuleAction("draw_cheapest_order_repeat_if_new", "owner"),), "implemented", ()),
+        # "Your left and right-most cards in hand get: 'Destroy a random enemy
+        # unit when played.'"
+        "corps_command": (
+            ("on_play",), (RuleAction("grant_edge_cards_destroy_random", "owner"),), "implemented", ()),
+        # "Gets +2 attack until end of turn if another card increases the attack
+        # of this unit."  (Read by NativeRuleEngine.execute.)
+        "sd_kfz_10_pak_38": ((), (RuleAction("attack_boost_reaction", "source", amount=2),), "implemented", ()),
+        # "Adjacent ground units have +1 attack."  (Read in combat.)
+        "sd_kfz_222": ((), (RuleAction("adjacent_ground_attack_aura", "source", amount=1),), "implemented", ()),
+        # "Draw from your deck on turn 4. Reduce the cost of German cards with
+        # odd cost in your deck by 1."  (Drawn by TurnManager on your 4th turn.)
+        "front_and_homeland": (
+            ("on_play",), (RuleAction("deck_cost_reduction", "owner", amount=1, scope="Germany:odd"),), "implemented", ()),
+        # "Give your LIGHT INFANTRY units +1+2. If you have none, add two to your
+        # hand."  (kards.info dropped the name; the zh text has it.)
+        "frontal_assault": (
+            ("on_play",), (RuleAction("frontal_assault", "owner", card_name="LIGHT INFANTRY", attack=1, defense=2, amount=2),),
+            "implemented", ()),
+        # Countermeasures with their own hooks (TurnManager.draw_card, HQResolver).
+        # "When the enemy draws an extra card, deal 4 damage to the enemy HQ."
+        "lightning_strike": ((), (RuleAction("countermeasure_hook", "owner", amount=4, card_name="extra_draw"),),
+                             "implemented", ()),
+        # "When your HQ receives damage this turn, reduce the damage to 1."
+        "national_fire_service": ((), (RuleAction("countermeasure_hook", "owner", amount=1, card_name="hq_damage_cap"),),
+                                  "implemented", ()),
         # "Cannot be deployed if you have deployed a unit this turn."  Checked
         # when the card is played (PlayCardAction.validate), not on deploy.
         "13e_dragons": (

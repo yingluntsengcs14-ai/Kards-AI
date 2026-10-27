@@ -60,8 +60,10 @@ class ConditionParsingTests(unittest.TestCase):
         self.assertTrue(any(a.kind in ("buff", "modify_attack") for a in rule.actions), "irish_guards")
 
     def test_adjacent_parsed(self) -> None:
+        # The adjacency aura is now read in combat (actions._adjacent_ground_bonus);
+        # the rule carries a marker instead of an unreadable condition.
         rule = self.p.parse(self.db.get("sd_kfz_222"))
-        self.assertTrue(any("adjacent" in (a.condition or "") for a in rule.actions), "sd_kfz_222")
+        self.assertTrue(any(a.kind == "adjacent_ground_attack_aura" for a in rule.actions), "sd_kfz_222")
 
     def test_becomes_veteran_parsed(self) -> None:
         rule = self.p.parse(self.db.get("22nd_guards_brigade"))

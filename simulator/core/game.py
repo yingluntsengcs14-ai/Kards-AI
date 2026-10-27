@@ -49,6 +49,9 @@ class Simulator:
         rng = random.Random(seed)
         rng.shuffle(self.state.players["p1"].deck)
         rng.shuffle(self.state.players["p2"].deck)
+        # 2nd WEST AFRICA asks whether a card "started" in the deck.
+        for player in self.state.players.values():
+            player.status["starting_deck"] = sorted(player.deck)
         for _ in range(4): TurnManager.draw_card(self.state, "p1")
         for _ in range(5): TurnManager.draw_card(self.state, "p2")
         self.state.mulligan_pending = ["p1", "p2"]

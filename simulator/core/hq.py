@@ -33,6 +33,20 @@ class HQResolver:
                     "source_unit_id": redirectors[0].instance_id,
                 })
                 return applied
+        # NATIONAL FIRE SERVICE: "When your HQ receives damage this turn, reduce
+        # the damage to 1."  The first hit springs it; it lasts for that turn.
+        target_player = state.players[target_player_id]
+        if amount > 0 and state.current_player != target_player_id:
+            counter = next((entry for entry in target_player.active_countermeasures
+                            if entry.get("card_id") == "national_fire_service"), None)
+            if counter is not None:
+                target_player.active_countermeasures.remove(counter)
+                state.graveyard.setdefault(target_player_id, []).append("national_fire_service")
+                target_player.status["hq_damage_cap_turn"] = state.turn_number
+                state.event_log.append({"event": "countermeasure_triggered", "player_id": target_player_id,
+                                        "counter_id": "national_fire_service", "trigger": "hq_damage"})
+        if target_player.status.get("hq_damage_cap_turn") == state.turn_number:
+            amount = min(int(amount), 1)
         # Check friendly units for HQ defense cap/lock/immune flags.
         for unit in state.players[target_player_id].units:
             if unit.status.get("hq_defense_lock"):

@@ -2409,29 +2409,25 @@
     {
       "card_id": "national_fire_service",
       "source_text": "When your HQ receives damage this turn, reduce the damage to 1.",
-      "triggers": [
-        "on_damage"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "hq_defense_lock",
+          "kind": "countermeasure_hook",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "hq_damage_cap",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When your HQ receives damage this turn",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When your HQ receives damage this turn"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "naval_support",
@@ -11127,29 +11123,25 @@
     {
       "card_id": "lightning_strike",
       "source_text": "When the enemy draws an extra card, deal 4 damage to the enemy HQ.",
-      "triggers": [
-        "on_damage"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "damage",
-          "target": "enemy_hq",
+          "kind": "countermeasure_hook",
+          "target": "owner",
           "amount": 4,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "extra_draw",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When the enemy draws an extra card",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When the enemy draws an extra card"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "lurking_danger",
@@ -11535,13 +11527,11 @@
     {
       "card_id": "sd_kfz_222",
       "source_text": "Adjacent ground units have +1 attack.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_attack",
-          "target": "friendly_units",
+          "kind": "adjacent_ground_attack_aura",
+          "target": "source",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -11550,24 +11540,20 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "adjacent ground units",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] adjacent ground units"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "sd_kfz_10_pak_38",
       "source_text": "Gets +2 attack until end of turn if another card increases the attack of this unit.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_attack",
+          "kind": "attack_boost_reaction",
           "target": "source",
           "amount": 2,
           "attack": 0,
@@ -11576,15 +11562,13 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": "this_turn",
-          "condition": "if another card increases the attack of this unit.",
+          "duration": null,
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if another card increases the attack of this unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "sd_kfz_2509",
@@ -11822,29 +11806,25 @@
     {
       "card_id": "27_fsiliers",
       "source_text": "When a German unit enters your hand, reduce its cost by 1, to a minimum of 1.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_hand_cost",
+          "kind": "hand_entry_discount",
           "target": "owner",
-          "amount": -1,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "Germany",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When a German unit enters your hand",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When a German unit enters your hand"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "3_fallschirmjger",
@@ -14807,27 +14787,13 @@
       ],
       "actions": [
         {
-          "kind": "draw_top_matching",
+          "kind": "deck_cost_reduction",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "from your deck on turn 4",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "special_effect",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "Reduce the cost of German cards with odd cost in your deck by 1.",
-          "scope": "",
+          "card_name": null,
+          "scope": "Germany:odd",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -14835,11 +14801,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "Reduce the cost of German cards with odd cost in your deck by 1.",
-        "[engine does not implement kind=special_effect] Reduce the cost of German cards with odd cost in your deck by 1."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "fw_190_f9",
@@ -30253,38 +30216,22 @@
       ],
       "actions": [
         {
-          "kind": "buff",
-          "target": "friendly_units",
-          "amount": 0,
+          "kind": "frontal_assault",
+          "target": "owner",
+          "amount": 2,
           "attack": 1,
           "defense": 2,
-          "card_name": "",
-          "scope": "infantry",
+          "card_name": "LIGHT INFANTRY",
+          "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
           "on": []
-        },
-        {
-          "kind": "add_card",
-          "target": "owner",
-          "amount": 1,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "two",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": "If you have none",
-          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If you have none"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "heroes_of_the_soviet_union",
@@ -43865,46 +43812,26 @@
       "card_id": "162nd_regiment",
       "source_text": "Combat damage dealt to your infantry is reduced to 2. Fully repair your infantry when you play a Rain card.",
       "triggers": [
-        "on_weather_played",
-        "on_deploy"
+        "on_weather_played"
       ],
       "actions": [
         {
-          "kind": "special_effect",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "Combat damage dealt to your infantry is reduced to 2.",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "repair",
-          "target": "selected_target",
+          "kind": "repair_group",
+          "target": "friendly_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "infantry",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when you play a Rain card.",
-          "on": [
-            "on_weather_played"
-          ]
+          "condition": "when you play a rain card",
+          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "Combat damage dealt to your infantry is reduced to 2.",
-        "[engine does not implement kind=special_effect] Combat damage dealt to your infantry is reduced to 2."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "16th_infantry_brigade",
@@ -44200,42 +44127,22 @@
       ],
       "actions": [
         {
-          "kind": "draw_top_matching",
+          "kind": "draw_cheapest_order_repeat_if_new",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "the cheapest order from your deck",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
-        },
-        {
-          "kind": "repeat_effect",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "Repeat if it did not start there.",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": "if it did not start there.",
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if it did not start there."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "30_infantry_regiment",
@@ -45040,22 +44947,25 @@
       "card_id": "511th_regiment",
       "source_text": "Defense of this unit cannot go lower than 1. Becomes Veteran after it takes damage.",
       "triggers": [
-        "on_deploy"
+        "on_deploy",
+        "on_damage"
       ],
       "actions": [
         {
-          "kind": "control_effect",
+          "kind": "defense_floor",
           "target": "source",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "Defense of this unit cannot go lower than 1.",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": []
+          "on": [
+            "on_deploy"
+          ]
         },
         {
           "kind": "grant_ability",
@@ -45068,15 +44978,14 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "after it takes damage.",
-          "on": []
+          "condition": null,
+          "on": [
+            "on_damage"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "Defense of this unit cannot go lower than 1.",
-        "[engine does not implement kind=control_effect] Defense of this unit cannot go lower than 1."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "866th_rifles",
@@ -46587,8 +46496,8 @@
       ],
       "actions": [
         {
-          "kind": "destroy",
-          "target": "random_enemy",
+          "kind": "grant_edge_cards_destroy_random",
+          "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -46597,14 +46506,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when played.\\\"",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when played.\\\""
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "detailed_recon",
@@ -46753,30 +46660,16 @@
       "card_id": "meteor",
       "source_text": "Remove after this unit attacks. Add a copy to your deck with double attack and defense.",
       "triggers": [
-        "on_deploy"
+        "on_after_attack"
       ],
       "actions": [
         {
-          "kind": "special_effect",
+          "kind": "meteor_reforge",
           "target": "source",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "Remove after this unit attacks.",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": "after this unit attacks.",
-          "on": []
-        },
-        {
-          "kind": "special_effect",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "Add a copy to your deck with double attack and defense.",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -46785,13 +46678,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "Remove after this unit attacks.",
-        "Add a copy to your deck with double attack and defense.",
-        "[engine does not implement kind=special_effect] Remove after this unit attacks.",
-        "[engine does not implement kind=special_effect] Add a copy to your deck with double attack and defense."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "parachute_assault",

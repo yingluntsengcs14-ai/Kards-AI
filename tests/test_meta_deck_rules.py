@@ -404,6 +404,108 @@ class MetaDeckRuleTests(unittest.TestCase):
         PlayCardAction("p1", "punish").execute(state, self.cards)
         self.assertEqual((state.players["p2"].hand, before - len(state.players["p1"].deck)), ([], 1))
 
+    # ── standing mechanics (batch 3c) ───────────────────────────────────────
+    def test_meteor_leaves_after_attacking_and_reforges_double_into_the_deck(self) -> None:
+        state = self._state(p1_units=(("m", "meteor", 1, 1, "frontline"),))
+        state.battlefield["frontline"] = ["m"]
+        self._attack(state, "m", None)
+        self.assertEqual(state.players["p1"].units, [])
+        self.assertIn("meteor", state.players["p1"].deck)
+        state.players["p1"].deck.remove("meteor"); state.players["p1"].hand.append("meteor")
+        PlayCardAction("p1", "meteor").execute(state, self.cards)
+        unit = state.players["p1"].units[0]
+        self.assertEqual((unit.attack, unit.defense), (2, 2))
+
+    def test_511th_never_drops_below_1_and_becomes_veteran_when_hit(self) -> None:
+        from simulator.effects import basic_effects
+        state = self._state(hand=("511th_regiment",))
+        PlayCardAction("p1", "511th_regiment").execute(state, self.cards)
+        unit = state.players["p1"].units[0]
+        start = len(state.event_log)
+        basic_effects.damage(state, unit, 99)
+        engine_for(self.cards).emit_damage_since(state, start)
+        self.assertEqual(len(state.players["p1"].units), 1)               # 99 點傷害也不死
+        self.assertEqual(state.players["p1"].units[0].card_id, "511th_regiment_vet")
+
+    def test_162nd_caps_combat_damage_to_friendly_infantry(self) -> None:
+        state = self._state(p1_units=(("a", "panzer_iia", 6, 3, "frontline"),),
+                            p2_units=(("r", "162nd_regiment", 4, 5, "support_line"), ("i", "garrison", 1, 9, "frontline")))
+        state.battlefield["frontline"] = ["a", "i"]
+        self._attack(state, "a", "i")
+        self.assertEqual(state.players["p2"].units[1].defense, 7)
+
+    def test_sd_kfz_222_gives_adjacent_ground_units_one_attack_in_combat(self) -> None:
+        state = self._state(p1_units=(("s", "sd_kfz_222", 1, 1, "frontline"), ("t", "panzer_iia", 1, 3, "frontline")),
+                            p2_units=(("e", "garrison", 0, 9, "support_line"),))
+        self._attack(state, "t", "e")
+        self.assertEqual(state.players["p2"].units[0].defense, 7)        # 1 + 1
+
+    def test_sd_kfz_10_gets_two_more_when_another_card_buffs_it(self) -> None:
+        """FINAL PUSH 給它 +3 攻 → 它再自己 +2（到回合結束）。"""
+        state = self._state(hand=("final_push",), p1_units=(("p", "sd_kfz_10_pak_38", 1, 2, "support_line"),))
+        PlayCardAction("p1", "final_push", target_unit_id="p").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[0].attack, 1 + 3 + 2)
+
+    def test_27_fusiliers_discounts_german_units_entering_your_hand(self) -> None:
+        from simulator.actions.action import card_play_cost
+        from simulator.core.turn import TurnManager
+        state = self._state(p1_units=(("f", "27_fsiliers", 2, 4, "support_line"),))
+        state.players["p1"].deck = ["panzer_iia", "radar"]
+        TurnManager.draw_card(state, "p1")
+        self.assertEqual(card_play_cost(state, "p1", self.cards.get("panzer_iia"), self.cards), 1)   # 最低 1
+        state.players["p1"].deck = ["3_panzergrenadier"]
+        TurnManager.draw_card(state, "p1")
+        self.assertEqual(card_play_cost(state, "p1", self.cards.get("3_panzergrenadier"), self.cards), 2)
+
+    def test_2nd_west_africa_draws_the_cheapest_order(self) -> None:
+        state = self._state(hand=("2nd_west_africa",))
+        state.players["p1"].deck = ["fortification", "radar", "garrison"]
+        state.players["p1"].status["starting_deck"] = ["fortification", "garrison", "radar"]
+        PlayCardAction("p1", "2nd_west_africa").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].hand, ["radar"])            # 0 費、原本就在牌庫：不重複
+
+    def test_corps_command_arms_the_edge_cards_in_hand(self) -> None:
+        state = self._state(hand=("radar", "garrison", "corps_command", "fortification"),
+                            p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        PlayCardAction("p1", "corps_command").execute(state, self.cards)
+        PlayCardAction("p1", "radar").execute(state, self.cards)        # 最左側那張
+        self.assertEqual(state.players["p2"].units, [])
+
+    def test_front_and_homeland_is_drawn_on_turn_4_and_discounts_odd_german_cards(self) -> None:
+        from simulator.actions.action import card_play_cost
+        from simulator.core.turn import TurnManager
+        state = self._state()
+        state.players["p1"].deck = ["front_and_homeland"] + ["garrison"] * 6
+        state.turn_number = 7
+        TurnManager.start_turn(state, "p1")
+        self.assertIn("front_and_homeland", state.players["p1"].hand)
+        state.players["p1"].deck = ["3_panzergrenadier", "panzer_iia"]       # 3 費（奇數）、1 費（奇數）
+        PlayCardAction("p1", "front_and_homeland").execute(state, self.cards)
+        TurnManager.draw_card(state, "p1")
+        self.assertEqual(card_play_cost(state, "p1", self.cards.get("3_panzergrenadier"), self.cards), 2)
+
+    def test_frontal_assault_adds_two_light_infantry_when_you_have_none(self) -> None:
+        state = self._state(hand=("frontal_assault",))
+        PlayCardAction("p1", "frontal_assault").execute(state, self.cards)
+        self.assertEqual([self.cards.get(c).name for c in state.players["p1"].hand], ["LIGHT INFANTRY"] * 2)
+
+    def test_lightning_strike_punishes_an_extra_draw(self) -> None:
+        from simulator.core.turn import TurnManager
+        state = self._state()
+        state.players["p2"].active_countermeasures.append({"card_id": "lightning_strike", "activated_turn": 0})
+        hq = state.players["p1"].hq.current_health
+        TurnManager.draw_card(state, "p1")
+        self.assertEqual(state.players["p1"].hq.current_health, hq - 4)
+
+    def test_national_fire_service_caps_hq_damage_for_the_turn(self) -> None:
+        from simulator.core.hq import HQResolver
+        state = self._state()
+        state.players["p2"].active_countermeasures.append({"card_id": "national_fire_service", "activated_turn": 0})
+        hq = state.players["p2"].hq.current_health
+        HQResolver.damage(state, "p2", 5, "p1")
+        HQResolver.damage(state, "p2", 5, "p1")
+        self.assertEqual(state.players["p2"].hq.current_health, hq - 2)
+
 
 if __name__ == "__main__":
     unittest.main()

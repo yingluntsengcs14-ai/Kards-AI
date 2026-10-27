@@ -29,6 +29,9 @@ def damage(state: GameState, target: UnitState | str, amount: int, source_player
             state.event_log.append({"event": "damage_ignored_immune", "target_id": target.instance_id})
             return
         target.defense -= amount
+        floor = target.status.get("defense_floor")
+        if isinstance(floor, int) and target.defense < floor:
+            target.defense = floor          # 511th REGIMENT: "cannot go lower than 1"
         state.event_log.append({"event": "damage_dealt", "target_id": target.instance_id, "amount": amount})
         remove_dead_units(state)
         return

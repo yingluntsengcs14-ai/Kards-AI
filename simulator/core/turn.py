@@ -38,7 +38,17 @@ class TurnManager:
         from simulator.rules import weather
         weather.resolve_pending_forecast(state, player_id)
         if draw_card:
-            TurnManager.draw_card(state, player_id)
+            player.status["_turn_draw"] = True
+            try:
+                TurnManager.draw_card(state, player_id)
+            finally:
+                player.status.pop("_turn_draw", None)
+        # FRONT AND HOMELAND: "Draw from your deck on turn 4."
+        own_turn = (state.turn_number + 1) // 2 if player_id == "p1" else state.turn_number // 2
+        if own_turn == 4 and "front_and_homeland" in player.deck and len(player.hand) < 9:
+            player.deck.remove("front_and_homeland")
+            player.hand.append("front_and_homeland")
+            state.event_log.append({"event": "card_drawn", "player_id": player_id, "card_id": "front_and_homeland"})
         state.event_log.append({"event": "turn_started", "player_id": player_id, "turn": state.turn_number})
         # Fire scheduled one-shot effects due at the start of this player's turn
         # (e.g. "return it at the start of your next turn"). Imported lazily to
@@ -72,7 +82,28 @@ class TurnManager:
         refresh(state)
         state.event_log.append({"event": "card_drawn", "player_id": player_id, "card_id": card_id})
         TurnManager._enemy_drew(state, player_id)
+        from simulator.rules import hand_effects
+        hand_effects.card_entered_hand(state, player_id, card_id, from_deck=True)
+        if not player.status.get("_turn_draw"):
+            TurnManager._extra_draw(state, player_id)
         return card_id
+
+    @staticmethod
+    def _extra_draw(state: GameState, drawer_id: str) -> None:
+        """LIGHTNING STRIKE: "When the enemy draws an extra card, deal 4 damage to
+        the enemy HQ."  Any draw other than the turn's own draw is extra."""
+        for other_id, other in state.players.items():
+            if other_id == drawer_id:
+                continue
+            counter = next((entry for entry in other.active_countermeasures
+                            if entry.get("card_id") == "lightning_strike"), None)
+            if counter is None:
+                continue
+            other.active_countermeasures.remove(counter)
+            state.graveyard.setdefault(other_id, []).append("lightning_strike")
+            state.event_log.append({"event": "countermeasure_triggered", "player_id": other_id,
+                                    "counter_id": "lightning_strike", "trigger": "extra_draw"})
+            HQResolver.damage(state, drawer_id, 4, other_id)
 
     @staticmethod
     def _enemy_drew(state: GameState, drawer_id: str) -> None:
