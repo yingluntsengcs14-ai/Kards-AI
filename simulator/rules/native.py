@@ -1727,13 +1727,17 @@ class NativeRuleEngine:
             line = state.battlefield.get(unit.position, [])
             if unit.instance_id in line:
                 index = line.index(unit.instance_id)
-                neighbours = [line[i] for i in (index - 1, index + 1) if 0 <= i < len(line)]
+                # Right neighbour first: a group retreat goes right-most first.
+                neighbours = [line[i] for i in (index + 1, index - 1) if 0 <= i < len(line)]
                 for neighbour_id in neighbours:
                     neighbour = find_unit(state, neighbour_id)
                     if neighbour is None or neighbour.position != "frontline":
                         continue
                     owner = state.players[neighbour.owner_id]
                     if sum(other.position == "support_line" for other in owner.units) >= SUPPORT_UNIT_LIMIT:
+                        # No room: back to hand, or removed when the hand is full.
+                        self._displace_unit(state, neighbour, "native_rule_support_line_full_returned",
+                                            "native_rule_support_line_full_discarded")
                         continue
                     basic_effects.move(state, neighbour, "support_line")
                     state.event_log.append({"event": "unit_retreated", "unit_id": neighbour_id})
@@ -2943,8 +2947,12 @@ class NativeRuleEngine:
     def _displace_unit(self, state, unit: UnitState, returned_event: str, discarded_event: str) -> str:
         """Take a unit out of play without destroying it (no death triggers).
 
-        The unit's card returns to its owner's hand, or is put into the graveyard
-        when that hand is already at ``HAND_CARD_LIMIT``.
+        The unit's card returns to its owner's hand, or is removed from the game
+        when that hand is already at ``HAND_CARD_LIMIT`` (confirmed in game: it
+        is removed, not discarded to the graveyard).
+
+        The unit leaves play BEFORE any "leaves the battlefield" listener runs,
+        so a DORNIER DO 17Z that is itself displaced does not trigger itself.
         """
         owner = state.players[unit.owner_id]
         if unit.instance_id in state.battlefield.get(unit.position, []):
@@ -2955,10 +2963,11 @@ class NativeRuleEngine:
             owner.hand.append(unit.card_id)
             event = returned_event
         else:
-            state.graveyard.setdefault(unit.owner_id, []).append(unit.card_id)
+            state.removed_cards.append(unit.card_id)
             event = discarded_event
         self._cleanup_continuous_effects(state, unit.owner_id, unit.instance_id)
         state.event_log.append({"event": event, "unit_id": unit.instance_id, "card_id": unit.card_id})
+        self.left_battlefield(state, unit, unit.owner_id)
         return event
 
     def _veteran_index(self) -> dict:
@@ -3027,7 +3036,15 @@ class NativeRuleEngine:
                      if candidates else [])
         else:
             units = []
+        if position == "support_line" and len(units) > 1:
+            # A group retreat goes right-most first (confirmed in game): those
+            # units take the free support slots, the rest overflow to hand.
+            units = sorted(units, key=lambda unit: -_line_index(state, unit))
         for unit in units:
+            if unit.position == position:
+                # Already there: retreating a support-line unit does nothing.
+                # (It used to count as an overflow and bounce the unit to hand.)
+                continue
             if position == "support_line" and unit.status.get("cannot") in ("retreat", True):
                 state.event_log.append({"event": "unit_cannot_retreat", "unit_id": unit.instance_id})
                 continue
@@ -3124,6 +3141,12 @@ def default_rule_path() -> Path:
 
 
 _ENGINES: dict[int, NativeRuleEngine] = {}
+
+
+def _line_index(state, unit) -> int:
+    """Position of a unit in its line, left to right (-1 if not found)."""
+    line = state.battlefield.get(unit.position, [])
+    return line.index(unit.instance_id) if unit.instance_id in line else -1
 
 
 def _hand_or_graveyard(state, player_id: str, card_id: str) -> None:

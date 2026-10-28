@@ -524,6 +524,48 @@ class MetaDeckRuleTests(unittest.TestCase):
         PlayCardAction("p1", "unity_is_strength", target_unit_id="b").execute(state, self.cards)
         self.assertEqual(state.players["p1"].units[1].attack, 1 + 2)
 
+    # ── retreat overflow and "leaves the battlefield" (confirmed 2026-10-28) ──
+    def _retreat_all_enemies(self, state) -> None:
+        from simulator.rules.parser import RuleAction
+        from simulator.effects.resolver import EffectContext
+        engine_for(self.cards)._execute_action(RuleAction("move_to_support_line", "enemy_units"), state,
+                                               EffectContext("p1", "test"))
+
+    def test_group_retreat_goes_right_most_first_and_overflows_to_hand(self) -> None:
+        state = self._state(p2_units=(("s1", "garrison", 1, 3, "support_line"), ("s2", "garrison", 1, 3, "support_line"),
+                                      ("s3", "garrison", 1, 3, "support_line"),
+                                      ("a", "panzer_iia", 1, 3, "frontline"), ("b", "radar_unit", 1, 3, "frontline")))
+        state.players["p2"].units[4].card_id = "3_panzergrenadier"
+        state.players["p2"].hand = []
+        self._retreat_all_enemies(state)
+        support = [u.card_id for u in state.players["p2"].units if u.position == "support_line"]
+        self.assertIn("3_panzergrenadier", support)          # 最右邊的 b 先撤，拿到最後一格
+        self.assertEqual(state.players["p2"].hand, ["panzer_iia"])     # a 沒位置：回手牌
+
+    def test_retreat_overflow_with_a_full_hand_removes_the_unit(self) -> None:
+        state = self._state(p2_units=tuple(("s{0}".format(i), "garrison", 1, 3, "support_line") for i in range(4))
+                            + (("a", "panzer_iia", 1, 3, "frontline"),))
+        state.players["p2"].hand = ["garrison"] * 9
+        self._retreat_all_enemies(state)
+        self.assertNotIn("a", [u.instance_id for u in state.players["p2"].units])
+        self.assertIn("panzer_iia", state.removed_cards)               # 移除，不是進墓地
+        self.assertNotIn("panzer_iia", state.graveyard.get("p2", []))
+
+    def test_a_dornier_leaving_does_not_trigger_itself(self) -> None:
+        """先把離場的單位拿掉，再看場上其他牌有沒有「離場」效果。"""
+        from simulator.rules.parser import RuleAction
+        from simulator.effects.resolver import EffectContext
+        engine = engine_for(self.cards)
+        state = self._state(p1_units=(("d", "dornier_do_17z", 2, 4, "support_line"),), kredits=0)
+        engine._execute_action(RuleAction("return_to_hand", "selected_target"), state,
+                               EffectContext("p1", "test", target_unit_id="d"))
+        self.assertEqual(state.players["p1"].resources.kredits, 0)     # 自己離場：不觸發
+        state = self._state(p1_units=(("d", "dornier_do_17z", 2, 4, "support_line"),
+                                      ("d2", "dornier_do_17z", 2, 4, "support_line")), kredits=0)
+        engine._execute_action(RuleAction("return_to_hand", "selected_target"), state,
+                               EffectContext("p1", "test", target_unit_id="d"))
+        self.assertEqual(state.players["p1"].resources.kredits, 2)     # 另一台還在場上：觸發一次
+
 
 if __name__ == "__main__":
     unittest.main()
