@@ -172,6 +172,8 @@ class PlayCardAction(Action):
                         raise ActionValidationError("This card requires a {0} target".format(" or ".join(options)))
                 elif marker.card_name in {"tank", "artillery", "fighter", "bomber"} and not _unit_is(target_card, target, marker.card_name):
                     raise ActionValidationError("This card requires a {0} target".format(marker.card_name))
+                if marker.card_name == "support_line" and target.position != "support_line":
+                    raise ActionValidationError("This card requires a target in the support line")
                 if marker.card_name == "damaged" and (target_card.defense is None or target.defense >= target_card.defense):
                     raise ActionValidationError("This card requires a damaged target")
             nation_marker = next((action.card_name for action in rule.actions if action.kind == "target_nation"), None)
@@ -495,6 +497,11 @@ class AttackAction(Action):
             hq_health_before = state.players[target_owner].hq.current_health
             # HQ damage bonus: some units deal extra damage when attacking HQs.
             hq_damage = attacker.attack
+            # "+N attack against ground targets" (HS 129, P-40 WARHAWK): an HQ
+            # is a ground target (KARDS wording: a target includes the HQ).
+            ground_bonus = attacker.status.get("attack_bonus_against_type")
+            if isinstance(ground_bonus, dict) and ground_bonus.get("type") == "ground" and isinstance(ground_bonus.get("amount"), int):
+                hq_damage += ground_bonus["amount"]
             hq_bonus = attacker.status.get("hq_damage_bonus")
             if isinstance(hq_bonus, int):
                 hq_damage += hq_bonus

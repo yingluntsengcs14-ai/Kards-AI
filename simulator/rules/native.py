@@ -613,7 +613,7 @@ class NativeRuleEngine:
             state.event_log.append({"event": "native_rule_condition_false", "kind": action.kind, "condition": action.condition})
             return
         # BUZZ BOMB aimed at the enemy HQ (no unit target).
-        if action.kind == "damage" and action.scope == "or_enemy_hq" and not context.target_unit_id:
+        if action.kind in ("damage", "damage_equal_to") and action.scope == "or_enemy_hq" and not context.target_unit_id:
             enemy = opponent_id(state, context.player_id)
             if hq_has_smokescreen(state, enemy):
                 state.event_log.append({"event": "native_rule_no_target", "kind": action.kind,
@@ -622,9 +622,13 @@ class NativeRuleEngine:
             source = next((u for u in state.players[context.player_id].units
                            if u.instance_id == context.source_unit_id), None)
             bonus = EffectResolver(self.cards).unit_damage_bonus(state, source) if source is not None else 0
-            HQResolver.damage(state, enemy, action.amount + bonus, context.player_id)
+            amount = action.amount
+            if action.kind == "damage_equal_to":
+                from simulator.rules import references
+                amount = int(references.evaluate(action.card_name or "", state, context, self.cards, None) or 0)
+            HQResolver.damage(state, enemy, amount + bonus, context.player_id)
             return
-        if action.kind == "damage" and action.scope == "or_enemy_hq":
+        if action.kind in ("damage", "damage_equal_to") and action.scope == "or_enemy_hq":
             action = replace(action, scope="")      # a unit was chosen: ordinary targeted damage
         if action.kind == "damage" and action.scope == "target_hq":
             # "Deal 8 damage to target HQ" (KM BISMARCK): the enemy HQ.
@@ -2841,7 +2845,9 @@ class NativeRuleEngine:
             if card is None:
                 continue
             ok = True
-            if scope in {"air", "ground", "tank", "infantry", "artillery", "bomber", "fighter"}:
+            if scope in {"support_line", "frontline"}:
+                ok = unit.position == scope
+            elif scope in {"air", "ground", "tank", "infantry", "artillery", "bomber", "fighter"}:
                 if scope == "air":
                     ok = ok and card.type in {"fighter", "bomber"}
                 elif scope == "ground":

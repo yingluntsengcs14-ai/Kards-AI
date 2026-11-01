@@ -272,6 +272,14 @@ class RuleParser:
              RuleAction("set_operation_cost", "selected_target", amount=0, duration="end_of_turn"),
              RuleAction("buff", "selected_target", attack=2, defense=2, condition="if it has smokescreen")),
             "implemented", ()),
+        # "Deal 3 damage to all targets in the enemy support line.  The enemy
+        # loses a kredit slot."  The enemy HQ is one of those targets.
+        "strategic_bombing": (
+            ("on_play",),
+            (RuleAction("damage", "enemy_units", amount=3, scope="support_line"),
+             RuleAction("damage", "enemy_hq", amount=3),
+             RuleAction("lose_kredit_slot", "enemy_hand", amount=1)),
+            "implemented", ()),
         "depth_charges": (
             ("on_play",),
             (RuleAction("gain_kredit_slot", "owner", amount=1),
@@ -1171,7 +1179,10 @@ _TARGET_TYPES = r"tank|infantry|artillery|fighter|bomber|air unit|ground unit|un
 
 
 _NATION_ADJECTIVES = ("german", "british", "soviet", "japanese", "us", "french", "italian", "polish", "finnish")
-_HQ_OPTION = re.compile(r"\bdamage\s+to\s+(?:an\s+enemy(?:\s+target)?|any\s+target)(?=\s*(?:[.,]|and\b|$|for\b))")
+# KARDS wording (confirmed 11-01): a "target" includes an HQ, a "unit" does not.
+_HQ_OPTION = re.compile(
+    r"\bdamage\s+to\s+(?P<who>an\s+enemy(?:\s+(?P<ground>ground))?(?:\s+target)?|any\s+target|target"
+    r"|a\s+target\s+(?P<support>in\s+the\s+enemy\s+support\s+line))(?=\s*(?:[.,]|and\b|$|for\b|equal\b))")
 
 
 def _apply_hq_targets(sentence: str, parsed: tuple) -> tuple:
@@ -1185,10 +1196,18 @@ def _apply_hq_targets(sentence: str, parsed: tuple) -> tuple:
     if re.search(r"\bdamage\s+to\s+target\s+hq\b", lower):
         return tuple(replace(action, target="enemy_hq", scope="target_hq")
                      if action.kind == "damage" and action.target.startswith("selected_") else action for action in parsed)
-    if _HQ_OPTION.search(lower):
-        return tuple(replace(action, scope="or_enemy_hq")
-                     if action.kind == "damage" and action.target.startswith("selected_") and not action.scope else action
-                     for action in parsed)
+    match = _HQ_OPTION.search(lower)
+    if match:
+        markers = []
+        if match.group("ground"):
+            markers.append(RuleAction("target_filter", "selected_target", card_name="ground"))
+        if match.group("support"):
+            markers.append(RuleAction("target_filter", "selected_target", card_name="support_line"))
+        hq_kinds = {"damage", "damage_equal_to"}
+        return tuple(markers) + tuple(
+            replace(action, scope="or_enemy_hq")
+            if action.kind in hq_kinds and action.target.startswith("selected_") and not action.scope else action
+            for action in parsed)
     return parsed
 
 

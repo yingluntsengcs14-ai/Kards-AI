@@ -739,5 +739,24 @@ class MetaDeckRuleTests(unittest.TestCase):
         TurnManager.start_turn(state, "p1", draw_card=False)
         self.assertEqual(state.players["p1"].hq.active_effects, [])
 
+    # ── target 含總部、unit 只有單位（11-01）──────────────────────────────
+    def test_strategic_bombing_hits_the_support_line_and_the_hq(self) -> None:
+        state = self._state(hand=("strategic_bombing",), p2_units=(("s", "garrison", 0, 9, "support_line"),
+                                                                   ("f", "garrison", 0, 9, "frontline")))
+        before = state.players["p2"].hq.current_health
+        PlayCardAction("p1", "strategic_bombing").execute(state, self.cards)
+        defense = {u.instance_id: u.defense for u in state.players["p2"].units}
+        self.assertEqual((defense["s"], defense["f"], before - state.players["p2"].hq.current_health), (6, 9, 3))
+
+    def test_enemy_ground_target_is_a_ground_unit_or_the_hq(self) -> None:
+        state = self._state(hand=("p40_kittyhawk",), p2_units=(("inf", "garrison", 0, 9, "frontline"),
+                                                               ("air", "gladiator_mk_i", 1, 2, "support_line")))
+        self.assertEqual(self._deploy_targets(state, "p40_kittyhawk"), {None, "inf"})
+
+    def test_a_target_in_the_enemy_support_line_may_be_the_hq(self) -> None:
+        state = self._state(hand=("gunship_mission",), p2_units=(("f", "garrison", 0, 9, "frontline"),
+                                                                 ("s", "garrison", 0, 9, "support_line")))
+        self.assertEqual(self._deploy_targets(state, "gunship_mission"), {None, "s"})
+
 if __name__ == "__main__":
     unittest.main()
