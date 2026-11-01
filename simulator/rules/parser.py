@@ -179,12 +179,22 @@ class CardRule:
         later (on_damage_dealt), not one chosen on deploy.
         """
         played = {"on_play", "on_deploy"}
-        return any(action.target.startswith("selected_") and (not action.on or played & set(action.on))
+        text = self.source_text.lower()
+        # An unbound action is part of playing the card for an order, or for a
+        # unit whose text has a Deployment clause.  A unit listener ("When an
+        # enemy unit moves into the frontline, pin it") targets later, not on
+        # deploy: such units used to demand a target to be deployed at all.
+        unbound_on_play = "on_play" in self.triggers or "deployment" in text
+        return any(action.target.startswith("selected_")
+                   and (played & set(action.on) if action.on else unbound_on_play)
                    for action in self.actions)
 
 
 class RuleParser:
     """Parse only stable, high-frequency KARDS text templates into an AST."""
+
+    # Cards whose rules are written out below; generic post-processing skips them.
+    _HAND_WRITTEN: frozenset = frozenset()
 
     # ── Weather cards (OCEANIA STORM) ───────────────────────────────────────
     # These nine cards (plus the three forecast tokens) are parsed per card id
@@ -637,7 +647,8 @@ class RuleParser:
         # unit's attack cannot change in between, so the outcome is the same.
         "ferocious_assault": (
             ("on_play",),
-            (RuleAction("lose_kredit_slot", "owner", amount=1,
+            (RuleAction("target_filter", "selected_target", card_name="infantry"),
+             RuleAction("lose_kredit_slot", "owner", amount=1,
                         condition="if its attack was greater than your kredit slots"),
              RuleAction("destroy", "selected_target", scope="infantry")),
             "implemented", (),
@@ -761,6 +772,8 @@ class RuleParser:
         sentence_events: tuple[str, ...] = ()
         for sentence in _sentences(text):
             parsed = _parse_sentence(sentence)
+            if parsed and card.id not in self._HAND_WRITTEN:
+                parsed = _apply_target_constraints(sentence, parsed)
             if is_unit:
                 # Bind each clause of a unit to the event that introduces it.
                 # A clause with no trigger of its own continues the previous
@@ -1116,6 +1129,71 @@ def _parse_give(lower: str):
     if not actions:
         return None
     return tuple(actions)
+
+
+_TARGET_TYPE_WORDS = {
+    "tank": "tank", "tanks": "tank", "infantry": "infantry", "artillery": "artillery",
+    "fighter": "fighter", "bomber": "bomber", "air unit": "air", "ground unit": "ground",
+}
+
+
+_TARGET_SKIP_WORDS = ("when ", "whenever", "random", "choose one", "discard")
+_TARGET_TYPES = r"tank|infantry|artillery|fighter|bomber|air unit|ground unit|unit"
+
+
+def _apply_target_constraints(sentence: str, parsed: tuple) -> tuple:
+    """Read who a chosen target may be from the clause's own words.
+
+    "Deal 5 damage to an enemy tank": the target must be an enemy and a tank.
+    Many templates kept only "selected_target", so any unit was offered; the
+    side, the unit type(s), "with cost/attack N or less", "damaged" and "in
+    the frontline" are now added as validation markers.  Only the first noun
+    phrase of a played clause is read; listener clauses ("When ..."), "Choose
+    one" modes and discard costs are left to their own templates.
+    """
+    if not any(action.target in {"selected_target", "selected_enemy", "selected_friendly"} for action in parsed):
+        return parsed
+    lower = sentence.lower().strip()
+    lower = re.sub(r"^deployment:\s*", "", lower)
+    lower = re.sub(r"^if [^,]+,\s*", "", lower)
+    lower = re.sub(r'\\?"[^"]*\\?"', '""', lower)       # granted text: 'Give X: "When ..."'
+    if any(word in lower for word in _TARGET_SKIP_WORDS) or re.match(r"(?:gets?|has)\b", lower):
+        return parsed
+    first = re.search(r"\b(?:target\s+(?:an?\s+)?|an?\s+|another\s+)", lower)
+    if not first:
+        return parsed
+    phrase = re.match(
+        r"(?:(enemy|friendly)\s+)?(?:(damaged)\s+)?"
+        r"((?:" + _TARGET_TYPES + r")(?:\s+or\s+(?:" + _TARGET_TYPES + r"))*)s?(?:\s+unit)?\b(?P<rest>[^.;]*)",
+        lower[first.end():])
+    if not phrase:
+        return parsed
+    side, state_word, kinds, rest = phrase.group(1), phrase.group(2), phrase.group(3), phrase.group("rest")
+    actions = list(parsed)
+    if side:
+        wanted = "selected_enemy" if side == "enemy" else "selected_friendly"
+        actions = [replace(action, target=wanted) if action.target == "selected_target" else action for action in actions]
+    markers = []
+    types = [_TARGET_TYPE_WORDS[k.strip()] for k in kinds.split(" or ") if k.strip() in _TARGET_TYPE_WORDS]
+    if types and len(types) == len(kinds.split(" or ")):
+        markers.append(RuleAction("target_filter", "selected_target", card_name="|".join(types)))
+    limit = re.match(r"\s+(?:that\s+has\s+|with\s+(?:a\s+)?)(?:(cost|attack)\s+(?:of\s+)?(\d+)\s+or\s+less|(\d+)\s+or\s+less\s+(cost|attack))", rest)
+    if limit:
+        what = limit.group(1) or limit.group(4)
+        value = int(limit.group(2) or limit.group(3))
+        markers.append(RuleAction("target_max_attack" if what == "attack" else "target_max_cost", "selected_target", amount=value))
+    stat_sum = re.match(r"\s+with\s+combined\s+attack\s+and\s+defense\s+of\s+(\d+)\s+or\s+less", rest)
+    if stat_sum:
+        markers.append(RuleAction("target_max_stat_sum", "selected_target", amount=int(stat_sum.group(1))))
+    if re.match(r"\s+with\s+attack\s+equal\s+or\s+less\s+than\s+your\s+kredit\s+slots", rest):
+        markers.append(RuleAction("target_max_attack_slots", "selected_target"))
+    if state_word == "damaged" or re.match(r"\s+that\s+is\s+damaged", rest):
+        markers.append(RuleAction("target_filter", "selected_target", card_name="damaged"))
+    if re.match(r"\s+in\s+the\s+frontline", rest):
+        markers.append(RuleAction("target_filter", "selected_target", card_name="frontline"))
+    existing = {(action.kind, action.card_name, action.amount) for action in actions}
+    markers = [marker for marker in markers if (marker.kind, marker.card_name, marker.amount) not in existing]
+    return tuple(markers + actions)
 
 
 def _strip_condition(sentence: str) -> tuple[str, str | None]:
@@ -2927,7 +3005,10 @@ def _classify_residual(sentence: str, lower: str, clean: str) -> tuple:
     if re.search(r"\bremove\s+it\s+instead\b", lower):
         return (RuleAction("remove", "selected_target"),)
     if re.search(r"\b(?:has|have)\s+0\s+operation\s+cost\b", lower):
-        return (RuleAction("set_operation_cost", "selected_target", amount=0),)
+        # "Deployment: Has 0 operation cost this turn" (6th INFANTRY BRIGADE)
+        # is about the card itself; "Target unit has ..." keeps its target.
+        subject = "source" if re.match(r"(?:deployment:\s*)?has\b", lower.strip()) else "selected_target"
+        return (RuleAction("set_operation_cost", subject, amount=0),)
     if re.search(r"\benemy\s+units\s+on\s+the\s+battlefield\s+get\s+-?(\d+)\s+attack", lower):
         return (RuleAction("modify_attack", "enemy_units", amount=-2),)
     if re.search(r"\bput\s+rest\s+on\s+bottom", lower):
@@ -3238,3 +3319,7 @@ def _trait_scope(value: str) -> str:
     if value.lower() in abilities:
         return "ability"
     return "name"
+
+
+RuleParser._HAND_WRITTEN = frozenset(RuleParser._META_DECK_CARD_RULES) | frozenset(RuleParser._RETURN_LATER_CARD_RULES) \
+    | frozenset(RuleParser._WEATHER_CARD_RULES)

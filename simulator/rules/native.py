@@ -1614,7 +1614,8 @@ class NativeRuleEngine:
             for unit in sorted(list(state.players[owner_id].units), key=lambda u: (u.position != "frontline", -_line_index(state, u))):
                 self._displace_unit(state, unit, "unit_returned_to_hand", "native_rule_hand_full_removed")
             return
-        if action.kind in ("target_filter", "target_max_attack"):
+        if action.kind in ("target_filter", "target_max_attack", "target_max_cost", "target_max_stat_sum",
+                           "target_max_attack_slots"):
             return   # validation markers, read by PlayCardAction.validate
         if action.kind == "buff_per_friendly_type" and context.target_unit_id:
             # UNITY IS STRENGTH: "+1+1 for each friendly infantry unit on the battlefield".

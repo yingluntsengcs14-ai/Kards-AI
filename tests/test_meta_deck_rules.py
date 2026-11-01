@@ -623,5 +623,37 @@ class MetaDeckRuleTests(unittest.TestCase):
         self.assertEqual(sorted(state.players["p2"].hand), ["garrison", "panzer_iia"])
 
 
+    # ── 部署指定目標：一般規則 ────────────────────────────────────────────
+    def test_listener_units_deploy_without_a_target(self) -> None:
+        """37mm BOFORS 只有「敵方單位進入前線時」的效果，部署時不需要指定目標。"""
+        state = self._state(hand=("37mm_bofors_gun",), p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        self.assertEqual(self._deploy_targets(state, "37mm_bofors_gun"), {None})
+
+    def test_m4_firefly_must_target_an_enemy_tank_when_there_is_one(self) -> None:
+        inf = ("inf", "garrison", 0, 3, "frontline")
+        state = self._state(hand=("m4_firefly",), p2_units=(inf,))
+        self.assertEqual(self._deploy_targets(state, "m4_firefly"), {None})          # 只有步兵：不觸發
+        state = self._state(hand=("m4_firefly",), p2_units=(inf, ("tank", "panzer_iia", 1, 3, "frontline")))
+        self.assertEqual(self._deploy_targets(state, "m4_firefly"), {"tank"})
+
+    def test_83rd_naval_brigade_only_targets_a_damaged_enemy(self) -> None:
+        state = self._state(hand=("83rd_naval_brigade",), p2_units=(("full", "garrison", 0, 3, "frontline"),
+                                                                    ("hurt", "garrison", 0, 1, "frontline")))
+        self.assertEqual(self._deploy_targets(state, "83rd_naval_brigade"), {"hurt"})
+
+    def test_3rd_carpathian_converts_only_a_friendly_unit(self) -> None:
+        state = self._state(hand=("3rd_carpathian",), p1_units=(("mine", "garrison", 0, 3, "support_line"),),
+                            p2_units=(("e", "garrison", 0, 3, "frontline"),))
+        self.assertEqual(self._deploy_targets(state, "3rd_carpathian"), {"mine"})
+
+    def test_6th_infantry_brigade_needs_no_target(self) -> None:
+        state = self._state(hand=("6th_infantry_brigade",), p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        self.assertEqual(self._deploy_targets(state, "6th_infantry_brigade"), {None})
+
+    def test_fifth_ohio_only_targets_combined_stats_6_or_less(self) -> None:
+        state = self._state(hand=("fifth_ohio",), p2_units=(("big", "garrison", 3, 4, "frontline"),
+                                                            ("small", "garrison", 2, 4, "frontline")))
+        self.assertEqual(self._deploy_targets(state, "fifth_ohio"), {"small"})
+
 if __name__ == "__main__":
     unittest.main()

@@ -147,6 +147,25 @@ class PlayCardAction(Action):
                 if not any(action.card_name == "can_target_covert" for action in rule.actions):
                     raise ActionValidationError("Covert unit cannot be targeted by enemy orders")
             target_categories = {action.card_name for action in rule.actions if action.card_name in {"air", "ground", "frontline", "infantry"}}
+            target_card = cards.get(target.card_id)
+            for marker in (action for action in rule.actions if action.kind == "target_filter"):
+                if marker.card_name and "|" in marker.card_name:
+                    options = marker.card_name.split("|")
+                    if not any(_unit_is(target_card, target, option) for option in options):
+                        raise ActionValidationError("This card requires a {0} target".format(" or ".join(options)))
+                elif marker.card_name in {"tank", "artillery", "fighter", "bomber"} and not _unit_is(target_card, target, marker.card_name):
+                    raise ActionValidationError("This card requires a {0} target".format(marker.card_name))
+                if marker.card_name == "damaged" and (target_card.defense is None or target.defense >= target_card.defense):
+                    raise ActionValidationError("This card requires a damaged target")
+            stat_sum = next((action.amount for action in rule.actions if action.kind == "target_max_stat_sum"), None)
+            if stat_sum is not None and target.attack + target.defense > stat_sum:
+                raise ActionValidationError("Target's combined attack and defense is too high")
+            if any(action.kind == "target_max_attack_slots" for action in rule.actions) \
+                    and target.attack > state.players[self.player_id].resources.max_kredits:
+                raise ActionValidationError("Target's attack is above your kredit slots")
+            max_cost = next((action.amount for action in rule.actions if action.kind == "target_max_cost"), None)
+            if max_cost is not None and target_card.kredits > max_cost:
+                raise ActionValidationError("Target costs more than this card allows")
             if "infantry" in target_categories and cards.get(target.card_id).type != "infantry":
                 raise ActionValidationError("This card requires an infantry target")
             if "air" in target_categories and cards.get(target.card_id).type not in {"fighter", "bomber"}:
@@ -882,3 +901,8 @@ def _can_move_and_attack(state: GameState, unit: UnitState, card, cards: CardDat
             if scope == "alpine" and KeywordEngine.has(card, "alpine", unit):
                 return True
     return False
+
+
+def _unit_is(card, unit: UnitState, kind: str) -> bool:
+    """Type test for a target marker; "unit" accepts anything."""
+    return kind == "unit" or KeywordEngine.matches_type(card, unit, kind)

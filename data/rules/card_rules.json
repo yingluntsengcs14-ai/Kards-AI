@@ -354,6 +354,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "air",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "move_to_support_line",
           "target": "selected_target",
           "amount": 0,
@@ -1130,6 +1144,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ground",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "damage_equal_to",
           "target": "selected_enemy",
           "amount": 0,
@@ -1326,6 +1354,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "frontline",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "retreat_and_repair",
           "target": "selected_friendly",
@@ -1635,6 +1677,22 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ground",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
         {
           "kind": "damage",
           "target": "selected_enemy",
@@ -2112,6 +2170,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "air",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_target",
           "amount": 0,
@@ -2150,6 +2222,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "damage",
           "target": "selected_enemy",
@@ -2768,6 +2854,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank|infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "modify_defense",
           "target": "selected_target",
           "amount": 4,
@@ -3036,6 +3136,22 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "frontline",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
           "kind": "move_to_support_line",
           "target": "selected_target",
           "amount": 0,
@@ -3159,6 +3275,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "frontline",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "move_to_support_line",
           "target": "selected_enemy",
@@ -5945,6 +6075,22 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
           "kind": "damage",
           "target": "selected_enemy",
           "amount": 5,
@@ -8165,6 +8311,22 @@
       ],
       "actions": [
         {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
           "kind": "destroy",
           "target": "selected_enemy",
           "amount": 0,
@@ -9722,6 +9884,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ground",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_target",
           "amount": 0,
@@ -10578,6 +10754,20 @@
       ],
       "actions": [
         {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "destroy_cost_lte",
           "target": "selected_enemy",
           "amount": 3,
@@ -10814,6 +11004,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_friendly",
           "amount": 0,
@@ -10943,8 +11147,22 @@
       ],
       "actions": [
         {
-          "kind": "buff",
+          "kind": "target_filter",
           "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "buff",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -11400,6 +11618,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "convert_to",
           "target": "selected_target",
@@ -12419,8 +12651,24 @@
       ],
       "actions": [
         {
-          "kind": "buff",
+          "kind": "target_filter",
           "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
+          "kind": "buff",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -12534,6 +12782,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry|tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "modify_attack",
           "target": "selected_target",
@@ -12863,6 +13125,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "buff",
           "target": "selected_friendly",
@@ -13362,6 +13638,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "fighter",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_friendly",
           "amount": 0,
@@ -13610,8 +13900,22 @@
       ],
       "actions": [
         {
-          "kind": "grant_ability",
+          "kind": "target_filter",
           "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "frontline",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "grant_ability",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -13714,6 +14018,22 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
         {
           "kind": "destroy",
           "target": "selected_enemy",
@@ -15522,6 +15842,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "air",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "destroy",
           "target": "selected_target",
           "amount": 0,
@@ -15615,6 +15949,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "destroy_cost_lte",
           "target": "selected_enemy",
@@ -16051,6 +16399,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "destroy_cost_lte",
           "target": "selected_enemy",
@@ -16912,8 +17274,24 @@
       ],
       "actions": [
         {
-          "kind": "convert_to",
+          "kind": "target_max_cost",
           "target": "selected_target",
+          "amount": 4,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
+          "kind": "convert_to",
+          "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -17878,6 +18256,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ground",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "repair",
           "target": "selected_target",
@@ -19265,6 +19657,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_friendly",
           "amount": 0,
@@ -19938,6 +20344,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "fighter",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "modify_attack",
           "target": "selected_friendly",
           "amount": 1,
@@ -20066,6 +20486,20 @@
       ],
       "actions": [
         {
+          "kind": "target_max_attack",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "remove",
           "target": "selected_target",
           "amount": 0,
@@ -20106,7 +20540,7 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "selected_target",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -20368,6 +20802,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_max_attack",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "destroy",
           "target": "selected_target",
@@ -20643,6 +21091,22 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
         {
           "kind": "modify_attack",
           "target": "selected_friendly",
@@ -20932,6 +21396,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry|tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "modify_attack",
           "target": "selected_target",
@@ -21578,6 +22056,20 @@
       ],
       "actions": [
         {
+          "kind": "target_max_attack_slots",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "destroy",
           "target": "selected_target",
           "amount": 0,
@@ -22186,6 +22678,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_max_attack",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "destroy",
           "target": "selected_target",
@@ -22959,6 +23465,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_max_attack",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "destroy",
           "target": "selected_enemy",
@@ -24552,6 +25072,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "frontline",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "damage",
           "target": "selected_enemy",
           "amount": 3,
@@ -25119,7 +25653,7 @@
       "actions": [
         {
           "kind": "remove",
-          "target": "selected_target",
+          "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -25795,8 +26329,24 @@
       ],
       "actions": [
         {
-          "kind": "remove",
+          "kind": "target_max_attack",
           "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
+          "kind": "remove",
+          "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -26754,7 +27304,7 @@
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "selected_friendly",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -27701,7 +28251,7 @@
       "actions": [
         {
           "kind": "convert_to",
-          "target": "selected_target",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -28211,6 +28761,22 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ground",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
         {
           "kind": "buff",
           "target": "selected_friendly",
@@ -28950,6 +29516,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank|infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_friendly",
           "amount": 0,
@@ -29223,6 +29803,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "destroy",
           "target": "selected_friendly",
@@ -30139,6 +30733,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry|tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_target",
           "amount": 0,
@@ -30359,7 +30967,7 @@
       "actions": [
         {
           "kind": "convert_to",
-          "target": "selected_target",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -30705,6 +31313,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank|infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "target_select",
           "target": "selected_target",
@@ -31249,6 +31871,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "destroy",
           "target": "selected_friendly",
           "amount": 0,
@@ -31330,6 +31966,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank|infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "target_select",
           "target": "selected_friendly",
@@ -31924,6 +32574,22 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "air",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
           "kind": "damage",
           "target": "selected_enemy",
           "amount": 4,
@@ -32253,6 +32919,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 3,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "take_control",
           "target": "selected_enemy",
@@ -32599,6 +33279,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry|tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "buff",
           "target": "selected_target",
@@ -33281,6 +33975,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "damaged",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "destroy",
           "target": "selected_target",
           "amount": 0,
@@ -33805,6 +34513,22 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "target_max_cost",
+          "target": "selected_target",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
         {
           "kind": "take_control",
           "target": "selected_enemy",
@@ -34605,6 +35329,22 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "damaged",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
         {
           "kind": "destroy",
           "target": "selected_enemy",
@@ -35552,6 +36292,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank|infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_target",
           "amount": 0,
@@ -35915,6 +36669,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "frontline",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "damage",
           "target": "selected_enemy",
           "amount": 2,
@@ -36139,6 +36907,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "damaged",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "repair",
           "target": "selected_friendly",
@@ -37689,7 +38471,7 @@
       "actions": [
         {
           "kind": "remove_keyword",
-          "target": "selected_target",
+          "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -37897,7 +38679,7 @@
       "actions": [
         {
           "kind": "grant_ability",
-          "target": "selected_target",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -38118,6 +38900,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "frontline",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "buff",
           "target": "selected_target",
@@ -41470,6 +42266,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "damaged",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "repair",
           "target": "selected_friendly",
           "amount": 0,
@@ -41562,8 +42372,22 @@
           "on": []
         },
         {
-          "kind": "buff",
+          "kind": "target_filter",
           "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry|tank",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "buff",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -42664,7 +43488,7 @@
       "actions": [
         {
           "kind": "double_stats",
-          "target": "selected_target",
+          "target": "selected_friendly",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -44757,6 +45581,20 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_target",
           "amount": 0,
@@ -45222,6 +46060,20 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "lose_kredit_slot",
           "target": "owner",
@@ -46056,7 +46908,7 @@
       "actions": [
         {
           "kind": "set_operation_cost",
-          "target": "selected_target",
+          "target": "source",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -46173,6 +47025,22 @@
         "on_deploy"
       ],
       "actions": [
+        {
+          "kind": "target_max_stat_sum",
+          "target": "selected_target",
+          "amount": 6,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
         {
           "kind": "destroy",
           "target": "selected_enemy",
