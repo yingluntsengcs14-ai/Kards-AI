@@ -122,7 +122,9 @@ class Simulator:
             if spec.needs_target:
                 if all_units is None:
                     all_units = [unit.instance_id for candidate in self.state.players.values() for unit in candidate.units]
-                targets = [None, *all_units] if spec.may_target_enemy_hq else all_units
+                # None: the enemy HQ (BUZZ BOMB), or a unit deployed with no legal
+                # target for its Deployment effect (validation decides).
+                targets = [None, *all_units] if spec.may_target_enemy_hq or self.cards.get(card_id).is_unit else all_units
             else:
                 targets = (None,)
             selected_cards = (

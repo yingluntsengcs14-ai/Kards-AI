@@ -1726,37 +1726,23 @@
     },
     {
       "card_id": "bpf",
-      "source_text": "Convert a random card in the enemy hand into PLAN. Repeat if there is a Navy card on top of your deck.",
+      "source_text": "Develop BLAST, PLAN or PRODUCTION, then Develop a British Navy card.",
       "triggers": [
         "on_play"
       ],
       "actions": [
         {
-          "kind": "convert_to",
-          "target": "selected_target",
+          "kind": "develop_options",
+          "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "plan",
+          "card_name": "BLAST|PLAN|PRODUCTION|then Develop a British Navy card",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": []
-        },
-        {
-          "kind": "repeat_effect",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "Repeat if there is a Navy card on top of your deck.",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": "if there is a Navy card on top of your deck.",
           "on": []
         }
       ],
@@ -3563,13 +3549,13 @@
     },
     {
       "card_id": "frontier_force",
-      "source_text": "Deployment: Add a GARRISON unit to your support line.",
+      "source_text": "Deployment: Add a GARRISON unit to your hand.",
       "triggers": [
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "add_card",
           "target": "owner",
           "amount": 1,
           "attack": 0,
@@ -4209,7 +4195,7 @@
     },
     {
       "card_id": "17_pounder",
-      "source_text": "Deployment: Pin an enemy tank.",
+      "source_text": "Deployment: Pin target enemy unit. Draw a card if it is a tank.",
       "triggers": [
         "on_deploy"
       ],
@@ -4226,6 +4212,22 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "if it is a tank.",
           "on": [
             "on_deploy"
           ]
@@ -4921,7 +4923,7 @@
     },
     {
       "card_id": "m3_grant",
-      "source_text": "Deployment: Gets +2+2 if your HQ has 25 or more defense.",
+      "source_text": "Deployment: Gets +1+2 if your HQ has defense over 20.",
       "triggers": [
         "on_deploy"
       ],
@@ -4930,14 +4932,14 @@
           "kind": "buff",
           "target": "source",
           "amount": 0,
-          "attack": 2,
+          "attack": 1,
           "defense": 2,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "if your HQ has 25 or more defense.",
+          "condition": "if your HQ has defense over 20.",
           "on": [
             "on_deploy"
           ]
@@ -4945,7 +4947,7 @@
       ],
       "status": "partial",
       "unresolved_fragments": [
-        "[condition not modeled] if your HQ has 25 or more defense."
+        "[condition not modeled] if your HQ has defense over 20."
       ]
     },
     {
@@ -5178,11 +5180,25 @@
     },
     {
       "card_id": "precision_bombing",
-      "source_text": "If you have a bomber unit on the battlefield, destroy an enemy unit.",
+      "source_text": "Reduce cost by the highest attack on a bomber you control. Destroy an enemy unit.",
       "triggers": [
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "special_effect",
+          "target": "source",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Reduce cost by the highest attack on a bomber you control.",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "destroy",
           "target": "selected_enemy",
@@ -5194,13 +5210,14 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If you have a bomber unit on the battlefield",
+          "condition": null,
           "on": []
         }
       ],
       "status": "partial",
       "unresolved_fragments": [
-        "[condition not modeled] If you have a bomber unit on the battlefield"
+        "Reduce cost by the highest attack on a bomber you control.",
+        "[engine does not implement kind=special_effect] Reduce cost by the highest attack on a bomber you control."
       ]
     },
     {
@@ -6457,7 +6474,7 @@
     },
     {
       "card_id": "hampshire_regiment",
-      "source_text": "Deployment: Develop CONVOY HX 175, FORTIFICATION or INTERCEPTION.",
+      "source_text": "Deployment: Develop CONVOY HX 175, THE DESERT RATS or FORTIFICATION.",
       "triggers": [
         "on_deploy"
       ],
@@ -6468,7 +6485,7 @@
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "CONVOY HX 175|FORTIFICATION|INTERCEPTION",
+          "card_name": "CONVOY HX 175|THE DESERT RATS|FORTIFICATION",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -6532,7 +6549,7 @@
     },
     {
       "card_id": "mosquito_fb_mk_vi",
-      "source_text": "Deployment: Deal 3 damage to an enemy unit.",
+      "source_text": "Deployment: Deal 4 damage to an enemy unit.",
       "triggers": [
         "on_deploy"
       ],
@@ -6540,7 +6557,7 @@
         {
           "kind": "damage",
           "target": "selected_enemy",
-          "amount": 3,
+          "amount": 4,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -8475,7 +8492,7 @@
     },
     {
       "card_id": "motti_tactic",
-      "source_text": "Destroy target unit and Salvage it.",
+      "source_text": "Destroy target unit. Add a copy of it to your hand.",
       "triggers": [
         "on_play"
       ],
@@ -8487,6 +8504,20 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "copy of it",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -10008,17 +10039,17 @@
     },
     {
       "card_id": "1er_rgiment_tranger",
-      "source_text": "Deployment: Gets +1+1 for each card in the enemy hand.",
+      "source_text": "Deployment: Choose One - Gain Blitz and draw a card OR gain Guard and your HQ gets +4 defense.",
       "triggers": [
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "buff",
-          "target": "source",
-          "amount": 0,
-          "attack": 1,
-          "defense": 1,
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
@@ -10147,29 +10178,31 @@
     },
     {
       "card_id": "char_b1_bis",
-      "source_text": "When this unit loses Mobilize, draw a card.",
+      "source_text": "Deployment: Gets Blitz if this is the first unit you deploy this turn.",
       "triggers": [
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "draw",
-          "target": "owner",
-          "amount": 1,
+          "kind": "grant_ability",
+          "target": "source",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "blitz",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When this unit loses Mobilize",
-          "on": []
+          "condition": "if this is the first unit you deploy this turn.",
+          "on": [
+            "on_deploy"
+          ]
         }
       ],
       "status": "partial",
       "unresolved_fragments": [
-        "[condition not modeled] When this unit loses Mobilize"
+        "[condition not modeled] if this is the first unit you deploy this turn."
       ]
     },
     {
@@ -11549,13 +11582,13 @@
     },
     {
       "card_id": "sd_kfz_10_pak_38",
-      "source_text": "Gets +2 attack until end of turn if another card increases the attack of this unit.",
+      "source_text": "Gets +1 attack until end of turn if another card increases the attack of this unit.",
       "triggers": [],
       "actions": [
         {
           "kind": "attack_boost_reaction",
           "target": "source",
-          "amount": 2,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -12185,11 +12218,30 @@
     },
     {
       "card_id": "bergmann_battalion",
-      "source_text": "{}",
-      "triggers": [],
-      "actions": [],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "source_text": "Once per turn, draw a card when you Convert one or more cards.",
+      "triggers": [
+        "on_deploy"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when you Convert one or more cards.",
+          "on": []
+        }
+      ],
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] when you Convert one or more cards."
+      ]
     },
     {
       "card_id": "blitz_doctrine",
@@ -12234,9 +12286,26 @@
     },
     {
       "card_id": "conquest",
-      "source_text": "{}",
-      "triggers": [],
-      "actions": [],
+      "source_text": "Draw a card for each unit type you control.",
+      "triggers": [
+        "on_play"
+      ],
+      "actions": [
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        }
+      ],
       "status": "implemented",
       "unresolved_fragments": []
     },
@@ -13733,28 +13802,13 @@
     },
     {
       "card_id": "heinkel_he_111",
-      "source_text": "Cannot attack units.",
-      "triggers": [
-        "on_deploy"
-      ],
-      "actions": [
-        {
-          "kind": "cannot",
-          "target": "source",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "attack_units",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        }
-      ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "source_text": "After this unit attacks, deal damage to the enemy HQ equal to the number of unit types you control.",
+      "triggers": [],
+      "actions": [],
+      "status": "unresolved",
+      "unresolved_fragments": [
+        "After this unit attacks, deal damage to the enemy HQ equal to the number of unit types you control."
+      ]
     },
     {
       "card_id": "jagdpanzer_iv",
@@ -14364,7 +14418,7 @@
     },
     {
       "card_id": "wespe",
-      "source_text": "Has +2 attack if you control a tank.",
+      "source_text": "Has +1 attack if you control a tank.",
       "triggers": [
         "on_deploy"
       ],
@@ -14372,7 +14426,7 @@
         {
           "kind": "modify_attack",
           "target": "source",
-          "amount": 2,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -14911,15 +14965,15 @@
     },
     {
       "card_id": "heinkel_he_219",
-      "source_text": "After your HQ is damaged by a ground unit, deal 1 damage to the enemy HQ.",
+      "source_text": "Deployment: Fight target enemy unit.",
       "triggers": [
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "damage",
-          "target": "enemy_hq",
-          "amount": 1,
+          "kind": "fight",
+          "target": "selected_enemy",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -14927,8 +14981,10 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "After your HQ is damaged by a ground unit",
-          "on": []
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
         }
       ],
       "status": "implemented",
@@ -15765,7 +15821,7 @@
     },
     {
       "card_id": "92_infantry_regiment",
-      "source_text": "Deployment: Develop EAGLE CLAWS, SKY BARONS or TACTICAL STRIKE.",
+      "source_text": "Deployment: Develop BLITZKRIEG, SKY BARONS or TACTICAL STRIKE.",
       "triggers": [
         "on_deploy"
       ],
@@ -15776,7 +15832,7 @@
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "EAGLE CLAWS|SKY BARONS|TACTICAL STRIKE",
+          "card_name": "BLITZKRIEG|SKY BARONS|TACTICAL STRIKE",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -16074,8 +16130,22 @@
       ],
       "actions": [
         {
+          "kind": "target_filter",
+          "target": "selected_enemy",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "ground",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "return_to_hand",
-          "target": "selected_target",
+          "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -16085,9 +16155,7 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -16101,18 +16169,20 @@
       ],
       "actions": [
         {
-          "kind": "modify_attack",
+          "kind": "attack_bonus_against_type",
           "target": "source",
           "amount": 2,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "ground",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": []
+          "on": [
+            "on_deploy"
+          ]
         },
         {
           "kind": "fight",
@@ -17521,8 +17591,8 @@
       ],
       "actions": [
         {
-          "kind": "return_to_hand",
-          "target": "selected_target",
+          "kind": "return_all_to_hand",
+          "target": "enemy_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -17532,9 +17602,7 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -17583,15 +17651,15 @@
     },
     {
       "card_id": "king_tiger",
-      "source_text": "Your support line cannot be targeted by enemy orders or deployment effects.",
+      "source_text": "Gain 2 kredits for each of your German units after this unit is deployed or operated.",
       "triggers": [
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "cannot_be_targeted_by_enemy_orders",
-          "target": "source",
-          "amount": 0,
+          "kind": "gain_kredits",
+          "target": "owner",
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -17599,14 +17667,14 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "condition": "after this unit is deployed or operated.",
+          "on": []
         }
       ],
-      "status": "implemented",
-      "unresolved_fragments": []
+      "status": "partial",
+      "unresolved_fragments": [
+        "[condition not modeled] after this unit is deployed or operated."
+      ]
     },
     {
       "card_id": "maus",
@@ -22632,6 +22700,20 @@
       ],
       "actions": [
         {
+          "kind": "target_max_attack",
+          "target": "selected_enemy",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "destroy",
           "target": "selected_enemy",
           "amount": 0,
@@ -22643,9 +22725,7 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -23423,8 +23503,8 @@
       ],
       "actions": [
         {
-          "kind": "remove",
-          "target": "selected_target",
+          "kind": "remove_while_source_lives",
+          "target": "selected_enemy",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -23434,9 +23514,7 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -24560,7 +24638,7 @@
     },
     {
       "card_id": "island_defense",
-      "source_text": "Draw a card if your HQ has 10 or less defense. Give your HQ +6 defense.",
+      "source_text": "Draw a card if your HQ has 10 or less defense. Give your HQ +8 defense.",
       "triggers": [
         "on_play"
       ],
@@ -24582,7 +24660,7 @@
         {
           "kind": "gain_hq_defense",
           "target": "owner",
-          "amount": 6,
+          "amount": 8,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -28128,7 +28206,7 @@
     },
     {
       "card_id": "spitfire_mk_v_pl",
-      "source_text": "Deployment: Give a friendly infantry +1+1 and Guard.",
+      "source_text": "Deployment: Give a friendly ground unit +1+1 and Guard.",
       "triggers": [
         "on_deploy"
       ],
@@ -28140,7 +28218,7 @@
           "attack": 1,
           "defense": 1,
           "card_name": "",
-          "scope": "infantry",
+          "scope": "ground",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -28156,7 +28234,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": "guard",
-          "scope": "infantry",
+          "scope": "ground",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -31073,7 +31151,7 @@
     },
     {
       "card_id": "t80",
-      "source_text": "Destruction: Deal 2 damage to your HQ.",
+      "source_text": "Destruction: Deal 1 damage to your HQ.",
       "triggers": [
         "on_destroy",
         "on_deploy"
@@ -31082,7 +31160,7 @@
         {
           "kind": "damage",
           "target": "selected_target",
-          "amount": 2,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -38279,7 +38357,7 @@
     },
     {
       "card_id": "11th_infantry_regiment",
-      "source_text": "Deployment: Fully repair a friendly unit.",
+      "source_text": "Deployment: Fully repair a friendly unit, then give it +1+1.",
       "triggers": [
         "on_deploy"
       ],
@@ -38291,6 +38369,22 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
+        },
+        {
+          "kind": "buff",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": "",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -39223,24 +39317,26 @@
     },
     {
       "card_id": "p40_warhawk",
-      "source_text": "Has +3 attack against ground units.",
+      "source_text": "Has +3 attack against ground targets.",
       "triggers": [
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "modify_attack",
+          "kind": "attack_bonus_against_type",
           "target": "source",
           "amount": 3,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "ground",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": []
+          "on": [
+            "on_deploy"
+          ]
         }
       ],
       "status": "implemented",
@@ -43101,15 +43197,15 @@
     },
     {
       "card_id": "b29_superfortress",
-      "source_text": "Costs 3 less to deploy if you control the frontline.",
+      "source_text": "Deployment: Distribute 6 damage randomly between enemies.",
       "triggers": [
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "modify_deployment_cost",
-          "target": "source",
-          "amount": -3,
+          "kind": "damage",
+          "target": "random_enemy",
+          "amount": 6,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -43117,8 +43213,10 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "if you control the frontline.",
-          "on": []
+          "condition": null,
+          "on": [
+            "on_deploy"
+          ]
         }
       ],
       "status": "implemented",

@@ -365,11 +365,6 @@ class RuleParser:
             (RuleAction("deploy_named", "owner", card_name="LIGHT INFANTRY", amount=1),
              RuleAction("add_card", "owner", card_name="BLAST", amount=1)),
             "implemented", ()),
-        # "Deployment: Develop CONVOY HX 175, FORTIFICATION or INTERCEPTION."
-        "hampshire_regiment": (
-            ("on_deploy",),
-            (RuleAction("develop_options", "owner", card_name="CONVOY HX 175|FORTIFICATION|INTERCEPTION"),),
-            "implemented", ()),
         # "Deployment: Choose a card in hand. Shuffle it into your deck, then
         # draw a card."  The player picks the card (selected_card_id).
         "10th_recon": (
@@ -519,6 +514,25 @@ class RuleParser:
             ("on_deploy",),
             (RuleAction("draw", "owner", amount=1), RuleAction("convert_deck_cards_into_self", "owner", amount=2)),
             "implemented", ()),
+        # ── 德日移除 deck (2026-11-01) ─────────────────────────────────────
+        # "Deployment: Destroy an enemy unit with attack 2 or less."  The attack
+        # limit was never checked.
+        "2nd_raiding_brigade": (
+            ("on_deploy",),
+            (RuleAction("target_max_attack", "selected_enemy", amount=2), RuleAction("destroy", "selected_enemy")),
+            "implemented", ()),
+        # "Deployment: Send an enemy ground unit to hand."  (Any unit could be sent.)
+        "fw_190_jagdbomber": (
+            ("on_deploy",),
+            (RuleAction("target_filter", "selected_enemy", card_name="ground"),
+             RuleAction("return_to_hand", "selected_enemy")),
+            "implemented", ()),
+        # "Deployment: Remove an enemy unit until this unit leaves the
+        # battlefield."  (It removed any unit, for good.)
+        "kyoto_regiment": (
+            ("on_deploy",), (RuleAction("remove_while_source_lives", "selected_enemy"),), "implemented", ()),
+        # "Deployment: Send all enemy units to hand."  (It sent one selected unit.)
+        "leopold": (("on_deploy",), (RuleAction("return_all_to_hand", "enemy_units"),), "implemented", ()),
         # ── batch 3c: standing mechanics ────────────────────────────────────
         # "Remove after this unit attacks. Add a copy to your deck with double
         # attack and defense."
@@ -550,7 +564,8 @@ class RuleParser:
             ("on_play",), (RuleAction("grant_edge_cards_destroy_random", "owner"),), "implemented", ()),
         # "Gets +2 attack until end of turn if another card increases the attack
         # of this unit."  (Read by NativeRuleEngine.execute.)
-        "sd_kfz_10_pak_38": ((), (RuleAction("attack_boost_reaction", "source", amount=2),), "implemented", ()),
+        # (2026-09 patch: +1, was +2.)
+        "sd_kfz_10_pak_38": ((), (RuleAction("attack_boost_reaction", "source", amount=1),), "implemented", ()),
         # "Adjacent ground units have +1 attack."  (Read in combat.)
         "sd_kfz_222": ((), (RuleAction("adjacent_ground_attack_aura", "source", amount=1),), "implemented", ()),
         # "Draw from your deck on turn 4. Reduce the cost of German cards with
@@ -941,7 +956,7 @@ def _triggers(card: Card, text: str) -> tuple[str, ...]:
             or "has +2 attack against units with higher attack" in lower
             or "it costs the enemy +2 kredits to target or attack this unit" in lower
             or re.search(r"deals?\s*\+\d+\s+damage\s+to\s+air\s+units", lower)
-            or re.search(r"has\s*\+\d+\s+attack\s+against\s+(?:tanks|infantry|fighters|bombers|artillery)", lower)
+            or re.search(r"has\s*\+\d+\s+attack\s+against\s+(?:tanks|infantry|fighters|bombers|artillery|ground|air)", lower)
             or re.search(r"your\s+orders\s+deal\s*\+\d+\s+damage", lower)):
         triggers.append("on_deploy")
     # An order only exists while it is being played, so it always needs
@@ -1441,7 +1456,9 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
     air_damage_bonus = re.search(r"\bdeals?\s*\+(\d+)\s+damage\s+to\s+air\s+units", lower)
     if air_damage_bonus:
         return (RuleAction("damage_bonus_against_air", "source", amount=int(air_damage_bonus.group(1))),)
-    type_attack_bonus = re.search(r"\bhas\s*\+(\d+)\s+attack\s+against\s+(tanks|infantry|fighters|bombers|artillery)", lower)
+    # "Has +2 attack against ground targets" (HENSCHEL HS 129) used to be a
+    # flat +2 attack on deploy: only tank/infantry/... names were matched.
+    type_attack_bonus = re.search(r"\bhas\s*\+(\d+)\s+attack\s+against\s+(tanks|infantry|fighters|bombers|artillery|ground|air)(?:\s+(?:units|targets))?", lower)
     if type_attack_bonus:
         return (RuleAction("attack_bonus_against_type", "source", amount=int(type_attack_bonus.group(1)), card_name=type_attack_bonus.group(2).rstrip("s")),)
     order_damage_bonus = re.search(r"\byour\s+orders\s+deal\s*\+(\d+)\s+damage", lower)

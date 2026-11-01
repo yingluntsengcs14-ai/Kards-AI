@@ -80,6 +80,7 @@ def draw(state: GameState, player_id: str, amount: int) -> None:
 
 
 def remove_dead_units(state: GameState) -> None:
+    released = []
     for player_id, player in state.players.items():
         survivors = []
         for unit in player.units:
@@ -91,7 +92,14 @@ def remove_dead_units(state: GameState) -> None:
             state.graveyard.setdefault(player_id, []).append(unit.card_id)
             from simulator.rules import counters
             counters.note_unit_destroyed(state, player_id, unit.card_id)
+            if unit.status.get("holding_removed"):
+                from simulator.rules.native import NativeRuleEngine
+                if NativeRuleEngine._last_engine is not None:
+                    released.append(unit)
             state.event_log.append({"event": "unit_died", "player_id": player_id, "unit_id": unit.instance_id, "card_id": unit.card_id})
         player.units = survivors
+    for unit in released:
+        from simulator.rules.native import NativeRuleEngine
+        NativeRuleEngine._last_engine.release_held(state, unit)
     from simulator.rules.intel import refresh
     refresh(state)

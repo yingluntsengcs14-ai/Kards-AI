@@ -13,6 +13,10 @@ class KeywordEngine:
         kind = requested_type.lower()
         if card.type == kind:
             return True
+        if kind == "ground":
+            return card.type in {"infantry", "tank", "artillery"} or bool(unit and unit.status.get("also_tank"))
+        if kind == "air":
+            return card.type in {"fighter", "bomber"}
         return kind == "tank" and bool(unit and unit.status.get("also_tank"))
 
     @staticmethod

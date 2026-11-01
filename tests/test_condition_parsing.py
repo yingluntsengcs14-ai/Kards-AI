@@ -48,8 +48,9 @@ class ConditionParsingTests(unittest.TestCase):
         self.assertTrue(any(a.kind == "move_to_support_line" for a in rule.actions))
 
     def test_convert_parsed(self) -> None:
-        rule = self.p.parse(self.db.get("bpf"))
-        self.assertTrue(any(a.kind == "convert_to" for a in rule.actions), "bpf")
+        # BPF lost its convert text in the 2026-09 balance patch; ROUT still has one.
+        rule = self.p.parse(self.db.get("rout"))
+        self.assertTrue(any(a.kind == "convert_to" for a in rule.actions), "rout")
 
     def test_has_plus_attack_parsed(self) -> None:
         rule = self.p.parse(self.db.get("seaforth_highlanders"))

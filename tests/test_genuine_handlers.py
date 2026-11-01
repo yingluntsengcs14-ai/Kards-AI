@@ -146,13 +146,19 @@ class CannotHandlerTests(unittest.TestCase):
         self.assertTrue(unit.status.get("cannot_be_pinned"))
 
     def test_cannot_attack_units(self) -> None:
-        """'Cannot attack units' sets the flag."""
+        """'Cannot attack units' sets the flag.
+
+        HEINKEL HE 111 carried this text until the 2026-09 balance patch (the
+        catalog was refreshed from kards_raw.json); no card has it now, so the
+        parsed sentence is executed directly."""
+        from simulator.rules.parser import _parse_sentence
         state = self._state()
         card = self.cards.get("heinkel_he_111")
         unit = UnitState("u1", card.id, card.attack or 0, card.defense or 0, "p1", "support_line")
         state.players["p1"].units = [unit]
         state.battlefield = {"frontline": [], "support_line": [unit.instance_id]}
-        self.engine.emit("on_deploy", state, EffectContext("p1", card.id, unit.instance_id))
+        for action in _parse_sentence("Cannot attack units."):
+            self.engine._execute_action(action, state, EffectContext("p1", card.id, unit.instance_id))
         self.assertTrue(unit.status.get("cannot_attack_units"),
                         f"Expected cannot_attack_units, got status={unit.status}")
 

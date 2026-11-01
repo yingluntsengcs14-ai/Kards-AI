@@ -441,10 +441,10 @@ class MetaDeckRuleTests(unittest.TestCase):
         self.assertEqual(state.players["p2"].units[0].defense, 7)        # 1 + 1
 
     def test_sd_kfz_10_gets_two_more_when_another_card_buffs_it(self) -> None:
-        """FINAL PUSH 給它 +3 攻 → 它再自己 +2（到回合結束）。"""
+        """FINAL PUSH 給它 +3 攻 → 它再自己 +1（2026-09 平衡改動後；到回合結束）。"""
         state = self._state(hand=("final_push",), p1_units=(("p", "sd_kfz_10_pak_38", 1, 2, "support_line"),))
         PlayCardAction("p1", "final_push", target_unit_id="p").execute(state, self.cards)
-        self.assertEqual(state.players["p1"].units[0].attack, 1 + 3 + 2)
+        self.assertEqual(state.players["p1"].units[0].attack, 1 + 3 + 1)
 
     def test_27_fusiliers_discounts_german_units_entering_your_hand(self) -> None:
         from simulator.actions.action import card_play_cost
@@ -565,6 +565,62 @@ class MetaDeckRuleTests(unittest.TestCase):
         engine._execute_action(RuleAction("return_to_hand", "selected_target"), state,
                                EffectContext("p1", "test", target_unit_id="d"))
         self.assertEqual(state.players["p1"].resources.kredits, 2)     # 另一台還在場上：觸發一次
+
+    # ── Deployment targets are mandatory when one exists (confirmed 2026-11-01) ──
+    def _deploy_targets(self, state, card_id):
+        sim = Simulator(self.cards); sim.state = state
+        return {a.target_unit_id for a in sim.get_available_actions()
+                if isinstance(a, PlayCardAction) and a.card_id == card_id}
+
+    def test_hs129_deploys_freely_on_an_empty_board_but_must_fight_otherwise(self) -> None:
+        state = self._state(hand=("henschel_hs_129",))
+        self.assertEqual(self._deploy_targets(state, "henschel_hs_129"), {None})
+        PlayCardAction("p1", "henschel_hs_129").execute(state, self.cards)     # 沒有敵方單位：照樣部署
+        self.assertEqual(len(state.players["p1"].units), 1)
+        state = self._state(hand=("henschel_hs_129",), p2_units=(("e", "garrison", 1, 9, "frontline"),))
+        self.assertEqual(self._deploy_targets(state, "henschel_hs_129"), {"e"})   # 有敵方：一定要選
+        with self.assertRaises(ActionValidationError):
+            PlayCardAction("p1", "henschel_hs_129").execute(state, self.cards)
+
+    def test_hs129_has_plus_two_only_against_ground_targets(self) -> None:
+        card = self.cards.get("henschel_hs_129")
+        state = self._state(hand=("henschel_hs_129",), p2_units=(("e", "garrison", 0, 20, "frontline"),))
+        PlayCardAction("p1", "henschel_hs_129", target_unit_id="e").execute(state, self.cards)
+        self.assertEqual(state.players["p1"].units[0].attack, card.attack)     # 不是永久 +2
+        self.assertEqual(state.players["p2"].units[0].defense, 20 - card.attack - 2)
+
+    def test_2nd_raiding_brigade_must_pick_an_enemy_with_attack_2_or_less(self) -> None:
+        state = self._state(hand=("2nd_raiding_brigade",), p2_units=(("big", "garrison", 3, 3, "frontline"),))
+        self.assertEqual(self._deploy_targets(state, "2nd_raiding_brigade"), {None})   # 沒有合格目標
+        state = self._state(hand=("2nd_raiding_brigade",), p2_units=(("big", "garrison", 3, 3, "frontline"),
+                                                                     ("small", "garrison", 2, 3, "frontline")))
+        self.assertEqual(self._deploy_targets(state, "2nd_raiding_brigade"), {"small"})
+        PlayCardAction("p1", "2nd_raiding_brigade", target_unit_id="small").execute(state, self.cards)
+        self.assertEqual([u.instance_id for u in state.players["p2"].units], ["big"])
+
+    def test_fw190_jagdbomber_sends_only_an_enemy_ground_unit_to_hand(self) -> None:
+        state = self._state(hand=("fw_190_jagdbomber",), p1_units=(("mine", "garrison", 1, 3, "support_line"),),
+                            p2_units=(("plane", "gladiator_mk_i", 1, 2, "support_line"), ("inf", "garrison", 1, 3, "frontline")))
+        self.assertEqual(self._deploy_targets(state, "fw_190_jagdbomber"), {"inf"})
+
+    def test_kyoto_regiment_holds_the_removed_unit_until_it_leaves(self) -> None:
+        from simulator.effects import basic_effects
+        state = self._state(hand=("kyoto_regiment",), p2_units=(("e", "panzer_iia", 1, 3, "frontline"),))
+        PlayCardAction("p1", "kyoto_regiment", target_unit_id="e").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units, [])
+        kyoto = state.players["p1"].units[0]
+        start = len(state.event_log)
+        basic_effects.destroy(state, kyoto)
+        engine_for(self.cards).emit_deaths_since(state, start)
+        self.assertEqual([u.card_id for u in state.players["p2"].units], ["panzer_iia"])
+
+    def test_leopold_sends_every_enemy_unit_to_hand(self) -> None:
+        state = self._state(hand=("leopold",), p2_units=(("a", "garrison", 1, 3, "frontline"),
+                                                         ("b", "panzer_iia", 1, 3, "support_line")))
+        state.players["p2"].hand = []
+        PlayCardAction("p1", "leopold").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units, [])
+        self.assertEqual(sorted(state.players["p2"].hand), ["garrison", "panzer_iia"])
 
 
 if __name__ == "__main__":

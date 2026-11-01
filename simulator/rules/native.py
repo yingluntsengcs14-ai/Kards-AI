@@ -322,7 +322,9 @@ class NativeRuleEngine:
                         # another card increases the attack of this unit."
                         if unit.instance_id in watchers and unit.attack > watchers[unit.instance_id] \
                                 and card_id != "sd_kfz_10_pak_38":
-                            self._apply_temporary(RuleAction("modify_attack", "source", amount=2, duration="this_turn"),
+                            boost = next((a.amount for a in self.rule_for("sd_kfz_10_pak_38").actions
+                                          if a.kind == "attack_boost_reaction"), 1)
+                            self._apply_temporary(RuleAction("modify_attack", "source", amount=boost, duration="this_turn"),
                                                   state, EffectContext(unit.owner_id, "sd_kfz_10_pak_38", unit.instance_id))
             except ActionValidationError as error:
                 # A multi-clause card can remove its selected unit before a
@@ -598,6 +600,11 @@ class NativeRuleEngine:
         # BUZZ BOMB aimed at the enemy HQ (no unit target).
         if action.kind == "damage" and action.scope == "or_enemy_hq" and not context.target_unit_id:
             HQResolver.damage(state, opponent_id(state, context.player_id), action.amount, context.player_id)
+            return
+        # A unit deployed with no legal target: its targeted clauses fizzle.
+        if action.target.startswith("selected_") and not context.target_unit_id and self._current_event == "on_deploy":
+            state.event_log.append({"event": "native_rule_no_target", "kind": action.kind,
+                                    "source_card_id": context.source_card_id})
             return
         # Delayed one-shot effects (M10): schedule a discard/return-to-hand to a
         # future turn phase instead of executing immediately. The trigger phase
@@ -1501,7 +1508,10 @@ class NativeRuleEngine:
             start = len(state.event_log)
             # A fight is combat: Heavy Armor reduces each hit, as in an attack.
             from simulator.rules.keywords import KeywordEngine
-            hit = max(0, source.attack - KeywordEngine.heavy_armor(self.cards.get(target.card_id), target))
+            bonus = source.status.get("attack_bonus_against_type")
+            type_bonus = (int(bonus.get("amount", 0)) if isinstance(bonus, dict) and KeywordEngine.matches_type(
+                self.cards.get(target.card_id), target, str(bonus.get("type", ""))) else 0)
+            hit = max(0, source.attack + type_bonus - KeywordEngine.heavy_armor(self.cards.get(target.card_id), target))
             counter = max(0, target.attack - KeywordEngine.heavy_armor(self.cards.get(source.card_id), source))
             resolver.resolve({"type": "damage", "target": "selected_target", "value": {"amount": hit}}, state, EffectContext(context.player_id, source.card_id, source.instance_id, target.instance_id))
             self.emit_damage_since(state, start)
@@ -1583,8 +1593,29 @@ class NativeRuleEngine:
         if action.kind == "develop":
             self._develop(action, state, context)
             return
-        if action.kind == "target_filter":
-            return   # a validation marker (PlayCardAction reads card_name: air/ground/frontline)
+        if action.kind == "remove_while_source_lives" and context.target_unit_id and context.source_unit_id:
+            # KYOTO REGIMENT: "Remove an enemy unit until this unit leaves the
+            # battlefield."  The removed card waits on the Kyoto unit.
+            unit = find_unit(state, context.target_unit_id)
+            owner = state.players[unit.owner_id]
+            if unit.instance_id in state.battlefield.get(unit.position, []):
+                state.battlefield[unit.position].remove(unit.instance_id)
+            owner.units.remove(unit)
+            self._cleanup_continuous_effects(state, unit.owner_id, unit.instance_id)
+            find_unit(state, context.source_unit_id).status.setdefault("holding_removed", []).append(
+                [unit.card_id, unit.owner_id])
+            state.event_log.append({"event": "unit_removed", "unit_id": unit.instance_id, "held_by": context.source_unit_id})
+            self.left_battlefield(state, unit, unit.owner_id)
+            return
+        if action.kind == "return_all_to_hand":
+            # LEOPOLD: "Send all enemy units to hand" -- right-most first; a full
+            # hand removes the rest.
+            owner_id = opponent_id(state, context.player_id) if action.target == "enemy_units" else context.player_id
+            for unit in sorted(list(state.players[owner_id].units), key=lambda u: (u.position != "frontline", -_line_index(state, u))):
+                self._displace_unit(state, unit, "unit_returned_to_hand", "native_rule_hand_full_removed")
+            return
+        if action.kind in ("target_filter", "target_max_attack"):
+            return   # validation markers, read by PlayCardAction.validate
         if action.kind == "buff_per_friendly_type" and context.target_unit_id:
             # UNITY IS STRENGTH: "+1+1 for each friendly infantry unit on the battlefield".
             count = sum(1 for unit in state.players[context.player_id].units
@@ -2520,11 +2551,23 @@ class NativeRuleEngine:
             return
         state.event_log.append({"event": "choose_one_no_scope", "scope": action.scope})
 
+    def release_held(self, state, unit) -> None:
+        """KYOTO REGIMENT left: the unit it removed comes back (owner's support
+        line, or hand when that line is full)."""
+        for card_id, owner_id in unit.status.pop("holding_removed", []) or []:
+            back = self._new_unit(state, owner_id, card_id)
+            if back is None:
+                _hand_or_graveyard(state, owner_id, card_id)
+            else:
+                back.status.pop("deployed_this_turn", None)
+            state.event_log.append({"event": "held_unit_returned", "card_id": card_id, "player_id": owner_id})
+
     def left_battlefield(self, state, unit, owner_id: str) -> None:
         """An undestroyed unit left the battlefield (sent to hand, removed).
 
         DORNIER DO 17Z and KANAZAWA REGIMENT listen for this.
         """
+        self.release_held(state, unit)
         self.emit("on_unit_left_battlefield", state, EffectContext(
             owner_id, unit.card_id, event="on_unit_left_battlefield",
             metadata={"left_unit_id": unit.instance_id, "left_card_id": unit.card_id}))

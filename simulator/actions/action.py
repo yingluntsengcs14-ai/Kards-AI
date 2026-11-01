@@ -126,7 +126,13 @@ class PlayCardAction(Action):
                 and counters.units_deployed(state, self.player_id, 0):
             raise ActionValidationError("Cannot be deployed after deploying a unit this turn")
         aims_at_hq = any(action.scope == "or_enemy_hq" for action in rule.actions) and self.target_unit_id is None
-        if card.type != "countermeasure" and rule.needs_target and not aims_at_hq:
+        # A unit's Deployment target is mandatory while a legal target exists,
+        # and the unit may still be deployed (the effect does nothing) when none
+        # does (confirmed in game: HS 129, HE 219, 2nd RAIDING BRIGADE).  An
+        # order with no legal target cannot be played.
+        untargeted_deploy = (self.target_unit_id is None and card.is_unit and rule.needs_target
+                             and not aims_at_hq and not _has_valid_target(self, state, cards))
+        if card.type != "countermeasure" and rule.needs_target and not aims_at_hq and not untargeted_deploy:
             if self.target_unit_id is None:
                 raise ActionValidationError("This card requires a unit target")
             target = find_unit(state, self.target_unit_id)
@@ -160,6 +166,9 @@ class PlayCardAction(Action):
                 family, _, nation = (held.scope or "").partition(":")
                 if not _hand_unit_matches(cards.get(target.card_id), family, nation):
                     raise ActionValidationError("Target is not a unit this card can remove")
+            max_attack = next((action.amount for action in rule.actions if action.kind == "target_max_attack"), None)
+            if max_attack is not None and target.attack > max_attack:
+                raise ActionValidationError("Target's attack is above this card's limit")
             take = next((action for action in rule.actions if action.kind == "take_control"), None)
             if take is not None:
                 # "Take control of an enemy unit with cost 3 or less": the cap
@@ -639,6 +648,19 @@ class UseAbilityAction(Action):
     def execute(self, state: GameState, cards: CardDatabase) -> GameState:
         self.validate(state, cards)
         return state
+
+
+def _has_valid_target(action: "PlayCardAction", state: GameState, cards: CardDatabase) -> bool:
+    """Whether any unit on the battlefield is a legal target for ``action``."""
+    from dataclasses import replace as _replace
+    for player in state.players.values():
+        for unit in player.units:
+            try:
+                _replace(action, target_unit_id=unit.instance_id).validate(state, cards)
+                return True
+            except ActionValidationError:
+                continue
+    return False
 
 
 def _emit_after_attack(state: GameState, cards: CardDatabase, player_id: str, attacker: UnitState) -> None:
