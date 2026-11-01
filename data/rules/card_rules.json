@@ -322,17 +322,15 @@
     {
       "card_id": "85_pioneer_company",
       "source_text": "The first order you play each turn costs 1 less.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_hand_cost",
-          "target": "owner",
-          "amount": -1,
+          "kind": "aura",
+          "target": "source",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "first_order_discount",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -1821,7 +1819,21 @@
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "BLAST|PLAN|PRODUCTION|then Develop a British Navy card",
+          "card_name": "BLAST|PLAN|PRODUCTION",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "develop",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "a British Navy card",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -4136,7 +4148,7 @@
         {
           "kind": "add_card",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": "RADAR",
@@ -4144,7 +4156,21 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
+          "condition": "mode:RADAR",
+          "on": []
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "EXPANDED ROYAL RESEARCH",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "mode:EXPANDED ROYAL RESEARCH",
           "on": []
         }
       ],
@@ -6613,36 +6639,18 @@
       ],
       "actions": [
         {
-          "kind": "choose_one",
+          "kind": "order_to_deck_top_free",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "hand",
+          "scope": "hand:order",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
-        },
-        {
-          "kind": "modify_hand_cost",
-          "target": "owner",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": 0,
-          "duration": null,
-          "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -7845,6 +7853,20 @@
           "duration": null,
           "condition": null,
           "on": []
+        },
+        {
+          "kind": "units_op_cost",
+          "target": "friendly_units",
+          "amount": -1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
         }
       ],
       "status": "implemented",
@@ -8789,20 +8811,6 @@
       ],
       "actions": [
         {
-          "kind": "modify_hand_cost",
-          "target": "owner",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": 0,
-          "duration": null,
-          "condition": "when drawn.",
-          "on": []
-        },
-        {
           "kind": "gain_kredits",
           "target": "owner",
           "amount": -1,
@@ -8859,10 +8867,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when drawn."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "sally",
@@ -9499,12 +9505,12 @@
       ],
       "actions": [
         {
-          "kind": "add_to_enemy_deck",
+          "kind": "resistance_to_enemy_deck",
           "target": "enemy_hand",
-          "amount": 1,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
-          "card_name": "resistance cards",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -9875,12 +9881,12 @@
       ],
       "actions": [
         {
-          "kind": "add_to_enemy_deck",
+          "kind": "resistance_to_enemy_deck",
           "target": "enemy_hand",
-          "amount": 1,
+          "amount": 3,
           "attack": 0,
           "defense": 0,
-          "card_name": "resistance cards",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -10066,26 +10072,12 @@
       ],
       "actions": [
         {
-          "kind": "damage",
+          "kind": "resistance_to_enemy_deck",
           "target": "selected_target",
           "amount": 5,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "add_to_enemy_deck",
-          "target": "enemy_hand",
-          "amount": 1,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "resistance card",
+          "card_name": "excess",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -10130,6 +10122,20 @@
       ],
       "actions": [
         {
+          "kind": "gain_hq_defense",
+          "target": "owner",
+          "amount": 8,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "mode:HQ +8",
+          "on": []
+        },
+        {
           "kind": "draw",
           "target": "owner",
           "amount": 2,
@@ -10140,7 +10146,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
+          "condition": "mode:draw 2",
           "on": []
         }
       ],
@@ -10835,7 +10841,7 @@
       "card_id": "158_nachschub",
       "source_text": "Once per turn, gain 2 kredits when an enemy unit is destroyed during your turn.",
       "triggers": [
-        "on_deploy"
+        "on_destroy"
       ],
       "actions": [
         {
@@ -10849,7 +10855,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when an enemy unit is destroyed during your turn.",
+          "condition": "when an enemy unit is destroyed during your turn",
           "on": []
         }
       ],
@@ -12562,12 +12568,12 @@
       ],
       "actions": [
         {
-          "kind": "draw",
+          "kind": "draw_count",
           "target": "owner",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "unit_type_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -13754,16 +13760,16 @@
       ],
       "actions": [
         {
-          "kind": "modify_attack",
+          "kind": "frontline_this_turn",
           "target": "friendly_units",
-          "amount": 3,
-          "attack": 0,
+          "amount": -1,
+          "attack": 3,
           "defense": 0,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": "this_turn",
+          "duration": null,
           "condition": null,
           "on": []
         }
@@ -14564,7 +14570,7 @@
         {
           "kind": "add_card",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": "V-1 FLYING BOMB",
@@ -14572,7 +14578,21 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
+          "condition": "mode:V-1 FLYING BOMB",
+          "on": []
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "EXPANDED REICH R&D",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "mode:EXPANDED REICH R&D",
           "on": []
         }
       ],
@@ -15174,12 +15194,12 @@
       ],
       "actions": [
         {
-          "kind": "draw_top_matching",
+          "kind": "draw_to_enemy_hand_size",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "cards until you have as many cards in your hand as the enemy",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -18731,20 +18751,18 @@
       ],
       "actions": [
         {
-          "kind": "buff",
+          "kind": "buff_per",
           "target": "source",
           "amount": 0,
           "attack": 1,
           "defense": 1,
-          "card_name": null,
+          "card_name": "other_friendly_air_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -20020,7 +20038,7 @@
       "card_id": "1st_signal_regiment",
       "source_text": "When another friendly unit is destroyed, deal 1 damage to the enemy HQ.",
       "triggers": [
-        "on_deploy"
+        "on_destroy"
       ],
       "actions": [
         {
@@ -20034,7 +20052,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When another friendly unit is destroyed",
+          "condition": "when another friendly unit is destroyed",
           "on": []
         }
       ],
@@ -20108,17 +20126,15 @@
     {
       "card_id": "3rd_yokosuka",
       "source_text": "Has +1 attack for each adjacent Japanese unit.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_attack",
+          "kind": "aura",
           "target": "source",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "adjacent_japanese_attack",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -21375,7 +21391,7 @@
       "card_id": "shibata_regiment",
       "source_text": "When the enemy gives an order, deal 1 damage to the enemy HQ.",
       "triggers": [
-        "on_deploy"
+        "on_command_played"
       ],
       "actions": [
         {
@@ -21389,7 +21405,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When the enemy gives an order",
+          "condition": "when the enemy gives an order",
           "on": []
         }
       ],
@@ -21608,17 +21624,15 @@
     {
       "card_id": "type_93",
       "source_text": "Your other units have +1 attack.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_attack",
-          "target": "friendly_units",
-          "amount": 1,
+          "kind": "aura",
+          "target": "source",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "other_units_attack",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -22195,7 +22209,21 @@
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "enemy_units",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "damage",
+          "target": "enemy_hq",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -22739,12 +22767,12 @@
           "on": []
         },
         {
-          "kind": "destroy",
+          "kind": "destroy_same_name",
           "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "__target_name__",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -24149,20 +24177,18 @@
       ],
       "actions": [
         {
-          "kind": "draw_top_matching",
+          "kind": "draw_random_units_of_cost",
           "target": "owner",
-          "amount": 0,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
-          "card_name": "random 1-cost units",
+          "card_name": "1",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -25259,13 +25285,27 @@
       "card_id": "jungle_warfare",
       "source_text": "Give a unit: \\\"Destruction: Deal 2 damage to a random enemy.\\\" Trigger its Destruction effects.",
       "triggers": [
-        "on_destroy"
+        "on_play"
       ],
       "actions": [
         {
-          "kind": "damage",
-          "target": "random_enemy",
-          "amount": 2,
+          "kind": "grant_destruction",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "random_enemy2",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "trigger_destruction",
+          "target": "selected_target",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -26521,7 +26561,7 @@
       "card_id": "utsunomiya_regiment",
       "source_text": "When the enemy gives an order, deal 2 damage to the enemy HQ.",
       "triggers": [
-        "on_deploy"
+        "on_command_played"
       ],
       "actions": [
         {
@@ -26535,7 +26575,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When the enemy gives an order",
+          "condition": "when the enemy gives an order",
           "on": []
         }
       ],
@@ -26602,13 +26642,13 @@
       ],
       "actions": [
         {
-          "kind": "destroy",
-          "target": "selected_target",
+          "kind": "destroy_all_filtered",
+          "target": "all_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "max_attack:4",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -26781,13 +26821,28 @@
       "card_id": "ki61itei",
       "source_text": "Destruction: Deal 2 damage to the enemy HQ, give yours +2 defense.",
       "triggers": [
-        "on_destroy",
-        "on_deploy"
+        "on_destroy"
       ],
       "actions": [
         {
           "kind": "damage",
           "target": "enemy_hq",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": [
+            "on_destroy"
+          ]
+        },
+        {
+          "kind": "gain_hq_defense",
+          "target": "owner",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -27161,7 +27216,7 @@
       "actions": [
         {
           "kind": "destroy",
-          "target": "selected_target",
+          "target": "all_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -29149,7 +29204,7 @@
       "card_id": "329th_engineer_battalion",
       "source_text": "When another friendly unit is destroyed, your HQ gains +2 defense.",
       "triggers": [
-        "on_deploy"
+        "on_destroy"
       ],
       "actions": [
         {
@@ -29163,7 +29218,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When another friendly unit is destroyed",
+          "condition": "when another friendly unit is destroyed",
           "on": []
         }
       ],
@@ -30260,8 +30315,7 @@
       "card_id": "289th_gatchina",
       "source_text": "Destruction: Draw a card. Your HQ gains defense equal to its cost.",
       "triggers": [
-        "on_destroy",
-        "on_deploy"
+        "on_destroy"
       ],
       "actions": [
         {
@@ -30283,7 +30337,7 @@
         {
           "kind": "gain_hq_defense",
           "target": "owner",
-          "amount": 1,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -30440,17 +30494,15 @@
     {
       "card_id": "60th_cavalry_regiment",
       "source_text": "Players can only give one order each turn.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "enemy_cannot_order",
-          "target": "enemy_hand",
+          "kind": "aura",
+          "target": "source",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "one_order_per_turn",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -30793,13 +30845,13 @@
           "on": []
         },
         {
-          "kind": "buff",
+          "kind": "buff_per",
           "target": "selected_target",
           "amount": 0,
           "attack": 2,
           "defense": 1,
-          "card_name": "",
-          "scope": "tank",
+          "card_name": "damaged_unit_count",
+          "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -32531,20 +32583,18 @@
       ],
       "actions": [
         {
-          "kind": "draw",
+          "kind": "draw_count",
           "target": "owner",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "units_two_combat_keywords",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -33026,17 +33076,16 @@
       "card_id": "ilyushin_il10",
       "source_text": "Destruction: Add your last destroyed ground unit to your support line.",
       "triggers": [
-        "on_destroy",
-        "on_deploy"
+        "on_destroy"
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "deploy_last_destroyed_ground",
           "target": "owner",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "your last destroyed ground",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -33996,12 +34045,12 @@
       ],
       "actions": [
         {
-          "kind": "draw_top_matching",
+          "kind": "draw_count",
           "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "cards equal to the number of enemy units on the battlefield",
+          "card_name": "enemy_unit_count",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -35526,7 +35575,7 @@
       "card_id": "kv1_1941",
       "source_text": "Each time the enemy draws a card, deal 2 damage to the enemy HQ.",
       "triggers": [
-        "on_deploy"
+        "on_enemy_card_drawn"
       ],
       "actions": [
         {
@@ -35752,16 +35801,30 @@
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "all_units",
           "amount": 5,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "ground",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
+          "condition": "mode:ground units",
+          "on": []
+        },
+        {
+          "kind": "damage",
+          "target": "all_units",
+          "amount": 5,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "air",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "mode:air units",
           "on": []
         }
       ],
@@ -35857,13 +35920,13 @@
       ],
       "actions": [
         {
-          "kind": "destroy",
-          "target": "selected_target",
+          "kind": "destroy_all_filtered",
+          "target": "all_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "max_combat_keywords:1",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -36019,34 +36082,20 @@
       "card_id": "front_formation",
       "source_text": "Your HQ gets: \\\"At the start of your turn, take 1 damage and add a T-34 1942 to your support line. Destroy it at the end of the turn.\\\"",
       "triggers": [
-        "on_turn_start"
+        "on_play"
       ],
       "actions": [
         {
-          "kind": "deploy_named",
+          "kind": "hq_turn_start_effect",
           "target": "owner",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "T-34 1942",
+          "card_name": "front_formation",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "delayed_destroy",
-          "target": "referent",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": "end_of_turn",
           "condition": null,
           "on": []
         }
@@ -37814,25 +37863,22 @@
       "card_id": "507th_pir",
       "source_text": "At the end of your turn, give a random friendly infantry unit +2 attack.",
       "triggers": [
-        "on_turn_end",
-        "on_deploy"
+        "on_turn_end"
       ],
       "actions": [
         {
-          "kind": "modify_attack",
-          "target": "selected_friendly",
-          "amount": 2,
-          "attack": 0,
+          "kind": "buff_random_friendly",
+          "target": "owner",
+          "amount": 0,
+          "attack": 2,
           "defense": 0,
-          "card_name": "",
+          "card_name": null,
           "scope": "infantry",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "At the end of your turn",
-          "on": [
-            "on_turn_end"
-          ]
+          "condition": null,
+          "on": []
         }
       ],
       "status": "implemented",
@@ -38519,8 +38565,22 @@
           "on": []
         },
         {
-          "kind": "modify_defense",
-          "target": "selected_target",
+          "kind": "gain_hq_defense",
+          "target": "owner",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "gain_hq_defense",
+          "target": "enemy_hand",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -38535,7 +38595,49 @@
         {
           "kind": "gain_kredit_slot",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "gain_kredit_slot",
+          "target": "enemy_hand",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "draw",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "draw",
+          "target": "enemy_hand",
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -39143,7 +39245,21 @@
       "actions": [
         {
           "kind": "buff",
-          "target": "friendly_units",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "pending_buff_top_unit",
+          "target": "owner",
           "amount": 0,
           "attack": 1,
           "defense": 1,
@@ -40907,7 +41023,7 @@
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "DEATH FROM ABOVE|UNITY IS STRENGTH|WE CAN DO IT",
+          "card_name": "DEATH FROM ABOVE|UNITY IS STRENGTH|WE CAN DO IT!",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -42081,9 +42197,9 @@
       ],
       "actions": [
         {
-          "kind": "gain_kredit_slot",
+          "kind": "slots_per_frontline",
           "target": "owner",
-          "amount": 1,
+          "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -42092,25 +42208,7 @@
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
-        },
-        {
-          "kind": "aura_buff",
-          "target": "friendly_units",
-          "amount": 0,
-          "attack": 0,
-          "defense": 0,
-          "card_name": "Your units gain equal amount of attack.",
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
         }
       ],
       "status": "implemented",
@@ -42895,12 +42993,12 @@
           "on": []
         },
         {
-          "kind": "draw_top_matching",
+          "kind": "extra_draw_next_turn",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": "additional card at the beginning of next turn",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -45446,8 +45544,8 @@
           "on": []
         },
         {
-          "kind": "damage",
-          "target": "selected_target",
+          "kind": "hq_take_damage",
+          "target": "owner",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -45506,10 +45604,25 @@
       "card_id": "dingo",
       "source_text": "When this unit attacks the enemy HQ, your HQ gets +1 defense and you draw a card.",
       "triggers": [
-        "on_attack",
-        "on_deploy"
+        "on_attack"
       ],
       "actions": [
+        {
+          "kind": "gain_hq_defense",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when this unit attacks the enemy hq",
+          "on": [
+            "on_attack"
+          ]
+        },
         {
           "kind": "draw",
           "target": "owner",
@@ -45521,7 +45634,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "When this unit attacks the enemy HQ",
+          "condition": "when this unit attacks the enemy hq",
           "on": [
             "on_attack"
           ]
@@ -46554,7 +46667,7 @@
       "card_id": "special_attack",
       "source_text": "Lose a kredit slot. Your units get: \\\"Destruction: Deal 1 damage to the enemy HQ. Gain a kredit slot.\\\"",
       "triggers": [
-        "on_destroy"
+        "on_play"
       ],
       "actions": [
         {
@@ -46572,26 +46685,12 @@
           "on": []
         },
         {
-          "kind": "damage",
-          "target": "enemy_hq",
-          "amount": 1,
+          "kind": "grant_destruction",
+          "target": "friendly_units",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
-          "scope": "",
-          "min_cost": 0,
-          "set_cost": null,
-          "duration": null,
-          "condition": null,
-          "on": []
-        },
-        {
-          "kind": "gain_kredit_slot",
-          "target": "owner",
-          "amount": 1,
-          "attack": 0,
-          "defense": 0,
-          "card_name": null,
+          "card_name": "hq1_slot1",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -47215,7 +47314,7 @@
         {
           "kind": "add_card",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": "BALLOON BOMBS",
@@ -47223,7 +47322,21 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
+          "condition": "mode:BALLOON BOMBS",
+          "on": []
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "EXPANDED IMPERIAL R&D",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "mode:EXPANDED IMPERIAL R&D",
           "on": []
         }
       ],
@@ -47373,7 +47486,7 @@
         {
           "kind": "add_card",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": "AEROSANI",
@@ -47381,7 +47494,21 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
+          "condition": "mode:AEROSANI",
+          "on": []
+        },
+        {
+          "kind": "add_card",
+          "target": "owner",
+          "amount": 1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "EXPANDED SOVIET RESEARCH",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "mode:EXPANDED SOVIET RESEARCH",
           "on": []
         }
       ],
@@ -47758,7 +47885,7 @@
       "card_id": "j2m_raiden",
       "source_text": "Gets +1+1 and -1 operation cost when the enemy gives an order.",
       "triggers": [
-        "on_deploy"
+        "on_command_played"
       ],
       "actions": [
         {
@@ -47772,7 +47899,21 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "when the enemy gives an order.",
+          "condition": "when the enemy gives an order",
+          "on": []
+        },
+        {
+          "kind": "modify_operation_cost",
+          "target": "source",
+          "amount": -1,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "when the enemy gives an order",
           "on": []
         }
       ],
@@ -47801,12 +47942,12 @@
           "on": []
         },
         {
-          "kind": "modify_attack",
-          "target": "selected_target",
-          "amount": 2,
+          "kind": "aura",
+          "target": "source",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "left_units_attack",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -47904,8 +48045,8 @@
       ],
       "actions": [
         {
-          "kind": "move_to_support_line",
-          "target": "selected_enemy",
+          "kind": "retreat_all_enemy",
+          "target": "enemy_units",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -47928,7 +48069,7 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "unless played from right-most in hand.",
+          "condition": "unless played from right-most in hand",
           "on": []
         }
       ],
@@ -48068,20 +48209,32 @@
       ],
       "actions": [
         {
-          "kind": "buff",
-          "target": "friendly_units",
+          "kind": "target_filter",
+          "target": "selected_friendly",
           "amount": 0,
-          "attack": 5,
-          "defense": 5,
-          "card_name": "",
-          "scope": "infantry",
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "on": []
+        },
+        {
+          "kind": "buff_same_name_everywhere",
+          "target": "selected_friendly",
+          "amount": 0,
+          "attack": 5,
+          "defense": 5,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
         }
       ],
       "status": "implemented",
@@ -48090,17 +48243,15 @@
     {
       "card_id": "909th_roslavl",
       "source_text": "Your infantry have Blitz.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "grant_ability",
-          "target": "friendly_units",
+          "kind": "aura",
+          "target": "source",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "blitz",
+          "card_name": "infantry_blitz",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
@@ -48421,7 +48572,21 @@
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "enemy_units",
+          "amount": 2,
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "damage",
+          "target": "enemy_hq",
           "amount": 2,
           "attack": 0,
           "defense": 0,
@@ -49010,10 +49175,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if it had an attack of 3 or less."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "advanced_imperial_rd",

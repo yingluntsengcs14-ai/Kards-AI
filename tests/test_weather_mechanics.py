@@ -177,7 +177,7 @@ class WeatherStateTests(unittest.TestCase):
         """陰雲密佈（Forecast. 全部總部 +2 防禦…）打出後要留下預報。"""
         # 卡面的「全部總部 +2 防禦」被解析成需要指定目標，所以要給一個單位。
         state = self._state(p1_hand=("overcast",), p1_units=(("u1", "garrison", 0, 3),), kredits=6)
-        PlayCardAction("p1", "overcast", target_unit_id="u1").execute(state, self.cards)
+        PlayCardAction("p1", "overcast", selected_option="sunny").execute(state, self.cards)
         self.assertIsNotNone(weather.pending_forecast(state, "p1"),
                              "陰雲密佈沒有產生預報")
 
@@ -200,7 +200,7 @@ class WeatherStateTests(unittest.TestCase):
     def test_forecast_uses_the_chosen_category(self) -> None:
         """Forecast 時玩家選的類型要被採用。"""
         state = self._state(p1_hand=("overcast",), p1_units=(("u1", "garrison", 0, 3),))
-        PlayCardAction("p1", "overcast", "support_line", "u1", None, "rain").execute(state, self.cards)
+        PlayCardAction("p1", "overcast", "support_line", None, None, "rain").execute(state, self.cards)
         self.assertEqual(weather.pending_forecast(state, "p1"), "mist")
 
     def test_forecast_card_offers_one_action_per_category(self) -> None:

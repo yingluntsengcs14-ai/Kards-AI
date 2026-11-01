@@ -13,6 +13,7 @@ class AbilityEngine:
         name = ability.lower()
         removed = {item.lower() for item in unit.status.get("removed_abilities", ())}
         added = {item.lower() for item in unit.status.get("added_abilities", ())}
+        added |= {item.lower() for item in unit.status.get("aura_abilities", ())}   # 909th ROSLAVL
         static = {item.lower().split(":", 1)[0] for item in card.abilities}
         return name not in removed and (name in static or name in added)
 

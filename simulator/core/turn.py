@@ -47,6 +47,29 @@ class TurnManager:
                 TurnManager.draw_card(state, player_id)
             finally:
                 player.status.pop("_turn_draw", None)
+        # WAR BONDS: "Draw an additional card at the beginning of next turn."
+        extra = int(player.status.pop("extra_draw_next_turn", 0) or 0)
+        if extra:
+            start = len(state.event_log)
+            for _ in range(extra):
+                TurnManager.draw_card(state, player_id)
+            from simulator.rules.native import NativeRuleEngine as _Engine
+            if _Engine._last_engine is not None:
+                _Engine._last_engine.emit_draws_since(state, start)
+        # FRONT FORMATION: "At the start of your turn, take 1 damage and add a
+        # T-34 1942 to your support line. Destroy it at the end of the turn."
+        for effect in list(player.status.get("hq_turn_start", ())):
+            if effect == "front_formation":
+                HQResolver.damage(state, player_id, 1)
+                from simulator.rules.native import NativeRuleEngine as _Engine
+                engine = _Engine._last_engine
+                if engine is not None:
+                    from simulator.effects.resolver import EffectContext
+                    before = {u.instance_id for u in player.units}
+                    engine._deploy_named_card(state, EffectContext(player_id, "front_formation"), "t34_1942")
+                    for unit in player.units:
+                        if unit.instance_id not in before:
+                            unit.status["destroy_at_end_of_turn"] = True
         # FRONT AND HOMELAND: "Draw from your deck on turn 4."
         own_turn = (state.turn_number + 1) // 2 if player_id == "p1" else state.turn_number // 2
         if own_turn == 4 and "front_and_homeland" in player.deck and len(player.hand) < 9:
@@ -90,6 +113,9 @@ class TurnManager:
         hand_effects.card_entered_hand(state, player_id, card_id, from_deck=True)
         if not player.status.get("_turn_draw"):
             TurnManager._extra_draw(state, player_id)
+        if card_id == "resistance_b":
+            from simulator.rules import meta_mechanics
+            meta_mechanics.resistance_drawn(state, player_id)
         return card_id
 
     @staticmethod
@@ -135,6 +161,15 @@ class TurnManager:
         # layer (native -> effects -> turn).
         from simulator.rules.native import NativeRuleEngine
         NativeRuleEngine.revert_temporary(state, player_id, state.turn_number)
+        # FRONT FORMATION's T-34 1942: "Destroy it at the end of the turn."
+        doomed = [u for u in state.players[player_id].units if u.status.get("destroy_at_end_of_turn")]
+        if doomed:
+            from simulator.effects import basic_effects
+            start = len(state.event_log)
+            for unit in doomed:
+                basic_effects.destroy(state, unit)
+            if NativeRuleEngine._last_engine is not None:
+                NativeRuleEngine._last_engine.emit_deaths_since(state, start)
         # "Has 0 operation cost this turn" (6th INFANTRY BRIGADE, OUTMANEUVER).
         for side in state.players.values():
             for unit in side.units:

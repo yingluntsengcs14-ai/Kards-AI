@@ -248,6 +248,151 @@ class RuleParser:
     # ── Cards in tournament decks whose wording the templates misread ───────
     # (data/decks/meta_decks.json, 2026-10-27).  Each comment quotes the card.
     _META_DECK_CARD_RULES: dict = {
+
+        # ── meta-deck audit 2026-11-01 (tools/card_probe.py) ─────────────
+        # "Deal 2 damage to all enemies." = every enemy unit and the enemy HQ.
+        # RESISTANCE plays itself when drawn (meta_mechanics.resistance_drawn).
+        "resistance_b": (("on_play",), (
+            RuleAction("gain_kredits", "owner", amount=-1), RuleAction("hq_take_damage", "owner", amount=1),
+            RuleAction("pin", "selected_friendly"), RuleAction("draw", "owner", amount=1)), "implemented", ()),
+        "desperate_measures": (("on_play",), (
+            RuleAction("damage", "enemy_units", amount=2), RuleAction("damage", "enemy_hq", amount=2),
+            RuleAction("lose_kredit_slot", "owner", amount=1)), "implemented", ()),
+        "the_anzac_spirit": (("on_play",), (
+            RuleAction("damage", "enemy_units", amount=2), RuleAction("damage", "enemy_hq", amount=2),
+            RuleAction("draw", "owner", amount=2), RuleAction("gain_kredit_slot", "owner", amount=2)), "implemented", ()),
+        "to_the_last_man": (("on_play",), (RuleAction("destroy", "all_units"),), "implemented", ()),
+        "banzai": (("on_play",), (RuleAction("destroy_all_filtered", "all_units", scope="max_attack:4"),
+                                  RuleAction("end_turn", "owner")), "implemented", ()),
+        "monastyr": (("on_play",), (RuleAction("destroy_all_filtered", "all_units", scope="max_combat_keywords:1"),),
+                     "implemented", ()),
+        "repel_the_attack": (("on_play",), (
+            RuleAction("retreat_all_enemy", "enemy_units"),
+            RuleAction("end_turn", "owner", condition="unless played from right-most in hand")), "implemented", ()),
+        # "Choose One - Deal 5 damage to all ground units OR air units."
+        "strategic_focus": (("on_play",), (
+            RuleAction("damage", "all_units", amount=5, scope="ground", condition="mode:ground units"),
+            RuleAction("damage", "all_units", amount=5, scope="air", condition="mode:air units")), "implemented", ()),
+        # "Forecast. All HQs get +2 defense. All players gain an extra kredit slot and draw a card."
+        "overcast": (("on_play",), (
+            RuleAction("forecast", "owner"),
+            RuleAction("gain_hq_defense", "owner", amount=2), RuleAction("gain_hq_defense", "enemy_hand", amount=2),
+            RuleAction("gain_kredit_slot", "owner", amount=1), RuleAction("gain_kredit_slot", "enemy_hand", amount=1),
+            RuleAction("draw", "owner", amount=1), RuleAction("draw", "enemy_hand", amount=1)), "implemented", ()),
+        # Choose One research orders.
+        "imperial_research": (("on_play",), (
+            RuleAction("add_card", "owner", amount=1, card_name="BALLOON BOMBS", condition="mode:BALLOON BOMBS"),
+            RuleAction("add_card", "owner", amount=1, card_name="EXPANDED IMPERIAL R&D", condition="mode:EXPANDED IMPERIAL R&D")),
+            "implemented", ()),
+        "soviet_military_research": (("on_play",), (
+            RuleAction("add_card", "owner", amount=1, card_name="AEROSANI", condition="mode:AEROSANI"),
+            RuleAction("add_card", "owner", amount=1, card_name="EXPANDED SOVIET RESEARCH", condition="mode:EXPANDED SOVIET RESEARCH")),
+            "implemented", ()),
+        "royal_research": (("on_play",), (
+            RuleAction("add_card", "owner", amount=1, card_name="RADAR", condition="mode:RADAR"),
+            RuleAction("add_card", "owner", amount=1, card_name="EXPANDED ROYAL RESEARCH", condition="mode:EXPANDED ROYAL RESEARCH")),
+            "implemented", ()),
+        "reich_research": (("on_play",), (
+            RuleAction("add_card", "owner", amount=1, card_name="V-1 FLYING BOMB", condition="mode:V-1 FLYING BOMB"),
+            RuleAction("add_card", "owner", amount=1, card_name="EXPANDED REICH R&D", condition="mode:EXPANDED REICH R&D")),
+            "implemented", ()),
+        "call_to_the_colonies": (("on_play",), (
+            RuleAction("gain_hq_defense", "owner", amount=8, condition="mode:HQ +8"),
+            RuleAction("draw", "owner", amount=2, condition="mode:draw 2")), "implemented", ()),
+        # Counted draws and buffs.
+        "by_the_sword": (("on_play",), (RuleAction("draw_count", "owner", card_name="enemy_unit_count"),), "implemented", ()),
+        "enigma": (("on_play",), (RuleAction("draw_to_enemy_hand_size", "owner"),), "implemented", ()),
+        "conquest": (("on_play",), (RuleAction("draw_count", "owner", card_name="unit_type_count"),), "implemented", ()),
+        "44th_silesia": (("on_deploy",), (RuleAction("draw_count", "owner", card_name="units_two_combat_keywords"),),
+                         "implemented", ()),
+        "macchi_c_200": (("on_deploy",), (RuleAction("buff_per", "source", attack=1, defense=1,
+                                                      card_name="other_friendly_air_count"),), "implemented", ()),
+        "15th_engineers": (("on_deploy",), (RuleAction("slots_per_frontline", "owner"),), "implemented", ()),
+        "counter_offensive": (("on_play",), (
+            RuleAction("target_filter", "selected_target", card_name="infantry|tank"),
+            RuleAction("buff_per", "selected_target", attack=2, defense=1, card_name="damaged_unit_count")),
+            "implemented", ()),
+        "ki46_dinah_iii": (("on_deploy",), (RuleAction("draw_random_units_of_cost", "owner", amount=2, card_name="1"),),
+                           "implemented", ()),
+        # Parts that were missing.
+        "ki61itei": (("on_destroy",), (RuleAction("damage", "enemy_hq", amount=2, on=("on_destroy",)),
+                                       RuleAction("gain_hq_defense", "owner", amount=2, on=("on_destroy",))), "implemented", ()),
+        "dingo": (("on_attack",), (
+            RuleAction("gain_hq_defense", "owner", amount=1, condition="when this unit attacks the enemy hq", on=("on_attack",)),
+            RuleAction("draw", "owner", amount=1, condition="when this unit attacks the enemy hq", on=("on_attack",))),
+            "implemented", ()),
+        "289th_gatchina": (("on_destroy",), (RuleAction("draw", "owner", amount=1, on=("on_destroy",)),
+                                             RuleAction("gain_hq_defense", "owner", amount=2, on=("on_destroy",))),
+                           "implemented", ()),
+        "lotta_svrd": (("on_play",), (RuleAction("modify_defense", "friendly_units", amount=1),
+                                      RuleAction("units_op_cost", "friendly_units", amount=-1)), "implemented", ()),
+        "blitzkrieg": (("on_play",), (RuleAction("frontline_this_turn", "friendly_units", attack=3, amount=-1),),
+                       "implemented", ()),
+        "overpower": (("on_play",), (
+            RuleAction("target_max_attack", "selected_target", amount=2),
+            RuleAction("destroy_same_name", "selected_target", card_name="__target_name__"),), "implemented", ()),
+        "anders_army": (("on_play",), (RuleAction("draw", "owner", amount=2), RuleAction("hq_take_damage", "owner", amount=2)),
+                        "implemented", ()),
+        "liberation": (("on_play",), (RuleAction("resistance_to_enemy_deck", "enemy_hand", amount=3),
+                                      RuleAction("gain_hq_defense", "owner", amount=6)), "implemented", ()),
+        "vive_la_resistance": (("on_play",), (RuleAction("resistance_to_enemy_deck", "enemy_hand", amount=2),
+                                              RuleAction("draw", "owner", amount=1)), "implemented", ()),
+        "arming_the_resistance": (("on_play",), (
+            RuleAction("resistance_to_enemy_deck", "selected_target", amount=5, card_name="excess"),), "implemented", ()),
+        # "Develop BLAST, PLAN or PRODUCTION, then Develop a British Navy card."
+        "bpf": (("on_play",), (RuleAction("develop_options", "owner", card_name="BLAST|PLAN|PRODUCTION"),
+                               RuleAction("develop", "owner", amount=1, card_name="a British Navy card")), "implemented", ()),
+        "41st_infantry_regiment": (("on_deploy",), (
+            RuleAction("develop_options", "owner", card_name="DEATH FROM ABOVE|UNITY IS STRENGTH|WE CAN DO IT!"),),
+            "implemented", ()),
+        "gordon_highlanders": (("on_deploy",), (
+            RuleAction("order_to_deck_top_free", "owner", scope="hand:order"),), "implemented", ()),
+        "uss_the_sullivans": (("on_play",), (
+            RuleAction("buff", "selected_target", attack=1, defense=1),
+            RuleAction("pending_buff_top_unit", "owner", attack=1, defense=1),
+            RuleAction("draw", "owner", amount=1)), "implemented", ()),
+        "116th_infantry_regiment": (("on_deploy",), (
+            RuleAction("target_filter", "selected_friendly", card_name="infantry"),
+            RuleAction("buff_same_name_everywhere", "selected_friendly", attack=5, defense=5)), "implemented", ()),
+        "special_attack": (("on_play",), (RuleAction("lose_kredit_slot", "owner", amount=1),
+                                          RuleAction("grant_destruction", "friendly_units", card_name="hq1_slot1")),
+                           "implemented", ()),
+        "jungle_warfare": (("on_play",), (RuleAction("grant_destruction", "selected_target", card_name="random_enemy2"),
+                                          RuleAction("trigger_destruction", "selected_target")), "implemented", ()),
+        "front_formation": (("on_play",), (RuleAction("hq_turn_start_effect", "owner", card_name="front_formation"),),
+                            "implemented", ()),
+        "war_bonds": (("on_play",), (RuleAction("gain_kredit_slot", "owner", amount=2),
+                                     RuleAction("extra_draw_next_turn", "owner", amount=1)), "implemented", ()),
+        "ilyushin_il10": (("on_destroy",), (RuleAction("deploy_last_destroyed_ground", "owner", on=("on_destroy",)),),
+                          "implemented", ()),
+        # Listeners whose trigger event was never registered.
+        "j2m_raiden": (("on_command_played",), (
+            RuleAction("buff", "source", attack=1, defense=1, condition="when the enemy gives an order"),
+            RuleAction("modify_operation_cost", "source", amount=-1, condition="when the enemy gives an order")),
+            "implemented", ()),
+        "shibata_regiment": (("on_command_played",), (
+            RuleAction("damage", "enemy_hq", amount=1, condition="when the enemy gives an order"),), "implemented", ()),
+        "utsunomiya_regiment": (("on_command_played",), (
+            RuleAction("damage", "enemy_hq", amount=2, condition="when the enemy gives an order"),), "implemented", ()),
+        "329th_engineer_battalion": (("on_destroy",), (
+            RuleAction("gain_hq_defense", "owner", amount=2, condition="when another friendly unit is destroyed"),),
+            "implemented", ()),
+        "1st_signal_regiment": (("on_destroy",), (
+            RuleAction("damage", "enemy_hq", amount=1, condition="when another friendly unit is destroyed"),),
+            "implemented", ()),
+        "158_nachschub": (("on_destroy",), (
+            RuleAction("gain_kredits", "owner", amount=2, condition="when an enemy unit is destroyed during your turn"),),
+            "implemented", ()),
+        "507th_pir": (("on_turn_end",), (RuleAction("buff_random_friendly", "owner", attack=2, scope="infantry"),),
+                      "implemented", ()),
+        "kv1_1941": (("on_enemy_card_drawn",), (RuleAction("damage", "enemy_hq", amount=2),), "implemented", ()),
+        "60th_cavalry_regiment": ((), (RuleAction("aura", "source", card_name="one_order_per_turn"),), "implemented", ()),
+        "85_pioneer_company": ((), (RuleAction("aura", "source", card_name="first_order_discount"),), "implemented", ()),
+        "type_93": ((), (RuleAction("aura", "source", card_name="other_units_attack"),), "implemented", ()),
+        "909th_roslavl": ((), (RuleAction("aura", "source", card_name="infantry_blitz"),), "implemented", ()),
+        "3rd_yokosuka": ((), (RuleAction("aura", "source", card_name="adjacent_japanese_attack"),), "implemented", ()),
+        "matilda_frog": (("on_deploy",), (RuleAction("double_damage_against_type", "source", scope="infantry"),
+                                          RuleAction("aura", "source", card_name="left_units_attack")), "implemented", ()),
         # "Deployment: If you control a tank, target enemy unit must retreat."
         # Without a tank the Deployment asks for no target (confirmed 11-01).
         "hummel": (

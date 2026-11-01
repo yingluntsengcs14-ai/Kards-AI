@@ -63,6 +63,10 @@ class PlayCardAction(Action):
             for enemy_unit in state.players[opponent_id(state, self.player_id)].units:
                 if enemy_unit.status.get("enemy_cannot_order"):
                     raise ActionValidationError("Enemy unit prevents orders")
+            # 60th CAVALRY REGIMENT: "Players can only give one order each turn."
+            if counters.orders_given_this_turn(state, self.player_id) >= 1 and any(
+                    unit.card_id == "60th_cavalry_regiment" for side in state.players.values() for unit in side.units):
+                raise ActionValidationError("Only one order each turn (60th CAVALRY REGIMENT)")
         active = any(entry.get("card_id") == card.id for entry in player.active_countermeasures)
         if card.type == "countermeasure" and active:
             return
@@ -266,6 +270,11 @@ class PlayCardAction(Action):
         hand_index = player.hand.index(self.card_id)
         hand_size = len(player.hand)
         player.hand.remove(self.card_id)
+        free = player.status.get("free_next_copy") or {}
+        if free.get(self.card_id):
+            free[self.card_id] -= 1
+            if not free[self.card_id]:
+                free.pop(self.card_id)
         intel_rules.refresh(state)
         player.resources.kredits -= cost
         for mod in [mod for mod in player.cost_modifiers if mod.get("single_use") and _cost_mod_applies(mod, card, cards)][:1]:
@@ -283,8 +292,15 @@ class PlayCardAction(Action):
                 from simulator.effects import basic_effects
                 victim = random.Random((state.rng_seed or 0) + len(state.event_log)).choice(enemy_units)
                 start = len(state.event_log)
-                basic_effects.destroy(state, victim)
-                engine_for(cards).emit_deaths_since(state, start)
+                # The unit being played already owns a support-line slot: a
+                # unit KYOTO REGIMENT returns on dying must not take it.
+                if card.is_unit:
+                    player.status["_reserved_support"] = 1
+                try:
+                    basic_effects.destroy(state, victim)
+                    engine_for(cards).emit_deaths_since(state, start)
+                finally:
+                    player.status.pop("_reserved_support", None)
         reductions = player.status.get("hand_cost_on_enemy_draw")
         if isinstance(reductions, dict) and self.card_id not in player.hand:
             reductions.pop(self.card_id, None)   # the last copy left the hand
@@ -316,6 +332,8 @@ class PlayCardAction(Action):
                     buffed.pop(card.id)
             if KeywordEngine.has(card, "covert", unit):
                 unit.status["covert"] = True
+            from simulator.rules import meta_mechanics
+            meta_mechanics.apply_pending_buffs(state, self.player_id, unit)
             player.units.append(unit)
             state.battlefield[self.position].append(instance_id)
             apply_op_cost_rules(state, self.player_id, unit, cards)
@@ -765,6 +783,12 @@ def card_play_cost(state: GameState, player_id: str, card, cards: CardDatabase) 
         total -= int(enemy_draws.get(card.id, 0) or 0)
     from simulator.rules import hand_effects
     total = hand_effects.reduced_cost(player, card, total)
+    # 85 PIONEER COMPANY: "The first order you play each turn costs 1 less."
+    if card.type == "order" and counters.orders_given_this_turn(state, player_id) == 0:
+        total -= sum(1 for unit in player.units if unit.card_id == "85_pioneer_company")
+    # GORDON HIGHLANDERS: the order it put on top of the deck costs 0.
+    if (player.status.get("free_next_copy") or {}).get(card.id):
+        total = 0
     total = max(0, total)
     min_cost = max(
         (mod.get("min_cost", 0) for mod in player.cost_modifiers if _cost_mod_applies(mod, card, cards) and mod.get("min_cost")),
@@ -956,3 +980,19 @@ def _deploy_condition_false(rule, state: GameState, action: "PlayCardAction", ca
 def _without_target(rule):
     from dataclasses import replace as _replace
     return _replace(rule, actions=tuple(clause for clause in rule.actions if not clause.target.startswith("selected_")))
+
+
+
+def _refresh_auras_after(method):
+    """Continuous auras (TYPE 93, 909th ROSLAVL, MATILDA FROG ...) follow every action."""
+    def wrapped(self, state, cards):
+        result = method(self, state, cards)
+        from simulator.rules import meta_mechanics
+        meta_mechanics.refresh_auras(state, cards)
+        return result
+    wrapped.__wrapped__ = method
+    return wrapped
+
+
+for _cls in (PlayCardAction, AttackAction, MoveUnitAction, PassAction, UseAbilityAction):
+    _cls.execute = _refresh_auras_after(_cls.execute)

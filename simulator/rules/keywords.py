@@ -27,6 +27,7 @@ class KeywordEngine:
         name = keyword.lower()
         removed = {str(value).lower() for value in (unit.status.get("removed_abilities", ()) if unit else ())}
         added = {str(value).lower() for value in (unit.status.get("added_abilities", ()) if unit else ())}
+        added |= {str(value).lower() for value in (unit.status.get("aura_abilities", ()) if unit else ())}
         static = {value.lower().split(":", 1)[0] for value in card.abilities}
         # "Has Blitz if it has 3 or more attack" (M2A4): held while attack >= N.
         conditional = unit.status.get("keyword_if_attack", {}) if unit is not None else {}

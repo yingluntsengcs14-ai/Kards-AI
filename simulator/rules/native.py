@@ -96,6 +96,8 @@ def hand_choice_matches(scope: str, cards, chosen: str | None, hand, played_card
         return False
     if len(parts) > 1 and parts[1] == "unit" and not card.is_unit:
         return False
+    if len(parts) > 1 and parts[1] == "order" and card.type != "order":
+        return False
     if len(parts) > 2 and parts[2].isdigit() and card.kredits > int(parts[2]):
         return False
     return True
@@ -127,7 +129,8 @@ def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
         put_into_play=_put_into_play_filter(actions),
         may_target_enemy_hq=any(action.scope == "or_enemy_hq" for action in actions),
         hand_choice=next((action.scope for action in actions if (action.scope or "").startswith("hand:")
-                          and action.kind in {"shuffle_selected_into_deck", "copy_hand_unit_to_support", "convert_hand_card_into_target", "convert_hand_card_into_last_destroyed"}), None),
+                          and action.kind in {"shuffle_selected_into_deck", "copy_hand_unit_to_support", "convert_hand_card_into_target", "convert_hand_card_into_last_destroyed",
+                                             "order_to_deck_top_free"}), None),
         develop_from_deck=next((action.amount for action in actions if action.kind == "develop_from_deck"), 0),
         develop_phrase=next((action.card_name for action in actions if action.kind == "develop"
                              and _is_develop_description(action.card_name)), None),
@@ -306,7 +309,8 @@ class NativeRuleEngine:
                 tu = find_unit(state, context.target_unit_id)
                 if tu is not None:
                     ctx = replace(context, metadata={**context.metadata, "target_card_id": tu.card_id, "target_owner_id": tu.owner_id,
-                                                     "target_pinned": bool(tu.status.get("pinned"))})
+                                                     "target_pinned": bool(tu.status.get("pinned")),
+                                                     "target_attack": tu.attack})
             except Exception:
                 pass
         if "reveal target covert" in rule.source_text.lower() and context.target_unit_id:
@@ -382,7 +386,7 @@ class NativeRuleEngine:
             rule = self.rule_for(unit.card_id)
             if event in {"on_turn_start", "on_turn_end"} and unit.owner_id != context.player_id:
                 continue
-            if event == "on_card_drawn" and unit.owner_id != context.player_id:
+            if event in {"on_card_drawn", "on_enemy_card_drawn"} and unit.owner_id != context.player_id:
                 continue
             if event == "on_friendly_card_played" and unit.owner_id != context.player_id:
                 continue
@@ -474,6 +478,13 @@ class NativeRuleEngine:
                         fired += 1
                     else:
                         break
+                # SPECIAL ATTACK / JUNGLE WARFARE: Destruction effects given to it.
+                if death.get("granted_destruction"):
+                    from simulator.rules import meta_mechanics
+                    ghost = UnitState(unit_id, card_id, 0, 0, player_id)
+                    ghost.status["granted_destruction"] = list(death["granted_destruction"])
+                    for _ in range(repeats):
+                        meta_mechanics.fire_destruction(self, state, ghost, owner=player_id)
                 # 738. JÄGER's mark: its owner draws when the marked unit dies.
                 for marker_id, marker in state.players.items():
                     marks = marker.status.get("draw_when_destroyed") or {}
@@ -556,6 +567,11 @@ class NativeRuleEngine:
             player_id = entry.get("player_id")
             if isinstance(player_id, str):
                 fired += self.emit("on_card_drawn", state, EffectContext(player_id, event="on_card_drawn"))
+                # KV-1 1941: "Each time the enemy draws a card ..." -- the
+                # drawing player's opponent listens.
+                other = next((pid for pid in state.players if pid != player_id), None)
+                if other:
+                    fired += self.emit("on_enemy_card_drawn", state, EffectContext(other, event="on_enemy_card_drawn"))
         return fired
 
     def emit_damage_since(self, state, start_index: int) -> int:
@@ -608,6 +624,16 @@ class NativeRuleEngine:
         # Conditional actions are skipped when their condition is not satisfied
         # for the current event/context (M8 condition engine).
         from simulator.rules.condition import handled_by_kind
+        from simulator.rules import meta_mechanics
+        if action.kind in meta_mechanics.KINDS:
+            if action.condition is None or condition_evaluate(action.condition, self._current_event, context, self.cards, state):
+                if action.target.startswith("selected_") and not context.target_unit_id and action.kind not in (
+                        "draw_count", "aura") and self._current_event == "on_deploy":
+                    state.event_log.append({"event": "native_rule_no_target", "kind": action.kind,
+                                            "source_card_id": context.source_card_id})
+                    return
+                meta_mechanics.run(self, action, state, context)
+            return
         if (action.condition is not None and not handled_by_kind(action.kind, action.condition)
                 and not condition_evaluate(action.condition, self._current_event, context, self.cards, state)):
             state.event_log.append({"event": "native_rule_condition_false", "kind": action.kind, "condition": action.condition})
@@ -2684,7 +2710,8 @@ class NativeRuleEngine:
     def _new_unit(self, state, owner_id: str, card_id: str, abilities: tuple[str, ...] = ()):
         """A fresh unit of ``card_id`` in its owner's support line (None if full)."""
         owner = state.players[owner_id]
-        if sum(unit.position == "support_line" for unit in owner.units) >= SUPPORT_UNIT_LIMIT:
+        limit = SUPPORT_UNIT_LIMIT - int(owner.status.get("_reserved_support", 0) or 0)
+        if sum(unit.position == "support_line" for unit in owner.units) >= limit:
             state.event_log.append({"event": "native_rule_support_line_full", "card_id": card_id})
             return None
         card = self.cards.get(card_id)

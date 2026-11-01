@@ -338,7 +338,7 @@ class MetaDeckRuleTests(unittest.TestCase):
         sim = Simulator(self.cards); sim.state = state
         options = {a.selected_option for a in sim.get_available_actions()
                    if isinstance(a, PlayCardAction) and a.card_id == "41st_infantry_regiment"}
-        self.assertEqual(options, {"DEATH FROM ABOVE", "UNITY IS STRENGTH", "WE CAN DO IT"})
+        self.assertEqual(options, {"DEATH FROM ABOVE", "UNITY IS STRENGTH", "WE CAN DO IT!"})
         PlayCardAction("p1", "41st_infantry_regiment", selected_option="UNITY IS STRENGTH").execute(state, self.cards)
         self.assertEqual([self.cards.get(card_id).name for card_id in state.players["p1"].hand], ["UNITY IS STRENGTH"])
 

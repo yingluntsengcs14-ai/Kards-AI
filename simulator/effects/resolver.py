@@ -120,7 +120,8 @@ class EffectResolver:
             for target in _units(targets):
                 target.modifiers.append({"type": kind, "amount": amount})
         elif kind == "draw":
-            basic_effects.draw(state, context.player_id, amount)
+            who = _opponent(state, context.player_id) if action.get("target") == "enemy_hand" else context.player_id
+            basic_effects.draw(state, who, amount)
         elif kind == "discard":
             player = state.players[context.player_id]
             for _ in range(min(amount, len(player.hand))):
@@ -171,7 +172,8 @@ class EffectResolver:
                 selected=options[int(index)] if kind == "choice" else random.Random(state.rng_seed).choice(options)
                 if isinstance(selected, Mapping): self._resolve_action(selected, state, context)
         elif kind == "gain_hq_defense":
-            HQResolver.modify_defense(state, context.player_id, amount)
+            who = _opponent(state, context.player_id) if action.get("target") == "enemy_hand" else context.player_id
+            HQResolver.modify_defense(state, who, amount)
         elif kind in {"", "keyword"}:
             return  # Source placeholders intentionally have no executable primitive.
         else:
@@ -310,3 +312,7 @@ def _amount(value: Any) -> int:
 
 def _units(targets: list[UnitState | str]) -> list[UnitState]:
     return [target for target in targets if isinstance(target, UnitState)]
+
+
+def _opponent(state, player_id):
+    return next(pid for pid in state.players if pid != player_id)

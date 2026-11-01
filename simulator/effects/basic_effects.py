@@ -96,7 +96,10 @@ def remove_dead_units(state: GameState) -> None:
                 from simulator.rules.native import NativeRuleEngine
                 if NativeRuleEngine._last_engine is not None:
                     released.append(unit)
-            state.event_log.append({"event": "unit_died", "player_id": player_id, "unit_id": unit.instance_id, "card_id": unit.card_id})
+            death = {"event": "unit_died", "player_id": player_id, "unit_id": unit.instance_id, "card_id": unit.card_id}
+            if unit.status.get("granted_destruction"):
+                death["granted_destruction"] = list(unit.status["granted_destruction"])
+            state.event_log.append(death)
         player.units = survivors
     for unit in released:
         from simulator.rules.native import NativeRuleEngine

@@ -206,7 +206,12 @@ def _evaluate(
     if "friendly unit is destroyed" in c:
         return event == "on_destroy" and event_player_id == listener_player_id
     if "enemy unit is destroyed" in c:
+        if "during your turn" in c and state is not None and state.current_player != listener_player_id:
+            return False
         return event == "on_destroy" and bool(event_player_id) and event_player_id != listener_player_id
+    # SHIBATA / UTSUNOMIYA / J2M RAIDEN: "When the enemy gives an order".
+    if re.search(r"\bthe enemy (?:gives|plays) an order", c):
+        return event == "on_command_played" and bool(event_player_id) and event_player_id != listener_player_id
     # Event-gated self-buffs.
     if "enemy hq" in c:
         return event == "on_enemy_hq_damaged"
@@ -420,6 +425,10 @@ def _board_predicate(c, context, cards, state):
         return target_owner == me
     if re.fullmatch(r"if it (?:was|is) (?:an )?enemy(?: unit)?", text):
         return target_owner is not None and target_owner != me
+    match = re.fullmatch(r"if it had an attack of (\d+) or less", text)
+    if match:       # LONG LANCE (snapshot taken before the effect ran)
+        attack = metadata.get("target_attack")
+        return attack is not None and int(attack) <= int(match.group(1))
     if re.fullmatch(r"if you do", text):
         return bool(getattr(context, "target_unit_id", None))
     if re.fullmatch(r"if it is the hq", text):
