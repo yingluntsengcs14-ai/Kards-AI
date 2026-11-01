@@ -45,7 +45,8 @@ class EffectResolver:
         # Keep the public primitive layer consistent with native unit abilities:
         # an enemy unit ability may not affect a Covert target unless a caller
         # has explicitly revealed it first.
-        if context.source_unit_id and context.target_unit_id:
+        aims_at_target = str(effect.get("target", "")).startswith("selected_") or effect.get("target") in {"target", "it"}
+        if context.source_unit_id and context.target_unit_id and aims_at_target:
             # An event can outlive a unit it refers to: for example, combat
             # damage can destroy the target before a later FIFO listener is
             # resolved.  Such a targeted effect has no legal target and must

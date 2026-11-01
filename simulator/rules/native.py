@@ -63,6 +63,13 @@ class ActionGenerationSpec:
     develop_from_deck: int = 0
     # "Develop a German countermeasure": the description the offer is drawn from.
     develop_phrase: str | None = None
+    # "Choose one - A OR B" for the card itself: the options (5th RANGERS).
+    modes: tuple[str, ...] = ()
+
+
+def hq_has_smokescreen(state, player_id: str) -> bool:
+    """DEPTH CHARGES: the HQ cannot be attacked or targeted until its owner's next turn."""
+    return any(effect.get("kind") == "smokescreen" for effect in state.players[player_id].hq.active_effects)
 
 
 def _hand_unit_matches(card, family: str, nation: str) -> bool:
@@ -129,6 +136,8 @@ def _action_generation_spec(rule: CardRule) -> ActionGenerationSpec:
             for action in actions if action.kind == "develop_options"
             for option in (action.card_name or "").split("|") if option.strip()
         ),
+        modes=tuple(dict.fromkeys(action.condition[len("mode:"):] for action in actions
+                                  if (action.condition or "").startswith("mode:"))),
     )
 
 
@@ -470,7 +479,13 @@ class NativeRuleEngine:
                     marks = marker.status.get("draw_when_destroyed") or {}
                     if unit_id in marks:
                         from simulator.core.turn import TurnManager
-                        for _ in range(int(marks.pop(unit_id))):
+                        sources = marks.pop(unit_id)
+                        if isinstance(sources, int):          # older saved states
+                            sources = [None] * sources
+                        for source_id in sources:
+                            source = next((u for u in state.players[marker_id].units if u.instance_id == source_id), None)
+                            if source_id and source is None:
+                                continue          # the JÄGER is gone: no draw
                             TurnManager.draw_card(state, marker_id)
                 # The destroyed card's own Destruction effect above is not a
                 # broadcast.  Remaining units may still listen to a friendly
@@ -599,6 +614,20 @@ class NativeRuleEngine:
             return
         # BUZZ BOMB aimed at the enemy HQ (no unit target).
         if action.kind == "damage" and action.scope == "or_enemy_hq" and not context.target_unit_id:
+            enemy = opponent_id(state, context.player_id)
+            if hq_has_smokescreen(state, enemy):
+                state.event_log.append({"event": "native_rule_no_target", "kind": action.kind,
+                                        "source_card_id": context.source_card_id})
+                return
+            source = next((u for u in state.players[context.player_id].units
+                           if u.instance_id == context.source_unit_id), None)
+            bonus = EffectResolver(self.cards).unit_damage_bonus(state, source) if source is not None else 0
+            HQResolver.damage(state, enemy, action.amount + bonus, context.player_id)
+            return
+        if action.kind == "damage" and action.scope == "or_enemy_hq":
+            action = replace(action, scope="")      # a unit was chosen: ordinary targeted damage
+        if action.kind == "damage" and action.scope == "target_hq":
+            # "Deal 8 damage to target HQ" (KM BISMARCK): the enemy HQ.
             HQResolver.damage(state, opponent_id(state, context.player_id), action.amount, context.player_id)
             return
         # A unit deployed with no legal target: its targeted clauses fizzle.
@@ -1615,7 +1644,7 @@ class NativeRuleEngine:
                 self._displace_unit(state, unit, "unit_returned_to_hand", "native_rule_hand_full_removed")
             return
         if action.kind in ("target_filter", "target_max_attack", "target_max_cost", "target_max_stat_sum",
-                           "target_max_attack_slots"):
+                           "target_max_attack_slots", "target_nation"):
             return   # validation markers, read by PlayCardAction.validate
         if action.kind == "buff_per_friendly_type" and context.target_unit_id:
             # UNITY IS STRENGTH: "+1+1 for each friendly infantry unit on the battlefield".
@@ -1890,8 +1919,17 @@ class NativeRuleEngine:
             return
         if action.kind == "mark_draw_on_destroy" and context.target_unit_id:
             # 738. JÄGER: "Target a unit. Draw a card when it is destroyed."
+            # The mark belongs to the JÄGER: once it has left the battlefield
+            # the draw no longer happens (confirmed in game 2026-11-01).
             marks = state.players[context.player_id].status.setdefault("draw_when_destroyed", {})
-            marks[context.target_unit_id] = int(marks.get(context.target_unit_id, 0)) + max(1, action.amount)
+            marks.setdefault(context.target_unit_id, []).extend([context.source_unit_id] * max(1, action.amount))
+            return
+        if action.kind == "hq_smokescreen":
+            # DEPTH CHARGES: "Your HQ gains Smokescreen until your next turn."
+            hq = state.players[context.player_id].hq
+            hq.active_effects = [effect for effect in hq.active_effects if effect.get("kind") != "smokescreen"]
+            hq.active_effects.append({"kind": "smokescreen"})
+            state.event_log.append({"event": "hq_smokescreen", "player_id": context.player_id})
             return
         if action.kind == "count_then_veteran" and context.source_unit_id:
             # 216th GUARDS: "Becomes Veteran after the second time."
@@ -2098,8 +2136,13 @@ class NativeRuleEngine:
             state.event_log.append({"event": "op_cost_rule_added", "player_id": owner, "amount": action.amount})
             return
         if action.kind == "set_operation_cost":
+            source_text = (self._current_rule.source_text.lower() if self._current_rule else "")
+            this_turn = action.duration == "end_of_turn" or "operation cost this turn" in source_text
             for unit in _resolve_units(action.target, state, context):
-                unit.modifiers.append({"type": "set_operation_cost", "value": action.amount})
+                modifier = {"type": "set_operation_cost", "value": action.amount}
+                if this_turn:
+                    modifier["this_turn"] = True
+                unit.modifiers.append(modifier)
             state.event_log.append({"event": "operation_cost_set", "target": action.target, "value": action.amount})
             return
         if action.kind == "hq_take_damage":

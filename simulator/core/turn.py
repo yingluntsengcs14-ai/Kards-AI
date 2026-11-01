@@ -16,6 +16,10 @@ class TurnManager:
     @staticmethod
     def start_turn(state: GameState, player_id: str, draw_card: bool = True) -> None:
         player = state.players[player_id]
+        # DEPTH CHARGES: the HQ's Smokescreen lasts "until your next turn".
+        if any(effect.get("kind") == "smokescreen" for effect in player.hq.active_effects):
+            player.hq.active_effects = [e for e in player.hq.active_effects if e.get("kind") != "smokescreen"]
+            state.event_log.append({"event": "hq_smokescreen_expired", "player_id": player_id})
         if player.active_countermeasures:
             player.active_countermeasures.clear()
             state.event_log.append({"event": "countermeasures_expired", "player_id": player_id})
@@ -131,6 +135,11 @@ class TurnManager:
         # layer (native -> effects -> turn).
         from simulator.rules.native import NativeRuleEngine
         NativeRuleEngine.revert_temporary(state, player_id, state.turn_number)
+        # "Has 0 operation cost this turn" (6th INFANTRY BRIGADE, OUTMANEUVER).
+        for side in state.players.values():
+            for unit in side.units:
+                if any(mod.get("this_turn") for mod in unit.modifiers):
+                    unit.modifiers = [mod for mod in unit.modifiers if not mod.get("this_turn")]
         # Fire scheduled one-shot effects due at the end of this player's turn
         # (e.g. "discarded end of turn" / "discard it at the end of your next turn").
         NativeRuleEngine.fire_scheduled(state, player_id, "end")

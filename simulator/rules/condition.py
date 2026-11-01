@@ -101,6 +101,10 @@ def _evaluate(
         return True
     c = condition.lower()
     metadata = getattr(context, "metadata", {}) or {}
+    # "Choose one - A OR B" on the card itself (5th RANGERS): the option the
+    # player picked travels as selected_option.
+    if c.startswith("mode:"):
+        return str(metadata.get("selected_option") or "") == condition[len("mode:"):]
     event_player_id = metadata.get("event_player_id", getattr(context, "player_id", ""))
     listener_player_id = getattr(context, "player_id", "")
     event_target_owner_id = metadata.get("event_target_owner_id")
@@ -420,6 +424,16 @@ def _board_predicate(c, context, cards, state):
         return bool(getattr(context, "target_unit_id", None))
     if re.fullmatch(r"if it is the hq", text):
         return not getattr(context, "target_unit_id", None)
+    if re.fullmatch(r"if the enemy is a unit", text):
+        return bool(getattr(context, "target_unit_id", None))
+    match = re.fullmatch(r"if it has (smokescreen|guard|blitz|fury|ambush|shock|alpine|heavy armor)", text)
+    if match:
+        from simulator.rules.abilities import AbilityEngine
+        unit_id = getattr(context, "target_unit_id", None)
+        unit = next((u for p in state.players.values() for u in p.units if u.instance_id == unit_id), None) if state else None
+        if unit is None:
+            return False
+        return AbilityEngine.has(cards.get(unit.card_id), unit, match.group(1).replace(" ", ""))
     match = re.fullmatch(r"if (?:it is |it's )?an? (tank|infantry|artillery|fighter|bomber|air unit|ground unit)", text)
     if match:
         target_card = metadata.get("target_card_id")

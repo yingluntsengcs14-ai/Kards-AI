@@ -218,10 +218,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If it has Blitz"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "10th_para_battalion",
@@ -889,6 +887,34 @@
         "on_play"
       ],
       "actions": [
+        {
+          "kind": "target_nation",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Britain",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
         {
           "kind": "grant_ability",
           "target": "selected_target",
@@ -3257,7 +3283,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -4600,7 +4626,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -4668,7 +4694,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -4694,10 +4720,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If the enemy is a unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "blenheim_mk_i",
@@ -4822,7 +4846,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -5480,7 +5504,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -5787,7 +5811,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -5813,10 +5837,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If the enemy is a unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "beaufighter_vi_f",
@@ -7344,12 +7366,12 @@
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "enemy_hq",
           "amount": 20,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "target_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -10607,7 +10629,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -13614,12 +13636,12 @@
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "enemy_hq",
           "amount": 3,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "target_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -16584,16 +16606,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If you control a tank, target enemy unit must retreat.",
-          "on": [
-            "on_deploy"
-          ]
+          "condition": "if you control a tank",
+          "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If you control a tank, target enemy unit must retreat."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "ju_88_g6",
@@ -17340,7 +17358,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -17945,12 +17963,12 @@
       "actions": [
         {
           "kind": "damage",
-          "target": "selected_target",
+          "target": "enemy_hq",
           "amount": 8,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "target_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -18084,7 +18102,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -18150,7 +18168,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -19283,7 +19301,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -21226,6 +21244,20 @@
       ],
       "actions": [
         {
+          "kind": "target_nation",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Japan",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "set_operation_cost",
           "target": "selected_target",
           "amount": 0,
@@ -21235,7 +21267,7 @@
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": null,
+          "duration": "end_of_turn",
           "condition": null,
           "on": []
         },
@@ -21245,19 +21277,17 @@
           "amount": 0,
           "attack": 2,
           "defense": 2,
-          "card_name": "",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If it has Smokescreen it gets +2+2.",
+          "condition": "if it has smokescreen",
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If it has Smokescreen it gets +2+2."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "sakura_regiment",
@@ -21707,7 +21737,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -22310,7 +22340,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -24897,7 +24927,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -28297,7 +28327,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -34163,6 +34193,34 @@
       ],
       "actions": [
         {
+          "kind": "target_nation",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "Soviet",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
+          "kind": "target_filter",
+          "target": "selected_target",
+          "amount": 0,
+          "attack": 0,
+          "defense": 0,
+          "card_name": "tank|infantry",
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": null,
+          "on": []
+        },
+        {
           "kind": "buff",
           "target": "selected_target",
           "amount": 0,
@@ -36127,7 +36185,7 @@
         {
           "kind": "gain_kredit_slot",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -36139,16 +36197,16 @@
           "on": []
         },
         {
-          "kind": "grant_ability",
-          "target": "friendly_units",
+          "kind": "hq_smokescreen",
+          "target": "owner",
           "amount": 0,
           "attack": 0,
           "defense": 0,
-          "card_name": "smokescreen",
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
-          "duration": "next_turn",
+          "duration": null,
           "condition": null,
           "on": []
         }
@@ -39736,7 +39794,7 @@
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "or_enemy_hq",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
@@ -40862,20 +40920,32 @@
       ],
       "actions": [
         {
-          "kind": "buff",
-          "target": "selected_target",
+          "kind": "set_operation_cost",
+          "target": "source",
           "amount": 0,
-          "attack": 4,
-          "defense": 4,
-          "card_name": "",
+          "attack": 0,
+          "defense": 0,
+          "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": null,
-          "on": [
-            "on_deploy"
-          ]
+          "condition": "mode:0 operation cost",
+          "on": []
+        },
+        {
+          "kind": "buff",
+          "target": "source",
+          "amount": 0,
+          "attack": 4,
+          "defense": 4,
+          "card_name": null,
+          "scope": "",
+          "min_cost": 0,
+          "set_cost": null,
+          "duration": null,
+          "condition": "mode:+4+4",
+          "on": []
         }
       ],
       "status": "implemented",

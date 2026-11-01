@@ -154,7 +154,10 @@ class Simulator:
                 else list(weather_rules.CATEGORIES)
                 if spec.forecast
                 # Develop A, B or C: the player picks one; no "no choice" action.
-                else (list(spec.develop_options) or [None])
+                else list(spec.develop_options)
+                if spec.develop_options
+                # "Choose one - A OR B" on the card itself (5th RANGERS).
+                else (list(spec.modes) or [None])
             )
             for position in positions:
                 for target_unit_id in targets:

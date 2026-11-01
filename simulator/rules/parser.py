@@ -248,6 +248,35 @@ class RuleParser:
     # ── Cards in tournament decks whose wording the templates misread ───────
     # (data/decks/meta_decks.json, 2026-10-27).  Each comment quotes the card.
     _META_DECK_CARD_RULES: dict = {
+        # "Deployment: If you control a tank, target enemy unit must retreat."
+        # Without a tank the Deployment asks for no target (confirmed 11-01).
+        "hummel": (
+            ("on_deploy",),
+            (RuleAction("move_to_support_line", "selected_enemy", condition="if you control a tank"),),
+            "implemented", ()),
+        # "Deployment: Choose one - this unit has 0 operation cost OR it gets
+        # +4+4."  Both options are about this unit (confirmed 11-01).
+        "5th_rangers": (
+            ("on_deploy",),
+            (RuleAction("set_operation_cost", "source", amount=0, condition="mode:0 operation cost"),
+             RuleAction("buff", "source", attack=4, defense=4, condition="mode:+4+4")),
+            "implemented", ()),
+        # "Gain an extra kredit slot. Your HQ gains Smokescreen until your next
+        # turn."  While it lasts the HQ cannot be attacked or targeted, so an
+        # order that could only hit the HQ cannot be played.
+        # "Target Japanese unit has 0 operation cost this turn. If it has
+        # Smokescreen it gets +2+2."
+        "outmaneuver": (
+            ("on_play",),
+            (RuleAction("target_nation", "selected_target", card_name="Japan"),
+             RuleAction("set_operation_cost", "selected_target", amount=0, duration="end_of_turn"),
+             RuleAction("buff", "selected_target", attack=2, defense=2, condition="if it has smokescreen")),
+            "implemented", ()),
+        "depth_charges": (
+            ("on_play",),
+            (RuleAction("gain_kredit_slot", "owner", amount=1),
+             RuleAction("hq_smokescreen", "owner")),
+            "implemented", ()),
         # "Deal 2 damage to all enemy units. If this is the second order you
         # give this turn, deal 4 instead."  ("instead" hit the enemy HQ.)
         "wave_after_wave": (
@@ -773,7 +802,7 @@ class RuleParser:
         for sentence in _sentences(text):
             parsed = _parse_sentence(sentence)
             if parsed and card.id not in self._HAND_WRITTEN:
-                parsed = _apply_target_constraints(sentence, parsed)
+                parsed = _apply_target_constraints(sentence, _apply_hq_targets(sentence, parsed))
             if is_unit:
                 # Bind each clause of a unit to the event that introduces it.
                 # A clause with no trigger of its own continues the previous
@@ -1141,6 +1170,28 @@ _TARGET_SKIP_WORDS = ("when ", "whenever", "random", "choose one", "discard")
 _TARGET_TYPES = r"tank|infantry|artillery|fighter|bomber|air unit|ground unit|unit"
 
 
+_NATION_ADJECTIVES = ("german", "british", "soviet", "japanese", "us", "french", "italian", "polish", "finnish")
+_HQ_OPTION = re.compile(r"\bdamage\s+to\s+(?:an\s+enemy(?:\s+target)?|any\s+target)(?=\s*(?:[.,]|and\b|$|for\b))")
+
+
+def _apply_hq_targets(sentence: str, parsed: tuple) -> tuple:
+    """Damage whose target may be an HQ.
+
+    "Deal 1 damage to an enemy" / "an enemy target" / "any target": the enemy
+    HQ is a legal target too, so the card always has one (confirmed 11-01).
+    "Deal 8 damage to target HQ" hits the enemy HQ and takes no unit target.
+    """
+    lower = sentence.lower()
+    if re.search(r"\bdamage\s+to\s+target\s+hq\b", lower):
+        return tuple(replace(action, target="enemy_hq", scope="target_hq")
+                     if action.kind == "damage" and action.target.startswith("selected_") else action for action in parsed)
+    if _HQ_OPTION.search(lower):
+        return tuple(replace(action, scope="or_enemy_hq")
+                     if action.kind == "damage" and action.target.startswith("selected_") and not action.scope else action
+                     for action in parsed)
+    return parsed
+
+
 def _apply_target_constraints(sentence: str, parsed: tuple) -> tuple:
     """Read who a chosen target may be from the clause's own words.
 
@@ -1162,6 +1213,11 @@ def _apply_target_constraints(sentence: str, parsed: tuple) -> tuple:
     first = re.search(r"\b(?:target\s+(?:an?\s+)?|an?\s+|another\s+)", lower)
     if not first:
         return parsed
+    nation = None
+    phrase = re.match(r"(?:(?:enemy|friendly)\s+)?(" + "|".join(_NATION_ADJECTIVES) + r")\s+", lower[first.end():])
+    if phrase:
+        nation = _nation_name(phrase.group(1))
+        lower = lower[:first.end()] + lower[first.end():].replace(phrase.group(1) + " ", "", 1)
     phrase = re.match(
         r"(?:(enemy|friendly)\s+)?(?:(damaged)\s+)?"
         r"((?:" + _TARGET_TYPES + r")(?:\s+or\s+(?:" + _TARGET_TYPES + r"))*)s?(?:\s+unit)?\b(?P<rest>[^.;]*)",
@@ -1174,6 +1230,8 @@ def _apply_target_constraints(sentence: str, parsed: tuple) -> tuple:
         wanted = "selected_enemy" if side == "enemy" else "selected_friendly"
         actions = [replace(action, target=wanted) if action.target == "selected_target" else action for action in actions]
     markers = []
+    if nation:
+        markers.append(RuleAction("target_nation", "selected_target", card_name=nation))
     types = [_TARGET_TYPE_WORDS[k.strip()] for k in kinds.split(" or ") if k.strip() in _TARGET_TYPE_WORDS]
     if types and len(types) == len(kinds.split(" or ")):
         markers.append(RuleAction("target_filter", "selected_target", card_name="|".join(types)))

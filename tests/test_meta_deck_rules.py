@@ -655,5 +655,89 @@ class MetaDeckRuleTests(unittest.TestCase):
                                                             ("small", "garrison", 2, 4, "frontline")))
         self.assertEqual(self._deploy_targets(state, "fifth_ohio"), {"small"})
 
+    # ── 11-01 使用者確認 ────────────────────────────────────────────────────
+    def _kill(self, state, unit):
+        from simulator.effects import basic_effects
+        start = len(state.event_log)
+        basic_effects.destroy(state, unit)
+        engine_for(self.cards).emit_deaths_since(state, start)
+
+    def test_738_jager_mark_ends_when_the_jager_is_gone(self) -> None:
+        state = self._state(hand=("738_jger_regiment",), p2_units=(("e", "garrison", 1, 3, "frontline"),))
+        PlayCardAction("p1", "738_jger_regiment", target_unit_id="e").execute(state, self.cards)
+        self._kill(state, state.players["p1"].units[0])                 # 738 先被消滅
+        before = len(state.players["p1"].deck)
+        self._kill(state, state.players["p2"].units[0])
+        self.assertEqual(before - len(state.players["p1"].deck), 0)
+
+    def test_40_panzergrenadier_draws_only_for_a_friendly_unit(self) -> None:
+        for owner, draws in (("p1", 1), ("p2", 0)):
+            units = {"p1_units": (), "p2_units": ()}
+            units[owner + "_units"] = (("u", "garrison", 0, 3, "support_line" if owner == "p1" else "frontline"),)
+            state = self._state(hand=("40_panzergrenadier",), **units)
+            before = len(state.players["p1"].deck)
+            PlayCardAction("p1", "40_panzergrenadier", target_unit_id="u").execute(state, self.cards)
+            self.assertEqual(before - len(state.players["p1"].deck), draws, owner)
+
+    def test_17th_infantry_draws_only_from_left_most(self) -> None:
+        for hand, draws in ((("17th_infantry_brigade", "garrison"), 1), (("garrison", "17th_infantry_brigade"), 0)):
+            state = self._state(hand=hand, p2_units=(("e", "garrison", 0, 9, "frontline"),))
+            before = len(state.players["p1"].deck)
+            PlayCardAction("p1", "17th_infantry_brigade", target_unit_id="e").execute(state, self.cards)
+            self.assertEqual(before - len(state.players["p1"].deck), draws, hand)
+
+    def test_hummel_takes_no_target_without_a_tank(self) -> None:
+        enemy = (("e", "garrison", 0, 3, "frontline"),)
+        state = self._state(hand=("hummel",), p2_units=enemy)
+        self.assertEqual(self._deploy_targets(state, "hummel"), {None})
+        state = self._state(hand=("hummel",), p1_units=(("t", "panzer_iia", 1, 3, "support_line"),), p2_units=enemy)
+        self.assertEqual(self._deploy_targets(state, "hummel"), {"e"})
+        PlayCardAction("p1", "hummel", target_unit_id="e").execute(state, self.cards)
+        self.assertEqual(state.players["p2"].units[0].position, "support_line")
+
+    def test_5th_rangers_chooses_one_bonus_for_itself(self) -> None:
+        sim = Simulator(self.cards)
+        sim.state = self._state(hand=("5th_rangers",), p2_units=(("e", "garrison", 0, 3, "frontline"),))
+        options = {(a.target_unit_id, a.selected_option) for a in sim.get_available_actions()
+                   if isinstance(a, PlayCardAction) and a.card_id == "5th_rangers"}
+        self.assertEqual(options, {(None, "0 operation cost"), (None, "+4+4")})
+        card = self.cards.get("5th_rangers")
+        state = self._state(hand=("5th_rangers",))
+        PlayCardAction("p1", "5th_rangers", selected_option="+4+4").execute(state, self.cards)
+        unit = state.players["p1"].units[0]
+        self.assertEqual((unit.attack, unit.defense), (card.attack + 4, card.defense + 4))
+
+    def test_outmaneuver_needs_a_japanese_unit(self) -> None:
+        state = self._state(hand=("outmaneuver",), p1_units=(("jp", "33rd_recon", 1, 3, "support_line"),
+                                                             ("de", "garrison", 1, 3, "support_line")))
+        self.assertEqual(self._deploy_targets(state, "outmaneuver"), {"jp"})
+
+    def test_hq_is_a_target_for_damage_to_an_enemy(self) -> None:
+        state = self._state(hand=("attack_in_the_colonies",))
+        self.assertEqual(self._deploy_targets(state, "attack_in_the_colonies"), {None})
+        before = state.players["p2"].hq.current_health
+        PlayCardAction("p1", "attack_in_the_colonies").execute(state, self.cards)
+        self.assertEqual(before - state.players["p2"].hq.current_health, 3)
+
+    def test_km_bismarck_hits_the_enemy_hq(self) -> None:
+        state = self._state(hand=("km_bismarck",), p2_units=(("e", "garrison", 0, 3, "frontline"),))
+        self.assertEqual(self._deploy_targets(state, "km_bismarck"), {None})
+        before = state.players["p2"].hq.current_health
+        PlayCardAction("p1", "km_bismarck").execute(state, self.cards)
+        self.assertEqual(before - state.players["p2"].hq.current_health, 8)
+
+    def test_depth_charges_hides_the_hq_until_its_owners_next_turn(self) -> None:
+        from simulator.core.turn import TurnManager
+        state = self._state(hand=("depth_charges",))
+        state.players["p2"].hand = ["buzz_bomb"]
+        PlayCardAction("p1", "depth_charges").execute(state, self.cards)
+        state.current_player = "p2"
+        self.assertEqual(self._deploy_targets(state, "buzz_bomb"), set())     # 沒有敵方單位：不能施放
+        state.players["p1"].units.append(UnitState("u", "garrison", 0, 3, "p1", "frontline"))
+        state.battlefield["frontline"].append("u")
+        self.assertEqual(self._deploy_targets(state, "buzz_bomb"), {"u"})
+        TurnManager.start_turn(state, "p1", draw_card=False)
+        self.assertEqual(state.players["p1"].hq.active_effects, [])
+
 if __name__ == "__main__":
     unittest.main()

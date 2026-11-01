@@ -177,6 +177,8 @@ _GENUINELY_EXECUTED_KINDS: frozenset[str] = frozenset({
     "target_max_cost",
     "target_max_stat_sum",
     "target_max_attack_slots",
+    "target_nation",
+    "hq_smokescreen",
     "remove_while_source_lives",
     "return_all_to_hand",
     "buff_per_friendly_type",

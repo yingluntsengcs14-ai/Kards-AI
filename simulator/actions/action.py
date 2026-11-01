@@ -125,7 +125,24 @@ class PlayCardAction(Action):
         if any(action.kind == "cannot" and action.card_name == "be_deployed_after_unit" for action in rule.actions) \
                 and counters.units_deployed(state, self.player_id, 0):
             raise ActionValidationError("Cannot be deployed after deploying a unit this turn")
-        aims_at_hq = any(action.scope == "or_enemy_hq" for action in rule.actions) and self.target_unit_id is None
+        from simulator.rules.native import hq_has_smokescreen
+        enemy_hq_hidden = hq_has_smokescreen(state, opponent_id(state, self.player_id))
+        if any(action.scope == "target_hq" for action in rule.actions) and enemy_hq_hidden:
+            raise ActionValidationError("Enemy HQ has Smokescreen")
+        # An order aimed at an HQ with Smokescreen has no HQ option; with no
+        # unit target either, it cannot be played (DEPTH CHARGES).
+        aims_at_hq = (any(action.scope == "or_enemy_hq" for action in rule.actions) and self.target_unit_id is None
+                      and not enemy_hq_hidden)
+        modes = [action.condition[len("mode:"):] for action in rule.actions if (action.condition or "").startswith("mode:")]
+        if modes and self.selected_option not in modes:
+            raise ActionValidationError("Choose one of: " + ", ".join(dict.fromkeys(modes)))
+        # A targeted Deployment whose own condition is false ("If you control a
+        # tank, target enemy unit must retreat" with no tank: HUMMEL) asks for
+        # no target (confirmed in game 2026-11-01).
+        if card.is_unit and rule.needs_target and _deploy_condition_false(rule, state, self, cards):
+            if self.target_unit_id is not None:
+                raise ActionValidationError("This Deployment's condition is not met; it takes no target")
+            rule = _without_target(rule)
         # A unit's Deployment target is mandatory while a legal target exists,
         # and the unit may still be deployed (the effect does nothing) when none
         # does (confirmed in game: HS 129, HE 219, 2nd RAIDING BRIGADE).  An
@@ -157,6 +174,9 @@ class PlayCardAction(Action):
                     raise ActionValidationError("This card requires a {0} target".format(marker.card_name))
                 if marker.card_name == "damaged" and (target_card.defense is None or target.defense >= target_card.defense):
                     raise ActionValidationError("This card requires a damaged target")
+            nation_marker = next((action.card_name for action in rule.actions if action.kind == "target_nation"), None)
+            if nation_marker and (target_card.nation or "") != nation_marker:
+                raise ActionValidationError("This card requires a {0} unit target".format(nation_marker))
             stat_sum = next((action.amount for action in rule.actions if action.kind == "target_max_stat_sum"), None)
             if stat_sum is not None and target.attack + target.defense > stat_sum:
                 raise ActionValidationError("Target's combined attack and defense is too high")
@@ -445,6 +465,9 @@ class AttackAction(Action):
         else:
             if attacker.status.get("cannot_attack_hq"):
                 raise ActionValidationError("Unit cannot attack enemy HQ")
+            from simulator.rules.native import hq_has_smokescreen
+            if hq_has_smokescreen(state, opponent_id(state, self.player_id)):
+                raise ActionValidationError("Enemy HQ has Smokescreen")
             if KeywordEngine.is_hq_guarded(state, opponent_id(state, self.player_id), card, cards):
                 raise ActionValidationError("Enemy HQ is guarded")
         if state.players[self.player_id].resources.kredits < _operation_cost(attacker, card) + _target_tax(state, self.target_unit_id, self.player_id):
@@ -906,3 +929,23 @@ def _can_move_and_attack(state: GameState, unit: UnitState, card, cards: CardDat
 def _unit_is(card, unit: UnitState, kind: str) -> bool:
     """Type test for a target marker; "unit" accepts anything."""
     return kind == "unit" or KeywordEngine.matches_type(card, unit, kind)
+
+
+def _deploy_condition_false(rule, state: GameState, action: "PlayCardAction", cards: CardDatabase) -> bool:
+    """Every targeted Deployment clause is conditional and its condition is false now."""
+    from simulator.rules.condition import evaluate
+    targeted = [clause for clause in rule.actions if clause.target.startswith("selected_")
+                and (not clause.on or {"on_play", "on_deploy"} & set(clause.on))]
+    if not targeted or any(not clause.condition or clause.condition.startswith("mode:") for clause in targeted):
+        return False
+    context = EffectContext(action.player_id, action.card_id, event="on_deploy")
+    probe = list(state.event_log)
+    try:
+        return not any(evaluate(clause.condition, "on_deploy", context, cards, state) for clause in targeted)
+    finally:
+        state.event_log[:] = probe
+
+
+def _without_target(rule):
+    from dataclasses import replace as _replace
+    return _replace(rule, actions=tuple(clause for clause in rule.actions if not clause.target.startswith("selected_")))
