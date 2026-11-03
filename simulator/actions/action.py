@@ -69,7 +69,17 @@ class PlayCardAction(Action):
                 raise ActionValidationError("Only one order each turn (60th CAVALRY REGIMENT)")
         active = any(entry.get("card_id") == card.id for entry in player.active_countermeasures)
         if card.type == "countermeasure" and active:
-            return
+            # It stays in hand (face up, marked active) until it fires or the
+            # game ends -- see CountermeasureResolver.intercept, which is what
+            # actually removes it from hand and sends it to the graveyard.
+            # Letting a player "replay" it here used to silently succeed as a
+            # free activate/deactivate toggle with no net kredit cost, which
+            # both breaks the card (a countermeasure should not be cancellable
+            # by its own owner for a refund) and, worse, is always a legal
+            # action for as long as the card sits in hand -- an agent that
+            # prefers playing a card over passing gets stuck toggling it
+            # forever and the game never reaches a turn end.
+            raise ActionValidationError("Countermeasure is already active")
         rule = engine_for(cards).rule_for(card.id)
         if any(action.kind == "swap_hand_unit_with_friendly" for action in rule.actions):
             if self.selected_card_id is None or self.selected_card_id not in player.hand:
@@ -255,12 +265,8 @@ class PlayCardAction(Action):
         # kredits went below 0.
         cost = card_play_cost(state, self.player_id, card, cards) + _target_tax(state, self.target_unit_id, self.player_id)
         if card.type == "countermeasure":
-            existing = next((entry for entry in player.active_countermeasures if entry.get("card_id") == card.id), None)
-            if existing:
-                player.active_countermeasures.remove(existing)
-                player.resources.kredits += int(existing.get("paid", card.kredits))
-                state.event_log.append({"event": "countermeasure_deactivated", "player_id": self.player_id, "card_id": card.id})
-                return state
+            # validate() above already rejects this when the card is already
+            # active, so this is always a fresh activation.
             player.resources.kredits -= cost
             player.active_countermeasures.append({"card_id": card.id, "activated_turn": state.turn_number, "paid": cost})
             state.event_log.append({"event": "countermeasure_activated", "player_id": self.player_id, "card_id": card.id})
