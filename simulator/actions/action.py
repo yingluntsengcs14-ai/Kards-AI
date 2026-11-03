@@ -889,10 +889,22 @@ def _op_rule_matches(rule: dict, card) -> bool:
 
 
 def _target_tax(state: GameState, target_unit_id: str | None, acting_player_id: str) -> int:
-    """Return a target's verified additional targeting/attack cost."""
+    """Return a target's verified additional targeting/attack cost.
+
+    Called from AttackAction.execute() *after* the on-attack countermeasure
+    window (CountermeasureResolver.intercept), where a non-cancelling reaction
+    such as TACTICAL RETREAT ("send it to hand before damage") or COUNTER
+    STRIKE ("destroy the unit") can legally remove the target before this
+    runs. The combat-resolution code right after this already re-checks and
+    fizzles gracefully in that case (see "attack_target_no_longer_exists"
+    below) -- this must not crash first. A vanished target simply owes no tax.
+    """
     if target_unit_id is None:
         return 0
-    target = find_unit(state, target_unit_id)
+    try:
+        target = find_unit(state, target_unit_id)
+    except ActionValidationError:
+        return 0
     if target.owner_id == acting_player_id:
         return 0
     tax = target.status.get("target_or_attack_tax", 0)
