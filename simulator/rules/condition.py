@@ -105,6 +105,12 @@ def _evaluate(
     # player picked travels as selected_option.
     if c.startswith("mode:"):
         return str(metadata.get("selected_option") or "") == condition[len("mode:"):]
+    # "Target unit moves into the frontline, if possible." -- not a gate on
+    # whether the action runs, just a plain-English warning that the move_to_*
+    # handlers already honor by no-oping (not raising) when the destination is
+    # full/uncontrolled (see native._move_units). Always satisfied.
+    if c.strip() in ("if possible.", "if possible"):
+        return True
     event_player_id = metadata.get("event_player_id", getattr(context, "player_id", ""))
     listener_player_id = getattr(context, "player_id", "")
     event_target_owner_id = metadata.get("event_target_owner_id")
@@ -217,6 +223,21 @@ def _evaluate(
         return event == "on_enemy_hq_damaged"
     if "survives combat" in c:
         return event == "on_survives_combat"
+    # Veteran promotion (native._promote_to_veteran broadcasts "on_veteran" to
+    # every unit on the battlefield, same shape as the on_destroy broadcast).
+    # "this unit" is the unit that was just promoted; "a/an friendly/enemy
+    # unit" compares the promoted unit's owner against the listening card's
+    # owner; bare "a unit becomes veteran" fires for either side.
+    if re.search(r"\bwhen\s+(?:this|a|an|the)\s+(?:friendly\s+|enemy\s+)?unit\s+becomes\s+veteran\b", c):
+        if event != "on_veteran":
+            return False
+        if "this unit" in c:
+            return context.source_unit_id == metadata.get("event_source_unit_id")
+        if "enemy unit becomes veteran" in c:
+            return bool(event_player_id) and event_player_id != listener_player_id
+        if "friendly unit becomes veteran" in c:
+            return bool(event_player_id) and event_player_id == listener_player_id
+        return True
     if "is dealt damage" in c or "takes damage" in c or "is damaged" in c or "dealt damage" in c:
         return event == "on_damage"
     # Card-play triggers filtered by the played card's type / ability.

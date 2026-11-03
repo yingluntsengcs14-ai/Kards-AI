@@ -4515,6 +4515,7 @@
       "card_id": "22nd_guards_brigade_vet",
       "source_text": "When this unit becomes Veteran, deal 3 damage to each enemy.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -4530,13 +4531,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit becomes Veteran",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit becomes Veteran"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "25_pounder",
@@ -4981,6 +4982,7 @@
       "card_id": "green_howards",
       "source_text": "Draw a card when a unit becomes Veteran.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -4996,13 +4998,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when a unit becomes Veteran.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when a unit becomes Veteran."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "hms_belfast",
@@ -8798,10 +8800,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "resistance_b",
@@ -9068,7 +9068,6 @@
       ],
       "status": "partial",
       "unresolved_fragments": [
-        "[condition not modeled] if possible.",
         "[condition not modeled] if this is the first order this turn."
       ]
     },
@@ -10391,10 +10390,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "char_b1_bis",
@@ -10886,10 +10883,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "28_jger_regiment",
@@ -11572,6 +11567,7 @@
       "card_id": "panzer_ib_vet",
       "source_text": "When this unit becomes Veteran, add a PANZER I-B to your hand.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -11587,13 +11583,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit becomes Veteran",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit becomes Veteran"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "panzer_iia",
@@ -12312,6 +12308,7 @@
       "card_id": "64_panzergrenadier_vet",
       "source_text": "When this unit becomes Veteran gain 2 additional kredits.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -12327,13 +12324,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit becomes Veteran gain 2 additional kredits.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit becomes Veteran gain 2 additional kredits."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "74_panzergrenadier",
@@ -13906,10 +13903,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "eagle_claws",
@@ -15023,6 +15018,7 @@
       "card_id": "7_schtzen_vet",
       "source_text": "When this unit becomes Veteran, deal 3 damage to the enemy HQ.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -15038,13 +15034,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit becomes Veteran",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit becomes Veteran"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "81_infantry_regiment",
@@ -16287,10 +16283,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "bypass",
@@ -29069,6 +29063,7 @@
       "card_id": "12th_guards_mechanised_vet",
       "source_text": "Draw 2 cards when this unit becomes Veteran.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -29084,13 +29079,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when this unit becomes Veteran.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when this unit becomes Veteran."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "146th_infantry_regiment",
@@ -31310,10 +31305,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "mobile_defense",
@@ -32604,6 +32597,7 @@
       "card_id": "49th_karachev",
       "source_text": "When an enemy unit becomes Veteran, deal 2 damage to it.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -32619,13 +32613,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When an enemy unit becomes Veteran",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When an enemy unit becomes Veteran"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "4th_kuban_cossacks",
@@ -36911,10 +36905,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "direct_hit",
@@ -39827,10 +39819,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "america_at_war",
@@ -40553,6 +40543,7 @@
       "card_id": "the_regulars_vet",
       "source_text": "When this unit becomes Veteran, add UNITY IS STRENGTH to your hand.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -40568,13 +40559,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit becomes Veteran",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit becomes Veteran"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "thunderbolt",
@@ -42927,10 +42918,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "victory_march",
@@ -45825,10 +45814,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if possible."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "quinine",
@@ -46406,6 +46393,7 @@
       "card_id": "heinkel_he_59",
       "source_text": "Once per turn, when a friendly unit becomes Veteran, draw a card and gain a kredit.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -46421,13 +46409,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when a friendly unit becomes Veteran, draw a card and gain a kredit.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when a friendly unit becomes Veteran, draw a card and gain a kredit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "katzmann_regiment",
@@ -46458,6 +46446,7 @@
       "card_id": "maori_battalion",
       "source_text": "Gets +2+2 when a friendly unit becomes Veteran.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -46473,13 +46462,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when a friendly unit becomes Veteran.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when a friendly unit becomes Veteran."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "planned_attack",
@@ -48178,6 +48167,7 @@
       "card_id": "tupolev_tu2",
       "source_text": "Draw a random unit from your deck when a friendly unit becomes Veteran.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -48193,13 +48183,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when a friendly unit becomes Veteran.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when a friendly unit becomes Veteran."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "116th_infantry_regiment",
@@ -48748,6 +48738,7 @@
       "card_id": "7th_brigade_vet",
       "source_text": "When this unit becomes Veteran, draw 2 cards.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -48763,13 +48754,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit becomes Veteran",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit becomes Veteran"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "511th_regiment_vet",
@@ -48800,6 +48791,7 @@
       "card_id": "102nd_rifles_vet",
       "source_text": "When this unit becomes Veteran, add a THE HAMMER to your hand.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -48815,13 +48807,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit becomes Veteran",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit becomes Veteran"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "14_panzergrenadier_vet",
@@ -48852,6 +48844,7 @@
       "card_id": "216th_guards_vet",
       "source_text": "Your other units and HQ get +3 defense when this unit becomes Veteran.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -48867,13 +48860,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when this unit becomes Veteran.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when this unit becomes Veteran."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "641st_rifles_vet",
@@ -48909,6 +48902,7 @@
       "card_id": "6th_brigade_nz_vet",
       "source_text": "Deal 1 damage to a random enemy when a friendly unit becomes Veteran.",
       "triggers": [
+        "on_veteran",
         "on_deploy"
       ],
       "actions": [
@@ -48924,13 +48918,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when a friendly unit becomes Veteran.",
-          "on": []
+          "on": [
+            "on_veteran"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when a friendly unit becomes Veteran."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "wolfhounds_vet",

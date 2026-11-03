@@ -65,6 +65,14 @@ _DELAYED_DESTROY = re.compile(
     r"|\bat\s+the\s+end\s+of\s+(?P<when2>your\s+next\s+turn|(?:your\s+|the\s+)?turn)\s*,\s*destroy\s+(?:it|them)\b",
     re.I)
 
+# "When this/a/an/the (friendly/enemy) unit becomes Veteran" -- a REACTION to
+# a promotion elsewhere. Must not match "Becomes Veteran when it damages the
+# enemy HQ." (that sentence is the promotion condition itself, not a listener
+# reacting to someone else's promotion); anchoring on a leading "when" keeps
+# the two apart.
+_BECOMES_VETERAN_TRIGGER = re.compile(
+    r"\bwhen\s+(?:this|a|an|the)\s+(?:friendly\s+|enemy\s+)?unit\s+becomes\s+veteran\b", re.I)
+
 
 def _delayed_destroy(sentence: str) -> tuple | None:
     match = _DELAYED_DESTROY.search(sentence)
@@ -1086,6 +1094,8 @@ def _triggers(card: Card, text: str) -> tuple[str, ...]:
         triggers.append("on_enemy_hq_damaged")
     if "when it survives combat" in lower:
         triggers.append("on_survives_combat")
+    if _BECOMES_VETERAN_TRIGGER.search(lower):
+        triggers.append("on_veteran")
     if "when you play a card with intel" in lower or "when you play a card with bond" in lower:
         triggers.append("on_friendly_card_played")
     if "when you give an order" in lower:

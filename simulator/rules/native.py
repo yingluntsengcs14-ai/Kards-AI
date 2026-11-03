@@ -3149,6 +3149,24 @@ class NativeRuleEngine:
         unit.status["veteran"] = True
         state.event_log.append({"event": "unit_became_veteran", "unit_id": unit.instance_id,
                                 "from_card_id": previous, "to_card_id": veteran_id})
+        # "When this unit becomes Veteran" (the veteran card's own ability) and
+        # "when a friendly unit becomes Veteran" (other units listening) are both
+        # dispatched the same way the on_destroy broadcast works: every unit on
+        # the battlefield gets a chance to react, condition.py tells self from
+        # friendly-from-elsewhere apart using event_source_unit_id/event_player_id.
+        veteran_context_metadata = {"event_player_id": unit.owner_id, "event_source_unit_id": unit.instance_id}
+        for listener_player in state.players.values():
+            for listener in tuple(listener_player.units):
+                if listener.card_id not in self.cards:
+                    continue
+                listener_rule = self.rule_for(listener.card_id)
+                if "on_veteran" not in listener_rule.triggers:
+                    continue
+                listener_context = EffectContext(
+                    listener.owner_id, listener.card_id, listener.instance_id,
+                    unit.instance_id, event="on_veteran", metadata=veteran_context_metadata,
+                )
+                self.execute(listener.card_id, "on_veteran", state, listener_context)
 
     def _move_units(self, position: str, action: RuleAction, state, context) -> None:
         """Move resolved units (single target or a scoped group) to a position."""
