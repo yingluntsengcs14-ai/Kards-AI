@@ -2751,7 +2751,14 @@ class NativeRuleEngine:
                                 "card_id": chosen, "unit_id": unit.instance_id})
 
     def _flicker(self, action, state, context) -> None:
-        """NIGHT ATTACK: remove a unit, then return it fresh with new keywords."""
+        """NIGHT ATTACK: remove a unit, then return it fresh with new keywords.
+
+        "Remove ... from the battlefield" is itself a unit leaving the
+        battlefield undestroyed, same as REMOVE_UNTIL_RETURN (confirmed in
+        client: KANAZAWA REGIMENT fires on the removal step here, and again
+        when NIGHT ATTACK's own "send it to hand end of turn" clause later
+        sends the returned unit away for good).
+        """
         unit = find_unit(state, context.target_unit_id)
         owner_id = unit.owner_id
         owner = state.players[owner_id]
@@ -2759,6 +2766,16 @@ class NativeRuleEngine:
             state.battlefield[unit.position].remove(unit.instance_id)
         owner.units.remove(unit)
         self._cleanup_continuous_effects(state, owner_id, unit.instance_id)
+        # left_battlefield() -> emit() -> execute() for every listener (e.g.
+        # KANAZAWA REGIMENT) resets self._current_rule/_deployed/_current_event
+        # as a side effect of running THAT card's own rule.  NIGHT ATTACK's own
+        # execute() call is still in progress one level up (its second action,
+        # delayed_to_hand, runs right after this and needs _current_rule/
+        # _deployed to still be *this* card's, not the listener's) so save and
+        # restore them around the nested dispatch.
+        saved_rule, saved_deployed, saved_event = self._current_rule, self._deployed, self._current_event
+        self.left_battlefield(state, unit, owner_id)
+        self._current_rule, self._deployed, self._current_event = saved_rule, saved_deployed, saved_event
         abilities = tuple(name for name in (action.card_name or "").split(",") if name)
         returned = self._new_unit(state, owner_id, unit.card_id, abilities)
         if returned is None:
