@@ -6,9 +6,13 @@ self_play:
   shared_memory: true
   max_pending_leaves: 8
   max_actions: 300
-  # Every official combination available in the bundled catalogue. France is
-  # ally-only; ANZAC is omitted because this data source contains no ANZAC
-  # cards. Both sides use the sampled pair symmetrically for fair self-play.
+  # Self-play draws both sides' decks from the 17 confirmed tournament/meta
+  # decks (data/decks/meta_decks.json), not random nation decks -- the model
+  # should learn against the actual competitive card pool and ratios.
+  meta_decks: true
+  # Kept only as the deck_pool evaluate.py/fair_evaluate.py use for the
+  # external random-opponent fairness benchmark below; self-play itself
+  # ignores this list while meta_decks is true.
   deck_pool:
     - {main: Britain, ally: France}
     - {main: Britain, ally: Poland}

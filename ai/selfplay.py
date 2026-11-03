@@ -14,6 +14,7 @@ from ai.action_encoder import ActionEncoder
 from ai.agents import BaseAgent
 from ai.observation import ObservationEncoder
 from ai.replay_buffer import ReplayBuffer, TrainingExample
+from simulator.cards.deck_code import Deck, load_meta_decks
 from simulator.cards.loader import CardDatabase
 from simulator.core.game import Simulator
 from simulator.testing import build_random_deck
@@ -24,7 +25,7 @@ _PARALLEL_CONTEXT: dict = {}
 
 def _parallel_worker_init(card_path: str, architecture: dict, state_dict: dict | None, simulations: int,
                           max_actions: int, device: str, inference_requests=None, mcts_options: dict | None = None,
-                          shared_inference_spec=None) -> None:
+                          shared_inference_spec=None, use_meta_decks: bool = False) -> None:
     """Initialize one independent, deterministic self-play worker process."""
     from ai.agents import MCTSAgent
     from ai.network import KARDSNet
@@ -39,7 +40,8 @@ def _parallel_worker_init(card_path: str, architecture: dict, state_dict: dict |
     _PARALLEL_CONTEXT.update(cards=cards, encoder=ObservationEncoder(cards), model=model,
                              simulations=simulations, max_actions=max_actions, device=device,
                              inference_requests=inference_requests, mcts_options=mcts_options or {},
-                             shared_inference_spec=shared_inference_spec)
+                             shared_inference_spec=shared_inference_spec,
+                             meta_decks=(load_meta_decks(cards) if use_meta_decks else None))
 
 
 def _parallel_episode(index: int, seed: int, nation: str, ally_nation: str | None = None, response_queue=None) -> tuple:
@@ -59,7 +61,7 @@ def _parallel_episode(index: int, seed: int, nation: str, ally_nation: str | Non
         MCTSAgent(context["model"], context["encoder"], context["simulations"], seed + 1, inference=inference, **context["mcts_options"]),
         MCTSAgent(context["model"], context["encoder"], context["simulations"], seed + 2, inference=inference, **context["mcts_options"]),
     )
-    report = runner.run(1, *agents, nation=nation, ally_nation=ally_nation)
+    report = runner.run(1, *agents, nation=nation, ally_nation=ally_nation, meta_decks=context.get("meta_decks"))
     totals = {"searches": 0.0, "submitted_leaves": 0.0, "completed_leaves": 0.0,
               "latency_sum_ms": 0.0, "pending_queue_peak": 0.0}
     for agent in agents:
@@ -73,9 +75,10 @@ def _parallel_episode(index: int, seed: int, nation: str, ally_nation: str | Non
 
 def _cuda_worker_loop(card_path: str, architecture: dict, simulations: int, max_actions: int,
                       requests, response_queue, worker_id: int, tasks, results, mcts_options: dict,
-                      shared_inference_spec=None) -> None:
+                      shared_inference_spec=None, use_meta_decks: bool = False) -> None:
     """Run CPU-only rule simulations; CUDA inference remains in the parent."""
-    _parallel_worker_init(card_path, architecture, None, simulations, max_actions, "cpu", requests, mcts_options, shared_inference_spec)
+    _parallel_worker_init(card_path, architecture, None, simulations, max_actions, "cpu", requests, mcts_options,
+                          shared_inference_spec, use_meta_decks)
     _PARALLEL_CONTEXT["worker_id"] = worker_id
     while True:
         task = tasks.get()
@@ -102,18 +105,29 @@ class SelfPlayRunner:
         self.last_transport_stats: dict[str, float] = {}
 
     def run(self, episodes: int, player_one: BaseAgent, player_two: BaseAgent, nation: str = "France", ally_nation: str | None = None,
-            deck_pool: list[tuple[str, str | None]] | None = None,
+            deck_pool: list[tuple[str, str | None]] | None = None, meta_decks: list[Deck] | None = None,
             on_episode_complete: Callable[[int, dict[str, int], int], None] | None = None) -> SelfPlayReport:
         totals = {"p1": 0, "p2": 0, "draw": 0}; before = len(self.buffer); generated = 0
         turns_total = 0; hq_damage_total = 0.0; cards_played_total = 0
         for _ in range(episodes):
             # Debug replay serializes every full state; the training replay
             # buffer below already retains the required policy/value samples.
-            main_nation, selected_ally = self.rng.choice(deck_pool) if deck_pool else (nation, ally_nation)
             env = Simulator(self.cards, record_replay=False)
-            decks = [build_random_deck(self.cards, seed=self.rng.randrange(2**31), main_nation=main_nation,
-                                       ally_nation=selected_ally, enforce_official_nations=bool(deck_pool)) for _ in range(2)]
-            env.reset(*decks, nations=(main_nation, main_nation), ally_nations=(selected_ally, selected_ally), seed=self.rng.randrange(2**31)); pending: list[tuple[TrainingExample, str]] = []
+            if meta_decks:
+                # Each side independently draws one of the 17 tournament
+                # decks, exactly as exported -- no random deckbuilding here.
+                # reset() below reshuffles draw order from ``seed``.
+                deck_a, deck_b = self.rng.choice(meta_decks), self.rng.choice(meta_decks)
+                decks = [list(deck_a.cards), list(deck_b.cards)]
+                nations = (deck_a.main_nation, deck_b.main_nation)
+                allies = (deck_a.ally_nation, deck_b.ally_nation)
+            else:
+                main_nation, selected_ally = self.rng.choice(deck_pool) if deck_pool else (nation, ally_nation)
+                decks = [build_random_deck(self.cards, seed=self.rng.randrange(2**31), main_nation=main_nation,
+                                           ally_nation=selected_ally, enforce_official_nations=bool(deck_pool)) for _ in range(2)]
+                nations = (main_nation, main_nation)
+                allies = (selected_ally, selected_ally)
+            env.reset(*decks, nations=nations, ally_nations=allies, seed=self.rng.randrange(2**31)); pending: list[tuple[TrainingExample, str]] = []
             player_one.reset(); player_two.reset()
             for _ in range(self.max_actions):
                 if env.is_terminal(): break
@@ -211,7 +225,7 @@ class VectorizedSelfPlay:
                               turns / episodes, hq_damage / episodes, cards_played / episodes)
 
     def run_parallel(self, episodes: int, model, simulations: int, card_path: str | Path, nation: str = "France", ally_nation: str | None = None,
-                     deck_pool: list[tuple[str, str | None]] | None = None, workers: int = 2,
+                     deck_pool: list[tuple[str, str | None]] | None = None, use_meta_decks: bool = False, workers: int = 2,
                      device: str = "cuda", on_episode_complete: Callable[[int, dict[str, int], int], None] | None = None,
                      mcts_options: dict | None = None, measure_inference: bool = False,
                      shared_inference: bool = True) -> SelfPlayReport:
@@ -267,7 +281,7 @@ class VectorizedSelfPlay:
             processes = [context.Process(target=_cuda_worker_loop,
                                          args=(str(card_path), model.architecture, simulations, self.max_actions,
                                                requests, responses[index], index, tasks, results, mcts_options,
-                                               shared_buffers.spec if shared_buffers else None), daemon=True)
+                                               shared_buffers.spec if shared_buffers else None, use_meta_decks), daemon=True)
                          for index in range(workers)]
             for process in processes:
                 process.start()
@@ -294,7 +308,8 @@ class VectorizedSelfPlay:
             cpu_state = {key: value.detach().cpu() for key, value in model.state_dict().items()}
             with ProcessPoolExecutor(max_workers=workers, initializer=_parallel_worker_init,
                                      initargs=(str(card_path), model.architecture, cpu_state,
-                                               simulations, self.max_actions, device, None, mcts_options)) as pool:
+                                               simulations, self.max_actions, device, None, mcts_options,
+                                               None, use_meta_decks)) as pool:
                 futures = [pool.submit(_parallel_episode, index, seed, main_nation, selected_ally) for index, (seed, main_nation, selected_ally) in enumerate(episode_specs)]
                 for future in as_completed(futures):
                     merge(*future.result())

@@ -12,11 +12,12 @@ from ai.replay_buffer import ReplayBuffer
 from ai.selfplay import SelfPlayRunner
 from ai.metrics import RunMetrics
 from ai.runtime import runtime_path
+from simulator.cards.deck_code import load_meta_decks
 from simulator.cards.loader import CardDatabase
 
 ROOT = Path(__file__).parent
 def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("--config", default=ROOT / "configs/selfplay.yaml"); parser.add_argument("--episodes", type=int); parser.add_argument("--model"); parser.add_argument("--mcts-simulations", type=int); parser.add_argument("--max-actions", type=int); parser.add_argument("--nation"); parser.add_argument("--ally-nation"); parser.add_argument("--deck-pool"); parser.add_argument("--replay"); parser.add_argument("--seed", type=int, default=0); parser.add_argument("--metrics"); parser.add_argument("--progress-every", type=int, default=10); parser.add_argument("--device"); parser.add_argument("--workers", type=int); parser.add_argument("--append-replay", action="store_true"); parser.add_argument("--replay-capacity", type=int); parser.add_argument("--temperature", type=float); parser.add_argument("--dirichlet-alpha", type=float); parser.add_argument("--exploration-fraction", type=float); parser.add_argument("--async-mcts", action="store_true"); parser.add_argument("--max-pending-leaves", type=int)
+    parser = argparse.ArgumentParser(); parser.add_argument("--config", default=ROOT / "configs/selfplay.yaml"); parser.add_argument("--episodes", type=int); parser.add_argument("--model"); parser.add_argument("--mcts-simulations", type=int); parser.add_argument("--max-actions", type=int); parser.add_argument("--nation"); parser.add_argument("--ally-nation"); parser.add_argument("--deck-pool"); parser.add_argument("--meta-decks", action="store_true"); parser.add_argument("--replay"); parser.add_argument("--seed", type=int, default=0); parser.add_argument("--metrics"); parser.add_argument("--progress-every", type=int, default=10); parser.add_argument("--device"); parser.add_argument("--workers", type=int); parser.add_argument("--append-replay", action="store_true"); parser.add_argument("--replay-capacity", type=int); parser.add_argument("--temperature", type=float); parser.add_argument("--dirichlet-alpha", type=float); parser.add_argument("--exploration-fraction", type=float); parser.add_argument("--async-mcts", action="store_true"); parser.add_argument("--max-pending-leaves", type=int)
     args = parser.parse_args(); cfg = load_config(args.config); cards = CardDatabase.from_file(ROOT / "data/source/kards_info_cards.json"); encoder = ObservationEncoder(cards)
     device = args.device or ("cuda" if torch.cuda.is_available() else "cpu")
     model = (KARDSNet.load_checkpoint(args.model, device=device) if args.model else KARDSNet()).to(device)
@@ -40,7 +41,9 @@ def main() -> None:
                "async_inference": async_mcts, "max_pending_leaves": max_pending_leaves}
     raw_pool = json.loads(args.deck_pool) if args.deck_pool else cfg.get("deck_pool", [])
     deck_pool = [(item["main"], item.get("ally")) for item in raw_pool] or None
-    report = runner.run_parallel(episodes, model, sims, ROOT / "data/source/kards_info_cards.json", nation=args.nation or str(cfg["nation"]), ally_nation=args.ally_nation, deck_pool=deck_pool, workers=workers, device=device, on_episode_complete=progress, mcts_options=options, shared_inference=shared_inference) if workers > 1 else runner.run(episodes, *agents, nation=args.nation or str(cfg["nation"]), ally_nation=args.ally_nation, deck_pool=deck_pool, on_episode_complete=progress)
+    use_meta_decks = args.meta_decks or bool(cfg.get("meta_decks", False))
+    meta_decks = load_meta_decks(cards) if use_meta_decks else None
+    report = runner.run_parallel(episodes, model, sims, ROOT / "data/source/kards_info_cards.json", nation=args.nation or str(cfg["nation"]), ally_nation=args.ally_nation, deck_pool=deck_pool, use_meta_decks=use_meta_decks, workers=workers, device=device, on_episode_complete=progress, mcts_options=options, shared_inference=shared_inference) if workers > 1 else runner.run(episodes, *agents, nation=args.nation or str(cfg["nation"]), ally_nation=args.ally_nation, deck_pool=deck_pool, meta_decks=meta_decks, on_episode_complete=progress)
     buffer = runner.buffer
     buffer.save(replay_path)
     games_path = runtime_path(None, "games.jsonl"); games_path.parent.mkdir(parents=True, exist_ok=True)
