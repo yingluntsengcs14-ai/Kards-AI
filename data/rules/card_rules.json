@@ -252,12 +252,13 @@
       "card_id": "111th_indian_brigade",
       "source_text": "When your HQ gains defense, it gains 1 extra defense.",
       "triggers": [
+        "on_hq_gained_defense",
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "modify_defense",
-          "target": "source",
+          "kind": "gain_hq_defense",
+          "target": "owner",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -267,13 +268,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When your HQ gains defense",
-          "on": []
+          "on": [
+            "on_hq_gained_defense"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When your HQ gains defense"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "1st_airborne",
@@ -8968,28 +8969,29 @@
       "card_id": "73e_rgiment_dinfanterie",
       "source_text": "Gets +1+1 when your HQ gains defense.",
       "triggers": [
+        "on_hq_gained_defense",
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "gain_hq_defense",
-          "target": "owner",
-          "amount": 1,
-          "attack": 0,
-          "defense": 0,
+          "kind": "buff",
+          "target": "source",
+          "amount": 0,
+          "attack": 1,
+          "defense": 1,
           "card_name": null,
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": "when your HQ gains defense.",
-          "on": []
+          "on": [
+            "on_hq_gained_defense"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when your HQ gains defense."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "defend_the_nation",
@@ -9355,12 +9357,13 @@
       "card_id": "commandos_kieffer",
       "source_text": "Deal 1 damage to a random enemy when your HQ gains defense.",
       "triggers": [
+        "on_hq_gained_defense",
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "gain_hq_defense",
-          "target": "owner",
+          "kind": "damage",
+          "target": "random_enemy",
           "amount": 1,
           "attack": 0,
           "defense": 0,
@@ -9370,13 +9373,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when your HQ gains defense.",
-          "on": []
+          "on": [
+            "on_hq_gained_defense"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when your HQ gains defense."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "expeditionary_corps",
@@ -9702,6 +9705,7 @@
       "card_id": "8e_marocains",
       "source_text": "When you deploy another unit, your HQ gains defense equal to its operation cost.",
       "triggers": [
+        "on_hq_gained_defense",
         "on_deploy"
       ],
       "actions": [
@@ -9718,6 +9722,7 @@
           "duration": null,
           "condition": "When you deploy another unit",
           "on": [
+            "on_hq_gained_defense",
             "on_deploy"
           ]
         }
@@ -12998,10 +13003,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If it is pinned"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "retaliation",
@@ -13641,10 +13644,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if this is your only unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "air_blitz",
@@ -16189,10 +16190,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] if this is your only unit."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "20_panzergrenadier",
@@ -16647,6 +16646,7 @@
       "card_id": "ju_88_g6",
       "source_text": "When this unit destroys a unit, add a copy of the destroyed unit to your hand.",
       "triggers": [
+        "on_destroys_unit",
         "on_deploy"
       ],
       "actions": [
@@ -16662,13 +16662,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit destroys a unit",
-          "on": []
+          "on": [
+            "on_destroys_unit"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit destroys a unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "junkers_ju_88_a",
@@ -18347,10 +18347,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If it is pinned"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "fiat_c_r_42",
@@ -18686,6 +18684,7 @@
       "card_id": "fiat_c_r_32",
       "source_text": "When your HQ gains defense, fully repair a random friendly unit.",
       "triggers": [
+        "on_hq_gained_defense",
         "on_deploy"
       ],
       "actions": [
@@ -18701,13 +18700,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When your HQ gains defense",
-          "on": []
+          "on": [
+            "on_hq_gained_defense"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When your HQ gains defense"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "fiat_g_50",
@@ -23870,6 +23869,7 @@
       "card_id": "e13a_jake",
       "source_text": "When you lose a kredit slot, your units get +1+1.",
       "triggers": [
+        "on_kredit_slot_lost",
         "on_deploy"
       ],
       "actions": [
@@ -23885,13 +23885,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When you lose a kredit slot",
-          "on": []
+          "on": [
+            "on_kredit_slot_lost"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When you lose a kredit slot"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "flight_to_oblivion",
@@ -24794,6 +24794,7 @@
       "card_id": "5th_regiment",
       "source_text": "When you lose a kredit slot, this unit gets +2+1 if on the battlefield or -2 cost if in hand.",
       "triggers": [
+        "on_kredit_slot_lost",
         "on_deploy"
       ],
       "actions": [
@@ -24809,13 +24810,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When you lose a kredit slot ; if on the battlefield or -2 cost if in hand.",
-          "on": []
+          "on": [
+            "on_kredit_slot_lost"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When you lose a kredit slot ; if on the battlefield or -2 cost if in hand."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "61st_infantry_regiment",
@@ -25492,7 +25493,7 @@
       "card_id": "long_range_recon",
       "source_text": "Your HQ gains defense equal to the number of all cards on the battlefield.",
       "triggers": [
-        "on_play"
+        "on_hq_gained_defense"
       ],
       "actions": [
         {
@@ -36828,10 +36829,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If this destroys it"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "bocage_warfare",
@@ -37620,10 +37619,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If this destroys it"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "12th_infantry_regiment",
@@ -37699,6 +37696,7 @@
       "card_id": "142nd_infantry_regiment",
       "source_text": "When this unit destroys an enemy unit, your HQ gains +2 defense.",
       "triggers": [
+        "on_destroys_unit",
         "on_deploy"
       ],
       "actions": [
@@ -37714,13 +37712,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit destroys an enemy unit",
-          "on": []
+          "on": [
+            "on_destroys_unit"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit destroys an enemy unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "17th_infantry_regiment",
@@ -38881,28 +38879,29 @@
       "card_id": "sb2c_helldiver",
       "source_text": "When you gain an extra kredit slot, add a copy of this unit to your hand.",
       "triggers": [
+        "on_kredit_slot_gained",
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "gain_kredit_slot",
+          "kind": "add_card",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
-          "card_name": null,
+          "card_name": "copy of this",
           "scope": "",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": "When you gain an extra kredit slot",
-          "on": []
+          "on": [
+            "on_kredit_slot_gained"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When you gain an extra kredit slot"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "seabees",
@@ -39514,12 +39513,13 @@
       "card_id": "1st_texas_infantry",
       "source_text": "Double attack and defense when you gain an extra kredit slot.",
       "triggers": [
+        "on_kredit_slot_gained",
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "gain_kredit_slot",
-          "target": "owner",
+          "kind": "double_stats",
+          "target": "selected_target",
           "amount": 0,
           "attack": 0,
           "defense": 0,
@@ -39529,13 +39529,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when you gain an extra kredit slot.",
-          "on": []
+          "on": [
+            "on_kredit_slot_gained"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when you gain an extra kredit slot."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "306th_regiment",
@@ -39612,10 +39612,8 @@
           ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If this destroys it"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "327th_pathfinders_vet",
@@ -40873,13 +40871,14 @@
       "card_id": "106th_quartermasters",
       "source_text": "When you gain an extra kredit slot, draw a card.",
       "triggers": [
+        "on_kredit_slot_gained",
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "gain_kredit_slot",
+          "kind": "draw",
           "target": "owner",
-          "amount": 0,
+          "amount": 1,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -40888,13 +40887,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When you gain an extra kredit slot",
-          "on": []
+          "on": [
+            "on_kredit_slot_gained"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When you gain an extra kredit slot"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "155mm_1918_model",
@@ -42654,6 +42653,7 @@
       "card_id": "p47d_thunderbolt",
       "source_text": "When this unit destroys an enemy unit, draw a card.",
       "triggers": [
+        "on_destroys_unit",
         "on_deploy"
       ],
       "actions": [
@@ -42669,13 +42669,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "When this unit destroys an enemy unit",
-          "on": []
+          "on": [
+            "on_destroys_unit"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] When this unit destroys an enemy unit"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "p61_black_widow",
@@ -45700,13 +45700,14 @@
       "card_id": "murase_battalion",
       "source_text": "Once per turn, gain 3 additional kredits when you lose a kredit slot.",
       "triggers": [
+        "on_kredit_slot_lost",
         "on_deploy"
       ],
       "actions": [
         {
-          "kind": "lose_kredit_slot",
+          "kind": "gain_kredits",
           "target": "owner",
-          "amount": 1,
+          "amount": 3,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -45715,13 +45716,13 @@
           "set_cost": null,
           "duration": null,
           "condition": "when you lose a kredit slot.",
-          "on": []
+          "on": [
+            "on_kredit_slot_lost"
+          ]
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] when you lose a kredit slot."
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "no_46_commando",
@@ -46925,6 +46926,7 @@
       "card_id": "38th_independent",
       "source_text": "Cannot attack or move. Suppress it if you have 4+ copies. Duplicate this unit when you lose a kredit slot.",
       "triggers": [
+        "on_kredit_slot_lost",
         "on_deploy"
       ],
       "actions": [
@@ -46957,24 +46959,25 @@
           "on": []
         },
         {
-          "kind": "lose_kredit_slot",
-          "target": "owner",
-          "amount": 1,
+          "kind": "copy_unit",
+          "target": "source",
+          "amount": 0,
           "attack": 0,
           "defense": 0,
           "card_name": null,
-          "scope": "",
+          "scope": "unit",
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
           "condition": "when you lose a kredit slot.",
-          "on": []
+          "on": [
+            "on_kredit_slot_lost"
+          ]
         }
       ],
       "status": "partial",
       "unresolved_fragments": [
-        "[condition not modeled] if you have 4+ copies.",
-        "[condition not modeled] when you lose a kredit slot."
+        "[condition not modeled] if you have 4+ copies."
       ]
     },
     {

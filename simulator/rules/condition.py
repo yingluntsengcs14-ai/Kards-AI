@@ -240,6 +240,23 @@ def _evaluate(
         return True
     if "is dealt damage" in c or "takes damage" in c or "is damaged" in c or "dealt damage" in c:
         return event == "on_damage"
+    # "When your HQ gains defense" (native._execute_action's gain_hq_defense
+    # branch broadcasts on_hq_gained_defense to the gaining player's units,
+    # same shape as the on_veteran broadcast above).
+    if "your hq gains defense" in c:
+        return event == "on_hq_gained_defense"
+    # "When you gain an extra kredit slot" / "when you lose a kredit slot" --
+    # native's gain_kredit_slot / lose_kredit_slot branches broadcast these.
+    if "when you gain an extra kredit slot" in c:
+        return event == "on_kredit_slot_gained"
+    if "when you lose a kredit slot" in c:
+        return event == "on_kredit_slot_lost"
+    # "When this unit destroys an enemy unit" -- AttackAction.execute already
+    # emits on_destroys_unit scoped to the attacker; emit()'s own filtering
+    # (native.py) keeps this to the attacking unit, so the event name alone
+    # is enough here.
+    if re.search(r"when this unit destroys an? (?:enemy )?unit", c):
+        return event == "on_destroys_unit"
     # Card-play triggers filtered by the played card's type / ability.
     played = _played_card(context, cards)
     if "give an order" in c or "play an order" in c or "gives an order" in c:
@@ -436,8 +453,30 @@ def _board_predicate(c, context, cards, state):
         if not operated or operated not in cards:
             return False
         return _unit_matches_words(cards.get(operated), [w for w in match.group(1).split() if w != "unit"])
-    if re.fullmatch(r"if (?:it is |it was )?already pinned", text):
+    if re.fullmatch(r"if (?:it is |it was )?(?:already )?pinned", text):
         return bool(metadata.get("target_pinned"))
+    # "If this destroys it" (AWOKEN GIANT / UNITED WE STAND / 327th
+    # PATHFINDERS): a later action in the same multi-clause card checking
+    # whether an earlier clause's damage actually killed the unit it
+    # targeted. ``context.target_unit_id`` is unchanged across a card's own
+    # action list (see native.execute's single ``ctx`` snapshot), so "it" is
+    # still that same instance id; it has "been destroyed" exactly when it
+    # can no longer be found on the battlefield.
+    if re.fullmatch(r"if this destroys it", text):
+        target_id = getattr(context, "target_unit_id", None)
+        if not target_id:
+            return False
+        from simulator.actions.validator import ActionValidationError, find_unit
+        try:
+            find_unit(state, target_id)
+            return False
+        except ActionValidationError:
+            return True
+    # "If this is your only unit" (989th INFANTRY REGIMENT / 171st INFANTRY
+    # REGIMENT): checked right after its own Deployment, so ``player.units``
+    # already includes the unit itself.
+    if re.fullmatch(r"if this is your only unit", text):
+        return len(player.units) == 1
     if re.fullmatch(r"if a unit (?:was|has been) destroyed(?: this turn)?", text):
         return counters.units_destroyed_this_turn(state) > 0
     # "it" = the unit this card targeted, snapshotted before the effect ran.

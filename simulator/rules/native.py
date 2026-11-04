@@ -2075,6 +2075,24 @@ class NativeRuleEngine:
             # Kredits never go below 0 (confirmed in game).
             player.resources.kredits = max(0, min(player.resources.max_kredits, player.resources.kredits + action.amount))
             return
+        if action.kind == "gain_hq_defense":
+            # Dedicated branch (rather than falling through to the generic
+            # EffectResolver dispatch below) so a gain from ANY source can
+            # broadcast on_hq_gained_defense the same way _promote_to_veteran
+            # broadcasts on_veteran -- 111th INDIAN BRIGADE / 73e RÉGIMENT
+            # D'INFANTERIE / COMMANDOS KIEFFER all react to "when your HQ
+            # gains defense" regardless of who/what caused the gain.
+            #
+            # Only an UNCONDITIONAL gain (action.condition is None) broadcasts.
+            # 111th INDIAN BRIGADE's own reaction is itself a gain_hq_defense
+            # action (condition="When your HQ gains defense") -- without this
+            # guard, its reactive gain would re-broadcast and re-trigger
+            # itself forever (RecursionError, caught in testing 2026-11-04).
+            owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
+            HQResolver.modify_defense(state, owner, action.amount)
+            if action.amount > 0 and action.condition is None:
+                self._broadcast_hq_gained_defense(state, owner)
+            return
         if action.kind == "gain_kredit_slot":
             owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
             player = state.players[owner]
@@ -2082,6 +2100,10 @@ class NativeRuleEngine:
             player.resources.max_kredits += added
             player.resources.kredits = min(player.resources.max_kredits, player.resources.kredits + added)
             state.event_log.append({"event": "kredit_slot_gained", "player_id": owner, "amount": added})
+            # Same re-trigger guard as gain_hq_defense above (defense in depth;
+            # no card currently reacts with gain_kredit_slot itself).
+            if added > 0 and action.condition is None:
+                self._broadcast_kredit_slot_change(state, owner, "on_kredit_slot_gained")
             return
         if action.kind == "lose_kredit_slot":
             owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
@@ -2092,6 +2114,8 @@ class NativeRuleEngine:
             counters.note_kredit_slots_lost(state, owner, lost)
             player.resources.kredits = min(player.resources.kredits, player.resources.max_kredits)
             state.event_log.append({"event": "kredit_slot_lost", "player_id": owner, "amount": lost})
+            if lost > 0 and action.condition is None:
+                self._broadcast_kredit_slot_change(state, owner, "on_kredit_slot_lost")
             return
         if action.kind == "lose_kredits":
             owner = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
@@ -3167,6 +3191,37 @@ class NativeRuleEngine:
                     unit.instance_id, event="on_veteran", metadata=veteran_context_metadata,
                 )
                 self.execute(listener.card_id, "on_veteran", state, listener_context)
+
+    def _broadcast_hq_gained_defense(self, state, player_id: str) -> None:
+        """"When your HQ gains defense" listeners (F round 2, 2026-11-04).
+
+        Same shape as the on_veteran broadcast: "your" HQ means the
+        listener's own HQ, so only ``player_id``'s own units are checked --
+        unlike on_veteran/on_destroy there is no cross-player direction here.
+        """
+        for listener in tuple(state.players[player_id].units):
+            if listener.card_id not in self.cards:
+                continue
+            listener_rule = self.rule_for(listener.card_id)
+            if "on_hq_gained_defense" not in listener_rule.triggers:
+                continue
+            listener_context = EffectContext(listener.owner_id, listener.card_id, listener.instance_id,
+                                              event="on_hq_gained_defense")
+            self.execute(listener.card_id, "on_hq_gained_defense", state, listener_context)
+
+    def _broadcast_kredit_slot_change(self, state, player_id: str, event: str) -> None:
+        """"When you gain an extra kredit slot" / "...lose a kredit slot"
+        listeners (F round 2, 2026-11-04); same shape as
+        :meth:`_broadcast_hq_gained_defense`.
+        """
+        for listener in tuple(state.players[player_id].units):
+            if listener.card_id not in self.cards:
+                continue
+            listener_rule = self.rule_for(listener.card_id)
+            if event not in listener_rule.triggers:
+                continue
+            listener_context = EffectContext(listener.owner_id, listener.card_id, listener.instance_id, event=event)
+            self.execute(listener.card_id, event, state, listener_context)
 
     def _move_units(self, position: str, action: RuleAction, state, context) -> None:
         """Move resolved units (single target or a scoped group) to a position."""

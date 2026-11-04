@@ -1096,6 +1096,22 @@ def _triggers(card: Card, text: str) -> tuple[str, ...]:
         triggers.append("on_survives_combat")
     if _BECOMES_VETERAN_TRIGGER.search(lower):
         triggers.append("on_veteran")
+    # "When your HQ gains defense" (111th INDIAN BRIGADE etc.) -- reacts to a
+    # gain from ANY source; native._execute_action's gain_hq_defense branch
+    # broadcasts on_hq_gained_defense the same way _promote_to_veteran does.
+    if "your hq gains defense" in lower or "when your hq gains defense" in lower:
+        triggers.append("on_hq_gained_defense")
+    # "When you gain an extra kredit slot" / "when you lose a kredit slot" --
+    # native's gain_kredit_slot / lose_kredit_slot branches broadcast these.
+    if "when you gain an extra kredit slot" in lower:
+        triggers.append("on_kredit_slot_gained")
+    if "when you lose a kredit slot" in lower:
+        triggers.append("on_kredit_slot_lost")
+    # "When this unit destroys an enemy unit" (142nd INFANTRY REGIMENT,
+    # P-47D THUNDERBOLT) -- AttackAction.execute already emits on_destroys_unit
+    # for the attacker; this just needed the trigger wired up.
+    if re.search(r"when this unit destroys an? (?:enemy )?unit", lower):
+        triggers.append("on_destroys_unit")
     if "when you play a card with intel" in lower or "when you play a card with bond" in lower:
         triggers.append("on_friendly_card_played")
     if "when you give an order" in lower:
@@ -1581,7 +1597,14 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
     if "loses remaining kredits" in original_lower: return (RuleAction("lose_kredits", "enemy_hand", amount=99),)
     if "deploys for 0 kredits" in original_lower: return (RuleAction("modify_deployment_cost", "source", set_cost=0),)
     if "costs +2 kredits" in original_lower: return (RuleAction("target_or_attack_tax", "enemy_hand", amount=2),)
-    if "gain an extra kredit slot" in original_lower: return (RuleAction("gain_kredit_slot", "owner"),)
+    # Exclude "When you gain an extra kredit slot, <effect>" -- that is a
+    # trigger clause (the card reacts to a slot gain from ANY source, e.g.
+    # SB2C HELLDIVER adding a copy of itself to hand), not an instruction to
+    # gain a slot. original_lower keeps leading trigger clauses intact, so
+    # this otherwise matches the condition text itself and discards the real
+    # effect (see test_gain_hq_defense_and_kredit_slot_triggers.py).
+    if "gain an extra kredit slot" in original_lower and "when you gain an extra kredit slot" not in original_lower:
+        return (RuleAction("gain_kredit_slot", "owner"),)
     if "navy type" in original_lower: return (RuleAction("grant_trait", "source", card_name="navy_type"),)
     if "while in the frontline, your hq cannot be reduced below" in original_lower: return (RuleAction("hq_defense_lock", "owner"),)
     if "when your hq receives damage this turn, reduce" in original_lower: return (RuleAction("hq_defense_lock", "owner"),)
@@ -1616,7 +1639,11 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
     gain_hq = re.search(r"(?:gain(?:s|ed)?|gives?\s+your\s+hq)\s+(\+?\d+)\s+(?:hq\s+)?defense", lower)
     if gain_hq:
         return (RuleAction("gain_hq_defense", "owner", amount=int(gain_hq.group(1))),)
-    if "your hq gains" in lower and "defense" in lower:
+    # "When your HQ gains defense, <effect>" is a trigger clause (73e
+    # RÉGIMENT D'INFANTERIE / COMMANDOS KIEFFER react to a gain from ANY
+    # source), not an instruction -- must not be read as "gain 1 defense"
+    # itself, or the real effect (a buff / damage) is discarded.
+    if "your hq gains" in lower and "defense" in lower and "when your hq gains" not in lower:
         return (RuleAction("gain_hq_defense", "owner", amount=1),)
     if "immune to damage" in lower:
         return (RuleAction("immune", "source", card_name="damage"),)
@@ -1717,7 +1744,10 @@ def _parse_sentence_core(sentence: str) -> tuple[RuleAction, ...]:
             RuleAction("buff", "selected_target", attack=int(give_target_with_ability.group(1)), defense=int(give_target_with_ability.group(2))),
             RuleAction("grant_ability", "selected_target", card_name=give_target_with_ability.group(3)),
         )
-    lose_kredit_slot = re.search(r"\blose\s+(a|one|two|three|\d+)\s+kredit\s+slots?", lower)
+    # Exclude "when you lose a kredit slot, <effect>" trigger clauses (MURASE
+    # BATTALION / 38th INDEPENDENT react to a loss from ANY source) -- same
+    # shape as the gain_kredit_slot / gain_hq_defense guards above.
+    lose_kredit_slot = re.search(r"(?<!when you )\blose\s+(a|one|two|three|\d+)\s+kredit\s+slots?", lower)
     if lose_kredit_slot:
         return (RuleAction("lose_kredit_slot", "owner", amount=_number(lose_kredit_slot.group(1))),)
     take = re.search(r"\btake\s+control\s+of\s+an?\s+enemy\s+unit(?:\s+with\s+cost\s+(\d+)\s+or\s+less)?", lower)
@@ -3086,6 +3116,17 @@ def _classify_residual(sentence: str, lower: str, clean: str) -> tuple:
     if gain_def:
         return (RuleAction("modify_defense", "source", amount=int(gain_def.group(1))),)
     # "it gains N extra defense" / "gains +N defense" 
+    # "When your HQ gains defense, it gains N extra defense." -- "it" is
+    # anaphoric to "your HQ" from the stripped-off leading clause, not to the
+    # unit itself (111th INDIAN BRIGADE). original_lower still holds that
+    # leading clause (lower/clean already dropped it), so the HQ antecedent
+    # is detected there and routed to gain_hq_defense instead of the
+    # unit-targeted modify_defense the generic "it gains N ..." template
+    # below would otherwise produce.
+    hq_antecedent_gain = re.search(
+        r"your hq gains defense.*?\bit gains\s+(\d+)\s+(?:extra\s+)?defense", sentence.lower())
+    if hq_antecedent_gain:
+        return (RuleAction("gain_hq_defense", "owner", amount=int(hq_antecedent_gain.group(1))),)
     gains_extra = re.search(r"\b(?:it\s+)?gains?\s+(\d+)\s+(?:extra\s+)?(?:attack|defense|health)", lower)
     if gains_extra:
         return (RuleAction("modify_defense" if "defense" in lower else "modify_attack", "source", amount=int(gains_extra.group(1))),)
