@@ -520,6 +520,11 @@ _HANDLER_OWNED = (
     ("random_combat_damage", r"^when .+ attacks"),
     # INTERCEPTION: CountermeasureResolver checks the target before firing.
     ("cancel", r"^target_friendly$"),
+    # RED BANNER / UPGRADE / URAL FACTORIES: "costs N more/less" is not a
+    # boolean gate, it picks *which* card to add (same nation, cost offset
+    # from the unit this card just destroyed) -- native's add_card handler
+    # does that selection itself (see _nation_cost_offset_candidate).
+    ("add_card", r"costs\s+\d+\s+(more|less)\b"),
 )
 
 

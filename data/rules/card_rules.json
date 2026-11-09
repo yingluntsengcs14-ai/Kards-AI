@@ -31580,10 +31580,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] costs 2 more"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "scorched_earth",
@@ -32005,10 +32003,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] costs 3 more"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "ural_factories",
@@ -32046,10 +32042,8 @@
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] costs 1 more"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "vystrel_course",

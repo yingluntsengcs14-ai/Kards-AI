@@ -7,6 +7,7 @@ from pathlib import Path
 import random
 import re
 
+from simulator.cards.card import UNIT_TYPES
 from simulator.cards.loader import CardDatabase
 from simulator.effects.resolver import EffectContext, EffectResolver
 from simulator.effects import basic_effects
@@ -1602,7 +1603,9 @@ class NativeRuleEngine:
                     return
                 self._add_to_hand(state, context.player_id, self._chosen[0])
                 return
-            card_ids = self._card_ids_for(action.card_name) or self._last_destroyed(action.card_name, state, context.player_id)
+            card_ids = (self._nation_cost_offset_candidate(action, state, context)
+                        or self._card_ids_for(action.card_name)
+                        or self._last_destroyed(action.card_name, state, context.player_id))
             if card_ids:
                 target_player = opponent_id(state, context.player_id) if action.target == "enemy_hand" else context.player_id
                 # _add_to_hand keeps the 9-card limit; appending directly let
@@ -2855,6 +2858,43 @@ class NativeRuleEngine:
             if card is not None and card.is_unit and (wanted is None or card.type in wanted):
                 return [card_id]
         return []
+
+    def _nation_cost_offset_candidate(self, action, state, context) -> list[str]:
+        """"Add a (random) <type> from the same nation that costs N more/less"
+
+        (RED BANNER, UPGRADE, URAL FACTORIES): these always follow a
+        "Destroy a friendly unit" clause in the same card, so the referent
+        for "same nation"/the cost offset's baseline is the unit this card
+        *just* destroyed -- recorded by ``counters.note_unit_destroyed`` when
+        the preceding ``destroy`` action ran, read back the same way
+        ``_last_destroyed`` already reads "your last destroyed unit".
+        """
+        match = re.search(r"\bcosts?\s+(\d+)\s+(more|less)\b", action.condition or "", re.I)
+        if not match:
+            return []
+        from simulator.rules import counters
+        destroyed = counters.destroyed_card_ids(state, context.player_id)
+        if not destroyed or destroyed[-1] not in self.cards:
+            return []
+        source_card = self.cards.get(destroyed[-1])
+        delta = int(match.group(1)) * (1 if match.group(2).lower() == "more" else -1)
+        target_cost = source_card.kredits + delta
+        if target_cost < 0:
+            return []
+        # Strip the "from (the) same nation"/"that costs N more" boilerplate
+        # and leading articles so a bare type word ("tank") can act as a type
+        # filter; a generic "unit" (no type named) matches any unit type.
+        name = re.sub(r"\bfrom\s+(?:the\s+)?same\s+nation\b", "", action.card_name or "", flags=re.I)
+        name = re.sub(r"^(?:an?|random)\s+", "", name.strip(), flags=re.I).strip().rstrip("s")
+        type_filter = name if name in UNIT_TYPES else None
+        candidates = [
+            card.id for card in self.cards
+            if card.is_unit and card.nation == source_card.nation and card.kredits == target_cost
+            and (type_filter is None or card.type == type_filter)
+        ]
+        if not candidates:
+            return []
+        return [random.Random((state.rng_seed or 0) + len(state.event_log)).choice(candidates)]
 
     def _card_ids_for(self, name: str | None) -> list[str]:
         """Card ids named by a clause: one name, or "X and a Y" naming two.
