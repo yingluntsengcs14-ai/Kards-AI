@@ -49,6 +49,21 @@ class CountermeasureResolver:
             # satisfied) BEFORE consuming the countermeasure.
             should_activate = False
             intercepted_target_id = context.target_unit_id
+            # "When a friendly unit is attacked" (TACTICAL RETREAT) is read by
+            # condition.py off metadata["event_target_owner_id"] -- the same
+            # key native.emit() fills in for broadcast-style triggers. Without
+            # it this countermeasure's condition is permanently false, so it
+            # can never actually activate (found 2026-11-04 while chasing the
+            # E9 crash; fixed 2026-11-09).
+            intercepted_target_owner_id = None
+            if intercepted_target_id:
+                try:
+                    intercepted_target_owner_id = next(
+                        unit.owner_id for player in state.players.values() for unit in player.units
+                        if unit.instance_id == intercepted_target_id
+                    )
+                except StopIteration:
+                    pass
             counter_context = EffectContext(
                 enemy, card_id,
                 # The countermeasure targets the intercepted action's target,
@@ -64,6 +79,7 @@ class CountermeasureResolver:
                     ),
                     "intercepted_player_id": acting_player_id,
                     "has_deployment_effect": bool(context.metadata.get("has_deployment_effect")),
+                    "event_target_owner_id": intercepted_target_owner_id,
                 },
             )
             for action in rule.actions:
