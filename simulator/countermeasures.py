@@ -129,6 +129,16 @@ class CountermeasureResolver:
                 "counter_id": card_id,
                 "trigger": event,
             })
+            # STURMBRIGADE RHODOS ("your countermeasure triggers") reacts to
+            # its owner's own countermeasure; MIG-3 ("an enemy countermeasure
+            # triggers") reacts to the opponent's -- ``enemy`` here is whoever
+            # just activated the countermeasure (the original action's target),
+            # so from their own hand's perspective it was "your" trigger, and
+            # from the acting player's hand it was "an enemy" trigger.
+            from simulator.rules.native import engine_for as _engine_for
+            engine = _engine_for(cards)
+            engine.bump_hand_cost_reaction(state, enemy, "hand_cost_on_own_countermeasure")
+            engine.bump_hand_cost_reaction(state, acting_player_id, "hand_cost_on_enemy_countermeasure")
             if any(action.kind == "cancel" for action in rule.actions):
                 cancelled = True
 

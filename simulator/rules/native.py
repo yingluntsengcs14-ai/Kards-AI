@@ -450,6 +450,33 @@ class NativeRuleEngine:
             ))
         return False
 
+    def bump_hand_cost_reaction(self, state, player_id: str, kind: str) -> None:
+        """Accumulate a per-card hand-cost discount for ``player_id``'s hand
+        cards whose rule has a ``kind`` action, mirroring the existing
+        ``hand_cost_on_enemy_draw`` pattern (4th GUARDS RIFLES, wired in
+        ``TurnManager._enemy_drew``): WELLINGTON ("If in your hand, this unit
+        costs 2 less each time you give an order"), STURMBRIGADE RHODOS
+        (your own countermeasure triggers), MIG-3 (an enemy countermeasure
+        triggers), 34th GUARDS (your HQ takes friendly damage) are all the
+        same shape with a different triggering event -- call this right after
+        that event happens, once per player whose hand should react to it.
+        ``action.amount`` carries the per-trigger discount (WELLINGTON is 2,
+        not the implicit 1 that 4th GUARDS RIFLES uses).
+        """
+        player = state.players.get(player_id)
+        if player is None:
+            return
+        for card_id in set(player.hand):
+            if card_id not in self.cards:
+                continue
+            action = next((a for a in self.rule_for(card_id).actions if a.kind == kind), None)
+            if action is None:
+                continue
+            bonuses = player.status.setdefault(kind, {})
+            bonuses[card_id] = int(bonuses.get(card_id, 0)) + int(action.amount or 1)
+            state.event_log.append({"event": "hand_unit_cost_reduced", "player_id": player_id,
+                                    "card_id": card_id, "kind": kind, "amount": bonuses[card_id]})
+
     def emit_deaths_since(self, state, start_index: int) -> int:
         """Dispatch destruction rules recorded by primitive state transitions."""
         deaths = [entry for entry in state.event_log[start_index:] if entry.get("event") == "unit_died"]

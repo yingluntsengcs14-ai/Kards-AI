@@ -545,6 +545,29 @@ class RuleParser:
             (),
             (RuleAction("hand_cost_on_enemy_draw", "owner", amount=1),),
             "implemented", ()),
+        # ── "If in your hand, this unit costs N less each time <X>" (F round
+        # 4, 2026-11-10) -- same reactive/accumulating-discount shape as
+        # 4th_guards_rifles above, each with a different triggering event.
+        # Wired in NativeRuleEngine.bump_hand_cost_reaction, called from the
+        # moment the real event happens (an order played, a countermeasure
+        # triggering, friendly HQ damage) -- see action.py / countermeasures.py
+        # / core/hq.py for the call sites.
+        "wellington": (
+            (),
+            (RuleAction("hand_cost_on_order_given", "owner", amount=2),),
+            "implemented", ()),
+        "sturmbrigade_rhodos": (
+            (),
+            (RuleAction("hand_cost_on_own_countermeasure", "owner", amount=2),),
+            "implemented", ()),
+        "mig_3": (
+            (),
+            (RuleAction("hand_cost_on_enemy_countermeasure", "owner", amount=2),),
+            "implemented", ()),
+        "34th_guards": (
+            (),
+            (RuleAction("hand_cost_on_hq_friendly_damage", "owner", amount=2),),
+            "implemented", ()),
         # "When a friendly Destruction effect triggers, it triggers twice."
         # (Read by NativeRuleEngine.emit_deaths_since.)
         "114th_infantry_regiment": (

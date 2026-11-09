@@ -79,6 +79,14 @@ class HQResolver:
         from simulator.rules import counters
         counters.note_hq_damage(state, target_player_id, applied)
         state.event_log.append({"event": "hq_damaged", "player_id": target_player_id, "amount": applied, "source_player_id": source_player_id})
+        # 34th GUARDS: "If in your hand, this unit costs 2 less each time
+        # your HQ takes friendly damage" -- "friendly" means self-inflicted
+        # (source == target), not damage from the enemy.
+        if applied > 0 and source_player_id == target_player_id:
+            from simulator.rules.native import NativeRuleEngine
+            if NativeRuleEngine._last_engine is not None:
+                NativeRuleEngine._last_engine.bump_hand_cost_reaction(
+                    state, target_player_id, "hand_cost_on_hq_friendly_damage")
         HQResolver.check_victory(state, source_player_id)
         return applied
 

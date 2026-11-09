@@ -310,8 +310,16 @@ class PlayCardAction(Action):
         reductions = player.status.get("hand_cost_on_enemy_draw")
         if isinstance(reductions, dict) and self.card_id not in player.hand:
             reductions.pop(self.card_id, None)   # the last copy left the hand
+        for key in ("hand_cost_on_order_given", "hand_cost_on_own_countermeasure",
+                    "hand_cost_on_enemy_countermeasure", "hand_cost_on_hq_friendly_damage"):
+            bonuses = player.status.get(key)
+            if isinstance(bonuses, dict) and self.card_id not in player.hand:
+                bonuses.pop(self.card_id, None)   # the last copy left the hand
         if card.type == "order":
             counters.note_order_given(state, self.player_id)
+            # WELLINGTON: "If in your hand, this unit costs 2 less each time
+            # you give an order."
+            engine_for(cards).bump_hand_cost_reaction(state, self.player_id, "hand_cost_on_order_given")
         elif card.is_unit:
             counters.note_unit_deployed(state, self.player_id, card.id)
         intel = KeywordEngine.numeric(card, "intel")
@@ -787,6 +795,16 @@ def card_play_cost(state: GameState, player_id: str, card, cards: CardDatabase) 
     enemy_draws = player.status.get("hand_cost_on_enemy_draw", {})
     if isinstance(enemy_draws, dict):
         total -= int(enemy_draws.get(card.id, 0) or 0)
+    # WELLINGTON / STURMBRIGADE RHODOS / MIG-3 / 34th GUARDS: "If in your
+    # hand, this unit costs N less each time <X> happens" -- each is a
+    # reactive, accumulating discount recorded in its own status dict by
+    # NativeRuleEngine.bump_hand_cost_reaction (same shape as
+    # hand_cost_on_enemy_draw above, just keyed by a different event).
+    for key in ("hand_cost_on_order_given", "hand_cost_on_own_countermeasure",
+                "hand_cost_on_enemy_countermeasure", "hand_cost_on_hq_friendly_damage"):
+        bonuses = player.status.get(key, {})
+        if isinstance(bonuses, dict):
+            total -= int(bonuses.get(card.id, 0) or 0)
     from simulator.rules import hand_effects
     total = hand_effects.reduced_cost(player, card, total)
     # 85 PIONEER COMPANY: "The first order you play each turn costs 1 less."

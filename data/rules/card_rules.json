@@ -7213,14 +7213,12 @@
     {
       "card_id": "wellington",
       "source_text": "If in your hand, this unit costs 2 less each time you give an order.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_hand_cost",
+          "kind": "hand_cost_on_order_given",
           "target": "owner",
-          "amount": -2,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -7228,14 +7226,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If in your hand",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If in your hand"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "halifax_b_mk_i",
@@ -17713,14 +17709,12 @@
     {
       "card_id": "sturmbrigade_rhodos",
       "source_text": "If in your hand, this unit costs 2 less each time your countermeasure triggers.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_hand_cost",
+          "kind": "hand_cost_on_own_countermeasure",
           "target": "owner",
-          "amount": -2,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -17728,14 +17722,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If in your hand",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If in your hand"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "gathering_storm",
@@ -34151,14 +34143,12 @@
     {
       "card_id": "mig_3",
       "source_text": "If in your hand, this unit costs 2 less each time an enemy countermeasure triggers.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_hand_cost",
+          "kind": "hand_cost_on_enemy_countermeasure",
           "target": "owner",
-          "amount": -2,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -34166,14 +34156,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If in your hand",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If in your hand"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "mother_russia",
@@ -35704,14 +35692,12 @@
     {
       "card_id": "34th_guards",
       "source_text": "If in your hand, this unit costs 2 less each time your HQ takes friendly damage.",
-      "triggers": [
-        "on_deploy"
-      ],
+      "triggers": [],
       "actions": [
         {
-          "kind": "modify_hand_cost",
+          "kind": "hand_cost_on_hq_friendly_damage",
           "target": "owner",
-          "amount": -2,
+          "amount": 2,
           "attack": 0,
           "defense": 0,
           "card_name": null,
@@ -35719,14 +35705,12 @@
           "min_cost": 0,
           "set_cost": null,
           "duration": null,
-          "condition": "If in your hand",
+          "condition": null,
           "on": []
         }
       ],
-      "status": "partial",
-      "unresolved_fragments": [
-        "[condition not modeled] If in your hand"
-      ]
+      "status": "implemented",
+      "unresolved_fragments": []
     },
     {
       "card_id": "756th_regiment",

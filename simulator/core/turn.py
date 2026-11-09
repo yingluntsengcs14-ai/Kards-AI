@@ -100,6 +100,11 @@ class TurnManager:
         reductions = player.status.get("hand_cost_on_enemy_draw")
         if isinstance(reductions, dict) and card_id not in player.hand:
             reductions.pop(card_id, None)
+        for key in ("hand_cost_on_order_given", "hand_cost_on_own_countermeasure",
+                    "hand_cost_on_enemy_countermeasure", "hand_cost_on_hq_friendly_damage"):
+            bonuses = player.status.get(key)
+            if isinstance(bonuses, dict) and card_id not in player.hand:
+                bonuses.pop(card_id, None)
         if len(player.hand) >= 9:
             state.graveyard.setdefault(player_id, []).append(card_id)
             state.event_log.append({"event": "card_overdrawn", "player_id": player_id, "card_id": card_id})
