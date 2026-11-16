@@ -8,7 +8,7 @@ import subprocess
 import sys
 import time
 from datetime import datetime, timezone
-from ai.runtime import runs_dir
+from ai.runtime import runs_dir, write_run_manifest
 from ai.config import load_config
 import shutil
 import subprocess as sp
@@ -43,6 +43,7 @@ def main() -> None:
     champion, candidate = RUNS / "champion.pt", RUNS / "candidate.pt"
     best_external, best_metrics = RUNS / "best_external.pt", RUNS / "best_external_metrics.json"
     checkpoints = RUNS / lcfg["history_dir"]; checkpoints.mkdir(exist_ok=True); (RUNS / "config_snapshot.yaml").write_text(Path(args.config).read_text(encoding="utf-8"), encoding="utf-8")
+    write_run_manifest(RUNS, args.config)
     if not champion.exists() and checkpoint.exists():
         shutil.copy2(checkpoint, champion)
     if not champion.exists():
@@ -56,7 +57,10 @@ def main() -> None:
     while cycles == 0 or iteration < cycles:
         if not wait_for_resume(stop_file, pause_file): break
         iteration += 1
+        write_run_manifest(RUNS, args.config, extra={"last_cycle": iteration})
         selfplay_args = ["selfplay.py", "--episodes", str(episodes), "--mcts-simulations", str(sims), "--workers", str(workers), "--max-actions", str(spcfg["max_actions"]), "--device", "cuda", "--replay", str(replay), "--append-replay", "--replay-capacity", str(spcfg["replay_capacity"]), "--metrics", str(metrics), "--progress-every", "1", "--async-mcts", "--max-pending-leaves", str(spcfg["max_pending_leaves"]), "--model", str(champion)]
+        if spcfg.get("search"):
+            selfplay_args += ["--search", str(spcfg["search"]), "--pimc-worlds", str(spcfg.get("pimc_worlds", 4))]
         if spcfg.get("meta_decks"):
             selfplay_args += ["--meta-decks"]
         else:

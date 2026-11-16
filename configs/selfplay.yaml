@@ -2,7 +2,18 @@ episodes: 32
 max_actions: 300
 nation: France
 mcts_simulations: 64
-workers: 4
+# perfect = ordinary MCTS directly on the real GameState (sees both hands --
+# "cheats"); pimc = PIMCAgent (ai/pimc.py), an honest hidden-information
+# search that samples pimc_worlds determinized worlds per decision and
+# averages their visit distributions. pimc only runs with workers: 1 (see
+# that key below) -- run_parallel's shared/async-inference worker pool is
+# wired specifically for MCTSAgent.
+search: perfect
+pimc_worlds: 4
+# Measured on the training desktop (i3-13100 + GTX 1070 Ti): workers=4 is
+# 41% slower than workers=1 -- a single GPU's inference is the bottleneck,
+# so extra worker processes just contend for it (see configs/formal_training.yaml).
+workers: 1
 temperature: 1.0
 dirichlet_alpha: 0.3
 exploration_fraction: 0.25

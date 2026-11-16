@@ -1,5 +1,8 @@
 simulation:
-  workers: 4
+  # workers=1 measured faster than 4 on the training desktop's single GTX
+  # 1070 Ti (see configs/formal_training.yaml) -- kept consistent here even
+  # though train.py itself doesn't spawn self-play workers.
+  workers: 1
   max_steps: 300
   seed: 20260725
 mcts:
