@@ -1,5 +1,13 @@
 self_play:
-  episodes_per_cycle: 1000
+  # Was 1000 -- at the measured 4.236 sec/game (workers=1, 16 simulations,
+  # meta-decks; see claude 專案文件 claude/訓練工作流.md 0.5), that is ~70
+  # minutes of self-play alone per cycle, not the ~40-45 min/cycle the 0.5
+  # benchmark note originally estimated (that estimate used 200 episodes).
+  # Lowered to 300 (~21 min of self-play/cycle) on 2026-11-18 so cycles turn
+  # over faster during the 11/17-11/30 main training window and there is
+  # more frequent learning-curve/report feedback -- raise this back up if
+  # per-cycle wall-clock stops mattering more than sample count.
+  episodes_per_cycle: 300
   # Measured on the actual training desktop (i3-13100 + GTX 1070 Ti,
   # 2026-11-03, see claude 專案文件 claude/訓練工作流.md 0.5): workers=4 was
   # 41% SLOWER than workers=1 -- a single GTX 1070 Ti's inference is the
