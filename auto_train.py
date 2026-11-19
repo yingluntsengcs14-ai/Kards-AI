@@ -36,6 +36,7 @@ def main() -> None:
     parser.add_argument("--cycles", type=int, help="0 means run until STOP is created")
     parser.add_argument("--episodes", type=int); parser.add_argument("--mcts-simulations", type=int); parser.add_argument("--workers", type=int)
     parser.add_argument("--updates", type=int); parser.add_argument("--batch-size", type=int); parser.add_argument("--evaluation-games", type=int)
+    parser.add_argument("--device", default="cuda", help="passed through to the selfplay.py/train.py subprocesses (default: cuda, matching the formal training desktop)")
     args = parser.parse_args(); cfg = load_config(args.config); spcfg=cfg["self_play"]; tcfg=cfg["training"]; ecfg=cfg["evaluation"]; ccfg=cfg["checkpoint"]; lcfg=cfg["logging"]
     cycles = 0 if args.cycles is None else args.cycles; episodes=args.episodes or int(spcfg["episodes_per_cycle"]); sims=args.mcts_simulations or int(spcfg["simulations"]); workers=args.workers or int(spcfg["workers"]); updates=args.updates or int(tcfg["updates_per_cycle"]); batch=args.batch_size or int(tcfg["batch_size"]); eval_games=args.evaluation_games or int(ecfg["games_per_opponent"])
     RUNS.mkdir(parents=True, exist_ok=True); stop_file = RUNS / "STOP"; stop_file.unlink(missing_ok=True); pause_file = RUNS / "PAUSE"
@@ -47,7 +48,17 @@ def main() -> None:
     if not champion.exists() and checkpoint.exists():
         shutil.copy2(checkpoint, champion)
     if not champion.exists():
-        raise RuntimeError("No checkpoint is available to initialise the Champion model")
+        # First-ever run in this runs/ directory: nothing to seed the local
+        # self-play opponent from yet. Previously this raised and made the
+        # operator manually bootstrap a checkpoint by hand before every fresh
+        # runs/ directory (discovered the hard way: a brand-new formal run
+        # crashed immediately with "No checkpoint is available"). Build a
+        # freshly-initialised network with the configured architecture
+        # instead -- training from a random network is the normal AlphaZero
+        # starting point, not an error condition.
+        from ai.network import KARDSNet
+        hidden_dim = int(cfg.get("model", {}).get("hidden_dim", 128))
+        KARDSNet(hidden_dim=hidden_dim).save_checkpoint(champion)
     # `latest.pt` is the historical best generalisation model, while Champion
     # remains the local self-play opponent.  Neither is overwritten by a
     # candidate that merely exploits the immediately preceding Champion.
@@ -58,7 +69,7 @@ def main() -> None:
         if not wait_for_resume(stop_file, pause_file): break
         iteration += 1
         write_run_manifest(RUNS, args.config, extra={"last_cycle": iteration})
-        selfplay_args = ["selfplay.py", "--episodes", str(episodes), "--mcts-simulations", str(sims), "--workers", str(workers), "--max-actions", str(spcfg["max_actions"]), "--device", "cuda", "--replay", str(replay), "--append-replay", "--replay-capacity", str(spcfg["replay_capacity"]), "--metrics", str(metrics), "--progress-every", "1", "--async-mcts", "--max-pending-leaves", str(spcfg["max_pending_leaves"]), "--model", str(champion)]
+        selfplay_args = ["selfplay.py", "--episodes", str(episodes), "--mcts-simulations", str(sims), "--workers", str(workers), "--max-actions", str(spcfg["max_actions"]), "--device", args.device, "--replay", str(replay), "--append-replay", "--replay-capacity", str(spcfg["replay_capacity"]), "--metrics", str(metrics), "--progress-every", "1", "--async-mcts", "--max-pending-leaves", str(spcfg["max_pending_leaves"]), "--model", str(champion)]
         if spcfg.get("search"):
             selfplay_args += ["--search", str(spcfg["search"]), "--pimc-worlds", str(spcfg.get("pimc_worlds", 4))]
         if spcfg.get("meta_decks"):
@@ -74,7 +85,7 @@ def main() -> None:
         prior_step = int(payload_before.get("training_step", 0)); decay_every = int(tcfg.get("lr_decay_every_steps", 1000))
         learning_rate = max(float(tcfg.get("min_learning_rate", tcfg["learning_rate"])),
                             float(tcfg["learning_rate"]) * float(tcfg.get("lr_decay", 1.0)) ** (prior_step // max(1, decay_every)))
-        execute(["train.py", "--replay", str(replay), "--updates", str(updates), "--batch-size", str(batch), "--learning-rate", str(learning_rate), "--checkpoint", str(candidate), "--model", str(candidate), "--metrics", str(metrics), "--device", "cuda"])
+        execute(["train.py", "--replay", str(replay), "--updates", str(updates), "--batch-size", str(batch), "--learning-rate", str(learning_rate), "--checkpoint", str(candidate), "--model", str(candidate), "--metrics", str(metrics), "--device", args.device])
         if stop_file.exists(): break
         torch = __import__("torch"); payload = torch.load(candidate, map_location="cpu", weights_only=False)
         payload.setdefault("metadata", {}).update({"timestamp_utc": datetime.now(timezone.utc).isoformat(), "config_snapshot": cfg, "learning_rate": learning_rate,
