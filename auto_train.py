@@ -64,12 +64,24 @@ def main() -> None:
     # candidate that merely exploits the immediately preceding Champion.
     if not best_external.exists(): shutil.copy2(champion, best_external)
     shutil.copy2(best_external, checkpoint)
+    # Continuous training (2026-11-21, AlphaZero-style): one network keeps
+    # learning across cycles (`trainee.pt`) and generates self-play data,
+    # whether or not it beats Champion. Previously every cycle restarted from a
+    # fresh copy of Champion and self-played with Champion, so a cycle that did
+    # not promote threw its 500 updates away -- the run sat at training_step
+    # 1000 for 90+ cycles. Champion is now only the "best model so far" record
+    # used for gating/evaluation/latest.pt. Set training.continuous: false to
+    # get the old behaviour back.
+    continuous = bool(tcfg.get("continuous", True))
+    trainee = RUNS / "trainee.pt"
+    if continuous and not trainee.exists(): shutil.copy2(champion, trainee)
+    learner = trainee if continuous else champion
     iteration = 0
     while cycles == 0 or iteration < cycles:
         if not wait_for_resume(stop_file, pause_file): break
         iteration += 1
         write_run_manifest(RUNS, args.config, extra={"last_cycle": iteration})
-        selfplay_args = ["selfplay.py", "--episodes", str(episodes), "--mcts-simulations", str(sims), "--workers", str(workers), "--max-actions", str(spcfg["max_actions"]), "--device", args.device, "--replay", str(replay), "--append-replay", "--replay-capacity", str(spcfg["replay_capacity"]), "--metrics", str(metrics), "--progress-every", "1", "--async-mcts", "--max-pending-leaves", str(spcfg["max_pending_leaves"]), "--model", str(champion)]
+        selfplay_args = ["selfplay.py", "--episodes", str(episodes), "--mcts-simulations", str(sims), "--workers", str(workers), "--max-actions", str(spcfg["max_actions"]), "--device", args.device, "--replay", str(replay), "--append-replay", "--replay-capacity", str(spcfg["replay_capacity"]), "--metrics", str(metrics), "--progress-every", "1", "--async-mcts", "--max-pending-leaves", str(spcfg["max_pending_leaves"]), "--model", str(learner)]
         if spcfg.get("search"):
             selfplay_args += ["--search", str(spcfg["search"]), "--pimc-worlds", str(spcfg.get("pimc_worlds", 4))]
         if spcfg.get("meta_decks"):
@@ -80,7 +92,7 @@ def main() -> None:
         if stop_file.exists(): break
 
         if not wait_for_resume(stop_file, pause_file): break
-        shutil.copy2(champion, candidate)
+        shutil.copy2(learner, candidate)
         payload_before = __import__("torch").load(candidate, map_location="cpu", weights_only=False)
         prior_step = int(payload_before.get("training_step", 0)); decay_every = int(tcfg.get("lr_decay_every_steps", 1000))
         learning_rate = max(float(tcfg.get("min_learning_rate", tcfg["learning_rate"])),
@@ -91,6 +103,7 @@ def main() -> None:
         payload.setdefault("metadata", {}).update({"timestamp_utc": datetime.now(timezone.utc).isoformat(), "config_snapshot": cfg, "learning_rate": learning_rate,
                                                      "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()})
         torch.save(payload, candidate); step=int(payload.get("training_step", 0))
+        if continuous: shutil.copy2(candidate, trainee)  # keep this cycle's learning regardless of the gate
         for old in sorted(checkpoints.glob("checkpoint_step_*.pt"))[:-int(ccfg["keep_last"])]: old.unlink()
         (RUNS / "SAVE_CHECKPOINT").unlink(missing_ok=True)
         if not wait_for_resume(stop_file, pause_file): break
