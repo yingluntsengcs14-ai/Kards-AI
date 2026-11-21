@@ -97,8 +97,18 @@ evaluation:
   interval_games: 10000
   games_per_opponent: 100
   champion_games: 100
-  promotion_win_rate: 0.55
-  external_tolerance: 0.0
+  # 2026-11-21: lowered from 0.55/0.0 after champion sat frozen for 52 straight
+  # cycles (2+ days) -- self-play always generates its training data from
+  # `champion.pt` (see auto_train.py's selfplay_args), so a champion that never
+  # promotes means every later cycle keeps training on data produced by the
+  # same stale policy, which in turn keeps failing to clear the old gate: a
+  # self-reinforcing stall, not just slow progress. Relaxed both knobs so a
+  # candidate that is clearly better head-to-head (>=52%) but only slightly
+  # behind champion's frozen random/rule baseline (within 5 points) can still
+  # promote and let self-play's opponent pool actually move forward. Revisit
+  # if this starts promoting candidates that are obviously worse in practice.
+  promotion_win_rate: 0.52
+  external_tolerance: 0.05
   opponents: [random, rule]
   fair_benchmark:
     games: 500
