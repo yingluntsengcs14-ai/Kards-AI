@@ -246,10 +246,17 @@ class MCTS:
         with node.lock:
             candidates = self._candidate_indices(node)
             scale = math.sqrt(node.visit_count + node.virtual_visits + 1)
+            # child.value is stored from the perspective of the player to move
+            # at the child. Across a turn boundary (end turn) that is the
+            # opponent, so flip it to this node's mover before maximising.
+            # Without the flip end turn was chosen when it helped the opponent
+            # (2026-11-22; see tests/test_mcts_turn_boundary_sign.py).
+            def q(child: MCTSNode) -> float:
+                return child.value if child.player_to_move == node.player_to_move else -child.value
             best_index = max(
                 candidates,
                 key=lambda index: (
-                    (node.children[index].value - self.virtual_loss * node.children[index].virtual_visits)
+                    (q(node.children[index]) - self.virtual_loss * node.children[index].virtual_visits)
                     + self.c_puct * node.children[index].prior_probability * scale / (1 + node.children[index].visit_count + node.children[index].virtual_visits)
                     if index in node.children
                     else self.c_puct * node.priors[index] * scale
