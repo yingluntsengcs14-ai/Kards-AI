@@ -178,6 +178,19 @@ class AITrainingFrameworkTests(unittest.TestCase):
         self.assertIn(action, env.get_available_actions())
         self.assertAlmostEqual(sum(policy.values()), 1.0)
 
+    def test_async_mcts_applies_root_dirichlet_noise(self) -> None:
+        """Regression (2026-11-22): the async path skipped exploration noise,
+        so formal self-play (always --async-mcts) never explored."""
+        from unittest import mock
+        env = self._environment(); model = KARDSNet(hidden_dim=32).eval(); state = env.get_state()
+        with BatchedInference(model, max_wait_ms=0) as inference:
+            search = MCTS(model, self.encoder, simulations=3, seed=29, inference=inference,
+                          async_inference=True, max_pending_leaves=3)
+            search.set_training_policy(temperature=1.0, dirichlet_alpha=0.3, exploration_fraction=0.25)
+            with mock.patch.object(search, "_dirichlet", wraps=search._dirichlet) as noise:
+                search.search(state, self.cards, "p1")
+            noise.assert_called_once()
+
     def test_mcts_agent_runs(self) -> None:
         env = self._environment(); agent = MCTSAgent(None, self.encoder, simulations=2); agent.set_state(env.get_state(), "p1", self.cards)
         action = agent.select_action(env.get_observation("p1"), env.get_available_actions()); env.step(action)

@@ -73,11 +73,7 @@ class MCTS:
         if self.async_inference:
             return self._search_async(state, cards, root_player)
         root = MCTSNode(state.clone_for_search(), state.current_player); self._expand(root, cards)
-        if self.exploration_fraction and self.dirichlet_alpha and root.priors:
-            noise = self._dirichlet(len(root.priors), self.dirichlet_alpha)
-            root.priors = [(1.0 - self.exploration_fraction) * prior + self.exploration_fraction * sample
-                           for prior, sample in zip(root.priors, noise)]
-            root.prior_order = sorted(range(len(root.actions)), key=root.priors.__getitem__, reverse=True)
+        self._apply_root_noise(root)
         for _ in range(self.simulations):
             node = root; path = [node]
             # Nodes retain the complete legal-action list, but successor
@@ -116,6 +112,12 @@ class MCTS:
         root_future = queue.submit(self._observation(root, root.player_to_move), root.action_features, root.legal_mask)  # type: ignore[arg-type]
         while not root_future.done(): queue.wait([root_future], timeout=0.005)
         self._apply_evaluation(root, queue.resolved(root_future))
+        # 2026-11-22: the async path never applied root Dirichlet noise, so the
+        # formal run (which always uses --async-mcts) self-played with zero
+        # exploration; with 16 simulations the visit counts then mostly copy
+        # the network's own prior and the policy drifted (end-turn share rose
+        # from 31% to 45%, cards played halved over 45k steps).
+        self._apply_root_noise(root)
         pending: list[tuple[Future, MCTSNode, list[MCTSNode], float]] = []
         submitted = completed = 0; pending_peak = 0; latencies: list[float] = []
         while completed < self.simulations:
@@ -152,6 +154,14 @@ class MCTS:
         self.async_totals["latency_sum_ms"] += sum(latencies) * 1000.0
         self.async_totals["pending_queue_peak"] = max(self.async_totals["pending_queue_peak"], pending_peak)
         return root.actions[best], {str(index): count / total for index, count in visits.items()}
+
+    def _apply_root_noise(self, root: MCTSNode) -> None:
+        if not (self.exploration_fraction and self.dirichlet_alpha and root.priors):
+            return
+        noise = self._dirichlet(len(root.priors), self.dirichlet_alpha)
+        root.priors = [(1.0 - self.exploration_fraction) * prior + self.exploration_fraction * sample
+                       for prior, sample in zip(root.priors, noise)]
+        root.prior_order = sorted(range(len(root.actions)), key=root.priors.__getitem__, reverse=True)
 
     @staticmethod
     def _terminal_value(status: str, root_player: str) -> float:

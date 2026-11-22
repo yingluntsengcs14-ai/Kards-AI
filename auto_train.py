@@ -82,6 +82,11 @@ def main() -> None:
         iteration += 1
         write_run_manifest(RUNS, args.config, extra={"last_cycle": iteration})
         selfplay_args = ["selfplay.py", "--episodes", str(episodes), "--mcts-simulations", str(sims), "--workers", str(workers), "--max-actions", str(spcfg["max_actions"]), "--device", args.device, "--replay", str(replay), "--append-replay", "--replay-capacity", str(spcfg["replay_capacity"]), "--metrics", str(metrics), "--progress-every", "1", "--async-mcts", "--max-pending-leaves", str(spcfg["max_pending_leaves"]), "--model", str(learner)]
+        # Fresh self-play seed every cycle (previously always the default 0, so
+        # every cycle replayed the same deck pairings/RNG stream). Derived from
+        # the learner's training_step so it also keeps changing across restarts.
+        learner_step = int(__import__("torch").load(learner, map_location="cpu", weights_only=False).get("training_step", 0))
+        selfplay_args += ["--seed", str(int(spcfg.get("seed", 20261122)) + learner_step + iteration)]
         if spcfg.get("search"):
             selfplay_args += ["--search", str(spcfg["search"]), "--pimc-worlds", str(spcfg.get("pimc_worlds", 4))]
         if spcfg.get("meta_decks"):
@@ -121,7 +126,13 @@ def main() -> None:
         execute(["evaluate.py", "--model", str(candidate), *gate_args, "--opponent", "model", "--opponent-model", str(champion), "--report", str(gate_report)])
         gate = json.loads(gate_report.read_text(encoding="utf-8"))
         tolerance = float(ecfg.get("external_tolerance", 0.0))
-        external_ok = all(candidate_scores[name]["win_rate"] + tolerance >= champion_scores[name]["win_rate"] for name in ecfg["opponents"])
+        # Anchor the external check to the best external scores ever recorded
+        # (best_external_metrics.json), not to the current Champion: comparing
+        # against a moving Champion let every promotion be a little worse than
+        # the last, and 80 cycles of that slid Champion from 87%/57% to
+        # 50%/34% vs random/rule (2026-11-22).
+        anchor = json.loads(best_metrics.read_text(encoding="utf-8")).get("scores", {}) if best_metrics.exists() else {}
+        external_ok = all(candidate_scores[name]["win_rate"] + tolerance >= anchor.get(name, champion_scores[name])["win_rate"] for name in ecfg["opponents"])
         promoted = float(gate["win_rate"]) >= float(ecfg.get("promotion_win_rate", 0.55)) and external_ok
         if promoted: shutil.copy2(candidate, champion)
         candidate_score = sum(item["win_rate"] for item in candidate_scores.values()) / len(candidate_scores)

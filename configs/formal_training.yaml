@@ -16,7 +16,10 @@ self_play:
   # re-measuring on that machine; this was previously 16, left over from an
   # estimate for stronger hardware before the benchmark existed.
   workers: 1
-  simulations: 16
+  # 2026-11-22: 16 -> 32. With 16 simulations over 20+ legal actions the
+  # visit counts barely differ from the network's own prior, so the policy
+  # target taught it little beyond itself. Roughly doubles self-play time.
+  simulations: 32
   # perfect = ordinary MCTS on the real GameState (sees both hands -- a
   # "cheating" search whose strength does not transfer to a real opponent);
   # pimc = PIMCAgent, an honest hidden-information search (see ai/pimc.py
@@ -117,8 +120,13 @@ evaluation:
   # Raised external_tolerance to 0.2 so promotion is now driven mainly by the
   # head-to-head result, with the external check only catching a candidate
   # that regresses far more than anything observed so far.
+  #
+  # 2026-11-22: 0.2 measured against the *current* Champion let it slide
+  # down promotion by promotion (87%/57% -> 50%/34% vs random/rule over 80
+  # cycles). auto_train.py now anchors this check to the best external
+  # scores ever recorded, so 0.1 is a fixed floor, not a ratchet.
   promotion_win_rate: 0.52
-  external_tolerance: 0.2
+  external_tolerance: 0.1
   opponents: [random, rule]
   fair_benchmark:
     games: 500
