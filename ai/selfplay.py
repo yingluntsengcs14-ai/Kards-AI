@@ -108,14 +108,26 @@ class SelfPlayRunner:
 
     def run(self, episodes: int, player_one: BaseAgent, player_two: BaseAgent, nation: str = "France", ally_nation: str | None = None,
             deck_pool: list[tuple[str, str | None]] | None = None, meta_decks: list[Deck] | None = None,
-            on_episode_complete: Callable[[int, dict[str, int], int], None] | None = None) -> SelfPlayReport:
+            on_episode_complete: Callable[[int, dict[str, int], int], None] | None = None,
+            deck_schedule: list[tuple[Deck, Deck]] | None = None) -> SelfPlayReport:
+        # ``deck_schedule`` (2026-11-24): an explicit (p1 deck, p2 deck) pair per
+        # game, used by paired meta-deck evaluation. Overrides ``episodes``.
+        if deck_schedule is not None:
+            episodes = len(deck_schedule)
         totals = {"p1": 0, "p2": 0, "draw": 0}; before = len(self.buffer); generated = 0
         turns_total = 0; hq_damage_total = 0.0; cards_played_total = 0
-        for _ in range(episodes):
+        for episode_index in range(episodes):
+            deck_names = None
             # Debug replay serializes every full state; the training replay
             # buffer below already retains the required policy/value samples.
             env = Simulator(self.cards, record_replay=False)
-            if meta_decks:
+            if deck_schedule is not None:
+                deck_a, deck_b = deck_schedule[episode_index]
+                decks = [list(deck_a.cards), list(deck_b.cards)]
+                nations = (deck_a.main_nation, deck_b.main_nation)
+                allies = (deck_a.ally_nation, deck_b.ally_nation)
+                deck_names = [deck_a.name, deck_b.name]
+            elif meta_decks:
                 # Each side independently draws one of the 17 tournament
                 # decks, exactly as exported -- no random deckbuilding here.
                 # reset() below reshuffles draw order from ``seed``.
@@ -123,6 +135,7 @@ class SelfPlayRunner:
                 decks = [list(deck_a.cards), list(deck_b.cards)]
                 nations = (deck_a.main_nation, deck_b.main_nation)
                 allies = (deck_a.ally_nation, deck_b.ally_nation)
+                deck_names = [deck_a.name, deck_b.name]
             else:
                 main_nation, selected_ally = self.rng.choice(deck_pool) if deck_pool else (nation, ally_nation)
                 decks = [build_random_deck(self.cards, seed=self.rng.randrange(2**31), main_nation=main_nation,
@@ -176,7 +189,7 @@ class SelfPlayRunner:
                 for event in final_state.event_log
                 if event.get("event") in {"unit_deployed", "command_played", "countermeasure_activated"} and event.get("card_id") in self.cards
             ]
-            self.game_records.append({"winner": winner or "draw", "turns": final_state.turn_number,
+            self.game_records.append({"winner": winner or "draw", "turns": final_state.turn_number, "decks": deck_names,
                                       "cards_played": played, "hq_damage": sum(20 - player.hq.current_health for player in final_state.players.values())})
             for example, player_id in pending:
                 example.value = 0.0 if winner is None else (1.0 if winner == player_id else -1.0)

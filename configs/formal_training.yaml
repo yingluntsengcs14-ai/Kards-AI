@@ -99,7 +99,9 @@ training:
   lr_decay: 0.9
   updates_per_cycle: 2000
 checkpoint:
-  keep_last: 10
+  # 2026-11-24: 10 -> 100 (~1.1 MB each). History now stores each cycle's
+  # candidate, which is what a per-step learning curve needs.
+  keep_last: 100
   interval_cycles: 1
 evaluation:
   seed: 20260730
@@ -131,6 +133,17 @@ evaluation:
   # down promotion by promotion (87%/57% -> 50%/34% vs random/rule over 80
   # cycles). auto_train.py now anchors this check to the best external
   # scores ever recorded, so 0.1 is a fixed floor, not a ratchet.
+  # 2026-11-24: evaluate on the 17 meta decks (the decks self-play actually
+  # trains on) instead of randomly built deck_pool decks, which are much
+  # weaker than any real KARDS deck. Paired over all 136 deck pairs so deck
+  # strength and first-move advantage cancel: 2 games/pair (272 games) vs
+  # random/rule, 4 games/pair (544 games, about +/-4% at 95%) for the gate.
+  # Measured: 272 games vs rule take ~90 s on 2 CPU cores. The first cycle
+  # after this switch sets the old anchor aside as best_external_deck_pool.pt
+  # / best_external_metrics_deck_pool.json and re-anchors on Champion.
+  meta_decks: true
+  games_per_pair: 2
+  gate_games_per_pair: 4
   promotion_win_rate: 0.52
   external_tolerance: 0.1
   opponents: [random, rule]

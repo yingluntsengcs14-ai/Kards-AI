@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -28,6 +29,26 @@ def wait_for_resume(stop_file: Path, pause_file: Path) -> bool:
             return False
         time.sleep(2)
     return not stop_file.exists()
+
+
+def _checkpoint_step(path: Path) -> int:
+    try: return int(path.stem.rsplit("_", 1)[-1])
+    except ValueError: return -1
+
+
+def switch_evaluation_protocol(runs: Path, protocol: str) -> str | None:
+    """Set aside the best-external anchor if it was scored under another
+    evaluation protocol. Returns the old protocol name when it switched."""
+    best_metrics, best_external = runs / "best_external_metrics.json", runs / "best_external.pt"
+    if not best_metrics.exists():
+        return None
+    old_protocol = json.loads(best_metrics.read_text(encoding="utf-8")).get("protocol", "deck_pool")
+    if old_protocol == protocol:
+        return None
+    best_metrics.replace(runs / f"best_external_metrics_{old_protocol}.json")
+    if best_external.exists(): best_external.replace(runs / f"best_external_{old_protocol}.pt")
+    print(f"[auto_train] evaluation protocol {old_protocol} -> {protocol}: previous best kept as best_external_{old_protocol}.pt", flush=True)
+    return old_protocol
 
 
 def main() -> None:
@@ -62,6 +83,16 @@ def main() -> None:
     # `latest.pt` is the historical best generalisation model, while Champion
     # remains the local self-play opponent.  Neither is overwritten by a
     # candidate that merely exploits the immediately preceding Champion.
+    # Evaluation protocol (2026-11-24): `evaluation.meta_decks: true` scores
+    # every model on paired games over the 17 meta decks instead of randomly
+    # built deck_pool decks (which are much weaker than anything self-play
+    # trains on). Win rates from the two protocols are not comparable, so on a
+    # switch the old anchor and best model are set aside (renamed, not
+    # deleted) and the current Champion becomes the new anchor's model.
+    meta_eval = bool(ecfg.get("meta_decks", False))
+    ext_pairs, gate_pairs = int(ecfg.get("games_per_pair", 2)), int(ecfg.get("gate_games_per_pair", 4))
+    protocol = f"meta_paired_{ext_pairs}" if meta_eval else "deck_pool"
+    switch_evaluation_protocol(RUNS, protocol)
     if not best_external.exists(): shutil.copy2(champion, best_external)
     shutil.copy2(best_external, checkpoint)
     # Continuous training (2026-11-21, AlphaZero-style): one network keeps
@@ -109,20 +140,33 @@ def main() -> None:
                                                      "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()})
         torch.save(payload, candidate); step=int(payload.get("training_step", 0))
         if continuous: shutil.copy2(candidate, trainee)  # keep this cycle's learning regardless of the gate
-        for old in sorted(checkpoints.glob("checkpoint_step_*.pt"))[:-int(ccfg["keep_last"])]: old.unlink()
+        # Sort by step number, not by name: "checkpoint_step_26000" sorts
+        # before "checkpoint_step_5000" as a string, so the old code deleted
+        # the newest checkpoints and kept the oldest (found 2026-11-24).
+        for old in sorted(checkpoints.glob("checkpoint_step_*.pt"), key=_checkpoint_step)[:-int(ccfg["keep_last"])]: old.unlink()
         (RUNS / "SAVE_CHECKPOINT").unlink(missing_ok=True)
         if not wait_for_resume(stop_file, pause_file): break
         reports=[]; candidate_scores = {}; champion_scores = {}
         for opponent in ecfg["opponents"]:
             report = RUNS / "evaluations" / f"cycle-{iteration:05d}-candidate-{opponent}.json"; report.parent.mkdir(exist_ok=True)
-            evaluation_args = ["--games", str(eval_games), "--deck-pool", json.dumps(spcfg["deck_pool"]), "--seed", str(ecfg.get("seed", 20260730))]
+            evaluation_args = (["--meta-decks", "--games-per-pair", str(ext_pairs)] if meta_eval else ["--games", str(eval_games), "--deck-pool", json.dumps(spcfg["deck_pool"])]) + ["--seed", str(ecfg.get("seed", 20260730))]
             execute(["evaluate.py", "--model", str(candidate), *evaluation_args, "--opponent", opponent, "--report", str(report)])
             candidate_scores[opponent] = json.loads(report.read_text(encoding="utf-8")); reports.append(("candidate", report))
             baseline = RUNS / "evaluations" / f"cycle-{iteration:05d}-champion-{opponent}.json"
-            execute(["evaluate.py", "--model", str(champion), *evaluation_args, "--opponent", opponent, "--report", str(baseline)])
+            # Champion only changes on promotion: reuse its last report when
+            # the file and the evaluation arguments are unchanged (saves a few
+            # minutes per cycle now that meta evaluation plays 272+ games).
+            cache_key = hashlib.sha256(champion.read_bytes() + json.dumps([opponent, evaluation_args]).encode()).hexdigest()
+            cached = RUNS / "evaluations" / f"champion-cache-{opponent}.json"
+            cache = json.loads(cached.read_text(encoding="utf-8")) if cached.exists() else {}
+            if cache.get("key") == cache_key:
+                baseline.write_text(json.dumps(cache["report"], indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            else:
+                execute(["evaluate.py", "--model", str(champion), *evaluation_args, "--opponent", opponent, "--report", str(baseline)])
+                cached.write_text(json.dumps({"key": cache_key, "report": json.loads(baseline.read_text(encoding="utf-8"))}, ensure_ascii=False), encoding="utf-8")
             champion_scores[opponent] = json.loads(baseline.read_text(encoding="utf-8")); reports.append(("champion", baseline))
         gate_report = RUNS / "evaluations" / f"cycle-{iteration:05d}-champion.json"
-        gate_args = ["--games", str(ecfg.get("champion_games", eval_games)), "--deck-pool", json.dumps(spcfg["deck_pool"]), "--seed", str(ecfg.get("seed", 20260730))]
+        gate_args = (["--meta-decks", "--games-per-pair", str(gate_pairs)] if meta_eval else ["--games", str(ecfg.get("champion_games", eval_games)), "--deck-pool", json.dumps(spcfg["deck_pool"])]) + ["--seed", str(ecfg.get("seed", 20260730))]
         execute(["evaluate.py", "--model", str(candidate), *gate_args, "--opponent", "model", "--opponent-model", str(champion), "--report", str(gate_report)])
         gate = json.loads(gate_report.read_text(encoding="utf-8"))
         tolerance = float(ecfg.get("external_tolerance", 0.0))
@@ -140,12 +184,16 @@ def main() -> None:
         best_updated = promoted and candidate_score >= best_score
         if best_updated:
             shutil.copy2(candidate, best_external)
-            best_metrics.write_text(json.dumps({"score": candidate_score, "training_step": step, "cycle": iteration, "scores": candidate_scores}, indent=2), encoding="utf-8")
+            best_metrics.write_text(json.dumps({"protocol": protocol, "score": candidate_score, "training_step": step, "cycle": iteration, "scores": candidate_scores}, indent=2), encoding="utf-8")
         elif not best_metrics.exists():
             champion_score = sum(item["win_rate"] for item in champion_scores.values()) / len(champion_scores)
-            best_metrics.write_text(json.dumps({"score": champion_score, "training_step": prior_step, "cycle": iteration, "scores": champion_scores}, indent=2), encoding="utf-8")
+            best_metrics.write_text(json.dumps({"protocol": protocol, "score": champion_score, "training_step": prior_step, "cycle": iteration, "scores": champion_scores}, indent=2), encoding="utf-8")
         shutil.copy2(best_external, checkpoint)
-        history=checkpoints / f"checkpoint_step_{step}.pt"; shutil.copy2(checkpoint, history)
+        # History keeps this cycle's candidate (the model actually trained to
+        # `step`). It used to copy latest.pt (= best_external), so every
+        # "checkpoint_step_N" was the same best model and no learning curve
+        # could be rebuilt from them.
+        history=checkpoints / f"checkpoint_step_{step}.pt"; shutil.copy2(candidate, history)
         reports.append(("gate", gate_report))
         with (RUNS / lcfg["evaluation_history"]).open("a", encoding="utf-8") as handle:
             for role, report in reports: handle.write(json.dumps({"cycle": iteration, "timestamp_utc": datetime.now(timezone.utc).isoformat(), "training_step": step, "report": str(report), "role": role, "candidate_vs_champion": role == "gate", "promoted": promoted if role == "gate" else None, "external_gate_passed": external_ok if role == "gate" else None, "best_external_updated": best_updated if role == "gate" else None, **json.loads(report.read_text(encoding="utf-8"))}, ensure_ascii=False) + "\n")
