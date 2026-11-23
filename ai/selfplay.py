@@ -16,6 +16,7 @@ from ai.observation import ObservationEncoder
 from ai.replay_buffer import ReplayBuffer, TrainingExample
 from simulator.cards.deck_code import Deck, load_meta_decks
 from simulator.cards.loader import CardDatabase
+from simulator.actions.validator import ActionValidationError
 from simulator.core.game import Simulator
 from simulator.testing import build_random_deck
 
@@ -100,6 +101,7 @@ class SelfPlayRunner:
     def __init__(self, cards: CardDatabase, encoder: ObservationEncoder, buffer: ReplayBuffer, max_actions: int = 300, seed: int = 0) -> None:
         self.cards, self.encoder, self.buffer, self.max_actions, self.rng, self.codec = cards, encoder, buffer, max_actions, random.Random(seed), ActionEncoder()
         self.game_records: list[dict] = []
+        self.engine_errors: list[dict] = []
         self.last_inference_stats: dict[str, float] = {}
         self.last_async_stats: dict[str, float] = {}
         self.last_transport_stats: dict[str, float] = {}
@@ -127,29 +129,41 @@ class SelfPlayRunner:
                                            ally_nation=selected_ally, enforce_official_nations=bool(deck_pool)) for _ in range(2)]
                 nations = (main_nation, main_nation)
                 allies = (selected_ally, selected_ally)
-            env.reset(*decks, nations=nations, ally_nations=allies, seed=self.rng.randrange(2**31)); pending: list[tuple[TrainingExample, str]] = []
+            game_seed = self.rng.randrange(2**31)
+            env.reset(*decks, nations=nations, ally_nations=allies, seed=game_seed); pending: list[tuple[TrainingExample, str]] = []
             player_one.reset(); player_two.reset()
-            for _ in range(self.max_actions):
-                if env.is_terminal(): break
-                player_id = env.state.current_player  # type: ignore[union-attr]
-                agent = player_one if player_id == "p1" else player_two
-                legal = env.get_available_actions()
-                # Agents consume this state synchronously and MCTS immediately
-                # creates its own branchable root. Avoid a public snapshot
-                # clone here; no agent is permitted to mutate the environment.
-                state = env.state
-                assert state is not None
-                if hasattr(agent, "set_state"):
-                    try: agent.set_state(state, player_id, self.cards)
-                    except TypeError: agent.set_state(state, player_id)
-                observation = env.get_observation(player_id); agent.observe(observation)
-                action = agent.select_action(observation, legal)
-                # Replay needs only legal candidates.  Padding to 512 here
-                # previously consumed most RAM and was rewritten to disk.
-                features, mask = self.codec.encode_legal_actions(legal, pad_to_max=False)
-                policy = agent.last_policy or [float(a == action) for a in legal]
-                pending.append((TrainingExample(self.encoder.encode(state, player_id).tolist(), features.tolist(), mask.tolist(), policy, 0.0), player_id))
-                env.step_fast(action)
+            try:
+                for _ in range(self.max_actions):
+                    if env.is_terminal(): break
+                    player_id = env.state.current_player  # type: ignore[union-attr]
+                    agent = player_one if player_id == "p1" else player_two
+                    legal = env.get_available_actions()
+                    # Agents consume this state synchronously and MCTS immediately
+                    # creates its own branchable root. Avoid a public snapshot
+                    # clone here; no agent is permitted to mutate the environment.
+                    state = env.state
+                    assert state is not None
+                    if hasattr(agent, "set_state"):
+                        try: agent.set_state(state, player_id, self.cards)
+                        except TypeError: agent.set_state(state, player_id)
+                    observation = env.get_observation(player_id); agent.observe(observation)
+                    action = agent.select_action(observation, legal)
+                    # Replay needs only legal candidates.  Padding to 512 here
+                    # previously consumed most RAM and was rewritten to disk.
+                    features, mask = self.codec.encode_legal_actions(legal, pad_to_max=False)
+                    policy = agent.last_policy or [float(a == action) for a in legal]
+                    pending.append((TrainingExample(self.encoder.encode(state, player_id).tolist(), features.tolist(), mask.tolist(), policy, 0.0), player_id))
+                    env.step_fast(action)
+            except ActionValidationError as error:
+                # A simulator rule bug in one game must not kill an overnight
+                # run (2026-11-23: one stale unit id stopped the formal run at
+                # 04:55). Drop that game's samples, record it, keep going --
+                # but still fail loudly if it is systemic, not a rare edge case.
+                self.engine_errors.append({"error": str(error), "game_seed": game_seed, "decks": [nations, allies]})
+                print(f"[selfplay] skipped game after simulator error: {error} (game_seed={game_seed})", flush=True)
+                if len(self.engine_errors) > max(5, episodes // 20):
+                    raise
+                continue
             final_state = env.state  # type: ignore[assignment]
             status = final_state.game_status.value
             winner = "p1" if status == "player_one_won" else "p2" if status == "player_two_won" else None
@@ -170,8 +184,9 @@ class SelfPlayRunner:
             generated += len(pending)
             if on_episode_complete:
                 on_episode_complete(sum(totals.values()), totals.copy(), generated)
-        return SelfPlayReport(episodes, generated, totals["p1"], totals["p2"], totals["draw"],
-                              turns_total / episodes, hq_damage_total / episodes, cards_played_total / episodes)
+        completed = max(1, sum(totals.values()))
+        return SelfPlayReport(sum(totals.values()), generated, totals["p1"], totals["p2"], totals["draw"],
+                              turns_total / completed, hq_damage_total / completed, cards_played_total / completed)
 
 
 class VectorizedSelfPlay:

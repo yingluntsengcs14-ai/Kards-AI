@@ -23,10 +23,19 @@ class Evaluator:
         for Champion promotion.  Falling back to the legacy default is kept
         only for callers that do not provide a training configuration.
         """
-        buffer = ReplayBuffer(); report = SelfPlayRunner(self.cards, self.encoder, buffer, seed=self.seed).run(
-            games, candidate, opponent, deck_pool=deck_pool)
-        return EvaluationReport(games, report.p1_wins, report.p2_wins, report.draws, report.p1_wins / games,
-                                report.average_turns, report.average_hq_damage, report.average_cards_played)
+        # Seat-balanced (2026-11-23): the candidate used to always be p1, and
+        # p1 wins ~58% of self-play games, so a model "beat" an equal copy of
+        # itself. Half the games from each seat, same seed for both halves so
+        # deck draws and shuffles are mirrored.
+        first, second = (games + 1) // 2, games // 2
+        a = SelfPlayRunner(self.cards, self.encoder, ReplayBuffer(), seed=self.seed).run(first, candidate, opponent, deck_pool=deck_pool)
+        wins, losses, draws = a.p1_wins, a.p2_wins, a.draws
+        turns, hq, played = a.average_turns * first, a.average_hq_damage * first, a.average_cards_played * first
+        if second:
+            b = SelfPlayRunner(self.cards, self.encoder, ReplayBuffer(), seed=self.seed).run(second, opponent, candidate, deck_pool=deck_pool)
+            wins, losses, draws = wins + b.p2_wins, losses + b.p1_wins, draws + b.draws
+            turns, hq, played = turns + b.average_turns * second, hq + b.average_hq_damage * second, played + b.average_cards_played * second
+        return EvaluationReport(games, wins, losses, draws, wins / games, turns / games, hq / games, played / games)
 
     @staticmethod
     def save_report(report: EvaluationReport, path: str | Path) -> None:

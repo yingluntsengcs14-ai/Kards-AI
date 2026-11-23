@@ -1851,7 +1851,13 @@ class NativeRuleEngine:
                 # Right neighbour first: a group retreat goes right-most first.
                 neighbours = [line[i] for i in (index + 1, index - 1) if 0 <= i < len(line)]
                 for neighbour_id in neighbours:
-                    neighbour = find_unit(state, neighbour_id)
+                    try:
+                        neighbour = find_unit(state, neighbour_id)
+                    except ActionValidationError:
+                        # find_unit raises rather than returning None; a stale
+                        # id in the line crashed an overnight self-play run
+                        # (2026-11-23, "74_panzergrenadier-rule-4").
+                        continue
                     if neighbour is None or neighbour.position != "frontline":
                         continue
                     owner = state.players[neighbour.owner_id]
