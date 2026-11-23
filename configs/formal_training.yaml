@@ -83,15 +83,21 @@ self_play:
 model:
   hidden_dim: 128
 training:
-  batch_size: 64
-  learning_rate: 0.0001
-  min_learning_rate: 0.00003
-  lr_decay_every_steps: 1000
+  # 2026-11-23: training was ~12 s per ~50 min cycle (500 x batch 64 =
+  # 32k samples drawn from a 250k replay) and the learning rate had decayed
+  # to ~4e-5, while seat-balanced evaluation showed 5 straight cycles at
+  # parity with Champion (48-51%) and losses still slowly falling: the net
+  # was under-trained, not out of signal. 2000 x batch 256 (~512k samples,
+  # ~2 passes over the replay) costs a few GPU minutes per cycle. Decay
+  # interval scaled with it so the rate doesn't collapse in a few cycles.
+  # (The older note that 800 updates "overstepped the gate" predates the
+  # MCTS sign fix, when the search targets themselves were wrong.)
+  batch_size: 256
+  learning_rate: 0.0002
+  min_learning_rate: 0.00005
+  lr_decay_every_steps: 10000
   lr_decay: 0.9
-  # Mature candidates were consistently overstepping the external gate after
-  # 800 updates.  Use a smaller policy-iteration step while preserving the
-  # same replay distribution and learning-rate schedule.
-  updates_per_cycle: 500
+  updates_per_cycle: 2000
 checkpoint:
   keep_last: 10
   interval_cycles: 1
