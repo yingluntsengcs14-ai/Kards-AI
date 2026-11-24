@@ -32,7 +32,7 @@ class SupervisorTests(unittest.TestCase):
     def test_one_loop_restarts_and_renames_runs_on_fresh_marker(self) -> None:
         import tempfile
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp); (root / "runs").mkdir()
+            root = Path(tmp); (root / "runs").mkdir(); (root / "runs" / "old_run.marker").write_text("x")
             calls = []
             commits = [["abc Fix [auto-restart] [fresh-runs]"], []]
             with mock.patch.object(supervisor, "ROOT", root), \
@@ -47,8 +47,10 @@ class SupervisorTests(unittest.TestCase):
                 with self.assertRaises(KeyboardInterrupt):
                     supervisor.main()
             self.assertEqual(calls, ["stop", "start"])
-            self.assertFalse((root / "runs").exists())
-            self.assertEqual(len(list(root.glob("runs_*"))), 1)
+            renamed = list(root.glob("runs_*"))
+            self.assertEqual(len(renamed), 1)
+            self.assertTrue((renamed[0] / "old_run.marker").exists())
+            self.assertFalse((root / "runs" / "old_run.marker").exists())
 
 
 if __name__ == "__main__":
