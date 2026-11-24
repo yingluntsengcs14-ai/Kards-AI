@@ -81,7 +81,12 @@ self_play:
   replay_capacity: 250000
   replay_recent_fraction: 0.6
 model:
-  hidden_dim: 128
+  # 2026-11-24: 128 -> 256, together with observation/action encoding v2
+  # (card embeddings, countermeasure / weather / unit-status state, semantic
+  # action features) and a 3-layer state trunk. Not checkpoint-compatible
+  # with v1: start from an empty runs/ directory. Self-play measured ~1.5x
+  # slower per decision on CPU, mostly the richer Python-side encoding.
+  hidden_dim: 256
 training:
   # 2026-11-23: training was ~12 s per ~50 min cycle (500 x batch 64 =
   # 32k samples drawn from a 250k replay) and the learning rate had decayed

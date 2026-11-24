@@ -7,6 +7,7 @@ from typing import Sequence
 
 import torch
 
+from ai.card_features import STATIC_DIM, card_id_of_instance, card_index, static_features
 from simulator.actions.action import Action, AttackAction, MoveUnitAction, MulliganAction, PassAction, PlayCardAction, UseAbilityAction
 
 # Layout (28 dims):
@@ -33,7 +34,25 @@ from simulator.actions.action import Action, AttackAction, MoveUnitAction, Mulli
 #   * Develop options
 # The old layout also had a collision: an unrecognized action type wrote to
 # index 15, which was already the length feature of the fifth identity slot.
-ACTION_FEATURE_DIM = 28
+#
+# v2 (2026-11-24) appends what the action is actually *about*, since v1 only
+# carried hashes of its string fields (the network could not tell "attack
+# with a 6/6 tank" from "attack with a 1/1 infantry"):
+#   28..48  static features of the primary card (card played, or the
+#           attacking / moving / ability-using unit's card)
+#   49..69  static features of the target unit's card
+#   70      attack aimed at the enemy HQ (no target unit)
+#   71      card played to the frontline
+#   72..74  card-vocabulary indices (primary, target, selected card), embedded
+#           by KARDSNet; see ai/card_features.py
+_V1_DIM = 28
+_PRIMARY_BASE = _V1_DIM
+_TARGET_BASE = _PRIMARY_BASE + STATIC_DIM
+_HQ_SLOT = _TARGET_BASE + STATIC_DIM
+_FRONTLINE_SLOT = _HQ_SLOT + 1
+ACTION_CARD_SLOTS = 3
+ACTION_NUMERIC_DIM = _FRONTLINE_SLOT + 1
+ACTION_FEATURE_DIM = ACTION_NUMERIC_DIM + ACTION_CARD_SLOTS
 # KARDS orders can combine many selectable cards and battlefield targets.  The
 # original 512-row transport limit rejected legal Japanese deck positions;
 # 1024 covers the full currently bundled card catalogue without pruning.
@@ -88,6 +107,18 @@ class ActionEncoder:
             x[_OPTION_BASE + len(_WEATHER_OPTIONS) + _KEYWORD_OPTIONS.index(option)] = 1.0
         if str(getattr(action, "selected_card_zone", None) or "").lower() == "hand":
             x[_ZONE_SLOT] = 1.0
+        if isinstance(action, PlayCardAction):
+            primary = action.card_id
+        else:
+            primary = card_id_of_instance(getattr(action, "attacker_id", None) or getattr(action, "unit_id", None))
+        target = card_id_of_instance(getattr(action, "target_unit_id", None))
+        selected = getattr(action, "selected_card_id", None)
+        x[_PRIMARY_BASE:_TARGET_BASE] = torch.tensor(static_features(primary))
+        x[_TARGET_BASE:_HQ_SLOT] = torch.tensor(static_features(target))
+        x[_HQ_SLOT] = float(isinstance(action, AttackAction) and action.target_unit_id is None)
+        x[_FRONTLINE_SLOT] = float(isinstance(action, PlayCardAction) and action.position == "frontline")
+        x[ACTION_NUMERIC_DIM:] = torch.tensor([float(card_index(primary)), float(card_index(target)),
+                                               float(card_index(card_id_of_instance(selected) or selected))])
         # Encoded features are immutable; keeping a bounded per-encoder cache
         # avoids hashing the same MCTS candidates at every expanded node.
         if len(self._feature_cache) < 8192:

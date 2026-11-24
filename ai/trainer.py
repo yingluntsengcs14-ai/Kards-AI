@@ -16,6 +16,7 @@ def best_device() -> str:
 class Trainer:
     def __init__(self, model: KARDSNet, learning_rate: float = 3e-4, device: str | None = None) -> None:
         self.device = device or best_device(); self.model = model.to(self.device); self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=learning_rate)
+        self.learning_rate = learning_rate
         self.cuda = str(self.device).startswith("cuda")
         if self.cuda:
             torch.set_float32_matmul_precision("high")
@@ -60,6 +61,12 @@ class Trainer:
         self.model.load_state_dict(payload["state_dict"])
         if payload.get("optimizer_state"):
             self.optimizer.load_state_dict(payload["optimizer_state"])
+            # load_state_dict also restores the *saved* learning rate, which
+            # silently overrode --learning-rate every cycle: the formal run
+            # trained at 1e-4 the whole time while its metadata logged the
+            # 2e-4 schedule (found 2026-11-24). The requested rate wins.
+            for group in self.optimizer.param_groups:
+                group["lr"] = self.learning_rate
         if payload.get("scaler_state"):
             self.scaler.load_state_dict(payload["scaler_state"])
         self.training_step = int(payload.get("training_step", 0))
