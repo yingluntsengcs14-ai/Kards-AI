@@ -133,7 +133,8 @@ def main() -> None:
         prior_step = int(payload_before.get("training_step", 0)); decay_every = int(tcfg.get("lr_decay_every_steps", 1000))
         learning_rate = max(float(tcfg.get("min_learning_rate", tcfg["learning_rate"])),
                             float(tcfg["learning_rate"]) * float(tcfg.get("lr_decay", 1.0)) ** (prior_step // max(1, decay_every)))
-        execute(["train.py", "--replay", str(replay), "--updates", str(updates), "--batch-size", str(batch), "--learning-rate", str(learning_rate), "--checkpoint", str(candidate), "--model", str(candidate), "--metrics", str(metrics), "--device", args.device])
+        passes = tcfg.get("max_replay_passes")
+        execute(["train.py", "--replay", str(replay), "--updates", str(updates), "--batch-size", str(batch), "--learning-rate", str(learning_rate), "--checkpoint", str(candidate), "--model", str(candidate), "--metrics", str(metrics), "--device", args.device, *(["--max-replay-passes", str(passes)] if passes else [])])
         if stop_file.exists(): break
         torch = __import__("torch"); payload = torch.load(candidate, map_location="cpu", weights_only=False)
         payload.setdefault("metadata", {}).update({"timestamp_utc": datetime.now(timezone.utc).isoformat(), "config_snapshot": cfg, "learning_rate": learning_rate,

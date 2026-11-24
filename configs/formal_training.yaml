@@ -103,6 +103,10 @@ training:
   lr_decay_every_steps: 10000
   lr_decay: 0.9
   updates_per_cycle: 2000
+  # 2026-11-25: but never more than 4 passes over the replay present, so the
+  # first few cycles of a fresh run (small replay) do not memorise results
+  # (v2 cycle 1: ~15 passes, value loss 1e-4). Full 2000 from ~130k examples.
+  max_replay_passes: 4
 checkpoint:
   # 2026-11-24: 10 -> 100 (~1.1 MB each). History now stores each cycle's
   # candidate, which is what a per-step learning curve needs.
