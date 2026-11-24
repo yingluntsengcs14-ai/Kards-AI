@@ -22,7 +22,7 @@ Nothing is deleted: old runs are renamed. Creating ``runs/STOP`` (normal
 graceful stop) or ``SUPERVISOR_STOP`` in the repo root stops supervision;
 with STOP present the supervisor will not restart training.
 
-Log: ``supervisor.log`` in the repo root.
+Log: ``supervisor.log`` in the repo root, mirrored to ``runs/logs/supervisor.log``.
 """
 from __future__ import annotations
 
@@ -47,8 +47,15 @@ LOG = ROOT / "supervisor.log"
 def log(message: str) -> None:
     line = f"{datetime.now():%Y-%m-%d %H:%M:%S} {message}"
     print(line, flush=True)
-    with LOG.open("a", encoding="utf-8") as handle:
-        handle.write(line + "\n")
+    # Also mirrored into runs/logs/, the folder remote checks can read.
+    mirror = ROOT / "runs" / "logs" / "supervisor.log"
+    for path in (LOG, mirror):
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("a", encoding="utf-8") as handle:
+                handle.write(line + "\n")
+        except OSError:
+            pass
 
 
 def git(*args: str, check: bool = False) -> subprocess.CompletedProcess:
