@@ -17,3 +17,8 @@ checkpoints/
 *.pt
 # 傳檔用的臨時打包
 _snapshot_for_git.tar.gz
+
+# 訓練監督程式
+supervisor.log
+SUPERVISOR_STOP
+runs_*/
