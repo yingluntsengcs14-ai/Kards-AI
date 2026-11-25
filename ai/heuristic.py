@@ -31,12 +31,16 @@ _GUARD, _BLITZ = KEYWORD_INDEX + KEYWORDS.index("guard"), KEYWORD_INDEX + KEYWOR
 
 @dataclass
 class HeuristicWeights:
-    hq: float = 3.0          # per sqrt(HQ health): losing the last points hurts most
-    board: float = 1.0       # per point of attack + defense on the battlefield
-    units: float = 0.5       # per unit (board presence beyond raw stats)
-    hand: float = 0.6        # per card in hand, capped at HAND_CAP
-    frontline: float = 2.0   # holding the frontline
-    lethal: float = 15.0     # my on-board attack >= their HQ health
+    # 2026-11-25: fitted by logistic regression on 19k end-of-turn boards
+    # from epsilon-greedy heuristic self-play (17 meta decks), outcome = win.
+    # Hand-set v0 (hq 3, board 1, units 0.5, hand 0.6, frontline 2,
+    # lethal 15): 69.1% vs rule. Fitted: 76.1% vs rule, 59.6% vs v0.
+    hq: float = 2.419        # per sqrt(HQ health): losing the last points hurts most
+    board: float = 0.044     # per point of attack + defense on the battlefield
+    units: float = 0.332     # per unit (board presence beyond raw stats)
+    hand: float = 0.198      # per card in hand, capped at HAND_CAP
+    frontline: float = 3.474 # holding the frontline
+    lethal: float = 2.435    # my on-board attack >= their HQ health
     unspent: float = 0.4     # per kredit left unused when ending the turn
     scale: float = 12.0      # tanh scale for the [-1, 1] value
     hand_cap: int = 6
