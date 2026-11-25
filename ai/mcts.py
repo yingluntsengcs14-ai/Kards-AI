@@ -54,6 +54,7 @@ class MCTS:
         # every fresh leaf value: v = (1 - w) * network + w * heuristic. Lets a
         # young network lean on board knowledge; decayed by auto_train.py.
         self.heuristic_value_weight = 0.0
+        self._cards = None
         self.initial_expansion = initial_expansion
         self.widening_factor = widening_factor
         self.virtual_loss = virtual_loss
@@ -74,6 +75,7 @@ class MCTS:
         self.exploration_fraction = min(1.0, max(0.0, exploration_fraction))
 
     def search(self, state: GameState, cards: CardDatabase, root_player: str) -> tuple[Action, dict[str, float]]:
+        self._cards = cards
         if self.async_inference:
             return self._search_async(state, cards, root_player)
         root = MCTSNode(state.clone_for_search(), state.current_player); self._expand(root, cards)
@@ -244,6 +246,16 @@ class MCTS:
         if self.inference is not None:
             logits, value = self.inference.evaluate(self._observation(node, player_id), node.action_features, node.legal_mask)
             result = (logits, float(value.item()))
+        elif self.model is None and self.heuristic_value_weight and self._cards is not None:
+            # No network: priors from the one-step board scores (softmax),
+            # value from the board score (blended below at weight 1). Uniform
+            # priors plus progressive widening only ever looked at the first
+            # legal actions in list order (46% vs rule at 32 simulations).
+            from ai.heuristic import action_scores
+            scores = action_scores(node.state, player_id, node.actions, self._cards)
+            top = max(scores)
+            logits = torch.tensor([(x - top) / 0.05 if x != float("-inf") else -1e9 for x in scores])
+            result = (logits, 0.0)
         elif self.model is None:
             result = (torch.zeros(len(node.actions)), 0.0)
         else:

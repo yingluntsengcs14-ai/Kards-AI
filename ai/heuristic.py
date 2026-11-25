@@ -93,6 +93,25 @@ def evaluate(state: GameState, player_id: str, weights: HeuristicWeights | None 
     return math.tanh(score / w.scale)
 
 
+def action_scores(state: GameState, player_id: str, legal_actions: Sequence[Action], cards: CardDatabase,
+                  weights: HeuristicWeights | None = None) -> list[float]:
+    """Board score after each legal action (-inf if the engine rejects it).
+    Ending the turn is scored on the current board minus the unspent-kredit
+    penalty."""
+    w = weights or HeuristicWeights(); scores = []
+    for action in legal_actions:
+        if isinstance(action, PassAction):
+            kredits = state.players[player_id].resources.kredits
+            scores.append(evaluate(state, player_id, w) - math.tanh(w.unspent * kredits / w.scale)); continue
+        clone = state.clone_for_search()
+        try:
+            Simulator(cards, state=clone).step_fast(action)
+        except Exception:  # an engine error on one branch must not lose the game
+            scores.append(-math.inf); continue
+        scores.append(evaluate(clone, player_id, w))
+    return scores
+
+
 class GreedyHeuristicAgent(BaseAgent):
     """One-step lookahead: play the action whose resulting board scores best.
 
@@ -114,24 +133,9 @@ class GreedyHeuristicAgent(BaseAgent):
     def select_action(self, observation: dict, legal_actions: Sequence[Action]) -> Action:
         if self.state is None or self.cards is None:
             raise RuntimeError("GreedyHeuristicAgent needs set_state(state, player_id, cards)")
-        me = self.player_id
-        best, best_score = None, -math.inf
-        scores: list[float] = []
-        for action in legal_actions:
-            if isinstance(action, PassAction):
-                kredits = self.state.players[me].resources.kredits
-                score = evaluate(self.state, me, self.weights) - math.tanh(self.weights.unspent * kredits / self.weights.scale)
-            else:
-                clone = self.state.clone_for_search()
-                env = Simulator(self.cards, state=clone)
-                try:
-                    env.step_fast(action)
-                except Exception:  # an engine error on one branch must not lose the game
-                    scores.append(-math.inf); continue
-                score = evaluate(clone, me, self.weights)
-            scores.append(score)
-            if score > best_score:
-                best, best_score = action, score
+        scores = action_scores(self.state, self.player_id, legal_actions, self.cards, self.weights)
+        best_index = max(range(len(scores)), key=scores.__getitem__)
+        best = legal_actions[best_index] if scores[best_index] != -math.inf else None
         best = best if best is not None else legal_actions[0]
         finite = [x for x in scores if x != -math.inf]
         top = max(finite) if finite else 0.0
