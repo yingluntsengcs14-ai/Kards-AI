@@ -50,6 +50,10 @@ class MCTS:
         self.model, self.encoder, self.simulations, self.c_puct, self.rng, self.codec = model.eval() if model else None, encoder, simulations, c_puct, random.Random(seed), ActionEncoder()
         self.device = next(model.parameters()).device if model else torch.device("cpu")
         self.inference = inference
+        # Share of the hand-designed board score (ai/heuristic.py) blended into
+        # every fresh leaf value: v = (1 - w) * network + w * heuristic. Lets a
+        # young network lean on board knowledge; decayed by auto_train.py.
+        self.heuristic_value_weight = 0.0
         self.initial_expansion = initial_expansion
         self.widening_factor = widening_factor
         self.virtual_loss = virtual_loss
@@ -163,6 +167,13 @@ class MCTS:
                        for prior, sample in zip(root.priors, noise)]
         root.prior_order = sorted(range(len(root.actions)), key=root.priors.__getitem__, reverse=True)
 
+    def _blend(self, node: MCTSNode, player_id: str, value: float) -> float:
+        weight = self.heuristic_value_weight
+        if not weight:
+            return value
+        from ai.heuristic import evaluate as heuristic_value
+        return (1.0 - weight) * value + weight * heuristic_value(node.state, player_id)
+
     @staticmethod
     def _terminal_value(status: str, root_player: str) -> float:
         return 1.0 if (status == "player_one_won") == (root_player == "p1") else -1.0 if status != "draw" else 0.0
@@ -174,7 +185,7 @@ class MCTS:
             if node.actions: node.action_features, node.legal_mask = self.codec.encode_legal_actions(node.actions, pad_to_max=False)
 
     def _apply_evaluation(self, node: MCTSNode, result: tuple[torch.Tensor, torch.Tensor]) -> tuple[torch.Tensor, float]:
-        logits, value = result; number = float(value.item())
+        logits, value = result; number = self._blend(node, node.player_to_move, float(value.item()))
         with node.lock:
             node.evaluations[node.player_to_move] = (logits, number)
             node.priors = torch.softmax(logits, dim=0)[:len(node.actions)].tolist()
@@ -239,6 +250,8 @@ class MCTS:
             with torch.inference_mode():
                 logits, value = self.model(self._observation(node, player_id).to(self.device), node.action_features.to(self.device), node.legal_mask.to(self.device))
                 result = (logits[0].cpu(), float(value.item()))
+        if self.heuristic_value_weight:
+            result = (result[0], self._blend(node, player_id, result[1]))
         node.evaluations[player_id] = result
         return result
 

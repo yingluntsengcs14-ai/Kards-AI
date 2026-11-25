@@ -92,8 +92,14 @@ class GreedyHeuristicAgent(BaseAgent):
     Ending the turn is scored on the current board minus a penalty for each
     unspent kredit, so the agent keeps acting while that improves its board.
     """
-    def __init__(self, weights: HeuristicWeights | None = None) -> None:
+    def __init__(self, weights: HeuristicWeights | None = None, *, epsilon: float = 0.0, temperature: float = 0.05, seed: int = 0) -> None:
+        # epsilon: chance of a uniformly random legal action (diverse bootstrap
+        # games). temperature: softmax temperature of ``last_policy``, which
+        # SelfPlayRunner stores as the policy target when imitating this agent.
         self.weights = weights or HeuristicWeights(); self.state = None; self.player_id = None; self.cards = None
+        self.epsilon, self.temperature = epsilon, temperature
+        import random
+        self.rng = random.Random(seed)
 
     def set_state(self, state, player_id: str, cards: CardDatabase | None = None) -> None:
         self.state, self.player_id, self.cards = state, player_id, cards
@@ -103,6 +109,7 @@ class GreedyHeuristicAgent(BaseAgent):
             raise RuntimeError("GreedyHeuristicAgent needs set_state(state, player_id, cards)")
         me = self.player_id
         best, best_score = None, -math.inf
+        scores: list[float] = []
         for action in legal_actions:
             if isinstance(action, PassAction):
                 kredits = self.state.players[me].resources.kredits
@@ -113,10 +120,17 @@ class GreedyHeuristicAgent(BaseAgent):
                 try:
                     env.step_fast(action)
                 except Exception:  # an engine error on one branch must not lose the game
-                    continue
+                    scores.append(-math.inf); continue
                 score = evaluate(clone, me, self.weights)
+            scores.append(score)
             if score > best_score:
                 best, best_score = action, score
         best = best if best is not None else legal_actions[0]
-        self.last_policy = [float(a is best) for a in legal_actions]
+        finite = [x for x in scores if x != -math.inf]
+        top = max(finite) if finite else 0.0
+        weights = [math.exp((x - top) / self.temperature) if x != -math.inf else 0.0 for x in scores]
+        total = sum(weights) or 1.0
+        self.last_policy = [x / total for x in weights]
+        if self.epsilon and self.rng.random() < self.epsilon:
+            return self.rng.choice(list(legal_actions))
         return best

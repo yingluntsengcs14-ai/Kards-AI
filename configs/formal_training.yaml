@@ -78,6 +78,12 @@ self_play:
     - {main: Japan, ally: Italy}
     - {main: Japan, ally: Poland}
     - {main: Japan, ally: Finland}
+  # 2026-11-25: blend the hand-designed board score (ai/heuristic.py) into
+  # MCTS leaf values: share 0.5 at step 0, x0.85 per 2000 training steps,
+  # floor 0.1 (about 0.25 at step 8k, 0.1 from ~step 20k).
+  heuristic_value_weight: 0.5
+  heuristic_value_decay: 0.85
+  heuristic_value_min: 0.1
   replay_capacity: 250000
   replay_recent_fraction: 0.6
 model:
@@ -107,6 +113,14 @@ training:
   # first few cycles of a fresh run (small replay) do not memorise results
   # (v2 cycle 1: ~15 passes, value loss 1e-4). Full 2000 from ~130k examples.
   max_replay_passes: 4
+  # 2026-11-25: a fresh run first imitates the greedy heuristic agent
+  # (76% vs rule): 3000 of its games (10% random actions for variety), then
+  # supervised training on them before the first self-play cycle.
+  bootstrap:
+    games: 3000
+    epsilon: 0.1
+    updates: 6000
+    max_replay_passes: 8
 checkpoint:
   # 2026-11-24: 10 -> 100 (~1.1 MB each). History now stores each cycle's
   # candidate, which is what a per-step learning curve needs.
@@ -155,7 +169,9 @@ evaluation:
   gate_games_per_pair: 4
   promotion_win_rate: 0.52
   external_tolerance: 0.1
-  opponents: [random, rule]
+  # heuristic = the greedy board-score agent: a much stronger fixed
+  # baseline than rule, to see when the network overtakes it.
+  opponents: [random, rule, heuristic]
   fair_benchmark:
     games: 500
     simulations: 16

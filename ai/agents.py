@@ -55,11 +55,12 @@ class NeuralAgent(BaseAgent):
 class MCTSAgent(BaseAgent):
     def __init__(self, model: KARDSNet | None, encoder: ObservationEncoder, simulations: int = 64, seed: int = 0, inference=None,
                  *, temperature: float = 0.0, dirichlet_alpha: float = 0.0, exploration_fraction: float = 0.0,
-                 async_inference: bool = False, max_pending_leaves: int = 16) -> None:
+                 async_inference: bool = False, max_pending_leaves: int = 16, heuristic_value_weight: float = 0.0) -> None:
         from ai.mcts import MCTS
         self.searcher = MCTS(model, encoder, simulations=simulations, seed=seed, inference=inference,
                              async_inference=async_inference, max_pending_leaves=max_pending_leaves)
         self.searcher.set_training_policy(temperature=temperature, dirichlet_alpha=dirichlet_alpha, exploration_fraction=exploration_fraction)
+        self.searcher.heuristic_value_weight = heuristic_value_weight
         self.state = None; self.player_id = None; self.cards = None
     def set_state(self, state, player_id: str, cards) -> None: self.state, self.player_id, self.cards = state, player_id, cards
     def select_action(self, observation: dict, legal_actions: Sequence[Action]) -> Action:

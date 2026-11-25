@@ -80,6 +80,20 @@ def main() -> None:
         from ai.network import KARDSNet
         hidden_dim = int(cfg.get("model", {}).get("hidden_dim", 128))
         KARDSNet(hidden_dim=hidden_dim).save_checkpoint(champion)
+        # Heuristic bootstrap (2026-11-25): rather than starting self-play
+        # from a random network, imitate the greedy board-score agent
+        # (ai/heuristic.py, ~76% vs rule) first. Its games stay in the replay,
+        # so early cycles keep mixing them with self-play data.
+        boot = tcfg.get("bootstrap") or {}
+        if int(boot.get("games", 0)) > 0:
+            print(f"[auto_train] bootstrap: {boot['games']} heuristic games, then {boot.get('updates', updates)} updates", flush=True)
+            execute(["selfplay.py", "--search", "heuristic", "--episodes", str(boot["games"]), "--heuristic-epsilon", str(boot.get("epsilon", 0.1)),
+                     "--max-actions", str(spcfg["max_actions"]), "--device", args.device, "--replay", str(replay), "--replay-capacity", str(spcfg["replay_capacity"]),
+                     "--metrics", str(metrics), "--progress-every", "10", "--seed", str(int(spcfg.get("seed", 20261122)))]
+                    + (["--meta-decks"] if spcfg.get("meta_decks") else ["--deck-pool", json.dumps(spcfg["deck_pool"])]))
+            execute(["train.py", "--replay", str(replay), "--updates", str(boot.get("updates", updates)), "--batch-size", str(batch),
+                     "--learning-rate", str(tcfg.get("learning_rate", 0.0002)), "--checkpoint", str(champion), "--model", str(champion),
+                     "--metrics", str(metrics), "--device", args.device, "--max-replay-passes", str(boot.get("max_replay_passes", 8))])
     # `latest.pt` is the historical best generalisation model, while Champion
     # remains the local self-play opponent.  Neither is overwritten by a
     # candidate that merely exploits the immediately preceding Champion.
@@ -118,6 +132,12 @@ def main() -> None:
         # the learner's training_step so it also keeps changing across restarts.
         learner_step = int(__import__("torch").load(learner, map_location="cpu", weights_only=False).get("training_step", 0))
         selfplay_args += ["--seed", str(int(spcfg.get("seed", 20261122)) + learner_step + iteration)]
+        # Heuristic share of MCTS leaf values, decayed with training steps (not
+        # cycles, so a restart does not reset it).
+        hv = float(spcfg.get("heuristic_value_weight", 0.0))
+        if hv:
+            hv = max(float(spcfg.get("heuristic_value_min", 0.0)), hv * float(spcfg.get("heuristic_value_decay", 1.0)) ** (learner_step / 2000.0))
+            selfplay_args += ["--heuristic-value-weight", f"{hv:.4f}"]
         if spcfg.get("search"):
             selfplay_args += ["--search", str(spcfg["search"]), "--pimc-worlds", str(spcfg.get("pimc_worlds", 4))]
         if spcfg.get("meta_decks"):
