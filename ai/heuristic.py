@@ -25,7 +25,7 @@ from simulator.cards.loader import CardDatabase
 from simulator.core.game import Simulator
 from simulator.core.state import GameState, PlayerState, UnitState
 
-FEATURES = ("hq", "board", "units", "hand", "frontline", "lethal")
+FEATURES = ("hq", "board", "units", "hand", "frontline", "lethal", "resources", "deck")
 _GUARD, _BLITZ = KEYWORD_INDEX + KEYWORDS.index("guard"), KEYWORD_INDEX + KEYWORDS.index("blitz")
 
 
@@ -41,6 +41,11 @@ class HeuristicWeights:
     hand: float = 0.198      # per card in hand, capped at HAND_CAP
     frontline: float = 3.474 # holding the frontline
     lethal: float = 2.435    # my on-board attack >= their HQ health
+    # 2026-11-26 candidates (user suggestion: more cards = more resources);
+    # 0 = off until fitted. resources = hand (up to the 9-card limit) + units,
+    # so playing a card no longer looks like a loss; deck = cards left / 10.
+    resources: float = 0.0
+    deck: float = 0.0
     unspent: float = 0.4     # per kredit left unused when ending the turn
     scale: float = 12.0      # tanh scale for the [-1, 1] value
     hand_cap: int = 6
@@ -69,6 +74,8 @@ def features(player: PlayerState, enemy: PlayerState, hand_cap: int = 6) -> dict
         "hand": float(min(len(player.hand), hand_cap)),
         "frontline": float(any(unit.position == "frontline" for unit in player.units)),
         "lethal": float(attack >= max(1, enemy.hq.current_health)),
+        "resources": float(min(len(player.hand), 9) + len(player.units)),
+        "deck": len(player.deck) / 10.0,
     }
 
 
