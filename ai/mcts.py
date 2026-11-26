@@ -54,6 +54,7 @@ class MCTS:
         # every fresh leaf value: v = (1 - w) * network + w * heuristic. Lets a
         # young network lean on board knowledge; decayed by auto_train.py.
         self.heuristic_value_weight = 0.0
+        self.heuristic_prior_weight = 0.0
         self._cards = None
         self.initial_expansion = initial_expansion
         self.widening_factor = widening_factor
@@ -251,21 +252,30 @@ class MCTS:
             # value from the board score (blended below at weight 1). Uniform
             # priors plus progressive widening only ever looked at the first
             # legal actions in list order (46% vs rule at 32 simulations).
-            from ai.heuristic import action_scores
-            scores = action_scores(node.state, player_id, node.actions, self._cards)
-            top = max(scores)
-            logits = torch.tensor([(x - top) / 0.05 if x != float("-inf") else -1e9 for x in scores])
-            result = (logits, 0.0)
+            result = (self._heuristic_logits(node, player_id), 0.0)
         elif self.model is None:
             result = (torch.zeros(len(node.actions)), 0.0)
         else:
             with torch.inference_mode():
                 logits, value = self.model(self._observation(node, player_id).to(self.device), node.action_features.to(self.device), node.legal_mask.to(self.device))
                 result = (logits[0].cpu(), float(value.item()))
+        if self.heuristic_prior_weight and self.model is not None and self._cards is not None:
+            # Expert-iteration teacher (2026-11-26): mix the network's policy
+            # with the heuristic's one-step softmax. Heuristic priors alone took
+            # network-free MCTS from 46% to 84% vs rule.
+            n = len(node.actions); weight = self.heuristic_prior_weight
+            mixed = (1.0 - weight) * torch.softmax(result[0][:n].float(), dim=0) + weight * torch.softmax(self._heuristic_logits(node, player_id), dim=0)
+            result = (torch.log(mixed + 1e-12), result[1])
         if self.heuristic_value_weight:
             result = (result[0], self._blend(node, player_id, result[1]))
         node.evaluations[player_id] = result
         return result
+
+    def _heuristic_logits(self, node: MCTSNode, player_id: str) -> torch.Tensor:
+        from ai.heuristic import action_scores
+        scores = action_scores(node.state, player_id, node.actions, self._cards)
+        top = max(scores)
+        return torch.tensor([(x - top) / 0.05 if x != float("-inf") else -1e9 for x in scores])
 
     def _select(self, node: MCTSNode, cards: CardDatabase) -> MCTSNode:
         with node.lock:

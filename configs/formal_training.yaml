@@ -83,7 +83,16 @@ self_play:
   # floor 0.1 (about 0.25 at step 8k, 0.1 from ~step 20k).
   heuristic_value_weight: 0.5
   heuristic_value_decay: 0.85
-  heuristic_value_min: 0.1
+  # 2026-11-26: floor 0.1 -> 0.3. By step ~20k the share had decayed to the
+  # floor, search was leaning almost only on the network, and cycles 2-8 sat
+  # at 49-51% vs Champion and ~44% vs the greedy heuristic.
+  heuristic_value_min: 0.3
+  # 2026-11-26: also mix the heuristic's one-step action softmax into MCTS
+  # priors (same decay, floor 0.3): heuristic priors alone lifted
+  # network-free MCTS from 46% to 84% vs rule, so self-play's search -- the
+  # policy teacher -- gets that strength too.
+  heuristic_prior_weight: 0.5
+  heuristic_prior_min: 0.3
   replay_capacity: 250000
   replay_recent_fraction: 0.6
 model:
@@ -108,7 +117,10 @@ training:
   min_learning_rate: 0.00005
   lr_decay_every_steps: 10000
   lr_decay: 0.9
-  updates_per_cycle: 2000
+  # 2026-11-26: 2000 -> 1000. Each example stays ~8 cycles in the 250k
+  # replay, so 2000 x 256 per cycle meant ~16 cumulative passes; value loss
+  # sat at ~0.1 (memorising outcomes again).
+  updates_per_cycle: 1000
   # 2026-11-25: but never more than 4 passes over the replay present, so the
   # first few cycles of a fresh run (small replay) do not memorise results
   # (v2 cycle 1: ~15 passes, value loss 1e-4). Full 2000 from ~130k examples.

@@ -138,6 +138,10 @@ def main() -> None:
         if hv:
             hv = max(float(spcfg.get("heuristic_value_min", 0.0)), hv * float(spcfg.get("heuristic_value_decay", 1.0)) ** (learner_step / 2000.0))
             selfplay_args += ["--heuristic-value-weight", f"{hv:.4f}"]
+        hp = float(spcfg.get("heuristic_prior_weight", 0.0))
+        if hp:
+            hp = max(float(spcfg.get("heuristic_prior_min", 0.0)), hp * float(spcfg.get("heuristic_value_decay", 1.0)) ** (learner_step / 2000.0))
+            selfplay_args += ["--heuristic-prior-weight", f"{hp:.4f}"]
         if spcfg.get("search"):
             selfplay_args += ["--search", str(spcfg["search"]), "--pimc-worlds", str(spcfg.get("pimc_worlds", 4))]
         if spcfg.get("meta_decks"):

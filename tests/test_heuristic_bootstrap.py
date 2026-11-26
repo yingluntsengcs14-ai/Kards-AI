@@ -52,6 +52,25 @@ class HeuristicBootstrapTests(unittest.TestCase):
         search.heuristic_value_weight = 0.5
         self.assertAlmostEqual(search._blend(node, "p1", 0.2), 0.5 * 0.2 + 0.5 * evaluate(state, "p1"))
 
+    def test_prior_mixing_moves_priors_toward_the_heuristic(self) -> None:
+        import torch
+        from ai.network import KARDSNet
+        state, _ = fresh_state()
+        torch.manual_seed(0)
+        model = KARDSNet(hidden_dim=16).eval()
+        results = {}
+        for weight in (0.0, 1.0):
+            search = MCTS(model, ObservationEncoder(CARDS), simulations=1)
+            search.heuristic_prior_weight = weight; search._cards = CARDS
+            node = MCTSNode(state, state.current_player)
+            search._expand(node, CARDS)
+            results[weight] = node.priors
+        pure = torch.softmax(search._heuristic_logits(node, state.current_player), dim=0).tolist()
+        self.assertEqual(len(results[1.0]), len(pure))
+        for got, want in zip(results[1.0], pure):
+            self.assertAlmostEqual(got, want, places=5)
+        self.assertNotEqual(results[0.0], results[1.0])
+
     def test_fresh_run_bootstraps_from_heuristic_games(self) -> None:
         import torch
         config = TINY_CONFIG.replace("  updates_per_cycle: 2\n", "  updates_per_cycle: 2\n  bootstrap:\n    games: 2\n    updates: 3\n") \
