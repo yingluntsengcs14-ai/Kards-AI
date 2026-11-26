@@ -11,3 +11,4 @@
 | `eval_w.py` / `eval_big.py` | 權重版本比較（272／544 局，換種子） |
 | `hmcts_eval.py SIMS OUT` | 不用網路、只用人工評分的 MCTS 打 rule |
 | `matchup.py` / `plot_matchup.py` | 17×17 牌組對戰矩陣與熱力圖（`matchup.py` 需在 v1 commit `c33aaff` 的工作樹下跑 v1 模型） |
+- `net_mcts_eval.py`: trained network + heuristic-blended MCTS vs heuristic/rule, 272 paired meta games split over worker processes (desktop run while training continues).
