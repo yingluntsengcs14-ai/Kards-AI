@@ -85,6 +85,7 @@ tr.clickable{cursor:pointer} tr.clickable:hover td{background:#f3f1ea}
   <div class="group"><label>P1 控制</label><select id="c1"></select><label>P2 控制</label><select id="c2"></select></div>
   <div class="group"><label>分析用 AI</label><select id="ai"></select><label>模擬次數</label>
     <select id="sims"><option>32</option><option selected>64</option><option>128</option><option>256</option></select></div>
+  <div class="group"><label>自由出牌</label><select id="free"><option value="">關閉</option><option value="p2" selected>P2（對手）</option><option value="p1">P1</option></select><label><input type="checkbox" id="freeClear" checked> 開局清空自由方手牌</label></div>
   <div class="group"><label><input type="checkbox" id="hide"> 隱藏對手手牌（以 P1 視角）</label>
     <label><input type="checkbox" id="auto" checked> 每步自動分析</label></div>
   <div class="group"><button onclick="saveRecord()">存紀錄</button><button onclick="document.getElementById('file').click()">載入紀錄</button>
@@ -96,6 +97,17 @@ tr.clickable{cursor:pointer} tr.clickable:hover td{background:#f3f1ea}
     <div id="board" class="panel"><span class="muted">選好雙方牌組後按「開新局」。</span></div>
   </section>
   <section>
+    <div class="panel" id="freePanel" style="margin-bottom:12px;display:none">
+      <h2>自由出牌 <span class="tag" id="freeWho"></span><span class="muted small">把任何一張卡加入這方手牌，再到「合法動作」打出它</span></h2>
+      <div class="navbtns">
+        <select id="freeScope"><option value="deck">這套牌組的卡</option><option value="nation">兩個國家的所有卡</option></select>
+        <input id="freeSearch" placeholder="搜尋中文或英文卡名" style="flex:1;min-width:140px;border:1px solid var(--line);border-radius:8px;padding:5px 8px">
+        <button onclick="editOp({kind:'clear'})">清空手牌</button>
+        <button onclick="editOp({kind:'kredits',value:VIEW.players[freeSide()].kredits-1})">指揮點 −1</button>
+        <button onclick="editOp({kind:'kredits',value:VIEW.players[freeSide()].kredits+1})">指揮點 +1</button>
+      </div>
+      <div id="freeList" class="actions" style="max-height:240px"></div>
+    </div>
     <div class="panel" style="margin-bottom:12px">
       <h2>AI 建議 <span id="aiwho" class="tag"></span></h2>
       <div class="navbtns">
@@ -144,7 +156,7 @@ async function init(){
   $('ai').value=META.ais.net_mcts?'heuristic_mcts':'heuristic_mcts';
   $('hide').onchange=()=>guard(async()=>render(await api('/api/view')));
 }
-async function newGame(){await guard(async()=>{MAINLINE=null;ANALYSIS=null;render(await api('/api/new',{p1:$('d1').value,p2:$('d2').value,seed:+$('seed').value}));await afterMove();})}
+async function newGame(){await guard(async()=>{MAINLINE=null;ANALYSIS=null;render(await api('/api/new',{p1:$('d1').value,p2:$('d2').value,seed:+$('seed').value}));if(freeSide()&&$('freeClear').checked)render(await api('/api/edit',{op:{kind:'clear',player:freeSide()}}));FREECARDS=null;await loadFree();remember();await afterMove();})}
 
 function cardBox(c, unit){
   const stats = unit ? `<span class="st">${c.atk}/${c.def}</span>` : (c.attack!=null?`<span>${c.attack}/${c.defense}</span>`:`<span>${c.type}</span>`);
@@ -156,7 +168,7 @@ function cardBox(c, unit){
 function sideBox(pid){
   const p=VIEW.players[pid], cur=VIEW.current===pid && !VIEW.outcome;
   const sup=p.units.filter(u=>u.position!=='frontline').map(u=>cardBox(u,true)).join('')||'<span class="muted small">（空）</span>';
-  const hand=p.hand.length?p.hand.map(c=>cardBox(c,false)).join(''):`<div class="hidden-hand">手牌 ${p.hand_count} 張（已隱藏）</div>`;
+  const hand=p.hand.length?p.hand.map((c,i)=>freeSide()===pid?`<div style="position:relative">${cardBox(c,false)}<button title="從手牌移除" onclick="editOp({kind:'remove',slot:${i}})" style="position:absolute;top:-8px;right:-6px;padding:0 6px;border-radius:999px;font-size:12px">✕</button></div>`:cardBox(c,false)).join(''):`<div class="hidden-hand">手牌 ${p.hand_count} 張（已隱藏）</div>`;
   const hq=Math.max(0,p.hq);
   const head=`<div class="head"><span class="who">${p.label}</span>${cur?'<span class="turn-mark">輪到這方</span>':''}
     <span>總部 <b>${p.hq}</b>/${p.hq_max}<span class="hqbar"><i style="width:${100*hq/p.hq_max}%"></i></span></span>
@@ -175,7 +187,7 @@ function render(v){
   $('banner').innerHTML=v.outcome?`<div class="banner">對局結束：${v.outcome}</div>`:'';
   $('legalCount').textContent=v.legal.length+' 個';
   $('legal').innerHTML=v.legal.map(a=>`<button class="k-${a.kind}" onclick="play(${a.index})">${a.text}</button>`).join('')||'<span class="muted small">沒有可走的動作</span>';
-  renderTimeline();
+  renderTimeline(); renderFree();
   if(!ANALYSIS) {$('analysis').innerHTML='<span class="muted small">按「分析目前局面」，看 AI 對每個合法動作的評估。</span>'; $('followBtn').disabled=true;}
 }
 function renderTimeline(){
@@ -187,12 +199,13 @@ function renderTimeline(){
   const cur=$('timeline').querySelector('.cur'); if(cur) cur.scrollIntoView({block:'nearest'});
   $('fwd').disabled=!(ml && isPrefix() && ml.history.length>n);
 }
-function isPrefix(){const a=VIEW.history,b=MAINLINE.history;return a.length<=b.length && a.every((s,i)=>s.index===b[i].index)}
+const key=s=>JSON.stringify([s.index,s.op||null]);
+function isPrefix(){const a=VIEW.history,b=MAINLINE.history;return a.length<=b.length && a.every((s,i)=>key(s)===key(b[i]))}
 function remember(){ if(!MAINLINE || !isPrefix() || VIEW.history.length>MAINLINE.history.length) MAINLINE={history:VIEW.history.slice()}; }
 
 async function play(index,by){await guard(async()=>{ANALYSIS=null;render(await api('/api/play',{index,by:by||'手動'}));remember();await afterMove();})}
 async function goto(step){await guard(async()=>{remember();ANALYSIS=null;render(await api('/api/goto',{step}));if($('auto').checked&&!VIEW.outcome)await analyse(true);})}
-async function forwardTo(step){await guard(async()=>{ANALYSIS=null;let v=VIEW;while(v.step<step){v=await api('/api/play',{index:MAINLINE.history[v.step].index,by:MAINLINE.history[v.step].by})}render(v);if($('auto').checked&&!VIEW.outcome)await analyse(true);})}
+async function forwardTo(step){await guard(async()=>{ANALYSIS=null;let v=VIEW;while(v.step<step){const e=MAINLINE.history[v.step];v=await api('/api/apply',{entry:{index:e.index,op:e.op,by:e.by}})}render(v);if($('auto').checked&&!VIEW.outcome)await analyse(true);})}
 async function nav(d){ if(d<0){ if(VIEW.step>0) await goto(VIEW.step-1);} else if(MAINLINE&&isPrefix()&&MAINLINE.history.length>VIEW.step) await forwardTo(VIEW.step+1); }
 async function navTurn(d){
   const all=(MAINLINE&&isPrefix())?MAINLINE.history:VIEW.history, n=VIEW.step, turnOf=i=>i===0?0:all[i-1].turn;
@@ -235,6 +248,19 @@ async function autoPlay(){
   }catch(e){$('err').textContent=e.message}
   delete $('autoBtn').dataset.on;$('autoBtn').textContent='自動對打到結束';
 }
+let FREECARDS=null;
+function freeSide(){return $('free').value}
+async function loadFree(){ if(!freeSide()||!VIEW){FREECARDS=null;return} FREECARDS=(await api('/api/cards',{player:freeSide(),scope:$('freeScope').value})).cards; renderFree(); }
+function renderFree(){
+  const side=freeSide(); $('freePanel').style.display=side&&VIEW?'block':'none'; if(!side||!VIEW) return;
+  $('freeWho').textContent=VIEW.players[side].label+(VIEW.current===side?'・輪到這方':'');
+  if(!FREECARDS){$('freeList').innerHTML='<span class="muted small">載入中…</span>';return}
+  const q=$('freeSearch').value.trim().toLowerCase();
+  const rows=FREECARDS.filter(c=>!q||c.zh.toLowerCase().includes(q)||c.en.toLowerCase().includes(q)).slice(0,80);
+  $('freeList').innerHTML=rows.map(c=>`<button data-tip="${(c.zh+'（'+c.en+'）\n'+c.type+'・'+(c.kredits??'?')+' K'+(c.attack!=null?'・'+c.attack+'/'+c.defense:'')+'\n'+(c.text||'')).replace(/"/g,'&quot;')}" onclick="editOp({kind:'add',card_id:'${c.id}'})">
+    <b>${c.kredits??'?'}K</b>　${c.zh} <span class="muted small">${c.en}・${c.type}${c.attack!=null?'・'+c.attack+'/'+c.defense:''}${$('freeScope').value==='deck'?'・牌庫剩 '+c.in_deck:''}</span></button>`).join('')||'<span class="muted small">沒有符合的卡</span>';
+}
+async function editOp(op){await guard(async()=>{op.player=freeSide();ANALYSIS=null;render(await api('/api/edit',{op}));remember();await loadFree();})}
 async function saveRecord(){await guard(async()=>{const r=await api('/api/record');const blob=new Blob([JSON.stringify(r,null,1)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`kards_${r.decks.join('_vs_')}_seed${r.seed}.json`;a.click();})}
 async function loadRecord(input){const f=input.files[0];if(!f)return;const record=JSON.parse(await f.text());input.value='';
@@ -242,6 +268,7 @@ async function loadRecord(input){const f=input.files[0];if(!f)return;const recor
 // tooltip
 document.addEventListener('mousemove',e=>{const t=e.target.closest('[data-tip]'),tip=$('tip');if(!t){tip.style.display='none';return}
   tip.textContent=t.dataset.tip;tip.style.display='block';tip.style.left=Math.min(e.clientX+14,innerWidth-300)+'px';tip.style.top=(e.clientY+14)+'px'});
+$('free').onchange=()=>guard(loadFree); $('freeScope').onchange=()=>guard(loadFree); $('freeSearch').oninput=renderFree;
 init().catch(e=>{$('err').textContent=e.message});
 </script>
 </body>

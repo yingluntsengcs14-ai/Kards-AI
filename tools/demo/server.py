@@ -194,9 +194,66 @@ class Session:
         self.snapshots = self.snapshots[: step + 1]; self.history = self.history[:step]
         self.env = Simulator(self.catalog.cards, state=self.snapshots[-1].clone(), record_replay=False)
 
+    # ── free play: edit a side's hand / kredits (simulate any opponent move) ──
+    def edit(self, op: dict, by: str = "自由編輯") -> dict:
+        """Apply a hand/kredit edit as its own timeline step.
+
+        ``add``: put a card into ``player``'s hand (one copy is taken out of
+        the deck when the deck holds it, so the deck stays consistent).
+        ``remove``: take the hand card at ``slot`` back to the bottom of the deck.
+        ``clear``: return the whole hand to the deck.
+        ``kredits``: set current kredits (0..max 12).
+        """
+        state = self.env.state; pid = op["player"]; player = state.players[pid]
+        kind = op["kind"]; z = self.catalog.zh
+        if kind == "add":
+            card_id = op["card_id"]
+            if card_id not in self.catalog.cards:
+                raise ValueError(f"沒有這張卡：{card_id}")
+            if card_id in player.deck:
+                player.deck.remove(card_id)
+            player.hand.append(card_id); text = f"【自由出牌】{self.label(pid)} 手牌加入「{z(card_id)}」"
+        elif kind == "remove":
+            card_id = player.hand.pop(int(op["slot"])); player.deck.append(card_id)
+            text = f"【自由出牌】{self.label(pid)} 手牌移除「{z(card_id)}」"
+        elif kind == "clear":
+            player.deck.extend(player.hand); count = len(player.hand); player.hand.clear()
+            text = f"【自由出牌】{self.label(pid)} 清空手牌（{count} 張放回牌庫）"
+        elif kind == "kredits":
+            value = max(0, min(12, int(op["value"])))
+            player.resources.kredits = value
+            player.resources.max_kredits = max(player.resources.max_kredits, value)
+            text = f"【自由出牌】{self.label(pid)} 指揮點設為 {value}"
+        else:
+            raise ValueError(f"未知的編輯：{kind}")
+        self.env._action_cache = None
+        self.history.append({"player": pid, "label": self.label(pid), "action": text, "index": None, "op": op,
+                             "by": by, "turn": state.turn_number, "effects": []})
+        self.snapshots.append(self.env.state.clone())
+        return self.history[-1]
+
+    def apply(self, entry: dict) -> None:
+        if entry.get("op"):
+            self.edit(entry["op"], entry.get("by", "自由編輯"))
+        else:
+            self.play(int(entry["index"]), entry.get("by", "手動"))
+
+    def cards_for(self, pid: str, scope: str) -> list[dict]:
+        """Cards a side could plausibly hold: its deck list, or its two nations."""
+        deck = self.decks[0 if pid == "p1" else 1]
+        left = self.env.state.players[pid].deck
+        if scope == "deck":
+            ids = sorted(set(deck.cards))
+        else:
+            nations = {deck.main_nation, deck.ally_nation}
+            ids = sorted(c.id for c in self.catalog.cards if c.nation in nations and not getattr(c, "is_token", False)
+                         and c.set not in ("OnlySpawnable",) and not c.reserved)
+        rows = [{**self.catalog.info(card_id), "in_deck": left.count(card_id), "in_list": deck.cards.count(card_id)} for card_id in ids]
+        return sorted(rows, key=lambda r: (r["kredits"] if r["kredits"] is not None else 99, r["zh"]))
+
     def record(self) -> dict:
-        return {"decks": [d.name for d in self.decks], "seed": self.seed, "actions": [h["index"] for h in self.history],
-                "by": [h["by"] for h in self.history]}
+        steps = [{"op": h["op"], "by": h["by"]} if h.get("op") else {"index": h["index"], "by": h["by"]} for h in self.history]
+        return {"decks": [d.name for d in self.decks], "seed": self.seed, "steps": steps}
 
     def view(self, hide_hand: str | None = None) -> dict:
         state = self.env.state
@@ -343,9 +400,16 @@ class App:
             if path == "/api/load":
                 record = body["record"]
                 self.session = Session(self.catalog, tuple(record["decks"]), int(record["seed"]))
-                for index, by in zip(record["actions"], record.get("by") or ["手動"] * len(record["actions"])):
-                    self.session.play(int(index), by)
+                steps = record.get("steps") or [{"index": i, "by": b} for i, b in zip(record["actions"], record.get("by") or ["手動"] * len(record["actions"]))]
+                for entry in steps:
+                    self.session.apply(entry)
                 return self.session.view(body.get("hide"))
+            if path == "/api/edit":
+                s.edit(body["op"]); return s.view(body.get("hide"))
+            if path == "/api/apply":
+                s.apply(body["entry"]); return s.view(body.get("hide"))
+            if path == "/api/cards":
+                return {"cards": s.cards_for(body["player"], body.get("scope", "deck"))}
             raise ValueError(f"未知的 API：{path}")
 
 

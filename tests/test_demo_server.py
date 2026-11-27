@@ -35,3 +35,24 @@ def test_play_rewind_and_reload_a_game():
     reloaded = app.handle("/api/load", {"record": record})
     assert reloaded["step"] == view["step"]
     assert reloaded["players"]["p1"]["hq"] == view["players"]["p1"]["hq"]
+
+
+def test_free_play_edits_are_steps_that_replay():
+    server = _server()
+    app = server.App(model_path=None)
+    app.handle("/api/new", {"p1": "日澳快攻", "p2": "德意直空", "seed": 7})
+    view = app.handle("/api/edit", {"op": {"kind": "clear", "player": "p2"}})
+    assert view["players"]["p2"]["hand_count"] == 0
+    app.handle("/api/ai_step", {"ai": "greedy", "until_turn_end": True})          # P1's turn
+    cards = app.handle("/api/cards", {"player": "p2", "scope": "deck"})["cards"]
+    pick = next(c for c in cards if c["kredits"] is not None and c["kredits"] <= 2 and c["attack"] is not None)
+    app.handle("/api/edit", {"op": {"kind": "add", "player": "p2", "card_id": pick["id"]}})
+    view = app.handle("/api/edit", {"op": {"kind": "kredits", "player": "p2", "value": 5}})
+    play = next(a for a in view["legal"] if a["kind"] == "play" and pick["zh"] in a["text"])
+    view = app.handle("/api/play", {"index": play["index"]})
+    assert any(u["id"].startswith(pick["id"]) for u in view["players"]["p2"]["units"])
+    assert len(app.handle("/api/cards", {"player": "p2", "scope": "nation"})["cards"]) > len(cards)
+    record = app.handle("/api/record", {})
+    assert any("op" in step for step in record["steps"])
+    reloaded = app.handle("/api/load", {"record": record})
+    assert reloaded["step"] == view["step"] and reloaded["players"]["p2"]["units"] == view["players"]["p2"]["units"]
