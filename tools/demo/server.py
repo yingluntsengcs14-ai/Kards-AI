@@ -310,7 +310,7 @@ class Brains:
         probs = torch.softmax(logits[0][: len(legal)], dim=0).tolist()
         return probs, float(value.reshape(-1)[0])
 
-    def analyse(self, session: Session, kind: str, simulations: int = 64) -> dict:
+    def analyse(self, session: Session, kind: str, simulations: int = 64, worlds: int = 0) -> dict:
         """Per-action explanation for the side to move."""
         state = session.env.state; pid = state.current_player; legal = session.legal()
         if not legal:
@@ -321,25 +321,52 @@ class Brains:
                  "heuristic": None if h == -math.inf else round(h, 3)} for i, (a, h) in enumerate(zip(legal, heur))]
         summary = {"ai": AI_KINDS.get(kind, kind), "player": session.label(pid)}
         if kind in ("heuristic_mcts", "net_mcts"):
+            import random
+            from ai.action_encoder import action_key
             from ai.mcts import MCTS
+            from ai.pimc import determinize
             model = self.model if kind == "net_mcts" else None
-            search = MCTS(model, self.encoder, simulations=simulations, seed=session.seed + len(session.history))
-            if kind == "net_mcts":
-                search.heuristic_value_weight, search.heuristic_prior_weight = 0.3, 0.5
-            else:  # no network: heuristic priors and values (84% vs rule at 32 simulations)
-                search.heuristic_value_weight = 1.0
-            action, policy = search.search(state, self.catalog.cards, pid)
-            root = search.last_root
+            # worlds == 0: search the real state (sees the opponent's hand and
+            # both deck orders). worlds > 0: PIMC -- search that many sampled
+            # worlds where the opponent's hand/deck are re-dealt from what this
+            # side cannot see, and average; the AI then only knows the opponent's
+            # hand SIZE, not its cards.
+            rng = random.Random(session.seed * 1000 + len(session.history))
+            slot_of = {action_key(a): i for i, a in enumerate(legal)}
+            visits = [0.0] * len(legal); qsum = [0.0] * len(legal); qn = [0] * len(legal)
+            priors = [0.0] * len(legal); root_values = []; used = 0
+            for world_index in range(max(1, worlds)):
+                world = determinize(state, pid, self.catalog.cards, rng) if worlds else state
+                search = MCTS(model, self.encoder, simulations=simulations, seed=session.seed + len(session.history) + world_index)
+                if kind == "net_mcts":
+                    search.heuristic_value_weight, search.heuristic_prior_weight = 0.3, 0.5
+                else:  # no network: heuristic priors and values (84% vs rule at 32 simulations)
+                    search.heuristic_value_weight = 1.0
+                _, policy = search.search(world, self.catalog.cards, pid)
+                root = search.last_root
+                for i, world_action in enumerate(root.actions):
+                    slot = slot_of.get(action_key(world_action))
+                    if slot is None:
+                        continue
+                    visits[slot] += policy.get(str(i), 0.0)
+                    priors[slot] += root.priors[i] if i < len(root.priors) else 0.0
+                    child = root.children.get(i)
+                    if child is not None and child.visit_count:
+                        q = child.value if child.player_to_move == pid else -child.value
+                        qsum[slot] += q; qn[slot] += 1
+                if root.visit_count:
+                    root_values.append(root.value)
+                used += 1
+            total = sum(visits) or 1.0
             for i, row in enumerate(rows):
-                child = root.children.get(i)
-                row["visits"] = policy.get(str(i), 0.0)
-                row["prior"] = round(root.priors[i], 3) if i < len(root.priors) else None
-                if child is not None and child.visit_count:
-                    q = child.value if child.player_to_move == pid else -child.value
-                    row["winrate"] = round((q + 1) / 2, 3)
-            best = legal.index(action) if action in legal else max(range(len(rows)), key=lambda i: rows[i].get("visits", 0))
-            summary["winrate"] = round((root.value + 1) / 2, 3) if root.visit_count else None
+                row["visits"] = visits[i] / total
+                row["prior"] = round(priors[i] / used, 3)
+                if qn[i]:
+                    row["winrate"] = round((qsum[i] / qn[i] + 1) / 2, 3)
+            best = max(range(len(rows)), key=lambda i: visits[i])
+            summary["winrate"] = round((sum(root_values) / len(root_values) + 1) / 2, 3) if root_values else None
             summary["simulations"] = simulations
+            summary["worlds"] = worlds
         elif kind == "net":
             probs, value = self._net(state, pid, legal)
             for row, p in zip(rows, probs):
@@ -383,7 +410,7 @@ class App:
             if path == "/api/goto":
                 s.goto(int(body["step"])); return s.view(body.get("hide"))
             if path == "/api/analyse":
-                return self.brains.analyse(s, body.get("ai", "heuristic_mcts"), int(body.get("simulations", 64)))
+                return self.brains.analyse(s, body.get("ai", "heuristic_mcts"), int(body.get("simulations", 64)), int(body.get("worlds", 0)))
             if path == "/api/ai_step":
                 # AI plays for the side to move: one action, or until its turn ends.
                 kind = body.get("ai", "heuristic_mcts"); sims = int(body.get("simulations", 32))
@@ -392,7 +419,7 @@ class App:
                 for _ in range(limit):
                     if s.env.is_terminal() or s.env.state.current_player != mover:
                         break
-                    result = self.brains.analyse(s, kind, sims)
+                    result = self.brains.analyse(s, kind, sims, int(body.get("worlds", 0)))
                     s.play(result["best"], AI_KINDS.get(kind, kind))
                 return s.view(body.get("hide"))
             if path == "/api/record":

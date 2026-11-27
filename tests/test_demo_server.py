@@ -56,3 +56,21 @@ def test_free_play_edits_are_steps_that_replay():
     assert any("op" in step for step in record["steps"])
     reloaded = app.handle("/api/load", {"record": record})
     assert reloaded["step"] == view["step"] and reloaded["players"]["p2"]["units"] == view["players"]["p2"]["units"]
+
+
+def test_pimc_analysis_ignores_the_opponents_actual_hand():
+    """With worlds > 0 the AI knows only the opponent's hand size."""
+    server = _server()
+
+    def analysis_with_p2_card(card_id):
+        app = server.App(model_path=None)
+        app.handle("/api/new", {"p1": "日澳快攻", "p2": "德意直空", "seed": 7})
+        app.handle("/api/edit", {"op": {"kind": "clear", "player": "p2"}})
+        app.handle("/api/edit", {"op": {"kind": "add", "player": "p2", "card_id": card_id}})
+        return app.handle("/api/analyse", {"ai": "heuristic_mcts", "simulations": 16, "worlds": 3})
+
+    cards = server.Session(server.Catalog(), ("日澳快攻", "德意直空"), 7).cards_for("p2", "deck")
+    first, second = cards[0]["id"], cards[-1]["id"]
+    a, b = analysis_with_p2_card(first), analysis_with_p2_card(second)
+    assert a["summary"]["worlds"] == 3
+    assert [(r["index"], r["visits"]) for r in a["rows"]] == [(r["index"], r["visits"]) for r in b["rows"]]

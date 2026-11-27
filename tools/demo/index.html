@@ -84,7 +84,8 @@ tr.clickable{cursor:pointer} tr.clickable:hover td{background:#f3f1ea}
     <button class="primary" onclick="newGame()">開新局</button></div>
   <div class="group"><label>P1 控制</label><select id="c1"></select><label>P2 控制</label><select id="c2"></select></div>
   <div class="group"><label>分析用 AI</label><select id="ai"></select><label>模擬次數</label>
-    <select id="sims"><option>32</option><option selected>64</option><option>128</option><option>256</option></select></div>
+    <select id="sims"><option>32</option><option selected>64</option><option>128</option><option>256</option></select>
+    <label title="AI 只知道對手手牌張數，不知道是哪些牌：把對手手牌和牌庫重新發牌 N 次，各搜尋一次再平均（PIMC）">對手手牌</label><select id="worlds"><option value="4" selected>AI 看不到（PIMC 4 個世界）</option><option value="8">AI 看不到（PIMC 8 個世界）</option><option value="0">AI 看得到（完全資訊）</option></select></div>
   <div class="group"><label>自由出牌</label><select id="free"><option value="">關閉</option><option value="p2" selected>P2（對手）</option><option value="p1">P1</option></select><label><input type="checkbox" id="freeClear" checked> 開局清空自由方手牌</label></div>
   <div class="group"><label><input type="checkbox" id="hide"> 隱藏對手手牌（以 P1 視角）</label>
     <label><input type="checkbox" id="auto" checked> 每步自動分析</label></div>
@@ -217,13 +218,13 @@ async function analyse(inner){
   const run=async()=>{
     if(!VIEW||VIEW.outcome) return;
     $('analysis').innerHTML='<span class="muted small">搜尋中…</span>';
-    ANALYSIS=await api('/api/analyse',{ai:$('ai').value,simulations:+$('sims').value});
+    ANALYSIS=await api('/api/analyse',{ai:$('ai').value,simulations:+$('sims').value,worlds:+$('worlds').value});
     renderAnalysis();
   };
   inner?await run():await guard(run);
 }
 function renderAnalysis(){
-  const a=ANALYSIS, s=a.summary||{}; $('aiwho').textContent=(s.ai||'')+(s.simulations?`・${s.simulations} 次模擬`:'');
+  const a=ANALYSIS, s=a.summary||{}; $('aiwho').textContent=(s.ai||'')+(s.simulations?`・${s.simulations} 次模擬`:'')+(s.worlds?`・PIMC ${s.worlds} 個世界`:(s.simulations?'・完全資訊':''));
   const hasV=a.rows.some(r=>r.visits!=null), hasW=a.rows.some(r=>r.winrate!=null), hasP=a.rows.some(r=>r.prior!=null);
   const best=a.rows.find(r=>r.index===a.best);
   let html=`<div class="summary"><span>${s.player||''} 的建議：<b>${best?best.text:'—'}</b></span>${s.winrate!=null?`<span>目前評估 <b>${pct(s.winrate)}</b></span>`:''}<span class="muted small">${s.seconds}s</span></div>`;
@@ -237,13 +238,13 @@ function renderAnalysis(){
 }
 async function followBest(){ if(ANALYSIS&&ANALYSIS.best!=null) await play(ANALYSIS.best,($('ai').selectedOptions[0]||{}).text||'AI'); }
 function moverAI(){const c=$(VIEW.current==='p1'?'c1':'c2').value;return c==='human'?$('ai').value:c}
-async function aiStep(untilTurnEnd){await guard(async()=>{ANALYSIS=null;render(await api('/api/ai_step',{ai:moverAI(),until_turn_end:untilTurnEnd,simulations:+$('sims').value}));remember();if($('auto').checked&&!VIEW.outcome)await analyse(true);})}
+async function aiStep(untilTurnEnd){await guard(async()=>{ANALYSIS=null;render(await api('/api/ai_step',{ai:moverAI(),until_turn_end:untilTurnEnd,simulations:+$('sims').value,worlds:+$('worlds').value}));remember();if($('auto').checked&&!VIEW.outcome)await analyse(true);})}
 async function autoPlay(){
   if($('autoBtn').dataset.on){STOP=true;return}
   $('autoBtn').dataset.on='1';$('autoBtn').textContent='停止';STOP=false;$('err').textContent='';
   try{ while(VIEW&&!VIEW.outcome&&!STOP){
       const c=$(VIEW.current==='p1'?'c1':'c2').value; if(c==='human') break;
-      ANALYSIS=null; render(await api('/api/ai_step',{ai:c,until_turn_end:true,simulations:+$('sims').value})); remember(); }
+      ANALYSIS=null; render(await api('/api/ai_step',{ai:c,until_turn_end:true,simulations:+$('sims').value,worlds:+$('worlds').value})); remember(); }
     if(VIEW&&!VIEW.outcome&&$('auto').checked) await analyse(true);
   }catch(e){$('err').textContent=e.message}
   delete $('autoBtn').dataset.on;$('autoBtn').textContent='自動對打到結束';
