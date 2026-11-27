@@ -93,6 +93,8 @@ class MCTS:
                 node.virtual_visits += 1
             value = self._evaluate(node, cards, root_player)
             self._backpropagate(path, value, root_player)
+        # Kept for inspection (tools/demo shows per-action visits and values).
+        self.last_root = root
         if not root.children: return root.actions[0], {"0": 1.0}
         visits = {index: child.visit_count for index, child in root.children.items()}
         total = sum(visits.values()) or 1

@@ -1,0 +1,8237 @@
+{
+ "source": "kards.com 卡牌收藏頁的資料（herokuapi.kards.com GraphQL getCards，zh-Hant，含可能出現與預備卡池）",
+ "fetched": "2026-11-27",
+ "count": 1646,
+ "cards": {
+  "1005th_rifles": {
+   "en": "1005th RIFLES",
+   "zh": "步兵第 1005 團",
+   "text_zh": "被敵方指令指向時，抽 1 張牌。"
+  },
+  "101_infantry_regiment": {
+   "en": "101. INFANTRY REGIMENT",
+   "zh": "第 101 步兵團",
+   "text_zh": "鉗擊：本單位攻擊時，獲得 +1+1。"
+  },
+  "101st_airborne": {
+   "en": "101st AIRBORNE",
+   "zh": "第 101 空降師",
+   "text_zh": "部署：對敵方支援陣線 1 個目標造成 2 點傷害。"
+  },
+  "101st_bezhitsa": {
+   "en": "101st BEZHITSA",
+   "zh": "別日察第 101 團",
+   "text_zh": "友方回合開始時，使友方單位獲得 +2 攻擊力，失去 2 個指揮點。"
+  },
+  "102_grenadier": {
+   "en": "102. GRENADIER",
+   "zh": "第 102 擲彈兵團",
+   "text_zh": "行動後，升為老兵。"
+  },
+  "102_grenadier_vet": {
+   "en": "102. GRENADIER",
+   "zh": "第 102 擲彈兵團",
+   "text_zh": ""
+  },
+  "102nd_rifles": {
+   "en": "102nd RIFLES",
+   "zh": "步兵第 102 團",
+   "text_zh": "友方回合開始時，升為老兵。亡計：抽 1 張牌。"
+  },
+  "102nd_rifles_vet": {
+   "en": "102nd RIFLES",
+   "zh": "步兵第 102 團",
+   "text_zh": "升為老兵時，將 1 張“鐵錘”加入手中。"
+  },
+  "103rd_cavalry_recon": {
+   "en": "103rd CAVALRY RECON",
+   "zh": "第 103 騎兵偵察小隊",
+   "text_zh": "揭示：若處於隱蔽的回合數不小於 2，使所有友方單位獲得 +1+1。"
+  },
+  "104_panzergrenadier": {
+   "en": "104. PANZERGRENADIER",
+   "zh": "第 104 裝甲擲彈兵團",
+   "text_zh": "部署：若有友方坦克，獲得 -1 行動花費。"
+  },
+  "104th_infantry_regiment": {
+   "en": "104th INFANTRY REGIMENT",
+   "zh": "第 104 步兵團",
+   "text_zh": ""
+  },
+  "106th_infantry_regiment": {
+   "en": "106th INFANTRY REGIMENT",
+   "zh": "步兵第百六聯隊",
+   "text_zh": "部署：對 1 個敵方目標造成 1 點傷害。\\r\\n亡計：若是敵方回合，將 1 張複製加入手牌。"
+  },
+  "106th_quartermasters": {
+   "en": "106th QUARTERMASTERS",
+   "zh": "第 106 軍需連",
+   "text_zh": "友方額外獲得 1 個指揮點槽時，抽 1 張牌。"
+  },
+  "1081st_smolensk": {
+   "en": "1081st SMOLENSK",
+   "zh": "斯摩棱斯克第 1081 團",
+   "text_zh": "友方使用“爆破”時，造成 2 點傷害，隨機分配至所有敵方目標。"
+  },
+  "108_panzergrenadier": {
+   "en": "108. PANZERGRENADIER",
+   "zh": "第 108 裝甲擲彈兵團",
+   "text_zh": "部署：將 1 個花費不大於 4 的敵方單位轉換為“潰軍”，使其撤退。"
+  },
+  "1097_volksgrenadier": {
+   "en": "1097. VOLKSGRENADIER",
+   "zh": "第 1097 國民擲彈兵團",
+   "text_zh": "部署：若有敵方閃擊單位，獲得守護和 +2 防禦力。"
+  },
+  "109th_combat_engineers": {
+   "en": "109th COMBAT ENGINEERS",
+   "zh": "第 109 戰鬥工兵營",
+   "text_zh": "其他友方單位移至前線時，使其獲得 +1 攻擊力。"
+  },
+  "10_5_cm_lefh": {
+   "en": "10.5 cm leFH",
+   "zh": "105 毫米輕型榴彈炮",
+   "text_zh": "部署：對敵方總部造成 2 點傷害。"
+  },
+  "10th_engineers_battalion": {
+   "en": "10th ENGINEERS BATTALION",
+   "zh": "第 10 工兵營",
+   "text_zh": "相鄰陸軍具有 +2 攻擊力。"
+  },
+  "10th_guards_regiment": {
+   "en": "10th GUARDS REGIMENT",
+   "zh": "近衛步兵第 10 團",
+   "text_zh": "無法撤退或被抑制。"
+  },
+  "10th_para_battalion": {
+   "en": "10th PARA BATTALION",
+   "zh": "第 10 傘兵營",
+   "text_zh": "部署：本回合，若友方使用過指令，獲得 +1+1 和閃擊。"
+  },
+  "10th_recon": {
+   "en": "10th RECON",
+   "zh": "搜索第十聯隊",
+   "text_zh": "部署：選擇 1 張手牌。將其洗入卡組，抽 1 張牌。"
+  },
+  "110_panzergrenadier": {
+   "en": "110. PANZERGRENADIER",
+   "zh": "第 110 裝甲擲彈兵團",
+   "text_zh": "攻擊力不小於 4 的友方陸軍造成的傷害 +3。"
+  },
+  "110e_rgiment_motoris": {
+   "en": "110e RÉGIMENT MOTORISÉ",
+   "zh": "第 110 摩托化步兵團",
+   "text_zh": "每回合，友方首次洗切友方卡組時，使其他友方單位獲得 +1+1。"
+  },
+  "111th_indian_brigade": {
+   "en": "111th INDIAN BRIGADE",
+   "zh": "第 111 印度旅",
+   "text_zh": "友方總部獲得防禦力時，額外獲得 1 點。"
+  },
+  "112th_infantry_regiment": {
+   "en": "112th INFANTRY REGIMENT",
+   "zh": "第 112 步兵團",
+   "text_zh": "每有 1 個相鄰單位，具有 +2 攻擊力。"
+  },
+  "113_schtzen": {
+   "en": "113. SCHÜTZEN",
+   "zh": "第 113 步槍兵團",
+   "text_zh": "部署：與 1 個敵方單位戰鬥。"
+  },
+  "114th_infantry_regiment": {
+   "en": "114th INFANTRY REGIMENT",
+   "zh": "步兵第百十四聯隊",
+   "text_zh": "友方亡計觸發兩次。"
+  },
+  "115th_separate_btn": {
+   "en": "115th SEPARATE BTN",
+   "zh": "獨立第 115 營",
+   "text_zh": "揭示：處於隱蔽狀態下友方回合每結束一次，獲得一次 +2+1。"
+  },
+  "116th_infantry_regiment": {
+   "en": "116th INFANTRY REGIMENT",
+   "zh": "第 116 步兵團",
+   "text_zh": "部署：使 1 個友方步兵和手中及卡組中所有同名單位獲得 +5+5。"
+  },
+  "118th_mixed_regiment": {
+   "en": "118th MIXED REGIMENT",
+   "zh": "步兵第百十八聯隊",
+   "text_zh": ""
+  },
+  "119_grenadier": {
+   "en": "119. GRENADIER",
+   "zh": "第 119 擲彈兵團",
+   "text_zh": "若有友方“第 35 擲彈兵團”，升為老兵。"
+  },
+  "119_grenadier_vet": {
+   "en": "119. GRENADIER",
+   "zh": "第 119 擲彈兵團",
+   "text_zh": "友方回合結束時，使所有敵方單位獲得 -1-2。"
+  },
+  "11th_infantry_regiment": {
+   "en": "11th INFANTRY REGIMENT",
+   "zh": "第 11 流浪者步兵團",
+   "text_zh": "部署：完全修復 1 個友方單位，使其獲得 +1+1。"
+  },
+  "120mm_m1_gun": {
+   "en": "120mm M1 GUN",
+   "zh": "120 毫米高射炮",
+   "text_zh": "部署：抉擇：對空軍 或 坦克造成雙倍傷害。"
+  },
+  "121st_infantry_regiment": {
+   "en": "121st INFANTRY REGIMENT",
+   "zh": "第 121 步兵團",
+   "text_zh": "亡計：將 1 張“激怒”加入手牌。"
+  },
+  "122nd_korsun": {
+   "en": "122nd KORSUN",
+   "zh": "科爾孫第 122 團",
+   "text_zh": "每有 1 個友方單位，具有 -1 花費。"
+  },
+  "123s": {
+   "en": "123s",
+   "zh": "第 123 步兵團",
+   "text_zh": "友方單位部署時，將本單位轉換為此單位並使其獲得此效果。"
+  },
+  "125th_la_spezia": {
+   "en": "125th LA SPEZIA",
+   "zh": "拉斯佩齊亞第 125 團",
+   "text_zh": "部署：若有友方空軍，抽 1 張牌。"
+  },
+  "125th_rifle_regiment": {
+   "en": "125th RIFLE REGIMENT",
+   "zh": "步兵第 125 團",
+   "text_zh": "敵方每抽 1 張牌，對其總部造成 1 點傷害。"
+  },
+  "1271st_rifles": {
+   "en": "1271st RIFLES",
+   "zh": "步兵第 1271 團",
+   "text_zh": "部署：將 1 張“預備役”加入手牌。"
+  },
+  "128th_rifles": {
+   "en": "128th RIFLES",
+   "zh": "步兵第 128 團",
+   "text_zh": "鉗擊：伏擊。"
+  },
+  "12th_guards_mechanised": {
+   "en": "12th GUARDS MECHANISED",
+   "zh": "近衛機械化第 12 旅",
+   "text_zh": "攻擊力不小於 4 的友方坦克部署時，升為老兵。"
+  },
+  "12th_guards_mechanised_vet": {
+   "en": "12th GUARDS MECHANISED",
+   "zh": "近衛機械化第 12 旅",
+   "text_zh": "升為老兵時，抽 2 張牌。"
+  },
+  "12th_infantry_regiment": {
+   "en": "12th INFANTRY REGIMENT",
+   "zh": "第 12 步兵團",
+   "text_zh": "部署：花費剩餘指揮點。獲得等同於花費指揮點數的攻擊力和防禦力。"
+  },
+  "12th_uan": {
+   "en": "12th UŁAN",
+   "zh": "第 12 烏蘭騎兵團",
+   "text_zh": ""
+  },
+  "132nd_omsk": {
+   "en": "132nd OMSK",
+   "zh": "鄂木斯克第 132 團",
+   "text_zh": "部署：每有 1 個對戰詞條數不小於 2 的友方單位，獲得一次 +1+1。"
+  },
+  "133rd_ironman": {
+   "en": "133rd IRONMAN",
+   "zh": "第 133 鐵人步兵團",
+   "text_zh": "揭示：此前每有一回合在前線，對敵方總部造成一次 3 點傷害。"
+  },
+  "1357th_rifles": {
+   "en": "1357th RIFLES",
+   "zh": "步兵第 1357 團",
+   "text_zh": "本單位受到傷害或被完全修復時，獲得 +2 攻擊力。"
+  },
+  "136_gebirgsjger": {
+   "en": "136. GEBIRGSJÄGER",
+   "zh": "第 136 山地獵兵團",
+   "text_zh": ""
+  },
+  "139_gebirgsjger": {
+   "en": "139. GEBIRGSJÄGER",
+   "zh": "第 139 山地獵兵團",
+   "text_zh": "友方山地單位加入或部署時，對敵方總部造成 2 點傷害。"
+  },
+  "13_gebirgsjger": {
+   "en": "13. GEBIRGSJÄGER",
+   "zh": "第 13 山地獵兵團",
+   "text_zh": "友方山地單位加入或部署時，獲得 +1+1。"
+  },
+  "13e_dragons": {
+   "en": "13e DRAGONS",
+   "zh": "第 13 龍騎兵團",
+   "text_zh": "若本回合部署過單位，無法被部署。"
+  },
+  "13th_engineers_battalion": {
+   "en": "13th ENGINEERS BATTALION",
+   "zh": "第 13 工兵營",
+   "text_zh": "行動花費不小於 3 的友方單位部署時，額外獲得 1 個指揮點槽。"
+  },
+  "13th_rifle_regiment": {
+   "en": "13th RIFLE REGIMENT",
+   "zh": "步兵第 13 團",
+   "text_zh": "亡計：隨機將 1 張蘇聯步兵加入手牌。"
+  },
+  "141_gebirgsjger": {
+   "en": "141. GEBIRGSJÄGER",
+   "zh": "第 141 山地獵兵團",
+   "text_zh": "無法被敵方指令指向。"
+  },
+  "142nd_infantry_regiment": {
+   "en": "142nd INFANTRY REGIMENT",
+   "zh": "第 142 步兵團",
+   "text_zh": "本單位消滅 1 個敵方單位時，使友方總部獲得 +2 防禦力。"
+  },
+  "144th_infantry_regiment": {
+   "en": "144th INFANTRY REGIMENT",
+   "zh": "步兵第百四十四聯隊",
+   "text_zh": "亡計：對敵方總部造成等同於本局對戰友方失去的指揮點槽數的傷害。"
+  },
+  "146th_infantry_regiment": {
+   "en": "146th INFANTRY REGIMENT",
+   "zh": "步兵第 146 團",
+   "text_zh": "部署：若友方單位數不小於 3，獲得 +1+2。"
+  },
+  "14_panzergrenadier": {
+   "en": "14. PANZERGRENADIER",
+   "zh": "第 14 裝甲擲彈兵團",
+   "text_zh": "友方部署坦克時，升為老兵。"
+  },
+  "14_panzergrenadier_vet": {
+   "en": "14. PANZERGRENADIER",
+   "zh": "第 14 裝甲擲彈兵團",
+   "text_zh": "友方被壓制的單位可以行動。"
+  },
+  "14th_brigade_nz": {
+   "en": "14th BRIGADE NZ",
+   "zh": "紐西蘭第 14 旅",
+   "text_zh": "部署：若從手中最左側部署，額外獲得 1 個指揮點槽。"
+  },
+  "14th_guard_rifles": {
+   "en": "14th GUARD RIFLES",
+   "zh": "近衛步兵第 14 團",
+   "text_zh": "在場上的第三回合開始時，升為老兵。"
+  },
+  "14th_guard_rifles_vet": {
+   "en": "14th GUARD RIFLES",
+   "zh": "近衛步兵第 14 團",
+   "text_zh": ""
+  },
+  "151st_infantry_regiment": {
+   "en": "151st INFANTRY REGIMENT",
+   "zh": "步兵第百五十一聯隊",
+   "text_zh": "部署：從“兩棲進攻”、“擴張”和“為了繁榮”中開發 1 張。"
+  },
+  "152e_rgiment": {
+   "en": "152e RÉGIMENT",
+   "zh": "第 152 團",
+   "text_zh": "若友方指揮點槽數小於 6，無法部署。"
+  },
+  "152mm_howitzer_gun": {
+   "en": "152mm HOWITZER GUN",
+   "zh": "152 毫米榴彈炮",
+   "text_zh": "亡計：對所有目標造成 1 點傷害。"
+  },
+  "155_c_modle_1917": {
+   "en": "155 C MODÈLE 1917",
+   "zh": "155 毫米榴彈炮 1917",
+   "text_zh": "部署：每有 1 個友方動員單位，獲得一次 +2 攻擊力。"
+  },
+  "155mm_1918_model": {
+   "en": "155mm 1918 MODEL",
+   "zh": "155 毫米榴彈炮 1918",
+   "text_zh": "本單位攻擊時，隨機對 1 個敵方目標造成 1 點傷害。"
+  },
+  "158_nachschub": {
+   "en": "158. NACHSCHUB",
+   "zh": "第 158 補給營",
+   "text_zh": "一回合一次，友方回合中消滅敵方單位時，獲得 2 個指揮點。"
+  },
+  "158th_bushmasters": {
+   "en": "158th BUSHMASTERS",
+   "zh": "第 158 蝮蛇步兵團",
+   "text_zh": "單位被完全修復時，造成等同於修復數值的傷害，隨機分配至所有敵方目標。"
+  },
+  "15_aufklrung": {
+   "en": "15. AUFKLÄRUNG",
+   "zh": "第 15 偵察營",
+   "text_zh": "部署：開發 1 張德國反制。"
+  },
+  "15_cm_autokanone": {
+   "en": "15 cm AUTOKANONE",
+   "zh": "150 毫米榴彈炮",
+   "text_zh": "友方單位部署時，對敵方總部造成 1 點傷害。"
+  },
+  "15th_cavalry_regiment": {
+   "en": "15th CAVALRY REGIMENT",
+   "zh": "騎兵第十五聯隊",
+   "text_zh": ""
+  },
+  "15th_engineers": {
+   "en": "15th ENGINEERS",
+   "zh": "第 15 工兵營",
+   "text_zh": "部署：前線每有 1 個單位，獲得 1 個指揮點槽。使所有友方單位獲得同等攻擊力。"
+  },
+  "15th_motor_rifles": {
+   "en": "15th MOTOR RIFLES",
+   "zh": "摩托化步兵第 15 團",
+   "text_zh": "敵方回合中，友方總部具有免疫。"
+  },
+  "15th_recce": {
+   "en": "15th RECCE",
+   "zh": "第 15 偵察團",
+   "text_zh": "部署：指向 1 個單位。目標單位造成傷害時，本單位獲得 +1+1 和守護。"
+  },
+  "15th_wolves_regiment": {
+   "en": "15th WOLVES REGIMENT",
+   "zh": "第 15 狼步兵團",
+   "text_zh": "部署：將 1 個單位轉換為“潰軍”。若是友方，抽 2 張牌。"
+  },
+  "162nd_regiment": {
+   "en": "162nd REGIMENT",
+   "zh": "第 162 步兵團",
+   "text_zh": "友方步兵受到的對戰傷害至多為 2。友方使用降雨牌時，完全修復所有友方步兵。"
+  },
+  "164th_infantry_regiment": {
+   "en": "164th INFANTRY REGIMENT",
+   "zh": "第 164 步兵團",
+   "text_zh": "亡計：隨機使 1 個友方單位獲得 +1+1。"
+  },
+  "169_grenadiers": {
+   "en": "169. GRENADIERS",
+   "zh": "第 169 擲彈兵團",
+   "text_zh": "敵方使用指令後，其隨機棄 1 張牌。"
+  },
+  "16th_infantry_brigade": {
+   "en": "16th INFANTRY BRIGADE",
+   "zh": "第 16 步兵旅",
+   "text_zh": "友方使用降雨牌或風暴牌後，升為老兵。"
+  },
+  "16th_infantry_brigade_vet": {
+   "en": "16th INFANTRY BRIGADE",
+   "zh": "第 16 步兵旅",
+   "text_zh": "友方使用降雨牌或風暴牌後，使所有友方單位獲得 +2+2。"
+  },
+  "16th_rifles": {
+   "en": "16th RIFLES",
+   "zh": "步兵第 16 團",
+   "text_zh": "友方回合開始時，獲得 +1+1。"
+  },
+  "16th_tarnow_regiment": {
+   "en": "16th TARNOW REGIMENT",
+   "zh": "塔爾努夫第 16 步兵團",
+   "text_zh": "友方使用情報牌時，將 1 個“軍團”加入支援陣線，抽 1 張牌。"
+  },
+  "171_infantry_regiment": {
+   "en": "171. INFANTRY REGIMENT",
+   "zh": "第 171 步兵團",
+   "text_zh": "若本單位是唯一友方單位，具有 +4 攻擊力。"
+  },
+  "173rd_guard_rifles": {
+   "en": "173rd GUARD RIFLES",
+   "zh": "近衛步兵第 173 團",
+   "text_zh": "友方總部受到傷害時，獲得 +1 攻擊力。"
+  },
+  "174th_independent": {
+   "en": "174th INDEPENDENT",
+   "zh": "獨立步兵第百七十四大隊",
+   "text_zh": "本單位攻擊敵方總部後，獲得 +1+1，抽 1 張牌。"
+  },
+  "175th_infantry_regiment": {
+   "en": "175th INFANTRY REGIMENT",
+   "zh": "第 175 步兵團",
+   "text_zh": "部署：選擇 1 張手牌。將其返回卡組頂。"
+  },
+  "175th_motorized": {
+   "en": "175th MOTORIZED",
+   "zh": "摩托化步兵第 175 團",
+   "text_zh": "亡計：使手牌和卡組中的所有蘇聯坦克獲得 -1 花費。"
+  },
+  "178th_guard_rifles": {
+   "en": "178th GUARD RIFLES",
+   "zh": "近衛步兵第 178 團",
+   "text_zh": "亡計：將 1 個“步兵第 89 團”加入支援陣線。"
+  },
+  "179th_tomahawks": {
+   "en": "179th TOMAHAWKS",
+   "zh": "第 179 戰斧步兵團",
+   "text_zh": "亡計：將 1 個本單位的複製加入支援陣線。使其升為老兵。"
+  },
+  "179th_tomahawks_vet": {
+   "en": "179th TOMAHAWKS",
+   "zh": "第 179 戰斧步兵團",
+   "text_zh": "友方回合開始時，隨機消滅 1 個敵方單位。"
+  },
+  "17_pounder": {
+   "en": "17 POUNDER",
+   "zh": "17 磅炮",
+   "text_zh": "部署：壓制 1 個敵方單位。若是坦克，抽 1 張牌。"
+  },
+  "17th_infantry_brigade": {
+   "en": "17th INFANTRY BRIGADE",
+   "zh": "第 17 步兵旅",
+   "text_zh": "部署：對 1 個單位造成 2 點傷害。若如此做，若從手中最左側部署，抽 1 張牌。"
+  },
+  "17th_infantry_regiment": {
+   "en": "17th INFANTRY REGIMENT",
+   "zh": "第 17 步兵團",
+   "text_zh": "部署：使 1 個友方單位獲得 +1+1。"
+  },
+  "17th_rifle_regiment": {
+   "en": "17th RIFLE REGIMENT",
+   "zh": "步兵第 17 團",
+   "text_zh": "友方回合開始時，完全修復本單位，獲得 +1+1。"
+  },
+  "182_landwehr": {
+   "en": "182. LANDWEHR",
+   "zh": "第 182 國土防衛團",
+   "text_zh": "友方單位累計行動三次後，升為老兵。"
+  },
+  "182_landwehr_vet": {
+   "en": "182. LANDWEHR",
+   "zh": "第 182 國土防衛團",
+   "text_zh": "友方單位行動後，獲得行動花費的指揮點。"
+  },
+  "185th_brigade": {
+   "en": "185th BRIGADE",
+   "zh": "第 185 步兵旅",
+   "text_zh": "對總部造成的傷害 +3。"
+  },
+  "185th_folgore": {
+   "en": "185th FOLGORE",
+   "zh": "第 185 雷電傘兵團",
+   "text_zh": "若友方先手，具有 +1 花費。"
+  },
+  "186th_folgore": {
+   "en": "186th FOLGORE",
+   "zh": "第 186 雷電傘兵團",
+   "text_zh": "友方山地單位部署時，使其獲得閃擊。"
+  },
+  "186th_recon_company": {
+   "en": "186th RECON COMPANY",
+   "zh": "偵察第 186 連",
+   "text_zh": "友方隱蔽單位被揭示時，使所有友方單位獲得 +1+1。"
+  },
+  "18_infantry_regiment": {
+   "en": "18. INFANTRY REGIMENT",
+   "zh": "第 18 步兵團",
+   "text_zh": "部署：移至前線。"
+  },
+  "18e_rgiment": {
+   "en": "18e RÉGIMENT",
+   "zh": "第 18 團",
+   "text_zh": "回合結束時，若本單位是本回合唯一部署的單位，使行動花費為 0。"
+  },
+  "18th_bersaglieri": {
+   "en": "18th BERSAGLIERI",
+   "zh": "第 18 神射手團",
+   "text_zh": "部署：將 1 張“第 9 神射手團”洗入卡組。"
+  },
+  "190th_guard_rifles": {
+   "en": "190th GUARD RIFLES",
+   "zh": "近衛步兵第 190 團",
+   "text_zh": "無法攻擊或移動。友方消滅至少 4 個敵方單位時，升為老兵。"
+  },
+  "190th_guard_rifles_vet": {
+   "en": "190th GUARD RIFLES",
+   "zh": "近衛步兵第 190 團",
+   "text_zh": "友方回合開始時，獲得衝擊。"
+  },
+  "199th_rifle_regiment": {
+   "en": "199th RIFLE REGIMENT",
+   "zh": "步兵第 199 團",
+   "text_zh": "友方英國或美國單位部署或加入時，本單位獲得 +1+1。"
+  },
+  "1_infantry_regiment": {
+   "en": "1. INFANTRY REGIMENT",
+   "zh": "第 1 步兵團",
+   "text_zh": ""
+  },
+  "1er_bcp": {
+   "en": "1er BCP",
+   "zh": "第 1 獵兵營",
+   "text_zh": "敵方抽取“抵抗”時，友方抽 1 張牌。"
+  },
+  "1er_hussards": {
+   "en": "1er HUSSARDS",
+   "zh": "第 1 驃騎兵團",
+   "text_zh": "友方回合結束時，若沒有敵方單位，抽 1 張牌。"
+  },
+  "1er_rgiment_tranger": {
+   "en": "1er RÉGIMENT ÉTRANGER",
+   "zh": "外籍第 1 步兵團",
+   "text_zh": "部署：抉擇：獲得閃擊並抽 1 張牌 或 獲得守護並使友方總部獲得 +4 防禦力。"
+  },
+  "1re_bfl": {
+   "en": "1re BFL",
+   "zh": "第 1 旅",
+   "text_zh": "部署：對敵方總部造成等同於友方非法國單位數的傷害。"
+  },
+  "1st_airborne": {
+   "en": "1st AIRBORNE",
+   "zh": "第 1 傘兵旅",
+   "text_zh": "友方回合開始時，若具有動員，獲得 -1 行動花費。"
+  },
+  "1st_airlanding_brigade": {
+   "en": "1st AIRLANDING BRIGADE",
+   "zh": "第 1 空降旅",
+   "text_zh": "部署：使前線 1 個單位撤退，然後若前線沒有單位，獲得閃擊。"
+  },
+  "1st_cavalry_troop": {
+   "en": "1st CAVALRY TROOP",
+   "zh": "第 1 騎兵偵察小隊",
+   "text_zh": "其他友方單位部署時，本單位獲得等同於其行動花費的攻擊力。"
+  },
+  "1st_defense_battalion": {
+   "en": "1st DEFENSE BATTALION",
+   "zh": "第 1 防衛營",
+   "text_zh": "部署：若前線有友方美國單位，獲得 +1 攻擊力。"
+  },
+  "1st_florida": {
+   "en": "1st FLORIDA",
+   "zh": "第 1 佛羅里達州步兵團",
+   "text_zh": "亡計：隨機使 1 個友方單位獲得等同於本單位攻擊力的攻擊力與防禦力。"
+  },
+  "1st_grenadier_regiment": {
+   "en": "1st GRENADIER REGIMENT",
+   "zh": "第 1 擲彈兵團",
+   "text_zh": "消滅對本單位以外的目標造成傷害的敵方單位。"
+  },
+  "1st_gurkha_rifles": {
+   "en": "1st GURKHA RIFLES",
+   "zh": "第 1 廓爾喀團",
+   "text_zh": "友方使用指令時，獲得 +1 攻擊力。"
+  },
+  "1st_infantry_regiment": {
+   "en": "1st INFANTRY REGIMENT",
+   "zh": "第 1 步兵團",
+   "text_zh": "友方步兵部署或加入後，本回合其行動花費為 0。"
+  },
+  "1st_london_brigade": {
+   "en": "1st LONDON BRIGADE",
+   "zh": "第 1 倫敦旅",
+   "text_zh": "其他友方英國陸軍具有 +2 攻擊力。"
+  },
+  "1st_marines": {
+   "en": "1st MARINES",
+   "zh": "第 1 陸戰團",
+   "text_zh": "移至前線時，使友方總部具有煙幕，直到下個友方回合開始。"
+  },
+  "1st_rifles": {
+   "en": "1st RIFLES",
+   "zh": "近衛步兵第 1 團",
+   "text_zh": "亡計：將 1 個“摩托化步兵第 2 師”加入支援陣線。"
+  },
+  "1st_san_marco": {
+   "en": "1st SAN MARCO",
+   "zh": "聖馬可第 1 團",
+   "text_zh": "部署：若卡組頂是海軍牌，獲得 +2+2 和閃擊。"
+  },
+  "1st_signal_regiment": {
+   "en": "1st SIGNAL REGIMENT",
+   "zh": "電信第一聯隊",
+   "text_zh": "其他友方單位被消滅時，對敵方總部造成 1 點傷害。"
+  },
+  "1st_taipei_regiment": {
+   "en": "1st TAIPEI REGIMENT",
+   "zh": "海聯隊",
+   "text_zh": "亡計：對敵方總部造成 2 點傷害。"
+  },
+  "1st_texas_infantry": {
+   "en": "1st TEXAS INFANTRY",
+   "zh": "德州第 1 步兵團",
+   "text_zh": "友方額外獲得 1 個指揮點槽時，將本單位的攻擊力和防禦力翻倍。"
+  },
+  "1st_yokosuka": {
+   "en": "1st YOKOSUKA",
+   "zh": "橫鎮第一特別陸戰隊",
+   "text_zh": "部署：每有 1 個行動花費為 0 的友方單位，獲得一次 +1 攻擊力。"
+  },
+  "204th_guards": {
+   "en": "204th GUARDS",
+   "zh": "近衛步兵第 204 團",
+   "text_zh": "本單位對戰並消滅 1 個單位後，獲得衝擊。"
+  },
+  "20_panzergrenadier": {
+   "en": "20. PANZERGRENADIER",
+   "zh": "第 20 裝甲擲彈兵團",
+   "text_zh": "部署：將 1 張“35(t) 坦克”和 1 張“協同作戰”加入手牌。"
+  },
+  "20th_infantry_regiment": {
+   "en": "20th INFANTRY REGIMENT",
+   "zh": "塞班混成守備隊",
+   "text_zh": ""
+  },
+  "211th_tokyo": {
+   "en": "211th TOKYO",
+   "zh": "步兵第二百一十一聯隊",
+   "text_zh": ""
+  },
+  "214th_amur": {
+   "en": "214th AMUR",
+   "zh": "阿穆爾第 214 團",
+   "text_zh": "使所有友方 T-34 具有 +1 重甲和 -1 行動花費。"
+  },
+  "216th_guards": {
+   "en": "216th GUARDS",
+   "zh": "近衛步兵第 216 團",
+   "text_zh": "友方回合開始時，對友方總部造成 2 點傷害，抽 1 張牌。第二次後，升為老兵。"
+  },
+  "216th_guards_vet": {
+   "en": "216th GUARDS",
+   "zh": "近衛步兵第 216 團",
+   "text_zh": "升為老兵時，使其他友方單位和友方總部獲得 +3 防禦力。"
+  },
+  "220th_rifles": {
+   "en": "220th RIFLES",
+   "zh": "步兵第 220 團",
+   "text_zh": "每有 1 個受傷單位，具有 +2 攻擊力。"
+  },
+  "222nd_guard_rifles": {
+   "en": "222nd GUARD RIFLES",
+   "zh": "近衛步兵第 222 團",
+   "text_zh": "鉗擊：友方回合結束時，完全修復本單位。"
+  },
+  "22_infantry_regiment": {
+   "en": "22. INFANTRY REGIMENT",
+   "zh": "第 22 步兵團",
+   "text_zh": "友方回合結束時，若前線有友方單位，抽 1 張牌。"
+  },
+  "22nd_guards_brigade": {
+   "en": "22nd GUARDS BRIGADE",
+   "zh": "第 22 衛隊旅",
+   "text_zh": "在場上的第三回合開始時，升為老兵。"
+  },
+  "22nd_guards_brigade_vet": {
+   "en": "22nd GUARDS BRIGADE",
+   "zh": "第 22 衛隊旅",
+   "text_zh": "升為老兵時，對所有敵方目標造成 3 點傷害。"
+  },
+  "22nd_marines": {
+   "en": "22nd MARINES",
+   "zh": "第 22 陸戰團",
+   "text_zh": "使用海軍牌時，升為老兵，抽 1 張牌。"
+  },
+  "22nd_marines_vet": {
+   "en": "22nd MARINES",
+   "zh": "第 22 陸戰團",
+   "text_zh": "若卡組頂是海軍牌，造成雙倍傷害。"
+  },
+  "22nd_pioneers": {
+   "en": "2/2nd PIONEERS",
+   "zh": "第 2/2 先鋒營",
+   "text_zh": "友方預報時，使其他友方單位獲得 +1+1。"
+  },
+  "238th_regiment": {
+   "en": "238th REGIMENT",
+   "zh": "步兵第二百三十八聯隊",
+   "text_zh": "若指揮點槽數不大於 3，造成雙倍傷害。"
+  },
+  "24th_cavalry_regiment": {
+   "en": "24th CAVALRY REGIMENT",
+   "zh": "騎兵第二十四聯隊",
+   "text_zh": "亡計：抽 1 張“騎兵第二十四聯隊”。"
+  },
+  "24th_uan": {
+   "en": "24th UŁAN",
+   "zh": "第 24 烏蘭騎兵團",
+   "text_zh": "友方回合結束時，若本回合沒有單位被消滅，對本單位造成 1 點傷害。"
+  },
+  "252nd_rifles": {
+   "en": "252nd RIFLES",
+   "zh": "步兵第 252 團",
+   "text_zh": "友方總部受到傷害時，獲得 +1 攻擊力，然後若攻擊力不小於 6，升為老兵。"
+  },
+  "252nd_rifles_vet": {
+   "en": "252nd RIFLES",
+   "zh": "步兵第 252 團",
+   "text_zh": "無法被壓制或被抑制。對抗陸軍時，受到的對戰傷害 -1。"
+  },
+  "25_marines": {
+   "en": "2/5 MARINES",
+   "zh": "第 5 陸戰團 2 營",
+   "text_zh": "對前線單位造成雙倍傷害。"
+  },
+  "25_panzergrenadier": {
+   "en": "25. PANZERGRENADIER",
+   "zh": "第 25 裝甲擲彈兵團",
+   "text_zh": "移至前線時，獲得守護。"
+  },
+  "25_pounder": {
+   "en": "25 POUNDER",
+   "zh": "25 磅炮",
+   "text_zh": ""
+  },
+  "25_pounder_mk_i": {
+   "en": "25 POUNDER Mk I",
+   "zh": "25 磅炮 Mk I",
+   "text_zh": "友方回合開始時，使本單位和相鄰陸軍獲得 +1+1。"
+  },
+  "25th_infantry_regiment": {
+   "en": "25th INFANTRY REGIMENT",
+   "zh": "步兵第 25 團",
+   "text_zh": "友方回合結束時，將 1 個“輕步兵”加入同一陣線。"
+  },
+  "266th_guard_rifles": {
+   "en": "266th GUARD RIFLES",
+   "zh": "近衛步兵第 266 團",
+   "text_zh": "友方回合開始時，若沒有敵方老兵單位，升為老兵。"
+  },
+  "266th_guard_rifles_vet": {
+   "en": "266th GUARD RIFLES",
+   "zh": "近衛步兵第 266 團",
+   "text_zh": "友方部署單位時，若可能，使其升為老兵。"
+  },
+  "269th_rifles": {
+   "en": "269th RIFLES",
+   "zh": "步兵第 269 團",
+   "text_zh": "攻擊力不小於 4 的友方坦克部署時，升為老兵。"
+  },
+  "269th_rifles_vet": {
+   "en": "269th RIFLES",
+   "zh": "步兵第 269 團",
+   "text_zh": "友方坦克具有 -1 行動花費。"
+  },
+  "26_engineer_regiment": {
+   "en": "26 ENGINEER REGIMENT",
+   "zh": "第 26 工兵團",
+   "text_zh": "部署：使其他友方單位獲得 +2 防禦力。"
+  },
+  "26th_infantry_regiment": {
+   "en": "26th INFANTRY REGIMENT",
+   "zh": "第 26 步兵團",
+   "text_zh": "每有 1 個相鄰單位，具有 +2 攻擊力。"
+  },
+  "272nd_guards": {
+   "en": "272nd GUARDS",
+   "zh": "近衛步兵第 272 團",
+   "text_zh": "亡計：將 1 個“IS-2”加入支援陣線。"
+  },
+  "27_fsiliers": {
+   "en": "27. FÜSILIERS",
+   "zh": "第 27 燧發槍兵團",
+   "text_zh": "德國單位加入手牌時，使其獲得 -1 花費，至少為 1。"
+  },
+  "27e_dia": {
+   "en": "27e DIA",
+   "zh": "阿爾卑斯第 27 師",
+   "text_zh": "敵方抽取“抵抗”時，對敵方總部造成 2 點傷害。"
+  },
+  "27th_mg_battalion": {
+   "en": "27th MG BATTALION",
+   "zh": "第 27 機槍營",
+   "text_zh": "友方單位從手中最左側部署時，使其獲得閃擊，從最右側時，獲得衝擊。"
+  },
+  "289th_gatchina": {
+   "en": "289th GATCHINA",
+   "zh": "加特契納第 289 團",
+   "text_zh": "亡計：抽 1 張牌。使友方總部獲得等同於其花費的防禦力。"
+  },
+  "28_jger_regiment": {
+   "en": "28. JÄGER REGIMENT",
+   "zh": "第 28 獵兵團",
+   "text_zh": "移至前線時，獲得伏擊。"
+  },
+  "28cm_coastal_howitzer": {
+   "en": "28cm COASTAL HOWITZER",
+   "zh": "280 毫米榴彈炮",
+   "text_zh": "無法攻擊敵方總部。"
+  },
+  "28th_infantry_regiment": {
+   "en": "28th INFANTRY REGIMENT",
+   "zh": "第 28 步兵團",
+   "text_zh": "本單位對戰並存活後，獲得 +1+1。"
+  },
+  "2_marine_division": {
+   "en": "2. MARINE DIVISION",
+   "zh": "第 2 海軍步兵師",
+   "text_zh": "一回合一次，友方使用海軍牌時，對敵方總部造成 3 點傷害。"
+  },
+  "2_pounder": {
+   "en": "2 POUNDER",
+   "zh": "2 磅炮",
+   "text_zh": "對抗坦克時，具有 +1 攻擊力。"
+  },
+  "2e_brigade": {
+   "en": "2e BRIGADE",
+   "zh": "第 2 旅",
+   "text_zh": "友方回合開始時，若具有動員，獲得 +1+1。"
+  },
+  "2e_rima": {
+   "en": "2e RIMa",
+   "zh": "第 2 陸戰團",
+   "text_zh": "友方回合結束時，使相鄰單位獲得動員。"
+  },
+  "2e_rmt": {
+   "en": "2e RMT",
+   "zh": "乍得行進團",
+   "text_zh": "友方回合開始時，使所有友方非法國單位獲得 +1+1。"
+  },
+  "2e_zouaves": {
+   "en": "2e ZOUAVES",
+   "zh": "第 2 佐阿夫團",
+   "text_zh": "被移至前線時，獲得 +2+2。"
+  },
+  "2nd_alpini_regiment": {
+   "en": "2nd ALPINI REGIMENT",
+   "zh": "第 2 山地團",
+   "text_zh": "部署：若有其他友方山地單位，抽 1 張牌。"
+  },
+  "2nd_california": {
+   "en": "2nd CALIFORNIA",
+   "zh": "加州第 2 步兵團",
+   "text_zh": "本單位受到的對戰傷害至多為 1。"
+  },
+  "2nd_infantry_regiment": {
+   "en": "2nd INFANTRY REGIMENT",
+   "zh": "步兵第 2 團",
+   "text_zh": "部署：獲得 1 個單位的所有對戰詞條。"
+  },
+  "2nd_marines_battalion": {
+   "en": "2nd MARINES BATTALION",
+   "zh": "海軍陸戰隊第 2 營",
+   "text_zh": "本單位受到的對戰傷害翻倍。"
+  },
+  "2nd_michigan": {
+   "en": "2nd MICHIGAN",
+   "zh": "第 2 密歇根州步兵團",
+   "text_zh": "行動花費不小於 3 的友方單位移動或攻擊時，獲得 2 個指揮點。"
+  },
+  "2nd_para_c": {
+   "en": "2nd PARA C",
+   "zh": "第 2 傘兵營 C 連",
+   "text_zh": "鉗擊：消滅受到本單位對戰傷害的單位。"
+  },
+  "2nd_parachute": {
+   "en": "2nd PARACHUTE",
+   "zh": "第 2 傘兵旅",
+   "text_zh": ""
+  },
+  "2nd_raiding_brigade": {
+   "en": "2nd RAIDING BRIGADE",
+   "zh": "第二挺進團",
+   "text_zh": "部署：消滅 1 個攻擊力不大於 2 的敵方單位。"
+  },
+  "2nd_rifles": {
+   "en": "2nd RIFLES",
+   "zh": "摩托化步兵第 2 師",
+   "text_zh": "對抗閃擊單位時，具有 +2 攻擊力。"
+  },
+  "2nd_west_africa": {
+   "en": "2nd WEST AFRICA",
+   "zh": "第 2 西非旅",
+   "text_zh": "部署：抽取花費最低的指令。若是構築之外的牌，重複此效果。"
+  },
+  "304_panzergrenadier": {
+   "en": "304. PANZERGRENADIER",
+   "zh": "第 304 裝甲擲彈兵團",
+   "text_zh": "部署：本回合，若此前敵方總部受到過傷害，獲得 +2+2。"
+  },
+  "306th_regiment": {
+   "en": "306th REGIMENT",
+   "zh": "第 306 步兵團",
+   "text_zh": "部署：若有其他攻擊力不小於 4 的友方單位，抽 1 張牌。"
+  },
+  "30_infantry_regiment": {
+   "en": "30. INFANTRY REGIMENT",
+   "zh": "第 30 步兵團",
+   "text_zh": "友方德國單位行動後，本單位獲得 -1 行動花費。"
+  },
+  "30th_regiment": {
+   "en": "30th REGIMENT",
+   "zh": "第 30 步兵團",
+   "text_zh": ""
+  },
+  "312th_novgorod": {
+   "en": "312th NOVGOROD",
+   "zh": "諾夫哥羅德第 312 團",
+   "text_zh": "友方轉換卡牌時，將 1 個“摩托化步兵第 6 團”加入支援陣線。"
+  },
+  "31e_algriens": {
+   "en": "31e ALGÉRIENS",
+   "zh": "阿爾及利亞第 31 散兵團",
+   "text_zh": "相鄰非法國單位具有 +2 攻擊力。"
+  },
+  "321st_rifle_regiment": {
+   "en": "321st RIFLE REGIMENT",
+   "zh": "步兵第 321 團",
+   "text_zh": "亡計：將 1 個“輕步兵”加入支援陣線。"
+  },
+  "327th_pathfinders": {
+   "en": "327th PATHFINDERS",
+   "zh": "第 327 探路者步兵團",
+   "text_zh": "部署：對 1 個單位造成 2 點傷害。若將其消滅，升為老兵。"
+  },
+  "327th_pathfinders_vet": {
+   "en": "327th PATHFINDERS",
+   "zh": "第 327 探路者步兵團",
+   "text_zh": "友方回合開始時，隨機使 1 個敵方單位撤退。"
+  },
+  "329th_engineer_battalion": {
+   "en": "329th ENGINEER BATTALION",
+   "zh": "工兵第 329 營",
+   "text_zh": "其他友方單位被消滅時，使友方總部獲得 +2 防禦力。"
+  },
+  "32nd_infantry_regiment": {
+   "en": "32nd INFANTRY REGIMENT",
+   "zh": "第 32 步兵團",
+   "text_zh": "部署：抽 1 張“第 32 步兵團”。"
+  },
+  "332nd_engineer_regiment": {
+   "en": "332nd ENGINEER REGIMENT",
+   "zh": "第 332 工兵團",
+   "text_zh": "部署：額外獲得 1 個指揮點槽。使友方總部獲得 +2 防禦力。"
+  },
+  "334th_mountain_rifles": {
+   "en": "334th MOUNTAIN RIFLES",
+   "zh": "山地步兵第 334 團",
+   "text_zh": ""
+  },
+  "336th_guards_naval": {
+   "en": "336th GUARDS NAVAL",
+   "zh": "近衛海軍步兵第 336 旅",
+   "text_zh": "部署：選擇手中的 1 張花費不大於 3 的單位。將 1 個複製加入支援陣線。"
+  },
+  "33_panzergrenadier": {
+   "en": "33. PANZERGRENADIER",
+   "zh": "第 33 裝甲擲彈兵團",
+   "text_zh": "部署：使所有友方坦克獲得 +2 攻擊力。"
+  },
+  "33rd_livorno_regiment": {
+   "en": "33rd LIVORNO REGIMENT",
+   "zh": "利沃諾第 33 團",
+   "text_zh": "本單位被攻擊時，若攻擊力大於 1，獲得 -1 攻擊力。"
+  },
+  "33rd_recon": {
+   "en": "33rd RECON",
+   "zh": "搜索第三十三聯隊",
+   "text_zh": "本單位受到傷害時，抽 1 張牌。"
+  },
+  "342_fsiliers": {
+   "en": "342. FÜSILIERS",
+   "zh": "第 342 燧發槍兵營",
+   "text_zh": "移至前線時，使前線所有單位獲得 +2 攻擊力。"
+  },
+  "34th_guards": {
+   "en": "34th GUARDS",
+   "zh": "近衛步兵第 34 團",
+   "text_zh": "若在手中，每次友方總部受到友方傷害時，獲得 -2 花費。"
+  },
+  "34th_infantry_regiment": {
+   "en": "34th INFANTRY REGIMENT",
+   "zh": "橘聯隊",
+   "text_zh": "友方回合結束時，抽 1 張牌，將其棄掉。"
+  },
+  "35_grenadier": {
+   "en": "35. GRENADIER",
+   "zh": "第 35 擲彈兵團",
+   "text_zh": "若有友方“第 119 擲彈兵團”，升為老兵。"
+  },
+  "35_grenadier_vet": {
+   "en": "35. GRENADIER",
+   "zh": "第 35 擲彈兵團",
+   "text_zh": "友方回合結束時，對敵方總部造成 4 點傷害。"
+  },
+  "35th_infantry_regiment": {
+   "en": "35th INFANTRY REGIMENT",
+   "zh": "第 35 步兵團",
+   "text_zh": "敵方單位移至前線時，使所有友方單位獲得 +1+1。"
+  },
+  "35th_mountain_rifles": {
+   "en": "35th MOUNTAIN RIFLES",
+   "zh": "山地步兵第 35 團",
+   "text_zh": "被從卡組中移除時，改為加入戰場。"
+  },
+  "35th_rifle_regiment": {
+   "en": "35th RIFLE REGIMENT",
+   "zh": "步兵第 35 團",
+   "text_zh": "若有友方單位被消滅，部署花費為 0，直到回合結束。"
+  },
+  "361_afrika_regiment": {
+   "en": "361. AFRIKA REGIMENT",
+   "zh": "第 361 非洲兵團",
+   "text_zh": "移至前線時，對敵方總部造成 3 點傷害。"
+  },
+  "36_kradschtzen": {
+   "en": "36. KRADSCHÜTZEN",
+   "zh": "第 36 摩托化步兵營",
+   "text_zh": "友方德國單位移至前線時，使其獲得 +1 攻擊力和 -1 行動花費。"
+  },
+  "36th_cavalry": {
+   "en": "36th CAVALRY",
+   "zh": "騎兵第 36 師",
+   "text_zh": "部署：獲得 +3+3 和閃擊。\\r\\n亡計：將 2 個被抑制的複製加入支援陣線。"
+  },
+  "37_mm_antiaircraft_gun": {
+   "en": "37 mm ANTI-AIRCRAFT GUN",
+   "zh": "37 毫米高射炮",
+   "text_zh": "所有敵方空軍具有 +2 行動花費。"
+  },
+  "37mm_bofors_gun": {
+   "en": "37mm BOFORS GUN",
+   "zh": "博福斯 37 毫米炮",
+   "text_zh": "敵方單位移至前線時，對其造成 1 點傷害。"
+  },
+  "37mm_m1_aa_gun": {
+   "en": "37mm M1 AA GUN",
+   "zh": "37 毫米 M1 高射炮",
+   "text_zh": "本單位攻擊時，重置被攻擊單位的攻擊力。"
+  },
+  "388th_independent": {
+   "en": "388th INDEPENDENT",
+   "zh": "獨立步兵第三百八十八大隊",
+   "text_zh": "亡計：敵方抽 1 張牌。"
+  },
+  "38th_guard_rifles": {
+   "en": "38th GUARD RIFLES",
+   "zh": "近衛步兵第 38 團",
+   "text_zh": "揭示：若處於隱蔽的回合不小於 3，將 1 個“T-34 1942”加入支援陣線。"
+  },
+  "38th_independent": {
+   "en": "38th INDEPENDENT",
+   "zh": "獨立混成第三十八旅團",
+   "text_zh": "無法攻擊或移動。若友方複製數不小於 4，抑制本單位。友方失去 1 個指揮點槽時，複製本單位。"
+  },
+  "392nd_rifles": {
+   "en": "392nd RIFLES",
+   "zh": "步兵第 392 團",
+   "text_zh": "其他友方單位部署時，使其獲得 +2 攻擊力，對其造成 1 點傷害。本單位累計造成的傷害不小於 4 時，升為老兵。"
+  },
+  "392nd_rifles_vet": {
+   "en": "392nd RIFLES",
+   "zh": "步兵第 392 團",
+   "text_zh": "所有友方受傷單位具有 +2 攻擊力。"
+  },
+  "394th_infantry_regiment": {
+   "en": "394th INFANTRY REGIMENT",
+   "zh": "第 394 步兵團",
+   "text_zh": "揭示：若在前線，獲得 +2+2。"
+  },
+  "39_panzergrenadier": {
+   "en": "39. PANZERGRENADIER",
+   "zh": "第 39 裝甲擲彈兵團",
+   "text_zh": "本單位在前線時，具有 +2 攻擊力。部署：與 1 個友方單位交換位置。"
+  },
+  "39th_bologna_regiment": {
+   "en": "39th BOLOGNA REGIMENT",
+   "zh": "博洛尼亞第 39 團",
+   "text_zh": "若在手牌中，友方單位被消滅時，獲得 +1 花費。"
+  },
+  "39th_rifle_regiment": {
+   "en": "39th RIFLE REGIMENT",
+   "zh": "步兵第 39 團",
+   "text_zh": "部署：控制 1 個花費不大於 2 的敵方單位。"
+  },
+  "3_7_antiair_gun": {
+   "en": "3.7” ANTI-AIR GUN",
+   "zh": "3.7 英寸高射炮",
+   "text_zh": "部署：壓制所有敵方空軍。"
+  },
+  "3_7_inch_mountain_howitzer": {
+   "en": "3.7 inch MOUNTAIN HOWITZER",
+   "zh": "3.7 英吋山地榴彈炮",
+   "text_zh": "本單位攻擊時，也對被攻擊目標左側所有敵方目標造成傷害。"
+  },
+  "3_7cm_flak_37": {
+   "en": "3.7cm FLAK 37",
+   "zh": "自行高炮 37 型",
+   "text_zh": ""
+  },
+  "3_fallschirmjger": {
+   "en": "3. FALLSCHIRMJÄGER",
+   "zh": "第 3 空降獵兵團",
+   "text_zh": "友方回合開始時，同一陣線每有 1 個坦克，獲得一次 +1 攻擊力。"
+  },
+  "3_panzergrenadier": {
+   "en": "3. PANZERGRENADIER",
+   "zh": "第 3 裝甲擲彈兵團",
+   "text_zh": "友方德國單位行動後，本單位獲得 +1+1。"
+  },
+  "3inch_m5": {
+   "en": "3-inch M5",
+   "zh": "M5 3 英寸反坦克炮",
+   "text_zh": "前線每有 1 個友方單位，具有 +1 攻擊力。"
+  },
+  "3rd_alpini_regiment": {
+   "en": "3rd ALPINI REGIMENT",
+   "zh": "第 3 山地團",
+   "text_zh": ""
+  },
+  "3rd_canadian_division": {
+   "en": "3rd CANADIAN DIVISION",
+   "zh": "第 3 加拿大師",
+   "text_zh": "友方被收繳單位具有 -2 花費。"
+  },
+  "3rd_carpathian": {
+   "en": "3rd CARPATHIAN",
+   "zh": "喀爾巴阡第 3 步兵營",
+   "text_zh": "部署：將 1 個友方單位轉換為“第 24 烏蘭騎兵團”。"
+  },
+  "3rd_guards_regiment": {
+   "en": "3rd GUARDS REGIMENT",
+   "zh": "近衛步兵第 3 團",
+   "text_zh": ""
+  },
+  "3rd_kure_snlf": {
+   "en": "3rd KURE SNLF",
+   "zh": "吳鎮第三特別陸戰隊",
+   "text_zh": "友方洗切友方卡組時，具有 -1 行動花費，直到回合結束。"
+  },
+  "3rd_maizuru_snlf": {
+   "en": "3rd MAIZURU SNLF",
+   "zh": "舞鎮第三特別陸戰隊",
+   "text_zh": "友方山地加入或部署時，隨機對 1 個敵方目標造成 1 點傷害並壓制。"
+  },
+  "3rd_marine_regiment": {
+   "en": "3rd MARINE REGIMENT",
+   "zh": "第 3 陸戰團",
+   "text_zh": ""
+  },
+  "3rd_mixed_regiment": {
+   "en": "3rd MIXED REGIMENT",
+   "zh": "混成第三聯隊",
+   "text_zh": "一回合一次，友方洗切友方卡組時，對敵方總部造成 2 點傷害。"
+  },
+  "3rd_morskoi_pekhoty": {
+   "en": "3rd MORSKOI PEKHOTY",
+   "zh": "海軍步兵第 3 旅",
+   "text_zh": "部署：將 1 個“輕步兵”加入支援陣線，將 1 張“爆破”加入手中。"
+  },
+  "3rd_yokosuka": {
+   "en": "3rd YOKOSUKA",
+   "zh": "橫鎮第三特別陸戰隊",
+   "text_zh": "每有 1 個相鄰日本單位，具有 +1 攻擊力。"
+  },
+  "40_panzergrenadier": {
+   "en": "40. PANZERGRENADIER",
+   "zh": "第 40 裝甲擲彈兵團",
+   "text_zh": "部署：將 1 個單位返回手牌。若是友方單位，抽 1 張牌。"
+  },
+  "40_royal_marine": {
+   "en": "40 ROYAL MARINE",
+   "zh": "第 40 突擊隊",
+   "text_zh": "部署：與 1 個敵方單位戰鬥。\\r\\n亡計：若本單位不是海軍，返回卡組頂並算作是海軍。"
+  },
+  "40th_cavalry_regiment": {
+   "en": "40th CAVALRY REGIMENT",
+   "zh": "騎兵第四十聯隊",
+   "text_zh": "部署：失去 1 個指揮點槽。亡計：使手牌獲得 -1 花費。"
+  },
+  "414th_rifles": {
+   "en": "414th RIFLES",
+   "zh": "步兵第 414 團",
+   "text_zh": "亡計：將 1 張“步兵第 97 團”洗入卡組。抽 3 張牌，對友方總部造成 3 點傷害。"
+  },
+  "41st_bicycle_regiment": {
+   "en": "41st BICYCLE REGIMENT",
+   "zh": "馬來銀輪部隊",
+   "text_zh": ""
+  },
+  "41st_infantry_regiment": {
+   "en": "41st INFANTRY REGIMENT",
+   "zh": "第 41 步兵團",
+   "text_zh": "部署：從“死神降臨”、“團結就是力量”和“我們能做到！”中開發 1 張。"
+  },
+  "42nd_rifles": {
+   "en": "42nd RIFLES",
+   "zh": "步兵第 42 團",
+   "text_zh": "友方回合開始時，完全修復本單位。"
+  },
+  "432_infantry_regiment": {
+   "en": "432. INFANTRY REGIMENT",
+   "zh": "第 432 步兵團",
+   "text_zh": ""
+  },
+  "43_infantry_regiment": {
+   "en": "43. INFANTRY REGIMENT",
+   "zh": "第 43 步兵團",
+   "text_zh": "友方回合結束時，若卡組頂是偶數花費的牌，將其抽取。"
+  },
+  "43e_rgiment_motoris": {
+   "en": "43e RÉGIMENT MOTORISÉ",
+   "zh": "第 43 摩托化步兵團",
+   "text_zh": "本單位失去動員時，完全修復所有友方單位。"
+  },
+  "442nd_infantry_regiment": {
+   "en": "442nd INFANTRY REGIMENT",
+   "zh": "第 442 步兵團",
+   "text_zh": "亡計：若是敵方回合，將 1 張本單位的複製加入手牌。"
+  },
+  "44th_silesia": {
+   "en": "44th SILESIA",
+   "zh": "西里西亞第 44 團",
+   "text_zh": "部署：每有 1 個對戰詞條數不小於 2 的友方單位，抽 1 張牌。"
+  },
+  "456th_rifle_regiment": {
+   "en": "456th RIFLE REGIMENT",
+   "zh": "步兵第 456 團",
+   "text_zh": "友方總部受到傷害時，獲得 +1+1 和守護。"
+  },
+  "45_mm_antitank_gun": {
+   "en": "45 mm ANTI-TANK GUN",
+   "zh": "45 毫米反坦克炮",
+   "text_zh": "對抗坦克時，具有 +2 攻擊力。"
+  },
+  "461st_rifles": {
+   "en": "461st RIFLES",
+   "zh": "步兵第 461 團",
+   "text_zh": "本單位受到傷害時，使友方總部獲得等量的防禦力。"
+  },
+  "463rd_battalion": {
+   "en": "463rd BATTALION",
+   "zh": "第 463 空降炮兵營",
+   "text_zh": "本單位攻擊時，隨機對同一陣線 1 個敵方目標造成 1 點傷害。"
+  },
+  "46th_indian_brigade": {
+   "en": "46th INDIAN BRIGADE",
+   "zh": "第 46 印度旅",
+   "text_zh": "部署：抽 1 張構築之外的牌。若如此做，獲得 +1+1 和閃擊。"
+  },
+  "47th_infantry_regiment": {
+   "en": "47th INFANTRY REGIMENT",
+   "zh": "第 47 步兵團",
+   "text_zh": "友方回合開始時，若指揮點槽數不小於 13，升為老兵。"
+  },
+  "47th_infantry_regiment_vet": {
+   "en": "47th INFANTRY REGIMENT",
+   "zh": "第 47 步兵團",
+   "text_zh": "移至前線時，將 1 個本單位的複製加入相鄰處。"
+  },
+  "48e_rgiment_dinfanterie": {
+   "en": "48e RÉGIMENT D'INFANTERIE",
+   "zh": "第 48 團",
+   "text_zh": "本單位不具有動員時，具有守護。"
+  },
+  "48th_armored_infantry": {
+   "en": "48th ARMORED INFANTRY",
+   "zh": "第 48 裝甲步兵團",
+   "text_zh": "每有 1 個相鄰單位，受到的傷害 -2。"
+  },
+  "49th_infantry_regiment": {
+   "en": "49th INFANTRY REGIMENT",
+   "zh": "第 49 步兵團",
+   "text_zh": "部署：若有攻擊力不小於 4 的友方單位，使友方總部獲得 +4 防禦力。"
+  },
+  "49th_karachev": {
+   "en": "49th KARACHEV",
+   "zh": "卡拉切夫第 49 團",
+   "text_zh": "敵方單位升為老兵時，對其造成 2 點傷害。"
+  },
+  "4_fallschirmjger": {
+   "en": "4. FALLSCHIRMJÄGER",
+   "zh": "第 4 空降獵兵團",
+   "text_zh": "部署：選擇手牌中的 1 張花費不大於 2 的單位，使其花費為 0。"
+  },
+  "4_pioneer_battalion": {
+   "en": "4. PIONEER BATTALION",
+   "zh": "第 4 先鋒營",
+   "text_zh": "部署：使前線所有友方陸軍獲得 +1 防禦力。"
+  },
+  "4e_brigade": {
+   "en": "4e BRIGADE",
+   "zh": "第 4 旅",
+   "text_zh": "部署：每有 1 個友方非法國單位，獲得一次 +1 攻擊力。"
+  },
+  "4th_alabama": {
+   "en": "4th ALABAMA",
+   "zh": "第 4 阿拉巴馬州步兵團",
+   "text_zh": "抽取：使所有友方單位具有 +1 攻擊力，直到回合結束。"
+  },
+  "4th_alpini_regiment": {
+   "en": "4th ALPINI REGIMENT",
+   "zh": "第 4 山地團",
+   "text_zh": "部署：友方卡組每有 10 張牌，將 1 張“第 4 山地團”加入卡組。"
+  },
+  "4th_brigade_nz": {
+   "en": "4th BRIGADE NZ",
+   "zh": "新西蘭第 4 旅",
+   "text_zh": "部署：若手牌數小於 3，抽牌直至手牌數為 3。"
+  },
+  "4th_guards_rifles": {
+   "en": "4th GUARDS RIFLES",
+   "zh": "近衛步兵第 4 團",
+   "text_zh": "若在手中，敵方每抽 1 張牌，獲得 -1 花費。"
+  },
+  "4th_kuban_cossacks": {
+   "en": "4th KUBAN COSSACKS",
+   "zh": "庫班哥薩克第 4 團",
+   "text_zh": ""
+  },
+  "4th_marines": {
+   "en": "4th MARINES",
+   "zh": "第 4 陸戰團",
+   "text_zh": ""
+  },
+  "4tp": {
+   "en": "4TP",
+   "zh": "4TP",
+   "text_zh": "本單位攻擊敵方總部後，消滅本單位。"
+  },
+  "503rd_motors": {
+   "en": "503rd MOTORS",
+   "zh": "摩托化步兵第 503 團",
+   "text_zh": "部署：使所有友方“輕步兵”獲得 +1+1。"
+  },
+  "506th_airborne": {
+   "en": "506th AIRBORNE",
+   "zh": "第 506 空降步兵團",
+   "text_zh": ""
+  },
+  "507th_pir": {
+   "en": "507th PIR",
+   "zh": "第 507 空降步兵團",
+   "text_zh": "友方回合結束時，隨機使 1 個友方步兵獲得 +2 攻擊力。"
+  },
+  "50_infantry_regiment": {
+   "en": "50. INFANTRY REGIMENT",
+   "zh": "第 50 步兵團",
+   "text_zh": "移至前線時，升為老兵。"
+  },
+  "50_infantry_regiment_vet": {
+   "en": "50. INFANTRY REGIMENT",
+   "zh": "第 50 步兵團",
+   "text_zh": ""
+  },
+  "511th_airborne": {
+   "en": "511th AIRBORNE",
+   "zh": "第 511 空降步兵團",
+   "text_zh": "本單位衝擊後，獲得 -3 行動花費。"
+  },
+  "511th_regiment": {
+   "en": "511th REGIMENT",
+   "zh": "步兵第 511 團",
+   "text_zh": "防禦力無法降為 1 以下。受到傷害後，升為老兵。"
+  },
+  "511th_regiment_vet": {
+   "en": "511th REGIMENT",
+   "zh": "步兵第 511 團",
+   "text_zh": "防禦力為 1 的友方步兵具有 +2 攻擊力。"
+  },
+  "51e_rgiment": {
+   "en": "51e RÉGIMENT",
+   "zh": "第 51 團",
+   "text_zh": "部署：抉擇：獲得 +3 攻擊力和閃擊 或 +3 防禦力和守護。"
+  },
+  "51st_recon": {
+   "en": "51st RECON",
+   "zh": "搜索第五十一聯隊",
+   "text_zh": "敵方總部獲得防禦力時，本單位獲得等量攻擊力。"
+  },
+  "51st_rifle_brigade": {
+   "en": "51st RIFLE BRIGADE",
+   "zh": "步兵第 51 旅",
+   "text_zh": "友方轉換卡牌時，獲得 +1+2。"
+  },
+  "52k": {
+   "en": "52-K",
+   "zh": "52-K",
+   "text_zh": "部署：對 1 個敵方空軍造成 4 點傷害。"
+  },
+  "54th_infantry_regiment": {
+   "en": "54th INFANTRY REGIMENT",
+   "zh": "步兵第五十四聯隊",
+   "text_zh": ""
+  },
+  "554th_rifle_regiment": {
+   "en": "554th RIFLE REGIMENT",
+   "zh": "步兵第 554 團",
+   "text_zh": ""
+  },
+  "55th_rifles": {
+   "en": "55th RIFLES",
+   "zh": "步兵第 55 團",
+   "text_zh": "亡計：下個友方回合開始時，獲得 3 個指揮點。"
+  },
+  "56_jger_regiment": {
+   "en": "56. JÄGER REGIMENT",
+   "zh": "第 56 獵兵團",
+   "text_zh": "鉗擊：-1 行動花費。"
+  },
+  "56th_recon": {
+   "en": "56th RECON",
+   "zh": "搜索第五十六聯隊",
+   "text_zh": "亡計：對所有敵方單位造成 1 點傷害。"
+  },
+  "573rd_rifles": {
+   "en": "573rd RIFLES",
+   "zh": "步兵第 573 團",
+   "text_zh": "亡計：將 2 個“步兵第 16 團”加入支援陣線。"
+  },
+  "57th_rifles": {
+   "en": "57th RIFLES",
+   "zh": "步兵第 57 旅",
+   "text_zh": "友方 T-34 部署或加入時，使其隨機與 1 個敵方單位戰鬥。"
+  },
+  "58th_infantry_regiment": {
+   "en": "58th INFANTRY REGIMENT",
+   "zh": "步兵第五十八聯隊",
+   "text_zh": "具有衝擊時，具有 +2 攻擊力。"
+  },
+  "593rd_jasco": {
+   "en": "593rd JASCO",
+   "zh": "第 593 聯合通信連",
+   "text_zh": "友方總部受到的傷害 -1。"
+  },
+  "59_panzergrenadier": {
+   "en": "59. PANZERGRENADIER",
+   "zh": "第 59 裝甲擲彈兵團",
+   "text_zh": "本單位能在同一回合移動並攻擊。"
+  },
+  "5_panzergrenadier": {
+   "en": "5. PANZERGRENADIER",
+   "zh": "第 5 裝甲擲彈兵團",
+   "text_zh": "鉗擊：本單位攻擊並存活後，使其他友方鉗擊單位獲得 +1+1。"
+  },
+  "5e_chasseurs": {
+   "en": "5e CHASSEURS",
+   "zh": "第 5 獵兵營",
+   "text_zh": "部署：指向 1 個單位，使其移至前線。"
+  },
+  "5e_cuirassiers": {
+   "en": "5e CUIRASSIERS",
+   "zh": "第 5 胸甲騎兵團",
+   "text_zh": "部署：若是本回合部署的第一個單位，將 1 張“第 18 團”加入手牌。"
+  },
+  "5th_bersaglieri": {
+   "en": "5th BERSAGLIERI",
+   "zh": "第 5 神射手團",
+   "text_zh": "亡計：將 1 張“第 18 神射手團”洗入卡組。"
+  },
+  "5th_brigade": {
+   "en": "5th BRIGADE",
+   "zh": "第 5 步兵旅",
+   "text_zh": ""
+  },
+  "5th_infantry_regiment": {
+   "en": "5th INFANTRY REGIMENT",
+   "zh": "第 5 步兵團",
+   "text_zh": "移至前線時，獲得 +1+1。"
+  },
+  "5th_legions_regiment": {
+   "en": "5th LEGIONS REGIMENT",
+   "zh": "第 5 軍團步兵團",
+   "text_zh": "本單位交戰並存活後，獲得 +1+1。"
+  },
+  "5th_medical_battalion": {
+   "en": "5th MEDICAL BATTALION",
+   "zh": "第 5 醫療營",
+   "text_zh": "其他友方單位具有 +1 攻擊力，友方回合結束時，將其完全修復。"
+  },
+  "5th_parachute_brigade": {
+   "en": "5th PARACHUTE BRIGADE",
+   "zh": "第 5 傘兵旅",
+   "text_zh": ""
+  },
+  "5th_rangers": {
+   "en": "5th RANGERS",
+   "zh": "第 5 遊騎兵營",
+   "text_zh": "部署：抉擇：使本單位的行動花費為 0 或 獲得 +4+4。"
+  },
+  "5th_regiment": {
+   "en": "5th REGIMENT",
+   "zh": "步兵第五聯隊",
+   "text_zh": "友方失去 1 個指揮點槽時，若在場上，獲得 +2+1，若在手中，獲得 -2 花費。"
+  },
+  "5th_sasebo_snlf": {
+   "en": "5th SASEBO SNLF",
+   "zh": "佐鎮第五特別陸戰隊",
+   "text_zh": "友方使用海軍牌時，獲得 +1+1。\\r\\n亡計：洗切卡組，抽 1 張牌。"
+  },
+  "5th_wilno_brigade": {
+   "en": "5th WILNO BRIGADE",
+   "zh": "維爾紐斯第 5 步兵旅",
+   "text_zh": "部署：將本單位轉換為 1 個單位。"
+  },
+  "60th_cavalry_regiment": {
+   "en": "60th CAVALRY REGIMENT",
+   "zh": "騎兵第 60 團",
+   "text_zh": "每回合，雙方只能使用至多 1 張指令。"
+  },
+  "60th_infantry_regiment": {
+   "en": "60th INFANTRY REGIMENT",
+   "zh": "第 60 步兵團",
+   "text_zh": "被完全修復時，將 1 個複製加入支援陣線。"
+  },
+  "61st_infantry_regiment": {
+   "en": "61st INFANTRY REGIMENT",
+   "zh": "步兵第六十一聯隊",
+   "text_zh": "亡計：抽 1 張牌。"
+  },
+  "61st_kirkenes": {
+   "en": "61st KIRKENES",
+   "zh": "希爾克內斯第 61 團",
+   "text_zh": ""
+  },
+  "62_infantry_regiment": {
+   "en": "62. INFANTRY REGIMENT",
+   "zh": "第 62 步兵團",
+   "text_zh": "部署：使 1 個友方單位獲得 -1 行動花費。"
+  },
+  "62nd_armored_infantry": {
+   "en": "62nd ARMORED INFANTRY",
+   "zh": "第 62 裝甲步兵團",
+   "text_zh": "部署：使所有友方雪曼獲得 +2+2。若沒有，將 1 張“M4 雪曼”加入手牌。"
+  },
+  "641st_rifles": {
+   "en": "641st RIFLES",
+   "zh": "步兵第 641 團",
+   "text_zh": "友方回合開始時，若已受傷，升為老兵。"
+  },
+  "641st_rifles_vet": {
+   "en": "641st RIFLES",
+   "zh": "步兵第 641 團",
+   "text_zh": "亡計：若本回合本單位消滅過敵方單位，抽 1 張牌。"
+  },
+  "64_panzergrenadier": {
+   "en": "64. PANZERGRENADIER",
+   "zh": "第 64 裝甲擲彈兵團",
+   "text_zh": "友方回合開始時，若在前線，升為老兵。"
+  },
+  "64_panzergrenadier_vet": {
+   "en": "64. PANZERGRENADIER",
+   "zh": "第 64 裝甲擲彈兵團",
+   "text_zh": "升為老兵時，獲得 2 個指揮點。"
+  },
+  "654th_rifles": {
+   "en": "654th RIFLES",
+   "zh": "步兵第 654 團",
+   "text_zh": "部署：將 1 個“T-70”加入支援陣線。使其獲得衝擊。"
+  },
+  "66th_independent": {
+   "en": "66th INDEPENDENT",
+   "zh": "獨立第六十六步兵團",
+   "text_zh": "部署：消滅 1 個與 2 單位相鄰的敵方單位。"
+  },
+  "676th_regiment": {
+   "en": "676th REGIMENT",
+   "zh": "步兵第 676 團",
+   "text_zh": "受到傷害時，獲得 +2 攻擊力和衝擊。"
+  },
+  "67th_baranovichi": {
+   "en": "67th BARANOVICHI",
+   "zh": "巴拉諾維奇第 67 團",
+   "text_zh": "友方“輕步兵”具有山地。"
+  },
+  "6_pounder": {
+   "en": "6 POUNDER",
+   "zh": "6 磅炮",
+   "text_zh": "對坦克造成雙倍傷害。"
+  },
+  "6th_airborne": {
+   "en": "6th AIRBORNE",
+   "zh": "近衛空降第 6 團",
+   "text_zh": "部署：將 1 個“T-34 1942”加入支援陣線，友方回合結束時，將其消滅。"
+  },
+  "6th_airlanding_brigade": {
+   "en": "6th AIRLANDING BRIGADE",
+   "zh": "第 6 空降旅",
+   "text_zh": "友方單位造成 1 點對戰傷害時，改為造成 3 點。"
+  },
+  "6th_alpini_regiment": {
+   "en": "6th ALPINI REGIMENT",
+   "zh": "第 6 山地團",
+   "text_zh": ""
+  },
+  "6th_brigade_nz": {
+   "en": "6th BRIGADE NZ",
+   "zh": "紐西蘭第 6 旅",
+   "text_zh": "部署：若從手中最右側部署，升為老兵。"
+  },
+  "6th_brigade_nz_vet": {
+   "en": "6th BRIGADE NZ",
+   "zh": "紐西蘭第 6 旅",
+   "text_zh": "友方單位升為老兵時，隨機對 1 個敵方目標造成 1 點傷害。"
+  },
+  "6th_infantry_brigade": {
+   "en": "6th INFANTRY BRIGADE",
+   "zh": "第 6 步兵旅",
+   "text_zh": "部署：本回合行動花費為 0。"
+  },
+  "6th_infantry_regiment": {
+   "en": "6th INFANTRY REGIMENT",
+   "zh": "步兵第六聯隊",
+   "text_zh": ""
+  },
+  "6th_marine_regiment": {
+   "en": "6th MARINE REGIMENT",
+   "zh": "第 6 陸戰團",
+   "text_zh": "若本回合使用過晴天牌或降雨牌，具有閃擊，行動花費為 0。"
+  },
+  "6th_motor_rifles": {
+   "en": "6th MOTOR RIFLES",
+   "zh": "摩托化步兵第 6 團",
+   "text_zh": "部署：抽 1 張牌。將卡組中的 2 張牌轉換為本單位。"
+  },
+  "6th_naval_brigade": {
+   "en": "6th NAVAL BRIGADE",
+   "zh": "海軍步兵第 6 旅",
+   "text_zh": ""
+  },
+  "7075_aluminium": {
+   "en": "7075 ALUMINIUM",
+   "zh": "7075 鋁",
+   "text_zh": "將 3 張“A6M2 零戰”加入手中，使其花費為 0，獲得：“亡計：將 1 張本單位的複製加入手中，使其花費為 0。”"
+  },
+  "70th_brigade": {
+   "en": "70th BRIGADE",
+   "zh": "第 70 步兵旅",
+   "text_zh": "友方回合開始時，若上回合沒有被攻擊，抽 1 張牌，使友方總部獲得 +2 防禦力。"
+  },
+  "71st_zhytomyr": {
+   "en": "71st ZHYTOMYR",
+   "zh": "日托米爾第 71 團",
+   "text_zh": "友方伏擊單位造成的對戰傷害翻倍。"
+  },
+  "738_jger_regiment": {
+   "en": "738. JÄGER REGIMENT",
+   "zh": "第 738 獵兵團",
+   "text_zh": "部署：指向 1 個單位。其被消滅時，抽 1 張牌。"
+  },
+  "73e_rgiment_dinfanterie": {
+   "en": "73e RÉGIMENT D'INFANTERIE",
+   "zh": "第 73 團",
+   "text_zh": "友方總部獲得防禦力時，獲得 +1+1。"
+  },
+  "73rd_infantry_regiment": {
+   "en": "73rd INFANTRY REGIMENT",
+   "zh": "步兵第七十三聯隊",
+   "text_zh": "部署：觸發上個友方回合開始後所有被消滅的友方單位的亡計。"
+  },
+  "740th_rifle_regiment": {
+   "en": "740th RIFLE REGIMENT",
+   "zh": "步兵第 740 團",
+   "text_zh": "部署：從“北極護航隊”、“燃燒的天空”和“鐵錘”中開發 1 張。"
+  },
+  "74_panzergrenadier": {
+   "en": "74. PANZERGRENADIER",
+   "zh": "第 74 裝甲擲彈兵團",
+   "text_zh": "部署：將 1 個友方單位返回手牌。若如此做，獲得 +1+1。"
+  },
+  "74th_silesian_regiment": {
+   "en": "74th SILESIAN REGIMENT",
+   "zh": "西里西亞第 74 步兵團",
+   "text_zh": "敵方單位移至前線時，將其壓制。"
+  },
+  "756th_regiment": {
+   "en": "756th REGIMENT",
+   "zh": "步兵第 756 團",
+   "text_zh": "本單位攻擊並消滅 1 個單位後，溢出的傷害會轉移到敵方總部。"
+  },
+  "75mm_field_artillery": {
+   "en": "75mm FIELD ARTILLERY",
+   "zh": "九零式野戰炮",
+   "text_zh": "本單位攻擊時，對相鄰敵方目標造成 1 點傷害。"
+  },
+  "75mm_mountain_gun": {
+   "en": "75mm MOUNTAIN GUN",
+   "zh": "四一式山炮",
+   "text_zh": "無法攻擊敵方總部。"
+  },
+  "75mm_pack_howitzer": {
+   "en": "75mm PACK HOWITZER",
+   "zh": "75 毫米馱載榴彈炮",
+   "text_zh": ""
+  },
+  "75th_rangers": {
+   "en": "75th RANGERS",
+   "zh": "第 75 遊騎兵團",
+   "text_zh": "部署：使 1 個單位的行動花費為 0。"
+  },
+  "75th_rifle_regiment": {
+   "en": "75th RIFLE REGIMENT",
+   "zh": "步兵第 75 團",
+   "text_zh": "被敵方效果指向時，將 1 個複製加入友方總部相鄰處。"
+  },
+  "76_mm_howitzer_1939": {
+   "en": "76 mm HOWITZER 1939",
+   "zh": "76 毫米榴彈炮 1939",
+   "text_zh": ""
+  },
+  "76th_napoli": {
+   "en": "76th NAPOLI",
+   "zh": "那不勒斯第 76 團",
+   "text_zh": "部署：友方總部防禦力每大於敵方總部 1 點，獲得 +1 攻擊力。"
+  },
+  "77th_guards": {
+   "en": "77th GUARDS",
+   "zh": "近衛步兵第 77 團",
+   "text_zh": "其他友方單位部署或加入時，使其獲得 1 個隨機對戰詞條。"
+  },
+  "77th_regiment": {
+   "en": "77th REGIMENT",
+   "zh": "步兵第七十七聯隊",
+   "text_zh": "本單位消滅 1 個單位後，將 1 個“塞班混成守備隊”加入支援陣線。"
+  },
+  "78th_steel_regiment": {
+   "en": "78th STEEL REGIMENT",
+   "zh": "第 78 鋼鐵步兵團",
+   "text_zh": "部署：前線每有 1 個敵方單位，獲得一次 +2+2。"
+  },
+  "78th_yongsan": {
+   "en": "78th YONGSAN",
+   "zh": "步兵第七十八聯隊",
+   "text_zh": "敵方每比友方多 1 個指揮點槽，具有 +1 攻擊力。"
+  },
+  "79th_infantry_regiment": {
+   "en": "79th INFANTRY REGIMENT",
+   "zh": "步兵第七十九聯隊",
+   "text_zh": "友方使用晴天牌時，使所有友方單位獲得 +2 攻擊力，移除其壓制。"
+  },
+  "7_schtzen": {
+   "en": "7. SCHÜTZEN",
+   "zh": "第 7 步槍兵團",
+   "text_zh": "本單位攻擊並消滅 1 個單位時，升為老兵。"
+  },
+  "7_schtzen_vet": {
+   "en": "7. SCHÜTZEN",
+   "zh": "第 7 步槍兵團",
+   "text_zh": "升為老兵時，對敵方總部造成 3 點傷害。"
+  },
+  "7th_alpini_regiment": {
+   "en": "7th ALPINI REGIMENT",
+   "zh": "第 7 山地團",
+   "text_zh": "本單位造成傷害時，使友方總部獲得同等防禦力。"
+  },
+  "7th_brigade": {
+   "en": "7th BRIGADE",
+   "zh": "第 7 旅",
+   "text_zh": "沒有手牌時，升為老兵。部署：棄掉最左側手牌。"
+  },
+  "7th_brigade_vet": {
+   "en": "7th BRIGADE",
+   "zh": "第 7 旅",
+   "text_zh": "升為老兵時，抽 2 張牌。"
+  },
+  "7th_recon": {
+   "en": "7th RECON",
+   "zh": "搜索第七聯隊",
+   "text_zh": "亡計：若敵方手中有明牌，抽 1 張牌。"
+  },
+  "7th_regiment": {
+   "en": "7th REGIMENT",
+   "zh": "第 7 步兵團",
+   "text_zh": "移至前線時，抽 1 張牌。"
+  },
+  "7th_scottish_borderers": {
+   "en": "7th SCOTTISH BORDERERS",
+   "zh": "蘇格蘭邊民團第 7 營",
+   "text_zh": "每溢出 1 情報，對敵方總部造成 1 點傷害。"
+  },
+  "7tp": {
+   "en": "7TP",
+   "zh": "7TP",
+   "text_zh": "每回合，友方單位首次對戰並存活時，抽 1 張牌。"
+  },
+  "80th_pasubio": {
+   "en": "80th PASUBIO",
+   "zh": "帕蘇比奧第 80 團",
+   "text_zh": "本單位造成傷害時，使友方總部獲得同等防禦力。"
+  },
+  "81_infantry_regiment": {
+   "en": "81. INFANTRY REGIMENT",
+   "zh": "第 81 步兵團",
+   "text_zh": "對抗守護單位和總部時，具有 +3 攻擊力。"
+  },
+  "83rd_naval_brigade": {
+   "en": "83rd NAVAL BRIGADE",
+   "zh": "海軍步兵第 83 旅",
+   "text_zh": "部署：消滅 1 個受傷的敵方單位。"
+  },
+  "845th_rifles": {
+   "en": "845th RIFLES",
+   "zh": "步兵第 845 團",
+   "text_zh": "本單位受到傷害時，使友方總部獲得等量的防禦力。"
+  },
+  "84th_infantry_regiment": {
+   "en": "84th INFANTRY REGIMENT",
+   "zh": "步兵第 84 團",
+   "text_zh": ""
+  },
+  "85_pioneer_company": {
+   "en": "85 PIONEER COMPANY",
+   "zh": "第 85 先鋒連",
+   "text_zh": "每回合，友方使用的第一張指令具有 -1 花費。"
+  },
+  "85mm_d44_field_gun": {
+   "en": "85mm D-44 FIELD GUN",
+   "zh": "85 毫米野戰炮",
+   "text_zh": "壓制被本單位傷害的單位和其相鄰單位。"
+  },
+  "866th_rifles": {
+   "en": "866th RIFLES",
+   "zh": "步兵第 866 團",
+   "text_zh": "亡計：將 2 張“爆破”加入手中。"
+  },
+  "87_grenadier": {
+   "en": "87. GRENADIER",
+   "zh": "第 87 擲彈兵團",
+   "text_zh": "友方反制觸發時，獲得 +2+2。"
+  },
+  "88_mm_flak": {
+   "en": "88 mm FLAK",
+   "zh": "88 毫米高射炮",
+   "text_zh": "對空軍和坦克造成雙倍傷害。"
+  },
+  "89th_infantry_regiment": {
+   "en": "89th INFANTRY REGIMENT",
+   "zh": "步兵第 89 團",
+   "text_zh": ""
+  },
+  "8_fallschirmjger": {
+   "en": "8. FALLSCHIRMJÄGER",
+   "zh": "第 8 空降獵兵團",
+   "text_zh": ""
+  },
+  "8e_marocains": {
+   "en": "8e MAROCAINS",
+   "zh": "摩洛哥第 8 散兵團",
+   "text_zh": "其他友方單位部署時，使友方總部獲得等同於其行動花費的防禦力。"
+  },
+  "8th_cavalry_regiment": {
+   "en": "8th CAVALRY REGIMENT",
+   "zh": "第 8 騎兵團",
+   "text_zh": "友方回合中，友方總部具有免疫。"
+  },
+  "8th_marines": {
+   "en": "8th MARINES",
+   "zh": "第 8 陸戰團",
+   "text_zh": "部署：對相鄰單位造成 1 點傷害，使其獲得 +2 攻擊力。"
+  },
+  "909th_roslavl": {
+   "en": "909th ROSLAVL",
+   "zh": "羅斯拉夫爾第 909 團",
+   "text_zh": "友方步兵具有閃擊。"
+  },
+  "91st_astrakhan": {
+   "en": "91st ASTRAKHAN",
+   "zh": "阿斯特拉罕第 91 團",
+   "text_zh": "本單位獲得鉗擊加成時，獲得 +1+2。"
+  },
+  "92_infantry_regiment": {
+   "en": "92. INFANTRY REGIMENT",
+   "zh": "第 92 步兵團",
+   "text_zh": "部署：從“閃電戰”、“空中男爵”和“戰術打擊”中開發 1 張。"
+  },
+  "92nd_naval_brigade": {
+   "en": "92nd NAVAL BRIGADE",
+   "zh": "海軍步兵第 92 旅",
+   "text_zh": "揭示：下個友方回合開始時，失去 3 個指揮點。"
+  },
+  "93rd_messina": {
+   "en": "93rd MESSINA",
+   "zh": "墨西拿第 93 團",
+   "text_zh": "構築之外的友方單位具有 -2 花費。"
+  },
+  "957_volksgrenadier": {
+   "en": "957. VOLKSGRENADIER",
+   "zh": "第 957 國民擲彈兵團",
+   "text_zh": "部署：將 1 張“生產”加入手中。"
+  },
+  "95th_rifle_regiment": {
+   "en": "95th RIFLE REGIMENT",
+   "zh": "步兵第 95 團",
+   "text_zh": "部署：對 1 個單位和友方總部造成 1 點傷害。"
+  },
+  "96_infantry_regiment": {
+   "en": "96. INFANTRY REGIMENT",
+   "zh": "第 96 步兵團",
+   "text_zh": "其他友方單位部署時，消滅本單位。"
+  },
+  "97th_rifles": {
+   "en": "97th RIFLES",
+   "zh": "步兵第 97 團",
+   "text_zh": "亡計：將 1 張“步兵第 414 團”洗入卡組，抽 1 張牌。"
+  },
+  "980_volksgrenadier": {
+   "en": "980. VOLKSGRENADIER",
+   "zh": "第 980 國民擲彈兵團",
+   "text_zh": ""
+  },
+  "989_infantry_regiment": {
+   "en": "989. INFANTRY REGIMENT",
+   "zh": "第 989 步兵團",
+   "text_zh": "部署：若是唯一友方單位，獲得 +2+2。"
+  },
+  "99th_infantry_battalion": {
+   "en": "99th INFANTRY BATTALION",
+   "zh": "第 99 步兵營",
+   "text_zh": "部署：若前線有友方單位，使 1 個友方單位獲得 +2+2。"
+  },
+  "99th_kholm": {
+   "en": "99th KHOLM",
+   "zh": "霍爾姆第 99 團",
+   "text_zh": "部署：下個友方回合開始時，失去 1 個指揮點。"
+  },
+  "9_2_coastal_gun": {
+   "en": "9.2” COASTAL GUN",
+   "zh": "9.2 英寸岸防炮",
+   "text_zh": "本單位造成傷害時，使友方總部獲得同等防禦力。"
+  },
+  "9th_bersaglieri": {
+   "en": "9th BERSAGLIERI",
+   "zh": "第 9 神射手團",
+   "text_zh": "亡計：將 1 張“第 18 神射手團”洗入卡組。"
+  },
+  "9th_guards_regiment": {
+   "en": "9th GUARDS REGIMENT",
+   "zh": "近衛步兵第九聯隊",
+   "text_zh": "亡計：對敵方總部造成 2 點傷害，使友方總部獲得 +2 防禦力。"
+  },
+  "a20_havoc": {
+   "en": "A-20 HAVOC",
+   "zh": "A-20 浩劫",
+   "text_zh": "部署：使友方轟炸機具有 -2 行動花費，直到回合結束。"
+  },
+  "a20b": {
+   "en": "A-20B",
+   "zh": "A-20B",
+   "text_zh": "每有 1 個友方美國單位，具有 -1 花費。"
+  },
+  "a24_banshee": {
+   "en": "A-24 BANSHEE",
+   "zh": "A-24 女妖",
+   "text_zh": "部署：對 1 個敵方單位造成等同於友方剩餘指揮點數的傷害。"
+  },
+  "a26_invader": {
+   "en": "A-26 INVADER",
+   "zh": "A-26 入侵者",
+   "text_zh": ""
+  },
+  "a34_comet": {
+   "en": "A34 COMET",
+   "zh": "A34 彗星",
+   "text_zh": "本單位對敵方總部造成傷害時，抽 1 張牌。"
+  },
+  "a36_apache": {
+   "en": "A-36 APACHE",
+   "zh": "A-36 阿帕齊",
+   "text_zh": "本單位攻擊時，使所有友方陸軍獲得 +1+1。"
+  },
+  "a5m4_claude": {
+   "en": "A5M4 CLAUDE",
+   "zh": "A5M4 九六艦戰",
+   "text_zh": "部署：使 1 個友方單位獲得 -1 行動花費。"
+  },
+  "a6m221_zero": {
+   "en": "A6M2-21 ZERO",
+   "zh": "A6M2 零戰二一型",
+   "text_zh": "每回合，敵方使用的第 1 張牌花費翻倍。"
+  },
+  "a6m2_zero": {
+   "en": "A6M2 ZERO",
+   "zh": "A6M2 零戰",
+   "text_zh": "部署：造成 1 點傷害。"
+  },
+  "a6m3_zeke": {
+   "en": "A6M3 ZEKE",
+   "zh": "A6M3 零戰三二型",
+   "text_zh": "所有敵方反制具有 +2 花費。"
+  },
+  "a_bridge_too_far": {
+   "en": "A BRIDGE TOO FAR",
+   "zh": "奪橋遺恨",
+   "text_zh": "敵方回合結束時，若可能，將 1 個“三號坦克 J 型”加入前線。否則，消滅前線所有單位。"
+  },
+  "a_few_good_men": {
+   "en": "A FEW GOOD MEN",
+   "zh": "好人寥寥",
+   "text_zh": "從 3 張隨機美國精英單位中選擇 1 張加入手牌。"
+  },
+  "aa_barrage": {
+   "en": "AA BARRAGE",
+   "zh": "防空彈幕",
+   "text_zh": "使 1 個空軍撤退，使友方總部獲得 +2 防禦力。"
+  },
+  "ace_of_spades": {
+   "en": "ACE OF SPADES",
+   "zh": "黑桃 A 師",
+   "text_zh": "部署：對 1 個敵方目標造成 3 點傷害。\\r\\n友方回合開始時，升為老兵。"
+  },
+  "ace_of_spades_vet": {
+   "en": "ACE OF SPADES",
+   "zh": "黑桃 A 師",
+   "text_zh": "友方回合開始時，將所有單位返回手牌。"
+  },
+  "act_on_the_intel": {
+   "en": "ACT ON THE INTEL",
+   "zh": "見機行事",
+   "text_zh": "對 1 個敵方目標造成等同於敵方明牌數量的傷害。"
+  },
+  "active_sonar": {
+   "en": "ACTIVE SONAR",
+   "zh": "主動聲呐",
+   "text_zh": "壓制所有敵方單位，使對手手牌獲得 +3 花費。"
+  },
+  "admiral_yamamoto": {
+   "en": "ADMIRAL YAMAMOTO",
+   "zh": "山本五十六",
+   "text_zh": "本回合，所有友方空軍具有 +1 攻擊力和閃擊。"
+  },
+  "advanced_imperial_rd": {
+   "en": "ADVANCED IMPERIAL R&D",
+   "zh": "高級帝國研發",
+   "text_zh": "抉擇：將 1 張“7075 鋁” 或 1 張“皇國二號兵器”加入手中。"
+  },
+  "advanced_reich_rd": {
+   "en": "ADVANCED REICH R&D",
+   "zh": "高級德意志帝國研發",
+   "text_zh": "抉擇：將 1 張“XXI 級 U 型潛艇” 或 1 張“鈾工程”加入手牌。"
+  },
+  "advanced_royal_research": {
+   "en": "ADVANCED ROYAL RESEARCH",
+   "zh": "高級皇家研發",
+   "text_zh": "抉擇：將 1 張“主動聲呐” 或 1 張“布萊切利莊園”加入手牌。"
+  },
+  "advanced_soviet_research": {
+   "en": "ADVANCED SOVIET RESEARCH",
+   "zh": "高級蘇聯研發",
+   "text_zh": "抉擇：將 1 張“傾斜裝甲” 或 3 張“史達林管風琴”加入手中。"
+  },
+  "advanced_us_research": {
+   "en": "ADVANCED US RESEARCH",
+   "zh": "高級美國研發",
+   "text_zh": "抉擇：將 1 張“青黴素” 或 2 張“曼哈頓計畫”加入手牌。"
+  },
+  "aerial_reconnaissance": {
+   "en": "AERIAL RECONNAISSANCE",
+   "zh": "空中偵察",
+   "text_zh": "敵方部署單位時，使友方手牌中的指令獲得 -1 花費，花費至少為 1。"
+  },
+  "aerosani": {
+   "en": "AEROSANI",
+   "zh": "氣動雪橇",
+   "text_zh": "對 1 個敵方陸軍或總部造成 2 點傷害，對其相鄰目標造成 2 點傷害。"
+  },
+  "afrika_korps": {
+   "en": "AFRIKA KORPS",
+   "zh": "非洲軍團",
+   "text_zh": "從 3 張隨機德軍精英單位中選擇 1 張加入手牌。"
+  },
+  "against_the_odds": {
+   "en": "AGAINST THE ODDS",
+   "zh": "迎難而上",
+   "text_zh": "單位攻擊後，將其壓制。抽 1 張牌。"
+  },
+  "agency_africa": {
+   "en": "AGENCY AFRICA",
+   "zh": "非洲情報局",
+   "text_zh": "隨機將 1 張敵方明牌的複製加入手牌。"
+  },
+  "aichi_d3a1": {
+   "en": "AICHI D3A-1",
+   "zh": "D3A1 九九艦爆",
+   "text_zh": "亡計：若是敵方回合，將 1 個“D3A2 九九艦爆”加入支援陣線。"
+  },
+  "aichi_d3a2": {
+   "en": "AICHI D3A-2",
+   "zh": "D3A2 九九艦爆",
+   "text_zh": "每有 1 個其他友方“D3A 九九艦爆”，具有 +2 攻擊力。"
+  },
+  "aid_to_the_front": {
+   "en": "AID TO THE FRONT",
+   "zh": "如虎添翼",
+   "text_zh": "使 1 個對戰詞條數不小於 2 的單位獲得 +2+2。"
+  },
+  "air_blitz": {
+   "en": "AIR BLITZ",
+   "zh": "空中閃擊",
+   "text_zh": "對 1 個總部造成 3 點傷害。"
+  },
+  "air_corps_ferrying": {
+   "en": "AIR CORPS FERRYING",
+   "zh": "航空兵團運輸",
+   "text_zh": "使 1 個友方單位獲得 +1+1。若剩餘指揮點數不小於 5，改為使所有友方單位獲得 +1+1。"
+  },
+  "air_cover": {
+   "en": "AIR COVER",
+   "zh": "空中掩護",
+   "text_zh": "將 2 個“F2A 水牛”加入戰場，若可能，加入前線。"
+  },
+  "air_defense": {
+   "en": "AIR DEFENSE",
+   "zh": "防空",
+   "text_zh": "單位攻擊時，對其造成 3 點傷害。若是空軍，改為將其消滅。"
+  },
+  "air_escort": {
+   "en": "AIR ESCORT",
+   "zh": "空中護航",
+   "text_zh": "觸發所有友方單位的非指向部署。"
+  },
+  "air_land_sea": {
+   "en": "AIR, LAND & SEA",
+   "zh": "海陸空",
+   "text_zh": "開發 1 張卡組中的牌。失去 1 個指揮點槽。"
+  },
+  "air_power": {
+   "en": "AIR POWER",
+   "zh": "空軍力量",
+   "text_zh": "抉擇：消滅 1 個坦克 或 對 1 個敵方目標造成 2 點傷害。"
+  },
+  "air_strips": {
+   "en": "AIR STRIPS",
+   "zh": "跑道",
+   "text_zh": "將 1 張“佈雷達 Ba.65”加入手中，將 1 張“RM 羅馬號”置於卡組頂。"
+  },
+  "air_superiority": {
+   "en": "AIR SUPERIORITY",
+   "zh": "空中優勢",
+   "text_zh": "對 1 個單位造成 1 點傷害。若有友方空軍，改為造成 3 點傷害。"
+  },
+  "air_support": {
+   "en": "AIR SUPPORT",
+   "zh": "空中支援",
+   "text_zh": "使 1 個友方戰鬥機獲得 +2+2。"
+  },
+  "airdrop": {
+   "en": "AIRDROP",
+   "zh": "空降",
+   "text_zh": "使前線 1 個敵方單位撤退。然後若前線沒有單位，將 2 個“第 2 傘兵旅”加入前線。"
+  },
+  "airstrike": {
+   "en": "AIRSTRIKE",
+   "zh": "空襲",
+   "text_zh": "敵方單位部署時，將其返回手牌。敵方隨機棄 1 張牌。"
+  },
+  "akita_regiment": {
+   "en": "AKITA REGIMENT",
+   "zh": "秋田聯隊",
+   "text_zh": "亡計：隨機對 1 個敵方目標造成 2 點傷害。"
+  },
+  "albacore_mk_i": {
+   "en": "ALBACORE Mk I",
+   "zh": "青花魚 Mk I",
+   "text_zh": "部署：對 1 個敵方陸軍造成 1 點傷害，將其壓制。"
+  },
+  "allied_research_effort": {
+   "en": "ALLIED RESEARCH EFFORT",
+   "zh": "盟軍研發成果",
+   "text_zh": "抉擇：隨機將 1 張花費不小於 7 的美國或英國指令 或 單位加入手牌。"
+  },
+  "alpenfestung": {
+   "en": "ALPENFESTUNG",
+   "zh": "阿爾卑斯要塞",
+   "text_zh": "使友方總部的防禦力為 25。從卡組頂移除 10 張牌。"
+  },
+  "america_at_war": {
+   "en": "AMERICA AT WAR",
+   "zh": "戰時美利堅",
+   "text_zh": "額外獲得 1 個指揮點槽。若剩餘指揮點數不小於 2，抽 1 張牌。"
+  },
+  "amphibious_assault": {
+   "en": "AMPHIBIOUS ASSAULT",
+   "zh": "兩棲進攻",
+   "text_zh": "消滅 1 個攻擊力不大於 3 的敵方單位。"
+  },
+  "ancestral_call": {
+   "en": "ANCESTRAL CALL",
+   "zh": "衛國英烈",
+   "text_zh": "使所有友方單位獲得等同於同一陣線其他單位數量的攻擊力。"
+  },
+  "ancient_empire": {
+   "en": "ANCIENT EMPIRE",
+   "zh": "古老帝國",
+   "text_zh": "使友方總部的防禦力為 8，抽 1 張“古老帝國”。"
+  },
+  "anders_army": {
+   "en": "ANDERS' ARMY",
+   "zh": "安德斯軍團",
+   "text_zh": "抽 2 張牌。對友方總部造成 2 點傷害。"
+  },
+  "annihilation": {
+   "en": "ANNIHILATION",
+   "zh": "殲滅",
+   "text_zh": "消滅 1 個花費不大於 5 的敵方單位，敵方隨機棄 1 張牌。"
+  },
+  "arado_ar_196": {
+   "en": "ARADO AR 196",
+   "zh": "Ar 196",
+   "text_zh": "部署：若友方單位數不大於敵方單位，抽 1 張指令。"
+  },
+  "arctic_convoy": {
+   "en": "ARCTIC CONVOY",
+   "zh": "北極護航隊",
+   "text_zh": "抽 2 張單位。"
+  },
+  "area_bombardment": {
+   "en": "AREA BOMBARDMENT",
+   "zh": "區域轟炸",
+   "text_zh": "將 1 個“蘭開斯特 Mk I”加入支援陣線。回合結束時，將其洗入卡組。"
+  },
+  "argyllshire_highlanders": {
+   "en": "ARGYLLSHIRE HIGHLANDERS",
+   "zh": "阿蓋爾和薩瑟蘭高地人團",
+   "text_zh": "友方守護單位部署或加入時，獲得 +1+1。"
+  },
+  "armaments": {
+   "en": "ARMAMENTS",
+   "zh": "軍備",
+   "text_zh": "對 1 個目標造成 4 點傷害。若在卡組中的回合數不小於 4，改為造成 8 點傷害。"
+  },
+  "arming_the_resistance": {
+   "en": "ARMING THE RESISTANCE",
+   "zh": "武裝抵抗",
+   "text_zh": "對 1 個單位造成 5 點傷害。將等同於溢出傷害的“抵抗”加入敵方卡組。"
+  },
+  "asw_patrol": {
+   "en": "ASW PATROL",
+   "zh": "反潛巡邏",
+   "text_zh": "額外獲得 3 個指揮點槽。若美國是盟國，隨機消滅 1 個敵方單位。"
+  },
+  "at_all_cost": {
+   "en": "AT ALL COST",
+   "zh": "不惜代價",
+   "text_zh": "消滅 1 個友方單位。對所有目標造成 2 點傷害。"
+  },
+  "atlantic_command": {
+   "en": "ATLANTIC COMMAND",
+   "zh": "大西洋航空指揮部",
+   "text_zh": "隨機將卡組中的 2 張海軍卡牌移到卡組頂。"
+  },
+  "atlantic_convoy": {
+   "en": "ATLANTIC CONVOY",
+   "zh": "大西洋護航隊",
+   "text_zh": "分別隨機將 1 個花費不大於 3 的美國單位加入支援陣線和手牌。"
+  },
+  "ats": {
+   "en": "ATS",
+   "zh": "女子輔助軍",
+   "text_zh": "使敵方總部獲得：“每回合，累計受到的傷害不小於 3 時，抽 1 張牌。”"
+  },
+  "attack_in_the_colonies": {
+   "en": "ATTACK IN THE COLONIES",
+   "zh": "進攻殖民地",
+   "text_zh": "對 1 個敵方目標造成 3 點傷害。使友方總部獲得 +5 防禦力。"
+  },
+  "attrition": {
+   "en": "ATTRITION",
+   "zh": "消耗戰",
+   "text_zh": "對 1 個單位造成 2 點傷害。若是老兵，使其撤退。"
+  },
+  "audacity": {
+   "en": "AUDACITY",
+   "zh": "無所畏懼",
+   "text_zh": "將 1 個“D3A2 九九艦爆”加入支援陣線。其隨機對 1 個敵方單位造成等同於其攻擊力的傷害。"
+  },
+  "aunt_frieda": {
+   "en": "AUNT FRIEDA",
+   "zh": "弗裏達阿姨手冊",
+   "text_zh": "使 1 個友方步兵獲得 +1+1。將 1 張“坦克機動”加入手中。"
+  },
+  "avro_anson": {
+   "en": "AVRO ANSON",
+   "zh": "安森",
+   "text_zh": "友方噴火攻擊時，抽 1 張牌。"
+  },
+  "awoken_giant": {
+   "en": "AWOKEN GIANT",
+   "zh": "巨人蘇醒",
+   "text_zh": "對前線 1 個敵方單位造成 2 點傷害。若將其消滅，抽 1 張牌。"
+  },
+  "b17_flying_fortress": {
+   "en": "B-17 FLYING FORTRESS",
+   "zh": "B-17 飛行堡壘",
+   "text_zh": "部署：隨機消滅 1 個敵方單位。"
+  },
+  "b17f": {
+   "en": "B-17F",
+   "zh": "B-17F",
+   "text_zh": "無法被敵方指令指向。"
+  },
+  "b24_liberator": {
+   "en": "B-24 LIBERATOR",
+   "zh": "B-24 解放者",
+   "text_zh": ""
+  },
+  "b24d": {
+   "en": "B-24D",
+   "zh": "B-24D",
+   "text_zh": "若有行動花費不小於 3 的友方單位，具有 -3 花費。"
+  },
+  "b24j": {
+   "en": "B-24J",
+   "zh": "B-24J",
+   "text_zh": "部署：抑制 1 個敵方單位和其相鄰單位。"
+  },
+  "b25_h": {
+   "en": "B-25 H",
+   "zh": "B-25 H",
+   "text_zh": "部署：將 1 張“炮艇任務”加入手牌。"
+  },
+  "b25_mitchell": {
+   "en": "B-25 MITCHELL",
+   "zh": "B-25 米切爾",
+   "text_zh": "部署：隨機對 1 個敵方單位造成 3 點傷害。"
+  },
+  "b26_groupe_bretagne": {
+   "en": "B-26 GROUPE BRETAGNE",
+   "zh": "B-26 布列塔尼大隊",
+   "text_zh": "每回合，友方使用的第一張指令會對敵方總部造成等同於其花費的傷害。"
+  },
+  "b26_marauder": {
+   "en": "B-26 MARAUDER",
+   "zh": "B-26 掠奪者",
+   "text_zh": "友方非指向部署觸發兩次。"
+  },
+  "b29_superfortress": {
+   "en": "B-29 SUPERFORTRESS",
+   "zh": "B-29 超級堡壘",
+   "text_zh": "部署：造成 6 點傷害，隨機分配至所有敵方目標。"
+  },
+  "b4_203mm_howitzer": {
+   "en": "B-4 203mm HOWITZER",
+   "zh": "203 毫米榴彈炮",
+   "text_zh": "使受到本單位傷害的單位具有 -3 攻擊力，直到回合結束。"
+  },
+  "b5n_kate": {
+   "en": "B5N KATE",
+   "zh": "B5N 九七艦攻",
+   "text_zh": "友方棄 1 張牌時，對所有敵方目標造成 1 點傷害。"
+  },
+  "b6n_tenzan": {
+   "en": "B6N TENZAN",
+   "zh": "B6N 天山艦攻",
+   "text_zh": "部署：壓制 1 個敵方單位。若其已被壓制，將其消滅。"
+  },
+  "b7a2_ryusei": {
+   "en": "B7A2 RYUSEI",
+   "zh": "B7A2 流星改",
+   "text_zh": "無法攻擊敵方總部。"
+  },
+  "baker_street_irregulars": {
+   "en": "BAKER STREET IRREGULARS",
+   "zh": "貝克街分隊",
+   "text_zh": "開發 1 張英國特種單位。若有友方突擊隊，額外開發 1 張英國指令。"
+  },
+  "balloon_bombs": {
+   "en": "BALLOON BOMBS",
+   "zh": "氣球炸彈",
+   "text_zh": "壓制所有敵方單位。"
+  },
+  "baltimore_mk_iii": {
+   "en": "BALTIMORE Mk III",
+   "zh": "巴爾的摩 Mk III",
+   "text_zh": "部署：若上回合友方部署過英國步兵，對 1 個敵方單位造成 3 點傷害。"
+  },
+  "baluch_regiment": {
+   "en": "BALUCH REGIMENT",
+   "zh": "俾路支團",
+   "text_zh": "部署：使友方總部獲得 +3 防禦力。"
+  },
+  "banzai": {
+   "en": "BANZAI",
+   "zh": "萬歲衝鋒",
+   "text_zh": "消滅所有攻擊力不大於 4 的單位，結束回合。"
+  },
+  "barracuda": {
+   "en": "BARRACUDA",
+   "zh": "梭魚",
+   "text_zh": "部署：對 1 個敵方目標造成 2 點傷害。若是單位，將其壓制。"
+  },
+  "barrage": {
+   "en": "BARRAGE",
+   "zh": "彈幕",
+   "text_zh": "抉擇：本回合，使所有敵方單位具有 -4 攻擊力 或 對 1 個陸軍造成 2 點傷害。"
+  },
+  "battery": {
+   "en": "BATTERY",
+   "zh": "炮火支援",
+   "text_zh": "對 1 個單位造成 4 點傷害，溢出傷害轉移到敵方總部。"
+  },
+  "battle_mk_i_pl": {
+   "en": "BATTLE Mk I PL",
+   "zh": "巴特爾 Mk I PL",
+   "text_zh": "其他友方流亡單位部署時，使其獲得 +1+1。"
+  },
+  "battle_valor": {
+   "en": "BATTLE VALOR",
+   "zh": "勇氣迸發",
+   "text_zh": "若可能，將目標單位升為老兵，使其獲得 +2+4。"
+  },
+  "beaufighter_tf_mk_x": {
+   "en": "BEAUFIGHTER TF Mk X",
+   "zh": "英俊戰士 TF Mk X",
+   "text_zh": "其他單位攻擊本單位時，先對其造成 3 點傷害。"
+  },
+  "beaufighter_vi_f": {
+   "en": "BEAUFIGHTER VI F",
+   "zh": "英俊戰士 Mk VI F",
+   "text_zh": "其他友方英國空軍部署時，使其獲得 +2+2。"
+  },
+  "bergmann_battalion": {
+   "en": "BERGMANN BATTALION",
+   "zh": "山地人營",
+   "text_zh": "一回合一次，友方轉換卡牌時，抽 1 張牌。"
+  },
+  "beriev_be4": {
+   "en": "BERIEV BE-4",
+   "zh": "別-4",
+   "text_zh": "友方單位具有 -2 花費。友方部署單位時，本單位撤退。"
+  },
+  "betasom": {
+   "en": "BETASOM",
+   "zh": "波爾多潛艇指揮部",
+   "text_zh": "開發 1 張海軍牌。使卡組頂的牌算作是海軍，直到下個友方回合結束。"
+  },
+  "bf_109e7_trop": {
+   "en": "BF 109E-7 TROP",
+   "zh": "Bf 109 E-7 熱帶型",
+   "text_zh": "部署：若有友方坦克或步兵，獲得 +1+1。如果兩者都有，改為獲得 +3+3。"
+  },
+  "bf_110_c_zerstrer": {
+   "en": "BF 110 C ZERSTÖRER",
+   "zh": "Bf 110 C",
+   "text_zh": "本單位攻擊後，獲得 +1 行動花費。"
+  },
+  "big_red_one": {
+   "en": "BIG RED ONE",
+   "zh": "大紅一師",
+   "text_zh": "友方手牌花費為 4。"
+  },
+  "bl_4_5_medium_gun": {
+   "en": "BL 4.5\\\" MEDIUM GUN",
+   "zh": "4.5 英寸中型火炮",
+   "text_zh": "部署：壓制 1 個敵方單位。"
+  },
+  "black_prince": {
+   "en": "BLACK PRINCE",
+   "zh": "A43 黑王子",
+   "text_zh": "前線至多有 2 個單位。部署：使前線所有單位撤退。"
+  },
+  "black_watch": {
+   "en": "BLACK WATCH",
+   "zh": "黑衛士兵團",
+   "text_zh": "敵方指令具有 +2 花費。"
+  },
+  "blackburn_skua_mk_ii": {
+   "en": "BLACKBURN SKUA Mk II",
+   "zh": "賊鷗 Mk II",
+   "text_zh": "部署：對 1 個敵方目標造成 1 點傷害。若是單位，將其壓制。"
+  },
+  "blackout": {
+   "en": "BLACKOUT",
+   "zh": "燈火管制",
+   "text_zh": "壓制 1 個敵方空軍，抽 1 張牌。"
+  },
+  "blade_of_the_samurai": {
+   "en": "BLADE OF THE SAMURAI",
+   "zh": "武士之刃",
+   "text_zh": "消滅 1 個敵方單位。"
+  },
+  "blast": {
+   "en": "BLAST",
+   "zh": "爆破",
+   "text_zh": "對 1 個單位造成 1 點傷害。"
+  },
+  "blenheim_mk_i": {
+   "en": "BLENHEIM Mk I",
+   "zh": "布倫亨 Mk I",
+   "text_zh": "若前線沒有單位，造成雙倍傷害。"
+  },
+  "blenheim_mk_iv": {
+   "en": "BLENHEIM Mk IV",
+   "zh": "布倫亨 Mk IV",
+   "text_zh": ""
+  },
+  "bletchley_park": {
+   "en": "BLETCHLEY PARK",
+   "zh": "布萊切利莊園",
+   "text_zh": "將敵方手中和場上所有花費不大於 5 的卡牌返回其卡組頂。"
+  },
+  "blitz_doctrine": {
+   "en": "BLITZ DOCTRINE",
+   "zh": "閃擊戰法",
+   "text_zh": "開發 1 張德國輕型坦克。將 1 張“競爭戰法”加入手牌。"
+  },
+  "blitzkrieg": {
+   "en": "BLITZKRIEG",
+   "zh": "閃電戰",
+   "text_zh": "使前線所有友方單位獲得 +3 攻擊力和 -1 行動花費，直到回合結束。"
+  },
+  "bloch_mb_152": {
+   "en": "BLOCH MB.152",
+   "zh": "布洛克 MB.152",
+   "text_zh": "部署：若是本回合部署的第一個單位，抽 1 張牌。"
+  },
+  "blockade": {
+   "en": "BLOCKADE",
+   "zh": "封鎖",
+   "text_zh": "對所有敵方單位造成 2 點傷害。若卡組頂是海軍牌，改為造成 3 點傷害。"
+  },
+  "blohm_voss_bv_138": {
+   "en": "BLOHM & VOSS BV 138",
+   "zh": "Bv 138 海龍",
+   "text_zh": "友方反制觸發時，抽 1 張牌。"
+  },
+  "blood_red_sky": {
+   "en": "BLOOD RED SKY",
+   "zh": "血灑長空",
+   "text_zh": "使所有友方蘇聯空軍獲得 +2+2。"
+  },
+  "bloody_eleventh": {
+   "en": "BLOODY ELEVENTH",
+   "zh": "血腥第十一團",
+   "text_zh": "本單位對戰並存活後，獲得 +2+2。"
+  },
+  "bloody_sickle": {
+   "en": "BLOODY SICKLE",
+   "zh": "血紅鐮刀",
+   "text_zh": "對 1 個單位和友方總部造成 1 點傷害，抽 1 張牌。"
+  },
+  "blue_and_gray": {
+   "en": "BLUE AND GRAY",
+   "zh": "藍灰師",
+   "text_zh": "友方單位被消滅時，將 1 張“激怒”加入手牌。"
+  },
+  "blue_legion": {
+   "en": "BLUE LEGION",
+   "zh": "藍色軍團",
+   "text_zh": "友方單位行動後，行動每花費 1 個指揮點，使其獲得一次 +1+1。"
+  },
+  "blue_sky": {
+   "en": "BLUE SKY",
+   "zh": "藍天",
+   "text_zh": "將是晴天。"
+  },
+  "bm13n_us6": {
+   "en": "BM-13N US6",
+   "zh": "BM-13N US6",
+   "text_zh": "本單位被攻擊時，在傷害造成前撤退。"
+  },
+  "bocage_warfare": {
+   "en": "BOCAGE WARFARE",
+   "zh": "籬牆之戰",
+   "text_zh": "使支援陣線 1 個友方單位獲得：“移至前線時，獲得 +2+2。”"
+  },
+  "bolster_the_ranks": {
+   "en": "BOLSTER THE RANKS",
+   "zh": "激勵部隊",
+   "text_zh": "使 1 個單位獲得等同於其行動花費的攻擊力和防禦力，使其行動花費為 0。"
+  },
+  "bomber_mafia": {
+   "en": "BOMBER MAFIA",
+   "zh": "轟炸機黑手黨",
+   "text_zh": "開發 1 張美國轟炸機。若剩餘指揮點數不小於 5，對所有敵方單位造成 2 點傷害。"
+  },
+  "bomber_run": {
+   "en": "BOMBER RUN",
+   "zh": "轟炸航路",
+   "text_zh": "對 1 個單位造成 2 點傷害。若有攻擊力不小於 5 的友方轟炸機，改為造成 5 點傷害。"
+  },
+  "bombing_raid": {
+   "en": "BOMBING RAID",
+   "zh": "轟炸突襲",
+   "text_zh": "對 1 個敵方目標造成 3 點傷害，對其相鄰目標造成 2 點傷害。"
+  },
+  "bp43_armored_train": {
+   "en": "BP-43 ARMORED TRAIN",
+   "zh": "BP-43 裝甲列車",
+   "text_zh": "無法攻擊。友方回合結束時，將 1 個“輕步兵”加入同一陣線。"
+  },
+  "bpf": {
+   "en": "BPF",
+   "zh": "英國太平洋艦隊",
+   "text_zh": "從“爆破”、“計畫”和“生產”中開發 1 張，開發 1 張英國海軍牌。"
+  },
+  "breaking_point": {
+   "en": "BREAKING POINT",
+   "zh": "臨界點",
+   "text_zh": "消滅 1 個被抑制或被壓制的單位。"
+  },
+  "breakout": {
+   "en": "BREAKOUT",
+   "zh": "突圍",
+   "text_zh": "使 1 個老兵單位獲得奮戰和衝擊。"
+  },
+  "breakthrough": {
+   "en": "BREAKTHROUGH",
+   "zh": "突破",
+   "text_zh": "對 1 個單位造成 3 點傷害。若其被消滅，使所有友方單位具有 -1 行動花費，直到回合結束。"
+  },
+  "breda_ba_65": {
+   "en": "BREDA Ba.65",
+   "zh": "佈雷達 Ba.65",
+   "text_zh": "部署：對所有敵方目標造成 1 點傷害。"
+  },
+  "brewster_f2a": {
+   "en": "BREWSTER F2A",
+   "zh": "F2A 水牛",
+   "text_zh": "在前線時，具有 +1 攻擊力。"
+  },
+  "brute_force": {
+   "en": "BRUTE FORCE",
+   "zh": "蠻力",
+   "text_zh": "對 1 個敵方目標造成等同於友方比敵方多控制單位數量的傷害。"
+  },
+  "bryansk_irregulars": {
+   "en": "BRYANSK IRREGULARS",
+   "zh": "布良斯克游擊隊",
+   "text_zh": "亡計：對本回合所有對本單位造成過傷害的單位造成 3 點傷害。"
+  },
+  "bt7": {
+   "en": "BT-7",
+   "zh": "BT-7",
+   "text_zh": ""
+  },
+  "bt7_1937": {
+   "en": "BT-7 1937",
+   "zh": "BT-7 1937",
+   "text_zh": "在場上的第四回合開始時，升為老兵。"
+  },
+  "bt7_1937_vet": {
+   "en": "BT-7 1937",
+   "zh": "BT-7 1937",
+   "text_zh": "敵方每抽 1 張牌，對其總部造成 2 點傷害。"
+  },
+  "buffs": {
+   "en": "BUFFS",
+   "zh": "米色團",
+   "text_zh": "被指令或部署指向時，獲得 +1+1。"
+  },
+  "burning_sky": {
+   "en": "BURNING SKY",
+   "zh": "燃燒的天空",
+   "text_zh": "對 1 個敵方空軍造成 4 點傷害。"
+  },
+  "burning_sun": {
+   "en": "BURNING SUN",
+   "zh": "烈日",
+   "text_zh": "使所有友方空軍具有 +3 攻擊力，直到回合結束。"
+  },
+  "burst_of_fire": {
+   "en": "BURST OF FIRE",
+   "zh": "火力爆發",
+   "text_zh": "使 1 個友方戰鬥機具有 +1 攻擊力和奮戰，直到回合結束。"
+  },
+  "buzz_bomb": {
+   "en": "BUZZ BOMB",
+   "zh": "嗡嗡炸彈",
+   "text_zh": "對 1 個敵方目標造成 1 點傷害。若是總部，抽 1 張牌。"
+  },
+  "by_the_sword": {
+   "en": "BY THE SWORD",
+   "zh": "以劍之名",
+   "text_zh": "抽取等同於敵方單位數的卡牌。"
+  },
+  "bypass": {
+   "en": "BYPASS",
+   "zh": "迂回",
+   "text_zh": "對 1 個總部造成等同於前線所有友方德國坦克花費之和的傷害。"
+  },
+  "c47_skytrain": {
+   "en": "C-47 SKYTRAIN",
+   "zh": "C-47 空中列車",
+   "text_zh": "友方回合結束時，隨機將 1 個花費為 1 的美國步兵加入支援陣線。"
+  },
+  "c6n_saiun": {
+   "en": "C6N SAIUN",
+   "zh": "C6N 彩雲艦偵",
+   "text_zh": "在支援陣線時，無法被陸軍攻擊。雙方反制無法觸發。"
+  },
+  "cadet_nurse_corps": {
+   "en": "CADET NURSE CORPS",
+   "zh": "軍校護士團",
+   "text_zh": "完全修復所有友方單位，使其獲得 +1+1。"
+  },
+  "call_to_the_colonies": {
+   "en": "CALL TO THE COLONIES",
+   "zh": "呼叫殖民地",
+   "text_zh": "抉擇：使友方總部獲得 +8 防禦力 或 抽 2 張牌。"
+  },
+  "calliope": {
+   "en": "CALLIOPE",
+   "zh": "T34 風琴",
+   "text_zh": "部署：指向 1 個敵方目標，造成 2 點傷害，隨機分配至此目標和相鄰目標。"
+  },
+  "calm_before_the_storm": {
+   "en": "CALM BEFORE THE STORM",
+   "zh": "暴風雨前的寧靜",
+   "text_zh": "使所有友方單位獲得 +3+1，結束回合。"
+  },
+  "cameronians": {
+   "en": "CAMERONIANS",
+   "zh": "卡梅倫團",
+   "text_zh": "每回合，友方使用第二張指令時，抽 2 張牌。"
+  },
+  "campaign_trail": {
+   "en": "CAMPAIGN TRAIL",
+   "zh": "戰役路線",
+   "text_zh": "本回合，所有友方單位具有 -2 行動花費，回合結束時，將其完全修復。"
+  },
+  "cannone_da_47": {
+   "en": "CANNONE DA 47",
+   "zh": "47 毫米反坦克炮",
+   "text_zh": "友方回合結束時，若友方單位數不大於敵方單位，對本單位造成 1 點傷害。"
+  },
+  "capitulation": {
+   "en": "CAPITULATION",
+   "zh": "一觸即潰",
+   "text_zh": "將所有敵方單位轉換為“潰軍”。"
+  },
+  "caproni_ca_133": {
+   "en": "CAPRONI CA.133",
+   "zh": "卡普羅尼 Ca.133",
+   "text_zh": "友方單位部署或加入時，使友方總部獲得 +2 防禦力。"
+  },
+  "careless_talk": {
+   "en": "CARELESS TALK",
+   "zh": "無心漫談",
+   "text_zh": "敵方單位部署時，對其造成 3 點傷害。"
+  },
+  "carpet_bombing": {
+   "en": "CARPET BOMBING",
+   "zh": "地毯式轟炸",
+   "text_zh": "對所有敵方單位造成 3 點傷害。"
+  },
+  "carrier_battle": {
+   "en": "CARRIER BATTLE",
+   "zh": "航母戰",
+   "text_zh": "造成 3 點傷害。將“航母戰”加入敵方手牌，使其所有數值 +1。"
+  },
+  "carrier_cover": {
+   "en": "CARRIER COVER",
+   "zh": "航母掩護",
+   "text_zh": "抉擇：使所有友方戰鬥機獲得 +1+1 或 移至前線。"
+  },
+  "case_blue": {
+   "en": "CASE BLUE",
+   "zh": "藍色方案",
+   "text_zh": "每有 1 個攻擊力不小於 4 的友方單位，對 1 個敵方目標造成 4 點傷害。"
+  },
+  "case_yellow": {
+   "en": "CASE YELLOW",
+   "zh": "黃色方案",
+   "text_zh": "造成 1 點傷害。使所有友方單位獲得 +1+0。敵方隨機棄 1 張牌。"
+  },
+  "cedar_division": {
+   "en": "CEDAR DIVISION",
+   "zh": "杉兵團",
+   "text_zh": "若指揮點槽數不大於 4，升為老兵。"
+  },
+  "cedar_division_vet": {
+   "en": "CEDAR DIVISION",
+   "zh": "杉兵團",
+   "text_zh": "友方回合開始時，若沒有手牌，額外抽 2 張牌。"
+  },
+  "chain_home": {
+   "en": "CHAIN HOME",
+   "zh": "本土鏈",
+   "text_zh": "使 1 個友方單位的攻擊力等同於其防禦力。使其隨機與 1 個敵方單位戰鬥。"
+  },
+  "char_b1_bis": {
+   "en": "CHAR B1 bis",
+   "zh": "B1 重型坦克 II 型",
+   "text_zh": "部署：若是本回合部署的第一個單位，獲得閃擊。"
+  },
+  "chasing_shadows": {
+   "en": "CHASING SHADOWS",
+   "zh": "捕風捉影",
+   "text_zh": "指向 1 個單位，使其移至前線。"
+  },
+  "cheshire_regiment": {
+   "en": "CHESHIRE REGIMENT",
+   "zh": "柴郡團",
+   "text_zh": "友方回合開始時，若上回合沒有被攻擊，對敵方總部造成 2 點傷害。"
+  },
+  "churchill_mk_iii_avre": {
+   "en": "CHURCHILL Mk III AVRE",
+   "zh": "邱吉爾 Mk III AVRE",
+   "text_zh": "部署：使所有敵方陸軍撤退。"
+  },
+  "churchill_mk_iv": {
+   "en": "CHURCHILL Mk IV",
+   "zh": "邱吉爾 Mk IV",
+   "text_zh": ""
+  },
+  "claim_objective": {
+   "en": "CLAIM OBJECTIVE",
+   "zh": "奪取目標",
+   "text_zh": "本回合，單位行動每花費過 1 個指揮點，使所有友方單位獲得一次 +1 攻擊力。"
+  },
+  "claim_the_skies": {
+   "en": "CLAIM THE SKIES",
+   "zh": "奪取制空",
+   "text_zh": "隨機使 1 個攻擊力最高的友方空軍獲得 +1+1，然後與 1 個敵方單位戰鬥。"
+  },
+  "close_air_support": {
+   "en": "CLOSE AIR SUPPORT",
+   "zh": "近距離空中支援",
+   "text_zh": "使 1 個友方英國空軍和其相鄰單位獲得 +1+1。"
+  },
+  "close_call": {
+   "en": "CLOSE CALL",
+   "zh": "千鈞一髮",
+   "text_zh": "指令或部署指向友方單位時，將其反制。"
+  },
+  "close_combat": {
+   "en": "CLOSE COMBAT",
+   "zh": "短兵相接",
+   "text_zh": "使所有友方步兵具有 +3 攻擊力，直到回合結束。"
+  },
+  "coastal_battalion_7": {
+   "en": "COASTAL BATTALION 7",
+   "zh": "第 7 海岸步兵營",
+   "text_zh": "友方單位部署時，其每具有 1 個對戰詞條，使其獲得一次 +1+1。"
+  },
+  "coastwatchers": {
+   "en": "COASTWATCHERS",
+   "zh": "海岸觀察員",
+   "text_zh": "友方天氣牌具有 -1 花費。部署：預報。"
+  },
+  "cobelligerents": {
+   "en": "CO-BELLIGERENTS",
+   "zh": "戰時盟國",
+   "text_zh": "將 1 個敵方單位洗入友方卡組。"
+  },
+  "code_of_bushido": {
+   "en": "CODE OF BUSHIDO",
+   "zh": "武士道準則",
+   "text_zh": "選擇並棄 1 張空軍，消滅 1 個攻擊力不大於 5 的單位。"
+  },
+  "cold_trap": {
+   "en": "COLD TRAP",
+   "zh": "極寒陷阱",
+   "text_zh": "敵方單位攻擊時，加入 1 張“游擊隊員”，使其成為攻擊目標。"
+  },
+  "coldstream_guards": {
+   "en": "COLDSTREAM GUARDS",
+   "zh": "冷溪衛隊",
+   "text_zh": "部署：將 1 張“海軍支援”加入手牌。"
+  },
+  "colonial_dreams": {
+   "en": "COLONIAL DREAMS",
+   "zh": "殖民夢",
+   "text_zh": "手牌中單位數最多的玩家抽 2 張牌。"
+  },
+  "colossus": {
+   "en": "COLOSSUS",
+   "zh": "巨人電腦",
+   "text_zh": "隨機將敵方卡組中的 3 張指令的複製洗入友方卡組。使其獲得：“抽 1 張牌。”"
+  },
+  "combined_arms": {
+   "en": "COMBINED ARMS",
+   "zh": "協同作戰",
+   "text_zh": "友方單位每有一種單位類型，使 1 個友方坦克獲得一次 +1+1。"
+  },
+  "combined_chiefs_of_staff": {
+   "en": "COMBINED CHIEFS OF STAFF",
+   "zh": "參謀長聯席會議",
+   "text_zh": "使所有友方英國和美國單位獲得 +2+3。"
+  },
+  "command_failure": {
+   "en": "COMMAND FAILURE",
+   "zh": "指揮不當",
+   "text_zh": "消滅 1 個攻擊力小於防禦力的單位。"
+  },
+  "commando_raid": {
+   "en": "COMMANDO RAID",
+   "zh": "突擊隊突擊",
+   "text_zh": "造成 1 點傷害。將 2 個“第 10 突擊隊”加入支援陣線。"
+  },
+  "commandos_kieffer": {
+   "en": "COMMANDOS KIEFFER",
+   "zh": "基弗突擊隊",
+   "text_zh": "友方總部獲得防禦力時，隨機對 1 個敵方目標造成 1 點傷害。"
+  },
+  "commit_the_reserves": {
+   "en": "COMMIT THE RESERVES",
+   "zh": "窮兵黷武",
+   "text_zh": "消滅 1 個攻擊力不大於友方指揮點槽數的單位。失去 1 個指揮點槽。"
+  },
+  "committed_crew": {
+   "en": "COMMITTED CREW",
+   "zh": "恪盡職守",
+   "text_zh": "直到回合結束，所有噴火花費為 0，使其部署時獲得 +3+3。"
+  },
+  "compromise": {
+   "en": "COMPROMISE",
+   "zh": "妥協",
+   "text_zh": "抉擇：抽 1 張牌，使總部獲得 +3 防禦力 或 雙方進行兩次。"
+  },
+  "confusion": {
+   "en": "CONFUSION",
+   "zh": "混亂",
+   "text_zh": "控制 1 個花費不大於 3 的敵方單位，直到回合結束。"
+  },
+  "conquest": {
+   "en": "CONQUEST",
+   "zh": "征服",
+   "text_zh": "友方單位每有一種單位類型，抽 1 張牌。"
+  },
+  "conscripts": {
+   "en": "CONSCRIPTS",
+   "zh": "徵召兵",
+   "text_zh": "每有 1 個敵方單位，將 1 張“預備役”洗入卡組。抽 1 張牌。"
+  },
+  "contest_doctrine": {
+   "en": "CONTEST DOCTRINE",
+   "zh": "競爭戰法",
+   "text_zh": "開發 1 張德國中型或重型坦克。使友方總部獲得：“友方坦克部署時，使其獲得 +1+1。”"
+  },
+  "convoy_attack": {
+   "en": "CONVOY ATTACK",
+   "zh": "護航攻擊",
+   "text_zh": "對 1 個目標造成 0-2 點傷害。"
+  },
+  "convoy_hx_175": {
+   "en": "CONVOY HX 175",
+   "zh": "HX 175 護航隊",
+   "text_zh": "抽 2 張牌。"
+  },
+  "corps_command": {
+   "en": "CORPS COMMAND",
+   "zh": "軍司令部",
+   "text_zh": "使最左側和最右側手牌獲得：“使用時，隨機消滅 1 個敵方單位。”"
+  },
+  "corsair_f4u1c": {
+   "en": "CORSAIR F4U-1C",
+   "zh": "F4U-1C 海盜",
+   "text_zh": ""
+  },
+  "corsair_f4u1d": {
+   "en": "CORSAIR F4U-1D",
+   "zh": "F4U-1D 海盜",
+   "text_zh": "亡計：隨機消滅 1 個敵方單位。"
+  },
+  "costly_victory": {
+   "en": "COSTLY VICTORY",
+   "zh": "慘勝",
+   "text_zh": "消滅 1 個單位，從卡組頂移除等同於其攻擊力的卡牌。"
+  },
+  "counter_offensive": {
+   "en": "COUNTER OFFENSIVE",
+   "zh": "反擊攻勢",
+   "text_zh": "每有 1 個受傷單位，使 1 個步兵或坦克獲得一次 +2+1。"
+  },
+  "counter_strike": {
+   "en": "COUNTER STRIKE",
+   "zh": "反襲",
+   "text_zh": "敵方單位攻擊友方總部時，將其消滅。"
+  },
+  "counterattack": {
+   "en": "COUNTERATTACK",
+   "zh": "反擊",
+   "text_zh": "使所有友方老兵單位獲得 +2+2。使每個友方單位隨機與 1 個敵方單位戰鬥。"
+  },
+  "covert_operation": {
+   "en": "COVERT OPERATION",
+   "zh": "秘密行動",
+   "text_zh": "將卡組頂的 1 張隱蔽單位和 1 個複製加入支援陣線。"
+  },
+  "creeping_barrage": {
+   "en": "CREEPING BARRAGE",
+   "zh": "徐進彈幕",
+   "text_zh": "壓制 1 個單位。壓制移除時，使其撤退。"
+  },
+  "critical_damage": {
+   "en": "CRITICAL DAMAGE",
+   "zh": "致命傷害",
+   "text_zh": "對 1 個單位造成 1 點傷害。若其沒有相鄰單位，改為造成 2 點傷害。"
+  },
+  "critical_hit": {
+   "en": "CRITICAL HIT",
+   "zh": "致命一擊",
+   "text_zh": "消滅 1 個受傷單位。"
+  },
+  "cromwell_mk_iv": {
+   "en": "CROMWELL Mk IV",
+   "zh": "克倫威爾 Mk IV",
+   "text_zh": "敵方單位被壓制時，將其抑制。"
+  },
+  "cross_of_lorraine": {
+   "en": "CROSS OF LORRAINE",
+   "zh": "洛林十字",
+   "text_zh": "敵方每有 1 張手牌，具有 -1 花費。對 1 個敵方目標造成 3 點傷害。"
+  },
+  "crossfire": {
+   "en": "CROSSFIRE",
+   "zh": "交叉火力",
+   "text_zh": "對所有敵方單位造成 1 點傷害。若有單位被消滅，重複此效果。"
+  },
+  "cruiser_mk_iii": {
+   "en": "CRUISER Mk III",
+   "zh": "巡航坦克 Mk III",
+   "text_zh": "鉗擊：+2 攻擊力。"
+  },
+  "cruiser_scouts": {
+   "en": "CRUISER SCOUTS",
+   "zh": "巡洋艦偵察機",
+   "text_zh": "壓制 1 個單位並預報。若指揮點數為 0，具有情報 3。"
+  },
+  "crusader_mk_ii": {
+   "en": "CRUSADER Mk II",
+   "zh": "十字軍 Mk II",
+   "text_zh": "友方使用英國指令時，抽 1 張牌。"
+  },
+  "cup_of_tea": {
+   "en": "CUP OF TEA",
+   "zh": "一杯茶",
+   "text_zh": "使所有友方英國單位獲得 +2 防禦力。"
+  },
+  "cyclone": {
+   "en": "CYCLONE",
+   "zh": "旋風",
+   "text_zh": "抽 3 張牌，對友方總部造成等同於手牌數的傷害。"
+  },
+  "cyclone_division": {
+   "en": "CYCLONE DIVISION",
+   "zh": "龍卷師",
+   "text_zh": "部署：將 1 張雪曼加入手牌。友方累計部署 2 張雪曼時，升為老兵。"
+  },
+  "cyclone_division_vet": {
+   "en": "CYCLONE DIVISION",
+   "zh": "龍卷師",
+   "text_zh": "友方回合開始時，隨機將 1 張雪曼加入手牌，使其獲得閃擊。"
+  },
+  "d4y_suisei": {
+   "en": "D4Y SUISEI",
+   "zh": "D4Y 彗星艦爆",
+   "text_zh": "部署：壓制 1 個敵方單位和其相鄰單位。"
+  },
+  "danuta": {
+   "en": "DANUTA",
+   "zh": "達努塔裝甲列車",
+   "text_zh": "友方回合開始時，將 1 個具有閃擊的“4TP”加入支援陣線。回合結束時，將其消滅。"
+  },
+  "daring_strike": {
+   "en": "DARING STRIKE",
+   "zh": "英勇一擊",
+   "text_zh": "每有 1 個友方流亡單位，具有 -2 花費。對 1 個目標造成 2 點傷害。"
+  },
+  "dark_deeds": {
+   "en": "DARK DEEDS",
+   "zh": "陰謀",
+   "text_zh": "將 1 個“游擊隊員”加入支援陣線。抽 1 張牌。下個友方回合結束時，將其棄掉。"
+  },
+  "dawn_operations": {
+   "en": "DAWN OPERATIONS",
+   "zh": "拂曉行動",
+   "text_zh": "本回合，使所有友方的空軍行動花費為 0。失去 1 個指揮點槽。"
+  },
+  "daylight_bombing": {
+   "en": "DAYLIGHT BOMBING",
+   "zh": "日間轟炸",
+   "text_zh": "對 1 個目標造成 2 點傷害，敵方失去 1 個指揮點槽。"
+  },
+  "deadly_duty": {
+   "en": "DEADLY DUTY",
+   "zh": "極限使命",
+   "text_zh": "消滅 1 個友方單位，抽 2 張牌。"
+  },
+  "death_from_above": {
+   "en": "DEATH FROM ABOVE",
+   "zh": "死神降臨",
+   "text_zh": "隨機消滅 1 個敵方單位。"
+  },
+  "decisive_defense": {
+   "en": "DECISIVE DEFENSE",
+   "zh": "關鍵防禦",
+   "text_zh": "單位攻擊友方總部時，將 1 個“第 6 山地團”加入總部相鄰處，使其成為攻擊目標。"
+  },
+  "decoy_tactics": {
+   "en": "DECOY TACTICS",
+   "zh": "誘餌戰術",
+   "text_zh": "使 1 個單位獲得伏擊和衝擊，且：“被敵方指向或攻擊時，敵方隨機棄 1 張牌。”"
+  },
+  "deep_operation": {
+   "en": "DEEP OPERATION",
+   "zh": "大縱深作戰",
+   "text_zh": "將 2 張“輕步兵”加入手牌，使手牌中的“輕步兵”獲得閃擊。"
+  },
+  "defeat_in_detail": {
+   "en": "DEFEAT IN DETAIL",
+   "zh": "‌逐個擊破‌",
+   "text_zh": "使所有友方單位獲得：“本單位對敵方總部造成傷害時，獲得 +1+1。”"
+  },
+  "defend_in_depth": {
+   "en": "DEFEND IN DEPTH",
+   "zh": "縱深防禦",
+   "text_zh": "對 1 個單位造成等同於敵方手牌數的傷害。"
+  },
+  "defend_the_nation": {
+   "en": "DEFEND THE NATION",
+   "zh": "保家衛國",
+   "text_zh": "抽取卡組頂的非法國牌，洗切卡組。"
+  },
+  "defiant_mk_i": {
+   "en": "DEFIANT Mk I",
+   "zh": "無畏 Mk I",
+   "text_zh": "若上回合友方部署過英國步兵，具有 +2 攻擊力，直到回合結束。"
+  },
+  "delaying_tactics": {
+   "en": "DELAYING TACTICS",
+   "zh": "拖延戰術",
+   "text_zh": "使前線所有單位撤退。"
+  },
+  "deluge": {
+   "en": "DELUGE",
+   "zh": "暴雨",
+   "text_zh": "增加 6 點防禦力，隨機分配至所有友方目標。"
+  },
+  "depot_raid": {
+   "en": "DEPOT RAID",
+   "zh": "劫營",
+   "text_zh": "將 1 個敵方單位返回手牌。將 1 張被收繳的複製加入友方手牌。"
+  },
+  "depth_charges": {
+   "en": "DEPTH CHARGES",
+   "zh": "深水炸彈",
+   "text_zh": "額外獲得 1 個指揮點槽。使友方總部具有煙幕，直到下個友方回合開始。"
+  },
+  "depths_of_winter": {
+   "en": "DEPTHS OF WINTER",
+   "zh": "嚴冬",
+   "text_zh": "移除所有單位。將等量“輕步兵”加入同一陣線。"
+  },
+  "desert_dust": {
+   "en": "DESERT DUST",
+   "zh": "沙塵滿目",
+   "text_zh": "壓制 1 個單位。將 2 個“衛戍”加入支援陣線。"
+  },
+  "desert_push": {
+   "en": "DESERT PUSH",
+   "zh": "沙漠推進",
+   "text_zh": "完全修復 1 個陸軍。若其被壓制，移除壓制。"
+  },
+  "desert_raid": {
+   "en": "DESERT RAID",
+   "zh": "沙漠突襲",
+   "text_zh": "所有單位造成的對戰傷害為 1，直到下個友方回合開始。"
+  },
+  "desperate_measures": {
+   "en": "DESPERATE MEASURES",
+   "zh": "亡命之計",
+   "text_zh": "對所有敵方目標造成 2 點傷害。友方失去 1 個指揮點槽。"
+  },
+  "detached_battalion_4": {
+   "en": "DETACHED BATTALION 4",
+   "zh": "第 4 獨立大隊",
+   "text_zh": "部署：消滅 1 個花費不大於 2 的敵方單位。"
+  },
+  "detailed_recon": {
+   "en": "DETAILED RECON",
+   "zh": "周密偵察",
+   "text_zh": "降低等同於本回合單位行動花費的指揮點的花費。抽 1 張牌，使其降低同等花費。"
+  },
+  "devils_brigade": {
+   "en": "DEVIL'S BRIGADE",
+   "zh": "魔鬼旅",
+   "text_zh": "部署：對 1 個敵方目標造成 1 點傷害。若為山地單位，改為消滅。"
+  },
+  "dewoitine_d_520": {
+   "en": "DEWOITINE D.520",
+   "zh": "地瓦丁 D.520",
+   "text_zh": "對空軍造成的傷害 +2。"
+  },
+  "dilemma": {
+   "en": "DILEMMA",
+   "zh": "兩難困境",
+   "text_zh": "將 1 個單位的攻擊力和行動花費交換。"
+  },
+  "dingo": {
+   "en": "DINGO",
+   "zh": "丁格犬偵察車",
+   "text_zh": "本單位攻擊敵方總部時，使友方總部獲得 +1 防禦力，抽 1 張牌。"
+  },
+  "diplomatic_attach": {
+   "en": "DIPLOMATIC ATTACHÉ",
+   "zh": "外交專員",
+   "text_zh": "對 1 個敵方目標造成 1 點傷害，此前每使用過 1 張“外交專員”，傷害 +1。"
+  },
+  "direct_hit": {
+   "en": "DIRECT HIT",
+   "zh": "直接命中",
+   "text_zh": "對 1 個單位造成 1 點傷害。若其行動花費為 0，改為將其消滅。"
+  },
+  "distant_front": {
+   "en": "DISTANT FRONT",
+   "zh": "鞭長莫及",
+   "text_zh": "移除 1 個攻擊力不大於 3 的單位。下個友方回合開始時，將其返回戰場。"
+  },
+  "dive_bombing": {
+   "en": "DIVE BOMBING",
+   "zh": "俯衝轟炸",
+   "text_zh": "對 1 個敵方單位造成 1 點傷害。使其攻擊力為 0，直到下個友方回合開始。"
+  },
+  "diversion": {
+   "en": "DIVERSION",
+   "zh": "轉移目標",
+   "text_zh": "使支援陣線 1 個非守護陸軍獲得煙幕，抽 1 張牌。"
+  },
+  "divine_wind": {
+   "en": "DIVINE WIND",
+   "zh": "神風行動",
+   "text_zh": "消滅 1 個單位，隨機棄 1 張牌。"
+  },
+  "do_or_die": {
+   "en": "DO OR DIE",
+   "zh": "拼死一搏",
+   "text_zh": "本回合，友方單位被消滅時，將 1 張“爆破”和 1 張“生產”加入手中。"
+  },
+  "dornier_do_17z": {
+   "en": "DORNIER DO 17Z",
+   "zh": "Do 17 Z",
+   "text_zh": "一回合一次，單位不因消滅離開戰場時，獲得 2 個指揮點，抽 1 張牌。"
+  },
+  "dornier_do_18g": {
+   "en": "DORNIER DO 18G",
+   "zh": "Do 18 G",
+   "text_zh": "其他友方單位部署時，使其移至前線。"
+  },
+  "dornier_do_217": {
+   "en": "DORNIER DO 217",
+   "zh": "Do 217",
+   "text_zh": "本單位消滅 1 個單位時，敵方隨機棄 1 張牌。"
+  },
+  "double_strength": {
+   "en": "DOUBLE STRENGTH",
+   "zh": "雙倍力量",
+   "text_zh": "隨機將手牌中的 1 張指令的複製洗入卡組。"
+  },
+  "dowding_system": {
+   "en": "DOWDING SYSTEM",
+   "zh": "道丁系統",
+   "text_zh": "敵方使用花費不小於 4 的指令時，將其反制。"
+  },
+  "drive_into_the_sea": {
+   "en": "DRIVE INTO THE SEA",
+   "zh": "驅敵入海",
+   "text_zh": "移除 1 個單位。下個友方回合開始時，將其返回手牌。"
+  },
+  "duck": {
+   "en": "DUCK",
+   "zh": "J2F 鴨式",
+   "text_zh": "友方回合中，移至前線時，獲得 +1+1，預報。"
+  },
+  "dug_in": {
+   "en": "DUG IN",
+   "zh": "深挖",
+   "text_zh": "對 1 個單位造成 1 點傷害。將 1 張“轉變戰法”洗入卡組。"
+  },
+  "duress": {
+   "en": "DURESS",
+   "zh": "脅迫",
+   "text_zh": "抑制 1 個單位。"
+  },
+  "duty_bound": {
+   "en": "DUTY BOUND",
+   "zh": "責無旁貸",
+   "text_zh": "使 1 個友方單位獲得 +1+1。此前每使用過 1 張“責無旁貸”，額外獲得一次 +1+1。"
+  },
+  "duty_is_a_mountain": {
+   "en": "DUTY IS A MOUNTAIN",
+   "zh": "義重如山",
+   "text_zh": "使所有友方單位獲得：“本單位的亡計額外觸發一次。”"
+  },
+  "e13a_jake": {
+   "en": "E13A JAKE",
+   "zh": "E13A 零式水偵",
+   "text_zh": "友方失去 1 個指揮點槽時，使所有友方單位獲得 +1+1。"
+  },
+  "eagle_claws": {
+   "en": "EAGLE CLAWS",
+   "zh": "鷹爪",
+   "text_zh": "對敵方支援陣線所有單位造成 2 點傷害。"
+  },
+  "eagle_day": {
+   "en": "EAGLE DAY",
+   "zh": "鷹日計畫",
+   "text_zh": "選擇手牌中的 1 張德國空軍，將其加入戰場並使其獲得閃擊。回合結束時，將其返回手牌。"
+  },
+  "east_surrey_regiment": {
+   "en": "EAST SURREY REGIMENT",
+   "zh": "東薩裏團",
+   "text_zh": ""
+  },
+  "eastern_front_bound": {
+   "en": "EASTERN FRONT BOUND",
+   "zh": "東線邊界",
+   "text_zh": "使所有友方山地單位獲得 +1+1，抽 1 張山地單位。"
+  },
+  "echelon": {
+   "en": "ECHELON",
+   "zh": "梯隊",
+   "text_zh": "使所有友方單位獲得：“其他友方單位被攻擊時，本單位獲得 +1+1。“"
+  },
+  "edge_of_the_empire": {
+   "en": "EDGE OF THE EMPIRE",
+   "zh": "帝國邊境",
+   "text_zh": "將所有手牌洗入卡組。回合結束時，抽 3 張牌。"
+  },
+  "elusive_force": {
+   "en": "ELUSIVE FORCE",
+   "zh": "潛在力量",
+   "text_zh": "下個敵方回合中，敵方無法使用指令。"
+  },
+  "embargo": {
+   "en": "EMBARGO",
+   "zh": "禁止通商",
+   "text_zh": "下個回合，敵方失去 2 個指揮點。"
+  },
+  "emergency_measures": {
+   "en": "EMERGENCY MEASURES",
+   "zh": "緊急措施",
+   "text_zh": "選擇並棄 1 張噴火，將 1 個“皇家空軍地勤”加入支援陣線。"
+  },
+  "empire_of_the_sun": {
+   "en": "EMPIRE OF THE SUN",
+   "zh": "太陽帝國",
+   "text_zh": "消滅 1 個敵方單位。抽取等同於其攻擊力的卡牌。"
+  },
+  "encirclement": {
+   "en": "ENCIRCLEMENT",
+   "zh": "包圍",
+   "text_zh": "將前線 1 個花費不大於 3 的友方單位的複製加入同一陣線，使其獲得閃擊。"
+  },
+  "enemy_at_the_gates": {
+   "en": "ENEMY AT THE GATES",
+   "zh": "大敵當前",
+   "text_zh": "使所有單位獲得 +2 攻擊力，對其造成 2 點傷害。"
+  },
+  "enemy_contact": {
+   "en": "ENEMY CONTACT",
+   "zh": "逢敵",
+   "text_zh": "壓制 1 個單位。抽 1 張牌。"
+  },
+  "enemy_sighted": {
+   "en": "ENEMY SIGHTED",
+   "zh": "目擊敵人",
+   "text_zh": "消滅 1 個花費不大於 3 的單位，抽 1 張牌。"
+  },
+  "enemy_spotted": {
+   "en": "ENEMY SPOTTED",
+   "zh": "發現敵人",
+   "text_zh": "敵方佔領前線時，抽 3 張牌。"
+  },
+  "engage_at_range": {
+   "en": "ENGAGE AT RANGE",
+   "zh": "遠距離交戰",
+   "text_zh": "對 1 個敵方目標造成 2 點傷害。若被返回卡組，轉換為“近距離交戰”。"
+  },
+  "engage_up_close": {
+   "en": "ENGAGE UP CLOSE",
+   "zh": "近距離交戰",
+   "text_zh": "消滅 1 個單位。"
+  },
+  "enigma": {
+   "en": "ENIGMA",
+   "zh": "恩尼格瑪",
+   "text_zh": "抽數張牌，直到友方手牌數與敵方相同。"
+  },
+  "entanglement": {
+   "en": "ENTANGLEMENT",
+   "zh": "障礙",
+   "text_zh": "友方單位被攻擊時，使其在傷害造成前獲得 +2 防禦力。將 1 個“衛戍”加入支援陣線。"
+  },
+  "entrapment": {
+   "en": "ENTRAPMENT",
+   "zh": "圈套",
+   "text_zh": "單位攻擊時，將其消滅。使所有友方單位獲得 +1+1。"
+  },
+  "entrenched": {
+   "en": "ENTRENCHED",
+   "zh": "深溝固壘",
+   "text_zh": "使 1 個友方守護單位獲得 +3 攻擊力、奮戰和收繳。"
+  },
+  "envelop": {
+   "en": "ENVELOP",
+   "zh": "合圍",
+   "text_zh": "單位移至前線時，消滅前線所有單位。"
+  },
+  "escaut_plan": {
+   "en": "ESCAUT PLAN",
+   "zh": "埃斯科計畫",
+   "text_zh": "指向 1 個單位，使其移至前線。若是本回合使用的第一張指令，使其獲得伏擊。"
+  },
+  "escort_group": {
+   "en": "ESCORT GROUP",
+   "zh": "護航船隊",
+   "text_zh": "抉擇：將 1 張“原料” 或 1 張“軍備”洗入卡組。"
+  },
+  "evasive_action": {
+   "en": "EVASIVE ACTION",
+   "zh": "規避動作",
+   "text_zh": "敵方部署單位部署時，反制其部署。"
+  },
+  "exhaust_all_options": {
+   "en": "EXHAUST ALL OPTIONS",
+   "zh": "竭盡全力",
+   "text_zh": "壓制 1 個單位和其相鄰單位。壓制下回合部署或加入的敵方單位。"
+  },
+  "exiled_forces": {
+   "en": "EXILED FORCES",
+   "zh": "流亡部隊",
+   "text_zh": "將 1 個單位的複製加入友方支援陣線。三回合後，將其消滅。"
+  },
+  "expanded_imperial_rd": {
+   "en": "EXPANDED IMPERIAL R&D",
+   "zh": "擴展帝國研發",
+   "text_zh": "抉擇：將 1 張“氧氣魚雷” 或 1 張“高級帝國研發”加入手中。"
+  },
+  "expanded_reich_rd": {
+   "en": "EXPANDED REICH R&D",
+   "zh": "擴展德意志帝國研發",
+   "text_zh": "抉擇：將 1 張“合成機油” 或 1 張“高級德意志帝國研發”加入手牌。"
+  },
+  "expanded_royal_research": {
+   "en": "EXPANDED ROYAL RESEARCH",
+   "zh": "擴展皇家研發",
+   "text_zh": "抉擇：將 1 張“合成橡膠” 或 1 張“高級皇家研發”加入手牌。"
+  },
+  "expanded_soviet_research": {
+   "en": "EXPANDED SOVIET RESEARCH",
+   "zh": "擴展蘇聯研發",
+   "text_zh": "抉擇：將 1 張“標準彈藥” 或 1 張“高級蘇聯研發”加入手中。"
+  },
+  "expanded_us_research": {
+   "en": "EXPANDED US RESEARCH",
+   "zh": "擴展美國研發",
+   "text_zh": "抉擇：將 1 張“加壓艙” 或 1 張“高級美國研發”加入手牌。"
+  },
+  "expansion": {
+   "en": "EXPANSION",
+   "zh": "擴張",
+   "text_zh": "若前線有友方日本單位，抽 2 張牌。"
+  },
+  "expeditionary_corps": {
+   "en": "EXPEDITIONARY CORPS",
+   "zh": "遠征軍",
+   "text_zh": "部署：將 1 張“抵抗”加入敵方卡組。"
+  },
+  "experimental_flight": {
+   "en": "EXPERIMENTAL FLIGHT",
+   "zh": "試驗飛行",
+   "text_zh": "選擇並棄 1 張牌，隨機將 1 張日本精英空軍加入手牌。"
+  },
+  "exploit_the_gap": {
+   "en": "EXPLOIT THE GAP",
+   "zh": "擴大優勢",
+   "text_zh": "若前線有友方單位，從卡組頂 3 張單位中選擇 1 張，使其獲得閃擊且花費為 0，將其餘 2 張置於卡組底。"
+  },
+  "exposed": {
+   "en": "EXPOSED",
+   "zh": "暴露無遺",
+   "text_zh": "若有友方美國單位，具有 -1 花費。對 1 個沒有對戰詞條的單位造成 5 點傷害。"
+  },
+  "extended_barrage": {
+   "en": "EXTENDED BARRAGE",
+   "zh": "持續彈幕",
+   "text_zh": "對 1 個單位造成 6 點傷害。下個友方回合開始時，失去 2 個指揮點。"
+  },
+  "f1m2_pete": {
+   "en": "F1M2 PETE",
+   "zh": "F1M2 零式水觀",
+   "text_zh": "在支援陣線時，無法被陸軍攻擊。"
+  },
+  "f4f3_wildcat": {
+   "en": "F4F-3 WILDCAT",
+   "zh": "F4F-3 野貓",
+   "text_zh": ""
+  },
+  "f4f4_wildcat": {
+   "en": "F4F-4 WILDCAT",
+   "zh": "F4F-4 野貓",
+   "text_zh": "移至前線時，將 1 個“F2A 水牛”加入相鄰處。"
+  },
+  "f6f3_hellcat": {
+   "en": "F6F-3 HELLCAT",
+   "zh": "F6F-3 地獄貓",
+   "text_zh": "本單位攻擊時，獲得 +1+1。"
+  },
+  "f6f5_hellcat": {
+   "en": "F6F-5 HELLCAT",
+   "zh": "F6F-5 地獄貓",
+   "text_zh": "本單位攻擊時，使本單位和卡組頂的單位獲得 +1+1。"
+  },
+  "farman_f_222": {
+   "en": "FARMAN F.222",
+   "zh": "法爾芒 F.222",
+   "text_zh": "本單位對敵方總部造成傷害時，抽 1 張牌。"
+  },
+  "fast_heinz": {
+   "en": "FAST HEINZ",
+   "zh": "古德裏安",
+   "text_zh": "使所有友方德國坦克獲得 +2+1。"
+  },
+  "feigned_retreat": {
+   "en": "FEIGNED RETREAT",
+   "zh": "假裝撤退",
+   "text_zh": "棄掉全部手牌。使友方總部獲得：“友方單位部署時，抽 1 張牌。”"
+  },
+  "feldherrnhalle_rifles": {
+   "en": "FELDHERRNHALLE RIFLES",
+   "zh": "統帥堂裝甲擲彈兵師",
+   "text_zh": "一回合一次，友方部署其他攻擊力不小於 4 的單位時，獲得 2 個指揮點。"
+  },
+  "ferocious_assault": {
+   "en": "FEROCIOUS ASSAULT",
+   "zh": "猛襲",
+   "text_zh": "消滅 1 個步兵。若其攻擊力大於友方指揮點槽數，失去 1 個指揮點槽。"
+  },
+  "fiat_br_20": {
+   "en": "FIAT BR.20",
+   "zh": "菲亞特 BR.20",
+   "text_zh": "部署：將 2 個“第 3 山地團”加入支援陣線。"
+  },
+  "fiat_c_r_32": {
+   "en": "FIAT C.R.32",
+   "zh": "菲亞特 C.R.32",
+   "text_zh": "友方總部獲得防禦力時，隨機完全修復 1 個友方單位。"
+  },
+  "fiat_c_r_42": {
+   "en": "FIAT C.R.42",
+   "zh": "菲亞特 C.R.42",
+   "text_zh": "部署：若友方單位數大於敵方單位，獲得 +1 攻擊力。"
+  },
+  "fiat_g_50": {
+   "en": "FIAT G.50",
+   "zh": "菲亞特 G.50",
+   "text_zh": "本單位造成傷害時，使友方總部獲得同等防禦力。"
+  },
+  "fiat_g_50_fi": {
+   "en": "FIAT G.50 FI",
+   "zh": "菲亞特 G.50 FI",
+   "text_zh": "對抗攻擊力更高的單位時，具有 +3 攻擊力。"
+  },
+  "fiat_g_55": {
+   "en": "FIAT G.55",
+   "zh": "菲亞特 G.55",
+   "text_zh": "部署：若友方總部比敵方總部防禦力高 5 點或以上，獲得 +2+2。"
+  },
+  "field_hospital": {
+   "en": "FIELD HOSPITAL",
+   "zh": "野戰醫院",
+   "text_zh": "完全修復所有友方單位。每修復 1 個，抽 1 張牌。"
+  },
+  "field_recon": {
+   "en": "FIELD RECON",
+   "zh": "野外偵察",
+   "text_zh": "每有 1 個友方隱蔽單位，使 1 個步兵或坦克獲得一次 +2+2。"
+  },
+  "fiery_ambush": {
+   "en": "FIERY AMBUSH",
+   "zh": "猛烈伏擊",
+   "text_zh": "對 1 個單位造成 3 點傷害。然後若沒有敵方單位，對敵方總部造成 3 點傷害。"
+  },
+  "fieseler_fi_156": {
+   "en": "FIESELER FI 156",
+   "zh": "Fi 156 鸛式",
+   "text_zh": "友方回合結束時，隨機啟動手牌中的 1 張反制。"
+  },
+  "fifth_ohio": {
+   "en": "FIFTH OHIO",
+   "zh": "俄亥俄州第 5 步兵團",
+   "text_zh": "部署：消滅 1 個攻擊力和防禦力之和不大於 6 的敵方單位。"
+  },
+  "final_push": {
+   "en": "FINAL PUSH",
+   "zh": "最後一擊",
+   "text_zh": "使 1 個友方單位獲得 +3 攻擊力。友方回合結束時，將其消滅。"
+  },
+  "finest_hour": {
+   "en": "FINEST HOUR",
+   "zh": "最光輝的時刻",
+   "text_zh": "使 1 個空軍獲得 +1+1 和閃擊。"
+  },
+  "finnish_boys": {
+   "en": "FINNISH BOYS",
+   "zh": "芬蘭男孩步兵團",
+   "text_zh": "友方手牌無法被棄掉。"
+  },
+  "firebomb": {
+   "en": "FIREBOMB",
+   "zh": "燃燒彈",
+   "text_zh": "對 1 個單位造成 5 點傷害，若剩餘指揮點數不小於 2，隨機將溢出的傷害分配至所有敵方目標。"
+  },
+  "firewall": {
+   "en": "FIREWALL",
+   "zh": "防火牆",
+   "text_zh": "使 1 個單位獲得：“無法攻擊敵方總部”。"
+  },
+  "first_responders": {
+   "en": "FIRST RESPONDERS",
+   "zh": "第一回應",
+   "text_zh": "敵方回合結束時，將 1 個“第 5 步兵旅”加入支援陣線。若敵方單位數不小於 3，使其獲得 +3+3。"
+  },
+  "first_to_fight": {
+   "en": "FIRST TO FIGHT",
+   "zh": "衝鋒在前",
+   "text_zh": "使 1 個友方單位獲得：“本單位交戰並存活後，將 1 個“軍團”加入支援陣線。”"
+  },
+  "five_year_plan": {
+   "en": "FIVE YEAR PLAN",
+   "zh": "五年計劃",
+   "text_zh": "抽 5 張牌，對友方總部造成 5 點傷害。"
+  },
+  "flammpanzer": {
+   "en": "FLAMMPANZER",
+   "zh": "噴火坦克",
+   "text_zh": "部署：消滅 1 個花費不大於 1 的敵方單位。"
+  },
+  "flight_to_oblivion": {
+   "en": "FLIGHT TO OBLIVION",
+   "zh": "終焉之行",
+   "text_zh": "移除卡組頂的 1 張空軍。造成等同於其攻擊力的傷害，隨機分配至所有敵方目標。"
+  },
+  "focused_attack": {
+   "en": "FOCUSED ATTACK",
+   "zh": "集中攻擊",
+   "text_zh": "友方單位每有一種單位類型，使所有友方步兵和坦克獲得一次 +1+1。"
+  },
+  "fog_of_war": {
+   "en": "FOG OF WAR",
+   "zh": "戰爭迷霧",
+   "text_zh": "移除 1 個單位。將 2 張複製置於所有者卡組頂。"
+  },
+  "foiled_plans": {
+   "en": "FOILED PLANS",
+   "zh": "輕慮淺謀",
+   "text_zh": "敵方指令使用時，對敵方總部造成等同於其花費的傷害。"
+  },
+  "fokker_d_xxi": {
+   "en": "FOKKER D.XXI",
+   "zh": "福克 D.XXI",
+   "text_zh": "部署：抑制 1 個敵方單位。"
+  },
+  "for_freedom": {
+   "en": "FOR FREEDOM",
+   "zh": "為了自由",
+   "text_zh": "使 1 個單位獲得 +1+1，抽 1 張牌。"
+  },
+  "for_glory": {
+   "en": "FOR GLORY",
+   "zh": "為了榮耀",
+   "text_zh": "消滅 1 個精英單位。"
+  },
+  "for_prosperity": {
+   "en": "FOR PROSPERITY",
+   "zh": "為了繁榮",
+   "text_zh": "使所有友方日本單位獲得 +1+1。"
+  },
+  "for_the_emperor": {
+   "en": "FOR THE EMPEROR",
+   "zh": "為了帝國",
+   "text_zh": "使所有友方日本單位具有 +1 攻擊力和 -1 行動花費，直到回合結束。"
+  },
+  "for_the_king": {
+   "en": "FOR THE KING",
+   "zh": "為了國王",
+   "text_zh": "對 1 個敵方坦克造成 5 點傷害。"
+  },
+  "forced_surrender": {
+   "en": "FORCED SURRENDER",
+   "zh": "逼迫投降",
+   "text_zh": "壓制 1 個單位。所有被壓制的敵方單位額外壓制一回合。"
+  },
+  "forged_in_fire": {
+   "en": "FORGED IN FIRE",
+   "zh": "千錘百煉",
+   "text_zh": "使 1 個單位獲得 1 個隨機對戰詞條。然後若其對戰詞條數不小於 2，抽 1 張牌。"
+  },
+  "form_battle_line": {
+   "en": "FORM BATTLE LINE",
+   "zh": "形成戰線",
+   "text_zh": "抉擇：將 3 個“輕步兵”加入支援陣線，使其獲得閃擊 或 +1+1。"
+  },
+  "fortification": {
+   "en": "FORTIFICATION",
+   "zh": "防禦工事",
+   "text_zh": "使友方總部獲得 +7 防禦力。"
+  },
+  "fortified_position": {
+   "en": "FORTIFIED POSITION",
+   "zh": "加固陣地",
+   "text_zh": "壓制 1 個敵方單位。若在前線，使其撤退。"
+  },
+  "fortunes_of_war": {
+   "en": "FORTUNES OF WAR",
+   "zh": "戰爭財",
+   "text_zh": "觸發 1 個單位的亡計，視為由友方觸發，若是敵方單位，再使其失去亡計。"
+  },
+  "forward_base": {
+   "en": "FORWARD BASE",
+   "zh": "前沿基地",
+   "text_zh": "棄掉最左側手牌。對 1 個單位造成等同於其花費的傷害。"
+  },
+  "forward_observers": {
+   "en": "FORWARD OBSERVERS",
+   "zh": "前進觀察員",
+   "text_zh": "對所有敵方單位造成 2 點傷害。若上回合友方部署過英國步兵，抽 1 張牌。"
+  },
+  "frappe": {
+   "en": "FRAPPE",
+   "zh": "攻擊",
+   "text_zh": "若有友方動員單位，消滅 1 個防禦力不大於 3 的單位。"
+  },
+  "free_french_navy": {
+   "en": "FREE FRENCH NAVY",
+   "zh": "自由法國海軍",
+   "text_zh": "抽取卡組頂行動花費為 3 的單位。使友方總部獲得 +3 防禦力。"
+  },
+  "french_75": {
+   "en": "FRENCH 75",
+   "zh": "75 毫米野戰炮",
+   "text_zh": "每回合，友方部署第一個單位時，使其獲得 +1+1。"
+  },
+  "fresh_recruits": {
+   "en": "FRESH RECRUITS",
+   "zh": "新兵入伍",
+   "text_zh": "友方單位被消滅時，隨機使 1 個友方單位獲得 +2+3。"
+  },
+  "friendly_fire": {
+   "en": "FRIENDLY FIRE",
+   "zh": "誤傷",
+   "text_zh": "敵方單位攻擊時，隨機將攻擊傷害轉移至 1 個其他敵方目標。"
+  },
+  "from_the_deep": {
+   "en": "FROM THE DEEP",
+   "zh": "來自深處",
+   "text_zh": "敵方單位部署時，將其消滅。"
+  },
+  "from_the_people": {
+   "en": "FROM THE PEOPLE",
+   "zh": "來自人民",
+   "text_zh": "對 1 個單位造成 3 點傷害。"
+  },
+  "front_and_homeland": {
+   "en": "FRONT AND HOMELAND",
+   "zh": "前線與家鄉",
+   "text_zh": "在第四回合抽取。\\r\\n使卡組中的所有奇數花費的德國卡牌獲得 -1 花費。"
+  },
+  "front_formation": {
+   "en": "FRONT FORMATION",
+   "zh": "方面軍",
+   "text_zh": "使友方總部獲得：“友方回合開始時，受到 1 點傷害，將 1 個‘T-34 1942’加入支援陣線。回合結束時，將其消滅。”"
+  },
+  "frontal_assault": {
+   "en": "FRONTAL ASSAULT",
+   "zh": "正面突擊",
+   "text_zh": "使所有友方“輕步兵”獲得 +1+2。若沒有友方“輕步兵”，將 2 張“輕步兵”加入手牌。"
+  },
+  "frontal_defense": {
+   "en": "FRONTAL DEFENSE",
+   "zh": "正面防禦",
+   "text_zh": "使 1 個友方單位獲得：“友方回合結束時，對所有單位造成 1 點傷害。”"
+  },
+  "frontier_force": {
+   "en": "FRONTIER FORCE",
+   "zh": "邊防團",
+   "text_zh": "部署：將 1 張“衛戍”加入手中。"
+  },
+  "frozen_assets": {
+   "en": "FROZEN ASSETS",
+   "zh": "強制凍結",
+   "text_zh": "將 1 個“游擊隊員”加入 1 個友方單位相鄰處。使其具有閃擊和收繳。"
+  },
+  "fukuoka_regiment": {
+   "en": "FUKUOKA REGIMENT",
+   "zh": "福岡聯隊",
+   "text_zh": "亡計：敵方額外獲得 1 個指揮點槽。"
+  },
+  "furor": {
+   "en": "FUROR",
+   "zh": "狂怒",
+   "text_zh": "完全修復 1 個受傷的友方單位。將 1 張“激怒”加入手牌。"
+  },
+  "fw_189": {
+   "en": "FW 189",
+   "zh": "Fw 189 鸮鷹",
+   "text_zh": "一回合一次，友方使用海軍牌時，將 1 張“生產”加入手中。"
+  },
+  "fw_190_a": {
+   "en": "FW 190 A",
+   "zh": "Fw 190 A 百舌鳥",
+   "text_zh": "部署：抽 1 張牌。"
+  },
+  "fw_190_f9": {
+   "en": "FW 190 F-9",
+   "zh": "Fw 190 F-9",
+   "text_zh": "敵方回合結束時，若敵方沒有部署單位，對其總部造成 4 點傷害。"
+  },
+  "fw_190_jagdbomber": {
+   "en": "FW 190 JAGDBOMBER",
+   "zh": "Fw 190 A-3/U3",
+   "text_zh": "部署：將 1 個敵方陸軍返回手牌。"
+  },
+  "fw_200_condor": {
+   "en": "FW 200 CONDOR",
+   "zh": "Fw 200 禿鷹",
+   "text_zh": "部署：本回合，無法攻擊敵方總部。"
+  },
+  "fw_ta_152": {
+   "en": "FW TA 152",
+   "zh": "Ta 152",
+   "text_zh": "本單位攻擊並消滅 1 個單位時，升為老兵。"
+  },
+  "fw_ta_152_vet": {
+   "en": "FW TA 152",
+   "zh": "Ta 152",
+   "text_zh": "敵方單位行動或部署後，將其壓制，直到回合結束。"
+  },
+  "g4m1_betty": {
+   "en": "G4M1 BETTY",
+   "zh": "G4M1 一式陸攻",
+   "text_zh": "被棄掉時，改為加入支援陣線。部署：隨機棄 1 張牌。"
+  },
+  "gale": {
+   "en": "GALE",
+   "zh": "狂風",
+   "text_zh": "風暴將至。"
+  },
+  "gambit": {
+   "en": "GAMBIT",
+   "zh": "博弈",
+   "text_zh": "將雙方手牌中花費最高的單位加入各自支援陣線。"
+  },
+  "garrison": {
+   "en": "GARRISON",
+   "zh": "衛戍",
+   "text_zh": "友方回合開始時，若上回合沒有被攻擊，對敵方總部造成 1 點傷害。"
+  },
+  "gathering_storm": {
+   "en": "GATHERING STORM",
+   "zh": "風暴前夕",
+   "text_zh": "抽 1 張步兵，坦克，炮兵和戰鬥機。"
+  },
+  "gebirgspionier_95": {
+   "en": "GEBIRGS-PIONIER 95",
+   "zh": "第 95 山地工兵營",
+   "text_zh": "友方回合開始時，獲得 1 個指揮點。"
+  },
+  "gifu_regiment": {
+   "en": "GIFU REGIMENT",
+   "zh": "岐阜聯隊",
+   "text_zh": "一回合一次，友方使用海軍牌時，獲得衝擊，抽 1 張牌。"
+  },
+  "gladiator_escort": {
+   "en": "GLADIATOR ESCORT",
+   "zh": "角鬥士護航機",
+   "text_zh": "“斯特林 Mk I S3”受到傷害時，改為由本單位承受。"
+  },
+  "gladiator_mk_i": {
+   "en": "GLADIATOR Mk I",
+   "zh": "角鬥士 Mk I",
+   "text_zh": ""
+  },
+  "glide_bombing": {
+   "en": "GLIDE BOMBING",
+   "zh": "滑翔轟炸",
+   "text_zh": "使 1 個單位的攻擊力為 0，直到下個友方回合開始。若其本回合被消滅，抽 1 張牌。"
+  },
+  "gordon_highlanders": {
+   "en": "GORDON HIGHLANDERS",
+   "zh": "戈登高地人團",
+   "text_zh": "部署：選擇手中的 1 張指令。使其花費為 0 並將其返回卡組頂。"
+  },
+  "grand_plans": {
+   "en": "GRAND PLANS",
+   "zh": "好高騖遠",
+   "text_zh": "選擇並棄 1 張牌，抽 1 張花費更高的牌。"
+  },
+  "great_patriotic_war": {
+   "en": "GREAT PATRIOTIC WAR",
+   "zh": "偉大的衛國戰爭",
+   "text_zh": "使雙方總部的防禦力為 12。"
+  },
+  "greater_purpose": {
+   "en": "GREATER PURPOSE",
+   "zh": "遠大目標",
+   "text_zh": "使所有友方單位獲得：“亡計：抽 1 張牌。”"
+  },
+  "green_howards": {
+   "en": "GREEN HOWARDS",
+   "zh": "綠色霍華德團",
+   "text_zh": "單位升為老兵時，抽 1 張牌。"
+  },
+  "greif": {
+   "en": "GREIF",
+   "zh": "獅鷲指揮車",
+   "text_zh": "其他友方坦克具有 -1 行動花費。"
+  },
+  "grenadier_guards": {
+   "en": "GRENADIER GUARDS",
+   "zh": "擲彈兵衛隊",
+   "text_zh": ""
+  },
+  "grim_day": {
+   "en": "GRIM DAY",
+   "zh": "朝不保夕",
+   "text_zh": "直到下個友方回合開始，敵方指向或攻擊友方單位時，+2 花費。"
+  },
+  "grounded": {
+   "en": "GROUNDED",
+   "zh": "停飛",
+   "text_zh": "將 1 個單位返回其所有者卡組頂。"
+  },
+  "grumman_goose": {
+   "en": "GRUMMAN GOOSE",
+   "zh": "G-21 鵝式",
+   "text_zh": "揭示：本回合，敵方總部被攻擊時，抽 1 張牌。"
+  },
+  "guerilla_warfare_school": {
+   "en": "GUERILLA WARFARE SCHOOL",
+   "zh": "游擊戰學校",
+   "text_zh": "若是最右側手牌，具有 -1 花費。隨機使 1 個敵方單位撤退。"
+  },
+  "gunboat_hit": {
+   "en": "GUNBOAT HIT",
+   "zh": "炮艇命中",
+   "text_zh": "對敵方支援陣線 1 個單位造成 2 點傷害。將 1 張“炮艇出擊”加入手牌。回合結束時，棄掉此牌。"
+  },
+  "gunboat_raid": {
+   "en": "GUNBOAT RAID",
+   "zh": "炮艇突襲",
+   "text_zh": "對前線 1 個敵方單位造成 3 點傷害。將 1 張“炮艇命中”加入手牌。"
+  },
+  "gunboat_run": {
+   "en": "GUNBOAT RUN",
+   "zh": "炮艇出擊",
+   "text_zh": "對敵方總部造成 1 點傷害。回合結束時，棄掉此牌。"
+  },
+  "gunship_mission": {
+   "en": "GUNSHIP MISSION",
+   "zh": "炮艇任務",
+   "text_zh": "對敵方支援陣線 1 個目標造成 2 點傷害。使友方總部獲得 +2 防禦力。"
+  },
+  "h39_swg": {
+   "en": "H39 sWG",
+   "zh": "H39 sWG",
+   "text_zh": "抑制被本單位攻擊的單位。"
+  },
+  "h75c1": {
+   "en": "H75-C1",
+   "zh": "柯蒂斯 H75-C1",
+   "text_zh": "部署：使 1 個友方單位獲得動員。"
+  },
+  "halifax_b_mk_i": {
+   "en": "HALIFAX B Mk I",
+   "zh": "哈利法克斯 B Mk I",
+   "text_zh": "友方轟炸機部署時，隨機對 1 個敵方目標造成等同於其攻擊力的傷害。"
+  },
+  "hammer_home": {
+   "en": "HAMMER HOME",
+   "zh": "捷報傳鄉",
+   "text_zh": "將 1 個友方流亡單位的複製加入同一陣線，使兩者獲得 +1+1 和 -1 行動花費。"
+  },
+  "hampden_mk_i": {
+   "en": "HAMPDEN Mk I",
+   "zh": "漢普敦 Mk I",
+   "text_zh": ""
+  },
+  "hampshire_regiment": {
+   "en": "HAMPSHIRE REGIMENT",
+   "zh": "漢普郡團",
+   "text_zh": "部署：從“HX 175 護航隊”、“沙漠之鼠”和“防禦工事”中開發 1 張。"
+  },
+  "happy_time": {
+   "en": "HAPPY TIME",
+   "zh": "美好時光",
+   "text_zh": "從敵方 3 張手牌中選擇 1 張。將 1 張複製加入手中，將兩者轉換為“計畫”。"
+  },
+  "harass": {
+   "en": "HARASS",
+   "zh": "侵擾",
+   "text_zh": "將 1 個單位返回手牌。若有友方空軍，隨機將其轉換為 1 個花費相同的單位。"
+  },
+  "hasty_reinforcements": {
+   "en": "HASTY REINFORCEMENTS",
+   "zh": "急速增援",
+   "text_zh": "本回合，友方單位部署或加入時，隨機使其獲得 +1+1、閃擊或伏擊。"
+  },
+  "heartland_defense": {
+   "en": "HEARTLAND DEFENSE",
+   "zh": "腹地防禦",
+   "text_zh": "友方總部受到傷害時，將 1 個“游擊隊員”加入支援陣線。使其獲得同等的攻擊力和防禦力。"
+  },
+  "heatwave": {
+   "en": "HEATWAVE",
+   "zh": "熱浪",
+   "text_zh": "使所有陸軍具有 +2 攻擊力，空軍具有 +3 攻擊力，直到回合結束。"
+  },
+  "heinkel_he_111": {
+   "en": "HEINKEL HE 111",
+   "zh": "He 111",
+   "text_zh": "本單位攻擊後，對敵方總部造成等同于友方單位類型數的傷害。"
+  },
+  "heinkel_he_115": {
+   "en": "HEINKEL HE 115",
+   "zh": "He 115",
+   "text_zh": "本單位攻擊後，將 1 張“戰利品”加入手牌。"
+  },
+  "heinkel_he_219": {
+   "en": "HEINKEL HE 219",
+   "zh": "He 219 夜梟",
+   "text_zh": "部署：與 1 個敵方單位戰鬥。"
+  },
+  "heinkel_he_59": {
+   "en": "HEINKEL HE 59",
+   "zh": "He 59",
+   "text_zh": "一回合一次，友方單位升為老兵時，獲得 1 個指揮點，抽 1 張牌。"
+  },
+  "hel": {
+   "en": "HEL",
+   "zh": "海爾要塞",
+   "text_zh": "使 1 個“軍團”獲得 +6 防禦力，且：“友方總部具有免疫。”"
+  },
+  "hell_on_wheels": {
+   "en": "HELL ON WHEELS",
+   "zh": "地獄之輪",
+   "text_zh": "複製 1 個友方坦克，使其獲得 -2 行動花費。若是雪曼，使其攻擊力翻倍。"
+  },
+  "henschel_hs_123": {
+   "en": "HENSCHEL HS 123",
+   "zh": "Hs 123",
+   "text_zh": ""
+  },
+  "henschel_hs_126": {
+   "en": "HENSCHEL HS 126",
+   "zh": "Hs 126",
+   "text_zh": "部署：指向 1 個友方坦克，同一陣線每有一種非坦克類型，使其獲得一次 +1+1。"
+  },
+  "henschel_hs_129": {
+   "en": "HENSCHEL HS 129",
+   "zh": "Hs 129",
+   "text_zh": "對抗陸軍和總部時，具有 +2 攻擊力。部署：與 1 個敵方單位戰鬥。"
+  },
+  "heroes_of_the_soviet_union": {
+   "en": "HEROES OF THE SOVIET UNION",
+   "zh": "蘇聯英雄",
+   "text_zh": "從 3 張隨機蘇聯精英單位中選擇 1 張加入手牌。"
+  },
+  "hidden_plans": {
+   "en": "HIDDEN PLANS",
+   "zh": "保密計畫",
+   "text_zh": "抉擇：抽 1 張隱蔽單位 或 揭示 1 個隱蔽單位，使其獲得 +1+1。"
+  },
+  "high_altitude_bombing": {
+   "en": "HIGH ALTITUDE BOMBING",
+   "zh": "高空轟炸",
+   "text_zh": "隨機消滅 2 個敵方單位。"
+  },
+  "himeji_regiment": {
+   "en": "HIMEJI REGIMENT",
+   "zh": "姬路聯隊",
+   "text_zh": ""
+  },
+  "hirosaki_brigade": {
+   "en": "HIROSAKI BRIGADE",
+   "zh": "弘前旅團",
+   "text_zh": "友方單位失去煙幕時，使其獲得 +1+1 和 -1 行動花費。"
+  },
+  "his_majestys_chosen": {
+   "en": "HIS MAJESTY'S CHOSEN",
+   "zh": "皇家旨意",
+   "text_zh": "從 3 張隨機英國精英單位中選擇 1 張加入手牌。"
+  },
+  "hit_the_drop_point": {
+   "en": "HIT THE DROP POINT",
+   "zh": "襲擊落點",
+   "text_zh": "敵方單位部署時，將其抑制。可影響隱蔽單位。"
+  },
+  "hmas_warramunga": {
+   "en": "HMAS WARRAMUNGA",
+   "zh": "HMAS 瓦拉孟加號",
+   "text_zh": "選擇 1 張手牌。將其移至最左側。若是澳新軍團牌，使其獲得 -1 花費。"
+  },
+  "hms_belfast": {
+   "en": "HMS BELFAST",
+   "zh": "HMS 貝爾法斯特號",
+   "text_zh": "將 1 個單位返回其所有者卡組頂。若友方卡組頂是海軍牌，洗切其所有者卡組。"
+  },
+  "hms_formidable": {
+   "en": "HMS FORMIDABLE",
+   "zh": "HMS 可畏號",
+   "text_zh": "使 1 個友方單位的攻擊力等同於其防禦力。使其以隨機順序與所有敵方單位戰鬥。"
+  },
+  "hms_hermes": {
+   "en": "HMS HERMES",
+   "zh": "HMS 競技神號",
+   "text_zh": "將數個“劍魚 Mk I”加入支援陣線，直到已滿。"
+  },
+  "hms_illustrious": {
+   "en": "HMS ILLUSTRIOUS",
+   "zh": "HMS 光輝號",
+   "text_zh": "將 2 個“劍魚 Mk I”加入支援陣線，使其獲得閃擊。"
+  },
+  "hms_sceptre": {
+   "en": "HMS SCEPTRE",
+   "zh": "HMS 權杖號",
+   "text_zh": "敵方使用指令時，將其反制，轉換為“計畫”並返回手牌。"
+  },
+  "hms_talbot": {
+   "en": "HMS TALBOT",
+   "zh": "HMS 塔爾伯特",
+   "text_zh": "友方總部即將受到致命傷害時，先獲得 +6 防禦力。"
+  },
+  "hold_the_line": {
+   "en": "HOLD THE LINE",
+   "zh": "堅守陣線",
+   "text_zh": "敵方單位移至前線時，壓制前線所有單位並對他們造成 1 點傷害。"
+  },
+  "home_defense": {
+   "en": "HOME DEFENSE",
+   "zh": "本土決戰",
+   "text_zh": "友方總部防禦力不大於 10 時，花費為 4 。將“三式中戰車”和“D3A2 九九艦爆”加入支援陣線。"
+  },
+  "home_guard": {
+   "en": "HOME GUARD",
+   "zh": "國土警衛隊",
+   "text_zh": "對 1 個單位造成 2 點傷害。將 1 張“衛戍”加入手牌。"
+  },
+  "honor": {
+   "en": "HONOR",
+   "zh": "玉碎",
+   "text_zh": "使 1 個友方單位獲得 +4+4。回合結束時，將其消滅。"
+  },
+  "honor_and_loyalty": {
+   "en": "HONOR AND LOYALTY",
+   "zh": "榮譽與忠誠",
+   "text_zh": "將 1 個友方單位洗入卡組，抽 2 張牌。"
+  },
+  "honorable_death": {
+   "en": "HONORABLE DEATH",
+   "zh": "光榮死亡",
+   "text_zh": "消滅 1 個攻擊力不大於 3 的單位，其所有者抽 1 張牌。"
+  },
+  "honorifics": {
+   "en": "HONORIFICS",
+   "zh": "榮譽稱號",
+   "text_zh": "將 1 個友方單位轉換為上 1 個被消滅的友方單位。"
+  },
+  "hotchkiss_h35": {
+   "en": "HOTCHKISS H35",
+   "zh": "哈奇開斯 H35",
+   "text_zh": "友方非法國單位部署時，獲得 +1 攻擊力。"
+  },
+  "hudson_mk_iii": {
+   "en": "HUDSON Mk III",
+   "zh": "哈德遜 Mk III",
+   "text_zh": "本單位消滅 1 個單位後，具有奮戰，直到回合結束。"
+  },
+  "hull_down": {
+   "en": "HULL DOWN",
+   "zh": "車體隱蔽",
+   "text_zh": "選擇手中 1 張坦克。使其部署時獲得 +1+2 並隨機與 1 個敵方單位戰鬥。"
+  },
+  "human_torpedo": {
+   "en": "HUMAN TORPEDO",
+   "zh": "人控魚雷",
+   "text_zh": "消滅敵方支援陣線 1 個單位。"
+  },
+  "humber_mk_ii": {
+   "en": "HUMBER Mk II",
+   "zh": "亨伯 Mk II",
+   "text_zh": ""
+  },
+  "humber_mk_iv": {
+   "en": "HUMBER Mk IV",
+   "zh": "亨伯 Mk IV",
+   "text_zh": ""
+  },
+  "hummel": {
+   "en": "HUMMEL",
+   "zh": "野蜂式自行火炮",
+   "text_zh": "部署：若有友方坦克，使 1 個敵方單位撤退。"
+  },
+  "hurricane_mk_i": {
+   "en": "HURRICANE Mk I",
+   "zh": "颶風 Mk I",
+   "text_zh": ""
+  },
+  "hurricane_mk_iia": {
+   "en": "HURRICANE Mk IIA",
+   "zh": "颶風 Mk IIa",
+   "text_zh": ""
+  },
+  "hurricane_mk_iic_trop": {
+   "en": "HURRICANE Mk II-C TROP",
+   "zh": "颶風 Mk IIc 熱帶型",
+   "text_zh": "本單位對戰並存活後，升為老兵。"
+  },
+  "hurricane_mk_iic_trop_vet": {
+   "en": "HURRICANE Mk II-C TROP",
+   "zh": "颶風 Mk IIc 熱帶型",
+   "text_zh": ""
+  },
+  "hurricane_pl": {
+   "en": "HURRICANE PL",
+   "zh": "颶風 PL",
+   "text_zh": "部署：使 1 個流亡單位獲得 +1+1 和 -1 行動花費。"
+  },
+  "i15_chaika": {
+   "en": "I-15 CHAIKA",
+   "zh": "伊-15 海鷗",
+   "text_zh": "亡計：將 1 個“伊-16 毛驢”加入支援陣線。"
+  },
+  "i16_ishak": {
+   "en": "I-16 ISHAK",
+   "zh": "伊-16 毛驢",
+   "text_zh": ""
+  },
+  "i_stridsgruppen": {
+   "en": "I. STRIDSGRUPPEN",
+   "zh": "第 1 戰鬥群",
+   "text_zh": "對抗攻擊力更高的單位時，具有 +2 攻擊力。"
+  },
+  "ijn_akagi": {
+   "en": "IJN AKAGI",
+   "zh": "IJN 赤城號",
+   "text_zh": "將所有手牌洗入卡組，抽 3 張牌。使其本回合具有 -2 花費。"
+  },
+  "ijn_mikura": {
+   "en": "IJN MIKURA",
+   "zh": "IJN 御藏號",
+   "text_zh": "壓制 1 個單位。回合結束時，抽 1 張“IJN 御藏號”。"
+  },
+  "ijn_shinano": {
+   "en": "IJN SHINANO",
+   "zh": "IJN 信濃號",
+   "text_zh": "造成等同於所有單位數的傷害，隨機分配至所有敵方目標。"
+  },
+  "ijn_shirakumo": {
+   "en": "IJN SHIRAKUMO",
+   "zh": "IJN 白雲號",
+   "text_zh": "壓制 1 個單位。若其已被壓制，將其移除。使友方總部獲得 +2 防禦力。"
+  },
+  "ijn_yamato": {
+   "en": "IJN YAMATO",
+   "zh": "IJN 大和號",
+   "text_zh": "使手中，卡組和場上所有友方日本單位獲得：“亡計：對敵方總部造成 2 點傷害。”"
+  },
+  "il2m_pl": {
+   "en": "IL-2M PL",
+   "zh": "伊爾-2M PL",
+   "text_zh": "友方重甲單位交戰並存活後，使其獲得 +1+1。"
+  },
+  "ilyushin_il10": {
+   "en": "ILYUSHIN IL-10",
+   "zh": "伊爾-10",
+   "text_zh": "亡計：將上 1 個被消滅的友方陸軍加入支援陣線。"
+  },
+  "ilyushin_il2": {
+   "en": "ILYUSHIN IL-2",
+   "zh": "伊爾-2",
+   "text_zh": "部署：選擇手中的 1 張花費不大於 3 的單位。將其加入戰場。"
+  },
+  "imperial_decree": {
+   "en": "IMPERIAL DECREE",
+   "zh": "詔令",
+   "text_zh": "使本回合下個友方傷害指令造成的傷害 +1。"
+  },
+  "imperial_order": {
+   "en": "IMPERIAL ORDER",
+   "zh": "帝國指令",
+   "text_zh": "完全修復 1 個單位，使其獲得 +1+1。"
+  },
+  "imperial_research": {
+   "en": "IMPERIAL RESEARCH",
+   "zh": "帝國研發",
+   "text_zh": "抉擇：將 1 張“氣球炸彈” 或 1 張“擴展帝國研發”加入手中。"
+  },
+  "imperial_strength": {
+   "en": "IMPERIAL STRENGTH",
+   "zh": "帝國之力",
+   "text_zh": "棄掉雙方所有啟動的反制，對敵方總部造成 2 點傷害。"
+  },
+  "imperial_weapon_no_2": {
+   "en": "IMPERIAL WEAPON No. 2",
+   "zh": "皇國二號兵器",
+   "text_zh": "將 4 張“試製橘花”置於卡組頂。使其花費和行動花費為 0。"
+  },
+  "in_hour_of_need": {
+   "en": "IN HOUR OF NEED",
+   "zh": "戰爭需要",
+   "text_zh": "額外獲得 2 個指揮點槽。"
+  },
+  "in_the_navy": {
+   "en": "IN THE NAVY",
+   "zh": "海軍服役",
+   "text_zh": "友方單位被攻擊時，使其在傷害造成前獲得 +1+2。"
+  },
+  "industrial_might": {
+   "en": "INDUSTRIAL MIGHT",
+   "zh": "工業力量",
+   "text_zh": "本回合，此前友方每部署或加入過 1 個單位，抽 1 張牌。"
+  },
+  "infantry_regiment_11": {
+   "en": "INFANTRY REGIMENT 11",
+   "zh": "第 11 步兵團",
+   "text_zh": ""
+  },
+  "infantry_regiment_13": {
+   "en": "INFANTRY REGIMENT 13",
+   "zh": "第 13 步兵團",
+   "text_zh": "部署：每有 1 個敵方單位，獲得一次 +1+1。"
+  },
+  "infantry_regiment_2": {
+   "en": "INFANTRY REGIMENT 2",
+   "zh": "第 2 步兵團",
+   "text_zh": "友方被收繳單位消滅受到其傷害的單位。"
+  },
+  "infantry_regiment_25": {
+   "en": "INFANTRY REGIMENT 25",
+   "zh": "第 25 步兵團",
+   "text_zh": "對戰詞條數不小於 2 的友方單位攻擊時，使友方總部獲得 +2 防禦力。"
+  },
+  "infantry_regiment_36": {
+   "en": "INFANTRY REGIMENT 36",
+   "zh": "第 36 步兵團",
+   "text_zh": "部署：抽 1 張牌。下個友方回合結束時，將其棄掉。"
+  },
+  "infantry_regiment_56": {
+   "en": "INFANTRY REGIMENT 56",
+   "zh": "第 56 步兵團",
+   "text_zh": "部署：將 1 個“游擊隊員”加入支援陣線，使友方“游擊隊員”獲得 +3+3。"
+  },
+  "infantry_regiment_61": {
+   "en": "INFANTRY REGIMENT 61",
+   "zh": "第 61 步兵團",
+   "text_zh": "友方被收繳單位部署時，使其獲得 +3+3。"
+  },
+  "infiltrate": {
+   "en": "INFILTRATE",
+   "zh": "滲透",
+   "text_zh": "每個友方突擊隊隨機對 1 個敵方目標造成等同於敵方明牌數的傷害。"
+  },
+  "ingenuity": {
+   "en": "INGENUITY",
+   "zh": "革新",
+   "text_zh": "開發 1 張英國或美國轟炸機。"
+  },
+  "inniskilling_fusiliers": {
+   "en": "INNISKILLING FUSILIERS",
+   "zh": "因尼斯基林燧發槍兵團",
+   "text_zh": "友方使用情報牌時，隨機對 1 個敵方目標造成 3 點傷害。"
+  },
+  "interception": {
+   "en": "INTERCEPTION",
+   "zh": "攔截",
+   "text_zh": "敵方指令指向友方目標時，將其反制。"
+  },
+  "iosef_stalin_ii": {
+   "en": "IOSEF STALIN II",
+   "zh": "IS-2",
+   "text_zh": "本單位被返回手中時，將 1 個複製加入支援陣線。"
+  },
+  "irish_guards": {
+   "en": "IRISH GUARDS",
+   "zh": "愛爾蘭衛隊",
+   "text_zh": "鉗擊：+1 攻擊力。"
+  },
+  "iron_division": {
+   "en": "IRON DIVISION",
+   "zh": "鋼鐵師",
+   "text_zh": "友方回合開始時，抽 1 張牌。第三次後，消滅本單位。"
+  },
+  "iron_from_the_north": {
+   "en": "IRON FROM THE NORTH",
+   "zh": "北方鐵礦",
+   "text_zh": "若前線有友方單位，獲得 3 個指揮點。"
+  },
+  "iron_victory": {
+   "en": "IRON VICTORY",
+   "zh": "百煉成鋼",
+   "text_zh": "棄掉全部手牌。每棄 1 張，將 1 張“T-34 1942”加入手牌，使其行動花費為 1。"
+  },
+  "irregular_recruits": {
+   "en": "IRREGULAR RECRUITS",
+   "zh": "非常規兵員",
+   "text_zh": "隨機將總計 2 張“輕步兵”和/或“爆破”加入手中。"
+  },
+  "is_ii_1944_early": {
+   "en": "IS II 1944 EARLY",
+   "zh": "IS-2 1944 早期型",
+   "text_zh": "亡計：加入 2 個“步兵第 42 團”。使其中 1 個獲得守護，另 1 個獲得衝擊。"
+  },
+  "island_defense": {
+   "en": "ISLAND DEFENSE",
+   "zh": "島嶼防禦",
+   "text_zh": "若友方總部防禦力不大於 10，抽 1 張牌。使友方總部獲得 +8 防禦力。"
+  },
+  "island_hopping": {
+   "en": "ISLAND HOPPING",
+   "zh": "跳島戰術",
+   "text_zh": "使敵方總部獲得：“每回合，累計受到的傷害不小於 3 時，隨機使 1 個友方單位獲得 +2+2。”"
+  },
+  "isolation": {
+   "en": "ISOLATION",
+   "zh": "孤立",
+   "text_zh": "移除 1 個單位，下個友方回合開始時，將其返回戰場。"
+  },
+  "isu152": {
+   "en": "ISU-152",
+   "zh": "ISU-152",
+   "text_zh": "部署：消滅所有其他受傷的單位。"
+  },
+  "ita_regiment": {
+   "en": "ŌITA REGIMENT",
+   "zh": "大分聯隊",
+   "text_zh": "亡計觸發時，獲得 +1+1。"
+  },
+  "j1n1_gekko": {
+   "en": "J1N1 GEKKO",
+   "zh": "J1N1 月光夜戰",
+   "text_zh": "友方指令造成的傷害 +1。"
+  },
+  "j2m_raiden": {
+   "en": "J2M RAIDEN",
+   "zh": "J2M 雷電局地戰",
+   "text_zh": "敵方使用指令時，獲得 +1+1 和 -1 行動花費。"
+  },
+  "jade_division": {
+   "en": "JADE DIVISION",
+   "zh": "玉兵團",
+   "text_zh": "友方使用 1 張日本牌時，獲得 +1+1，若攻擊力不小於 10，獲得守護。"
+  },
+  "jagdpanther": {
+   "en": "JAGDPANTHER",
+   "zh": "獵豹",
+   "text_zh": ""
+  },
+  "jagdpanzer_iv": {
+   "en": "JAGDPANZER IV",
+   "zh": "四號坦克殲擊車",
+   "text_zh": "友方單位攻擊並消滅敵方單位時，隨機將 1 張敵方手牌轉換為“生產”。"
+  },
+  "jet_prototype": {
+   "en": "JET PROTOTYPE",
+   "zh": "噴氣機原型機",
+   "text_zh": "部署：移除卡組頂 6 張牌。每有 1 張偶數花費的牌，獲得 -1 行動花費。"
+  },
+  "jger_battalion_2": {
+   "en": "JÄGER BATTALION 2",
+   "zh": "第 2 獵兵營",
+   "text_zh": "部署：將 1 張“游擊隊員”加入支援陣線。"
+  },
+  "joint_operation": {
+   "en": "JOINT OPERATION",
+   "zh": "聯合行動",
+   "text_zh": "對 1 個單位造成等同於友方單位類型數 +1 的傷害。"
+  },
+  "ju_87_b2": {
+   "en": "Ju 87 B2",
+   "zh": "Ju 87 B-2 斯圖卡",
+   "text_zh": "部署：將 1 張“俯衝轟炸”加入手牌。"
+  },
+  "ju_87_b_stuka": {
+   "en": "JU 87 B STUKA",
+   "zh": "Ju 87 B 斯圖卡",
+   "text_zh": "本單位對敵方總部造成傷害時，敵方隨機棄 1 張牌。"
+  },
+  "ju_88_g6": {
+   "en": "JU 88 G6",
+   "zh": "Ju 88 G-6",
+   "text_zh": "本單位消滅 1 個單位時，將被消滅單位的複製加入手牌。"
+  },
+  "juggernaut": {
+   "en": "JUGGERNAUT",
+   "zh": "主宰者",
+   "text_zh": "使 1 個友方坦克或步兵獲得 +2+1。回合結束時，若其當回合沒有攻擊，將其消滅。"
+  },
+  "jungle_fever": {
+   "en": "JUNGLE FEVER",
+   "zh": "叢林熱",
+   "text_zh": "本回合，使所有單位獲得 +3 攻擊力。壓制未攻擊的友方單位。"
+  },
+  "jungle_warfare": {
+   "en": "JUNGLE WARFARE",
+   "zh": "叢林戰",
+   "text_zh": "使 1 個單位獲得：“亡計：隨機對 1 個敵方目標造成 2 點傷害。”觸發其亡計。"
+  },
+  "junkers_ju_188_e": {
+   "en": "JUNKERS JU 188 E",
+   "zh": "Ju 188 E 復仇者",
+   "text_zh": ""
+  },
+  "junkers_ju_88_a": {
+   "en": "JUNKERS JU 88 A",
+   "zh": "Ju 88 A",
+   "text_zh": ""
+  },
+  "kagoshima_regiment": {
+   "en": "KAGOSHIMA REGIMENT",
+   "zh": "布干維爾守備隊",
+   "text_zh": "雙方總部無法獲得防禦力。"
+  },
+  "kamikaze": {
+   "en": "KAMIKAZE",
+   "zh": "神風特攻隊",
+   "text_zh": "對敵方總部造成 1 點傷害，抽 1 張牌。"
+  },
+  "kanazawa_regiment": {
+   "en": "KANAZAWA REGIMENT",
+   "zh": "金澤聯隊",
+   "text_zh": "單位不因消滅離開戰場時，對敵方總部造成 2 點傷害，使友方總部獲得 +2 防禦力。"
+  },
+  "kangaroo_transport": {
+   "en": "KANGAROO TRANSPORT",
+   "zh": "袋鼠運輸",
+   "text_zh": "使 1 個英國步兵獲得閃擊和 +1 重甲。"
+  },
+  "katalina": {
+   "en": "KATALINA",
+   "zh": "卡特琳娜",
+   "text_zh": "觸發敵方反制時，獲得 +2+2。"
+  },
+  "katyusha": {
+   "en": "KATYUSHA",
+   "zh": "喀秋莎",
+   "text_zh": "本單位攻擊時，額外造成 0-1 點傷害。"
+  },
+  "katzmann_regiment": {
+   "en": "KATZMANN REGIMENT",
+   "zh": "卡茨曼團",
+   "text_zh": "友方使用卡牌時，獲得 +1 行動花費，直到回合結束。"
+  },
+  "kawanishi_e7k": {
+   "en": "KAWANISHI E7K",
+   "zh": "E7K 九四水偵",
+   "text_zh": "揭示：若是友方回合，獲得 +2 攻擊力。"
+  },
+  "kawanishi_h6k": {
+   "en": "KAWANISHI H6K",
+   "zh": "H6K 九七大艇",
+   "text_zh": "友方指令造成的傷害 +2。"
+  },
+  "kawanishi_h8k": {
+   "en": "KAWANISHI H8K",
+   "zh": "H8K 二式大艇",
+   "text_zh": "友方預報時，抽 1 張牌。\\r\\n部署：預報。"
+  },
+  "kawasaki_ki10": {
+   "en": "KAWASAKI Ki-10",
+   "zh": "Ki-10 九五戰",
+   "text_zh": "友方日本單位攻擊後，本單位具有 +1 攻擊力，直到回合結束。"
+  },
+  "kettenkrad": {
+   "en": "KETTENKRAD",
+   "zh": "輕型履帶摩托車",
+   "text_zh": "將 1 個友方單位返回手牌。使手牌，卡組和場上所有友方德國單位獲得 +1 攻擊力。"
+  },
+  "kfu_regiment": {
+   "en": "KŌFU REGIMENT",
+   "zh": "甲府聯隊",
+   "text_zh": "亡計：對敵方總部造成 1 點傷害，使友方總部獲得 +1 防禦力。"
+  },
+  "ki100_goshikisen": {
+   "en": "Ki-100 GOSHIKISEN",
+   "zh": "Ki-100 五式戰",
+   "text_zh": "友方回合中，具有免疫。"
+  },
+  "ki21_sally": {
+   "en": "Ki-21 SALLY",
+   "zh": "Ki-21 九七重爆",
+   "text_zh": "被棄掉時，抽 2 張牌。"
+  },
+  "ki27_nate": {
+   "en": "Ki-27 NATE",
+   "zh": "Ki-27 九七戰",
+   "text_zh": "亡計：隨機將 1 張花費不大於 1 的日本單位加入手牌。"
+  },
+  "ki30_ann": {
+   "en": "Ki-30 ANN",
+   "zh": "Ki-30 九七輕爆",
+   "text_zh": "本單位攻擊時，對敵方總部造成 2 點傷害。"
+  },
+  "ki43_hayabusa": {
+   "en": "Ki-43 HAYABUSA",
+   "zh": "Ki-43 一式戰 隼",
+   "text_zh": "亡計：對敵方總部造成 2 點傷害。"
+  },
+  "ki43iib_otsu": {
+   "en": "Ki-43-IIb OTSU",
+   "zh": "Ki-43 一式戰二型乙",
+   "text_zh": "友方回合中，若沒有敵方空軍，具有 +2 攻擊力。"
+  },
+  "ki44_tojo": {
+   "en": "Ki-44 TOJO",
+   "zh": "Ki-44 二式戰 鍾馗",
+   "text_zh": "部署：敵方隨機棄掉 1 張轟炸機。"
+  },
+  "ki45_dragon_slayer": {
+   "en": "Ki-45 DRAGON SLAYER",
+   "zh": "Ki-45 二式複戰 屠龍",
+   "text_zh": "部署：若本單位是本局對戰中友方部署的第一張“Ki-45 二式複戰 屠龍”，升為老兵。"
+  },
+  "ki45_dragon_slayer_vet": {
+   "en": "Ki-45 DRAGON SLAYER",
+   "zh": "Ki-45 二式複戰 屠龍",
+   "text_zh": ""
+  },
+  "ki46_dinah_iii": {
+   "en": "Ki-46 DINAH III",
+   "zh": "Ki-46 百式司偵",
+   "text_zh": "部署：抽 2 張花費為 1 的單位。"
+  },
+  "ki49_storm_dragon": {
+   "en": "Ki-49 STORM DRAGON",
+   "zh": "Ki-49 百式重爆 吞龍",
+   "text_zh": "亡計：消滅所有單位。"
+  },
+  "ki51_sonia": {
+   "en": "Ki-51 SONIA",
+   "zh": "Ki-51 九九輕爆",
+   "text_zh": "本單位攻擊被壓制單位時，將其消滅。"
+  },
+  "ki61_hien": {
+   "en": "Ki-61 HIEN",
+   "zh": "Ki-61 三式戰 飛燕",
+   "text_zh": ""
+  },
+  "ki61ii_tony": {
+   "en": "Ki-61-II TONY",
+   "zh": "Ki-61 三式戰改 飛燕",
+   "text_zh": "敵方回合結束時，花費友方剩餘的 7 個指揮點加入戰場。"
+  },
+  "ki61itei": {
+   "en": "Ki-61-I-TEI",
+   "zh": "Ki-61-I 三式戰一型丁 飛燕",
+   "text_zh": "亡計：對敵方總部造成 2 點傷害，使友方總部獲得 +2 防禦力。"
+  },
+  "ki67_peggy": {
+   "en": "Ki-67 PEGGY",
+   "zh": "Ki-67 四式重爆 飛龍",
+   "text_zh": "部署：移除 1 個攻擊力不大於 3 的敵方單位。"
+  },
+  "ki83": {
+   "en": "Ki-83",
+   "zh": "Ki-83 試製重戰",
+   "text_zh": "友方回合開始時，友方抽 1 張牌，敵方抽 2 張牌。"
+  },
+  "ki84_frank": {
+   "en": "Ki-84 FRANK",
+   "zh": "Ki-84 四式戰 疾風",
+   "text_zh": "無法攻擊敵方總部。"
+  },
+  "kikka": {
+   "en": "KIKKA",
+   "zh": "試製橘花",
+   "text_zh": "亡計：將 4 張“神風特攻隊”洗入卡組。"
+  },
+  "king_tiger": {
+   "en": "KING TIGER",
+   "zh": "虎王坦克",
+   "text_zh": "本單位部署或行動後，每有 1 個友方德國單位，獲得 2 個指揮點。"
+  },
+  "kingfisher": {
+   "en": "KINGFISHER",
+   "zh": "OS2U 翠鳥",
+   "text_zh": "本單位攻擊敵方總部後，預報。"
+  },
+  "kings_african_rifles": {
+   "en": "KING'S AFRICAN RIFLES",
+   "zh": "英王非洲步槍兵團",
+   "text_zh": "部署：選擇手中的 1 張單位。若其具有協力，使其獲得 +3+3，否則，使其獲得 +1+1 和協力。"
+  },
+  "kings_own_scottish": {
+   "en": "KING'S OWN SCOTTISH",
+   "zh": "英王直屬蘇格蘭邊民團",
+   "text_zh": "鉗擊：本單位受到傷害時，改為由鉗擊同伴承受。"
+  },
+  "km_admiral_hipper": {
+   "en": "KM ADMIRAL HIPPER",
+   "zh": "KM 希佩爾海軍上將號",
+   "text_zh": "將 1 個單位返回手牌。下個敵方回合開始時，敵方無法增加指揮點槽或抽牌。"
+  },
+  "km_bismarck": {
+   "en": "KM BISMARCK",
+   "zh": "KM 俾斯麥號",
+   "text_zh": "對 1 個總部造成 8 點傷害。"
+  },
+  "km_prinz_eugen": {
+   "en": "KM PRINZ EUGEN",
+   "zh": "KM 歐根親王號",
+   "text_zh": "敵方單位部署時，將其返回卡組頂並轉換為“生產”。"
+  },
+  "km_tirpitz": {
+   "en": "KM TIRPITZ",
+   "zh": "KM 提爾皮茨號",
+   "text_zh": "對敵方總部造成 4 點傷害。下個敵方回合中，敵方無法部署單位。"
+  },
+  "kokuras_sword": {
+   "en": "KOKURA'S SWORD",
+   "zh": "劍兵團",
+   "text_zh": "亡計：若是敵方回合，隨機將 1 個日本陸軍加入支援陣線，使其獲得此效果。"
+  },
+  "komet": {
+   "en": "KOMET",
+   "zh": "Me 163 彗星",
+   "text_zh": "友方回合結束時，將本單位返回手牌。"
+  },
+  "kriegsmarine": {
+   "en": "KRIEGSMARINE",
+   "zh": "戰爭海軍",
+   "text_zh": "對敵方總部造成等同於其手牌數的傷害，敵方隨機棄 1 張牌。"
+  },
+  "kumamoto_regiment": {
+   "en": "KUMAMOTO REGIMENT",
+   "zh": "所羅門守備隊",
+   "text_zh": ""
+  },
+  "kurmark_aufklrung": {
+   "en": "KURMARK AUFKLÄRUNG",
+   "zh": "庫爾馬克偵察營",
+   "text_zh": "部署：選擇手牌中的 1 張反制。友方回合結束時，將其啟動。"
+  },
+  "kurume_regiment": {
+   "en": "KURUME REGIMENT",
+   "zh": "久留米聯隊",
+   "text_zh": "亡計：結束回合。"
+  },
+  "kv1_1939": {
+   "en": "KV-1 1939",
+   "zh": "KV-1 1939",
+   "text_zh": ""
+  },
+  "kv1_1941": {
+   "en": "KV-1 1941",
+   "zh": "KV-1 1941",
+   "text_zh": "敵方每抽 1 張牌，對其總部造成 2 點傷害。"
+  },
+  "kv1s": {
+   "en": "KV-1S",
+   "zh": "KV-1S",
+   "text_zh": "其他友方單位每有 1 個對戰詞條，其具有 +1 攻擊力。"
+  },
+  "kv2": {
+   "en": "KV-2",
+   "zh": "KV-2",
+   "text_zh": "友方單位的重甲也降低指令傷害。"
+  },
+  "kv85": {
+   "en": "KV-85",
+   "zh": "KV-85",
+   "text_zh": "部署：將 1 張手牌轉換為上 1 個被消滅的友方單位。下個友方回合開始時，失去 2 個指揮點。"
+  },
+  "kyoto_regiment": {
+   "en": "KYOTO REGIMENT",
+   "zh": "京都聯隊",
+   "text_zh": "部署：移除 1 個敵方單位，直到本單位離開戰場。"
+  },
+  "kyushu_j7w3": {
+   "en": "KYUSHU J7W3",
+   "zh": "J7W3 震電局地戰",
+   "text_zh": "若未受傷，具有 +2 攻擊力和奮戰。"
+  },
+  "l4_grasshopper": {
+   "en": "L-4 GRASSHOPPER",
+   "zh": "L-4 蚱蜢",
+   "text_zh": "友方雪曼具有 -1 花費和閃擊。"
+  },
+  "l640": {
+   "en": "L6/40",
+   "zh": "L6/40",
+   "text_zh": "亡計：使所有友方單位撤退。"
+  },
+  "la5": {
+   "en": "LA-5",
+   "zh": "拉-5",
+   "text_zh": ""
+  },
+  "la_decima": {
+   "en": "LA DECIMA",
+   "zh": "第 10 快艇支隊",
+   "text_zh": "部署：消滅敵方支援陣線 1 個單位。"
+  },
+  "la_division_leclerc": {
+   "en": "LA DIVISION LECLERC",
+   "zh": "勒克萊爾師",
+   "text_zh": "每回合，友方首次洗切友方卡組時，獲得 +3+3。"
+  },
+  "lancashire_fusiliers": {
+   "en": "LANCASHIRE FUSILIERS",
+   "zh": "蘭開夏燧發槍兵團",
+   "text_zh": ""
+  },
+  "lancaster_b_iii": {
+   "en": "LANCASTER B.III",
+   "zh": "蘭開斯特 B.III",
+   "text_zh": "本單位對總部造成傷害時，使敵方手牌獲得 +1 花費。"
+  },
+  "lancaster_mk_i": {
+   "en": "LANCASTER Mk I",
+   "zh": "蘭開斯特 Mk I",
+   "text_zh": ""
+  },
+  "land_of_the_free": {
+   "en": "LAND OF THE FREE",
+   "zh": "自由之地",
+   "text_zh": "使 1 個單位的行動花費為 0。"
+  },
+  "last_ditch_force": {
+   "en": "LAST DITCH FORCE",
+   "zh": "最後一搏",
+   "text_zh": "消滅所有單位。雙方失去 6 個指揮點槽。使雙方卡組中的單位獲得 +3 攻擊力。"
+  },
+  "last_rites": {
+   "en": "LAST RITES",
+   "zh": "最後的儀式",
+   "text_zh": "將 8 張“神風特攻隊”洗入卡組。"
+  },
+  "layforce": {
+   "en": "LAYFORCE",
+   "zh": "萊福斯突擊隊",
+   "text_zh": "友方非英國卡牌具有 +1 花費。被敵方指向或攻擊時，獲得 +1+1。"
+  },
+  "legions": {
+   "en": "LEGIONS",
+   "zh": "軍團",
+   "text_zh": "友方使用情報牌時，獲得 +1+1。"
+  },
+  "lend_lease": {
+   "en": "LEND LEASE",
+   "zh": "租借法案",
+   "text_zh": "抽 4 張牌。"
+  },
+  "leopold": {
+   "en": "LEOPOLD",
+   "zh": "利奧波德",
+   "text_zh": "部署：將所有敵方單位返回手牌。"
+  },
+  "les_terribles": {
+   "en": "LES TERRIBLES",
+   "zh": "駭人步兵團",
+   "text_zh": "其他行動花費不小於 3 的友方單位部署時，抽 1 張牌。"
+  },
+  "lesser_of_two_evils": {
+   "en": "LESSER OF TWO EVILS",
+   "zh": "權衡",
+   "text_zh": "抽 2 張牌，選擇並棄 1 張牌。"
+  },
+  "liberation": {
+   "en": "LIBERATION",
+   "zh": "解放",
+   "text_zh": "將 3 張“抵抗”加入敵方卡組。使友方總部獲得 +6 防禦力。"
+  },
+  "light_detachment_15": {
+   "en": "LIGHT DETACHMENT 15",
+   "zh": "第 15 輕步兵支隊",
+   "text_zh": "攻擊力更高的單位部署時，本單位獲得 +1 攻擊力。"
+  },
+  "light_infantry": {
+   "en": "LIGHT INFANTRY",
+   "zh": "輕步兵",
+   "text_zh": ""
+  },
+  "lightning_conquest": {
+   "en": "LIGHTNING CONQUEST",
+   "zh": "閃電征服",
+   "text_zh": "本回合，所有友方步兵具有免疫，且能在同一回合移動並攻擊。"
+  },
+  "lightning_strike": {
+   "en": "LIGHTNING STRIKE",
+   "zh": "閃電襲擊",
+   "text_zh": "敵方額外抽 1 張牌時，對其總部造成 4 點傷害。"
+  },
+  "line_of_engagement": {
+   "en": "LINE OF ENGAGEMENT",
+   "zh": "交戰線",
+   "text_zh": "將 2 張“輕步兵”加入戰場，若可能，將其中 1 張加入前線。"
+  },
+  "lion_for_a_day": {
+   "en": "LION FOR A DAY",
+   "zh": "一日之獅",
+   "text_zh": "消滅 1 個攻擊力不小於 4 的單位。"
+  },
+  "list_regiment": {
+   "en": "LIST REGIMENT",
+   "zh": "利斯特步兵團",
+   "text_zh": "部署：若友方佔領了前線，使 1 個敵方單位撤退。"
+  },
+  "little_cobra": {
+   "en": "LITTLE COBRA",
+   "zh": "P-39 小蛇",
+   "text_zh": "部署：隨機消滅另 1 個友方單位。"
+  },
+  "london_irish_rifles": {
+   "en": "LONDON IRISH RIFLES",
+   "zh": "倫敦愛爾蘭步槍兵團",
+   "text_zh": "友方使用協力牌時，對敵方總部造成 1 點傷害。"
+  },
+  "long_lance": {
+   "en": "LONG LANCE",
+   "zh": "氧氣魚雷",
+   "text_zh": "消滅 1 個單位。若其攻擊力不大於 3，抽 2 張牌。"
+  },
+  "long_range_desert_group": {
+   "en": "LONG RANGE DESERT GROUP",
+   "zh": "長距離沙漠群",
+   "text_zh": "使友方單位獲得：“消滅受到本單位傷害的單位。”"
+  },
+  "long_range_recon": {
+   "en": "LONG RANGE RECON",
+   "zh": "遠距離偵察",
+   "text_zh": "使友方總部獲得等同於場上所有卡牌數的防禦力。"
+  },
+  "long_tom": {
+   "en": "LONG TOM",
+   "zh": "長腿湯姆",
+   "text_zh": "本單位攻擊時，造成 3 點傷害，隨機分配至所有敵方目標。"
+  },
+  "lost_convoy": {
+   "en": "LOST CONVOY",
+   "zh": "護航覆滅",
+   "text_zh": "敵方單位部署時，使其獲得 -2 攻擊力。"
+  },
+  "lotta_svrd": {
+   "en": "LOTTA SVÄRD",
+   "zh": "洛塔組織",
+   "text_zh": "使所有友方單位獲得 +1 防禦力和 -1 行動花費。"
+  },
+  "lovat_scouts": {
+   "en": "LOVAT SCOUTS",
+   "zh": "洛瓦特偵察兵團",
+   "text_zh": "友方卡組頂的牌算作是海軍。"
+  },
+  "lublin_rxiii": {
+   "en": "LUBLIN R-XIII",
+   "zh": "盧布林 R-XIII",
+   "text_zh": "友方使用的卡牌具有情報 1。\\r\\n部署：揭示 1 個隱蔽單位。"
+  },
+  "lure": {
+   "en": "LURE",
+   "zh": "誘敵",
+   "text_zh": "敵方使用本回合的第二張指令時，將其反制。"
+  },
+  "lurking_danger": {
+   "en": "LURKING DANGER",
+   "zh": "潛在危險",
+   "text_zh": "抽 2 張反制。"
+  },
+  "lysander_pl": {
+   "en": "LYSANDER PL",
+   "zh": "萊桑德 PL",
+   "text_zh": "敵方使用明牌時，對其總部造成 1 點傷害。"
+  },
+  "m10_wolverine": {
+   "en": "M10 WOLVERINE",
+   "zh": "M10 狼獾",
+   "text_zh": "消滅受到本單位傷害的敵方坦克。"
+  },
+  "m10a1": {
+   "en": "M10A1",
+   "zh": "M10A1",
+   "text_zh": "部署：抑制 1 個敵方單位。"
+  },
+  "m1340": {
+   "en": "M13/40",
+   "zh": "M13/40",
+   "text_zh": "部署：若有友方步兵，獲得閃擊。"
+  },
+  "m16_halftrack": {
+   "en": "M16 HALF-TRACK",
+   "zh": "M16 半履帶防空車",
+   "text_zh": "部署：使 1 個敵方空軍或步兵撤退。"
+  },
+  "m18_hellcat": {
+   "en": "M18 HELLCAT",
+   "zh": "M18 地獄貓",
+   "text_zh": "對坦克造成雙倍傷害。"
+  },
+  "m20_scout_car": {
+   "en": "M20 SCOUT CAR",
+   "zh": "M20 偵察車",
+   "text_zh": "部署：指定 1 個單位。亡計：使其獲得 +1+1。"
+  },
+  "m24_chaffee": {
+   "en": "M24 CHAFFEE",
+   "zh": "M24 霞飛",
+   "text_zh": "移至前線時，將 1 個本單位的複製加入相鄰處。"
+  },
+  "m26_pershing": {
+   "en": "M26 PERSHING",
+   "zh": "M26 潘興",
+   "text_zh": "本單位在前線時，友方總部的防禦力無法降為 1 以下。"
+  },
+  "m2a4": {
+   "en": "M2A4",
+   "zh": "M2A4",
+   "text_zh": "若攻擊力不小於 3，具有閃擊。"
+  },
+  "m36_jackson": {
+   "en": "M36 JACKSON",
+   "zh": "M36 傑克遜",
+   "text_zh": "因敵方棄掉時，改為加入戰場。"
+  },
+  "m3_grant": {
+   "en": "M3 GRANT",
+   "zh": "M3 格蘭特",
+   "text_zh": "部署：若友方總部防禦力不小於 20，獲得 +1+2。"
+  },
+  "m3_lee": {
+   "en": "M3 LEE",
+   "zh": "M3 李",
+   "text_zh": "移至前線時，使卡組中的所有單位獲得 +1 攻擊力。"
+  },
+  "m3a3_honey": {
+   "en": "M3A3 HONEY",
+   "zh": "M3A3 甜心",
+   "text_zh": "友方抽 1 張牌時，使友方總部獲得 +1 防禦力。"
+  },
+  "m4_firefly": {
+   "en": "M4 FIREFLY",
+   "zh": "M4 螢火蟲",
+   "text_zh": "部署：對 1 個敵方坦克造成 5 點傷害。"
+  },
+  "m4_firefly_pl": {
+   "en": "M4 FIREFLY PL",
+   "zh": "M4 螢火蟲 PL",
+   "text_zh": "1 個友方單位被攻擊時，使其在傷害造成前獲得 +1+1。"
+  },
+  "m4_sherman": {
+   "en": "M4 SHERMAN",
+   "zh": "M4 雪曼",
+   "text_zh": "部署：若前線有友方美國單位，抽 2 張牌。"
+  },
+  "m4_sherman_pl": {
+   "en": "M4 SHERMAN PL",
+   "zh": "M4 雪曼 PL",
+   "text_zh": "本回合，若友方使用過流亡牌，具有閃擊且行動花費減為 0。"
+  },
+  "m4a1": {
+   "en": "M4A1",
+   "zh": "M4A1",
+   "text_zh": "無法被敵方指令指向。友方因敵方棄牌時，抽取此牌。"
+  },
+  "m4a2": {
+   "en": "M4A2",
+   "zh": "M4A2",
+   "text_zh": "部署：將 1 個“M4A2”加入支援陣線。"
+  },
+  "m4a3r3_zippo": {
+   "en": "M4A3R3 ZIPPO",
+   "zh": "M4A3R3 打火機",
+   "text_zh": "對抗步兵和總部時，具有 +4 攻擊力。"
+  },
+  "m5_stuart": {
+   "en": "M5 STUART",
+   "zh": "M5 斯圖亞特",
+   "text_zh": "對抗步兵時，具有 +4 攻擊力。"
+  },
+  "m6": {
+   "en": "M6",
+   "zh": "M6",
+   "text_zh": "每有 1 個攻擊力不小於 4 的友方單位，友方總部受到的傷害 -1。"
+  },
+  "m6a1_seiran": {
+   "en": "M6A1 SEIRAN",
+   "zh": "M6A1 晴嵐特攻",
+   "text_zh": "友方指令造成的傷害 +1。"
+  },
+  "m7_priest": {
+   "en": "M7 PRIEST",
+   "zh": "M7 牧師",
+   "text_zh": "部署：若前線有友方單位，獲得 +1+1。"
+  },
+  "m8_greyhound": {
+   "en": "M8 GREYHOUND",
+   "zh": "M8 灰狗",
+   "text_zh": "本單位在前線時，使友方支援陣線所有單位具有 +1 攻擊力。"
+  },
+  "m8_howitzer": {
+   "en": "M8 HOWITZER",
+   "zh": "M8 榴彈炮",
+   "text_zh": "部署：造成 3 點傷害，隨機分配至所有敵方目標。"
+  },
+  "m_s_406": {
+   "en": "M.S.406",
+   "zh": "莫拉納-索尼耶 M.S.406",
+   "text_zh": ""
+  },
+  "macchi_c_200": {
+   "en": "MACCHI C.200",
+   "zh": "馬基 C.200",
+   "text_zh": "部署：每有 1 個其他友方空軍，獲得一次 +1+1。"
+  },
+  "macchi_c_202": {
+   "en": "MACCHI C.202",
+   "zh": "馬基 C.202",
+   "text_zh": "友方回合結束時，若友方總部防禦力小於敵方總部，對本單位造成 2 點傷害。"
+  },
+  "macchi_c_205": {
+   "en": "MACCHI C.205",
+   "zh": "馬基 C.205",
+   "text_zh": "對空軍造成的傷害 +2。"
+  },
+  "machines_of_war": {
+   "en": "MACHINES OF WAR",
+   "zh": "全民參戰",
+   "text_zh": "將卡組頂的 1 張蘇聯步兵加入支援陣線。"
+  },
+  "maelstrom": {
+   "en": "MAELSTROM",
+   "zh": "大混戰",
+   "text_zh": "對所有非老兵單位造成 4 點傷害。"
+  },
+  "magic": {
+   "en": "MAGIC",
+   "zh": "魔法",
+   "text_zh": "抉擇：完全修復 1 個單位 或 使 1 個單位失去守護、伏擊和煙幕。"
+  },
+  "maginot_line": {
+   "en": "MAGINOT LINE",
+   "zh": "馬奇諾防線",
+   "text_zh": "使 1 個陸軍獲得 +3+4，且：“無法撤退或被抑制。”"
+  },
+  "magnificent_seventh": {
+   "en": "MAGNIFICENT SEVENTH",
+   "zh": "第 7 陸戰團",
+   "text_zh": "本單位攻擊時，使卡組頂的單位獲得 +1+1。"
+  },
+  "manchester_ia": {
+   "en": "MANCHESTER IA",
+   "zh": "曼徹斯特 Mk Ia",
+   "text_zh": "部署：將 1 張“精準轟炸”加入手牌。"
+  },
+  "manhattan_project": {
+   "en": "MANHATTAN PROJECT",
+   "zh": "曼哈頓計畫",
+   "text_zh": "對所有敵方目標造成 6 點傷害。"
+  },
+  "manpower": {
+   "en": "MANPOWER",
+   "zh": "人力",
+   "text_zh": "完全修復 1 個受傷的友方單位。將 1 個複製加入支援陣線。"
+  },
+  "maori_battalion": {
+   "en": "MAORI BATTALION",
+   "zh": "毛利營",
+   "text_zh": "友方單位升為老兵時，本單位獲得 +2+2。"
+  },
+  "marder_iii_h": {
+   "en": "MARDER III H",
+   "zh": "黃鼠狼 III H 型",
+   "text_zh": "友方單位消滅 1 個敵方單位時，抽 1 張單位。"
+  },
+  "mare_nostrum": {
+   "en": "MARE NOSTRUM",
+   "zh": "我們的海",
+   "text_zh": "對 1 個單位造成 1 點傷害。若友方總部防禦力大於敵方總部，改為造成 3 點傷害。"
+  },
+  "mass_attack": {
+   "en": "MASS ATTACK",
+   "zh": "大規模攻擊",
+   "text_zh": "對 1 個目標造成等同於友方單位數的傷害。"
+  },
+  "mass_deployment": {
+   "en": "MASS DEPLOYMENT",
+   "zh": "大規模部署",
+   "text_zh": "隨機將總花費等同於指揮點槽數的 3 個美國單位加入支援陣線。"
+  },
+  "materials": {
+   "en": "MATERIALS",
+   "zh": "原料",
+   "text_zh": "抽 4 張牌。若在卡組中的回合數不小於 4，改為抽 8 張牌。"
+  },
+  "matilda_frog": {
+   "en": "MATILDA FROG",
+   "zh": "瑪蒂爾達 蛙式",
+   "text_zh": "對步兵和總部造成雙倍傷害。本單位左側所有單位具有 +2 攻擊力。"
+  },
+  "matilda_mk_ii": {
+   "en": "MATILDA Mk II",
+   "zh": "瑪蒂爾達 Mk II",
+   "text_zh": "壓制受到本單位傷害的單位。"
+  },
+  "matilda_mk_iv": {
+   "en": "MATILDA Mk IV",
+   "zh": "瑪蒂爾達 Mk IV",
+   "text_zh": "本單位衝擊後，升為老兵。"
+  },
+  "matilda_mk_iv_vet": {
+   "en": "MATILDA Mk IV",
+   "zh": "瑪蒂爾達 Mk IV",
+   "text_zh": "友方回合開始時，隨機壓制 1 個敵方單位。"
+  },
+  "matsue_regiment": {
+   "en": "MATSUE REGIMENT",
+   "zh": "松江聯隊",
+   "text_zh": "部署：選擇並棄 1 張牌，獲得等同於其花費的攻擊力。"
+  },
+  "matsumoto_regiment": {
+   "en": "MATSUMOTO REGIMENT",
+   "zh": "松本聯隊",
+   "text_zh": "亡計效果觸發時，對敵方總部造成 1 點傷害。"
+  },
+  "maus": {
+   "en": "MAUS",
+   "zh": "鼠式坦克",
+   "text_zh": "部署：消滅所有花費不大於 3 的單位。每有 1 個，對 1 個敵方目標造成 2 點傷害。"
+  },
+  "mayhem": {
+   "en": "MAYHEM",
+   "zh": "騷亂",
+   "text_zh": "選擇手中的 1 張單位。將其與場上 1 個友方單位交換。"
+  },
+  "me_262a_schwalbe": {
+   "en": "ME 262A SCHWALBE",
+   "zh": "Me 262 A 飛燕",
+   "text_zh": "部署：消滅所有敵方空軍。"
+  },
+  "me_410_hornisse": {
+   "en": "ME 410 HORNISSE",
+   "zh": "Me 410 大黃蜂",
+   "text_zh": "友方回合開始時，抽 1 張牌，對敵方總部造成等同於其花費的傷害。"
+  },
+  "me_bf_109_e": {
+   "en": "ME BF 109 E",
+   "zh": "Bf 109 E",
+   "text_zh": ""
+  },
+  "me_bf_109_g": {
+   "en": "ME BF 109 G",
+   "zh": "Bf 109 G",
+   "text_zh": "鉗擊：本單位攻擊並消滅 1 個單位時，獲得 1 個指揮點並抽 1 張牌。"
+  },
+  "me_bf_109_g_fi": {
+   "en": "ME BF 109 G FI",
+   "zh": "Bf 109 G FI",
+   "text_zh": "本單位攻擊敵方總部時，從敵方卡組抽 1 張牌。回合結束時，將其棄掉。"
+  },
+  "me_bf_110": {
+   "en": "ME BF 110",
+   "zh": "Bf 110",
+   "text_zh": "友方回合結束時，若前線有友方單位，獲得 +1+1。"
+  },
+  "me_bf_110_e": {
+   "en": "ME BF 110 E",
+   "zh": "Bf 110 E",
+   "text_zh": "部署：若前線有友方單位，獲得閃擊。"
+  },
+  "mediterranean_raid": {
+   "en": "MEDITERRANEAN RAID",
+   "zh": "地中海突襲",
+   "text_zh": "對 1 個單位造成 2 點傷害。若友方單位數大於敵方單位，改為造成 4 點傷害。"
+  },
+  "men_of_steel": {
+   "en": "MEN OF STEEL",
+   "zh": "鋼鐵之軀",
+   "text_zh": "抉擇：使所有友方單位獲得 +1 重甲 或 將 1 張“鐵錘”加入手牌。"
+  },
+  "meteor": {
+   "en": "METEOR",
+   "zh": "流星",
+   "text_zh": "本單位攻擊後，移除本單位。將 1 張具有雙倍攻擊力和防禦力的複製加入卡組。"
+  },
+  "mi5": {
+   "en": "MI5",
+   "zh": "軍情五處",
+   "text_zh": "敵方隨機將 1 張手牌放回卡組頂，友方抽 1 張牌。"
+  },
+  "middlesex_regiment": {
+   "en": "MIDDLESEX REGIMENT",
+   "zh": "米德爾塞克斯團",
+   "text_zh": "部署：將 1 張“衛戍”加入手牌。"
+  },
+  "mig_3": {
+   "en": "MIG 3",
+   "zh": "米格-3",
+   "text_zh": "觸發敵方反制時，若在手牌中，獲得 -2 花費。"
+  },
+  "mikawa_regiment": {
+   "en": "MIKAWA REGIMENT",
+   "zh": "豐橋聯隊",
+   "text_zh": "部署：使友方手牌獲得 +1 花費。"
+  },
+  "minority_recruits": {
+   "en": "MINORITY RECRUITS",
+   "zh": "小國成員",
+   "text_zh": "控制 1 個敵方單位。"
+  },
+  "missing": {
+   "en": "MISSING",
+   "zh": "失蹤",
+   "text_zh": "單位移至前線時，將其消滅。"
+  },
+  "mist": {
+   "en": "MIST",
+   "zh": "薄霧",
+   "text_zh": "即將降雨。"
+  },
+  "mito_regiment": {
+   "en": "MITO REGIMENT",
+   "zh": "水戶聯隊",
+   "text_zh": "亡計：對敵方總部造成 2 點傷害。"
+  },
+  "mobile_defense": {
+   "en": "MOBILE DEFENSE",
+   "zh": "機動防禦",
+   "text_zh": "將 2 個“T-70”加入支援陣線。下個友方回合結束時，將其消滅。"
+  },
+  "mobilization": {
+   "en": "MOBILIZATION",
+   "zh": "動員",
+   "text_zh": "抽 2 張單位。回合結束時棄掉。"
+  },
+  "model_25": {
+   "en": "MODEL 25",
+   "zh": "維克斯裝甲車",
+   "text_zh": "部署：使 1 個友方步兵具有 +2 攻擊力，直到回合結束。"
+  },
+  "molotov_cocktail": {
+   "en": "MOLOTOV COCKTAIL",
+   "zh": "莫洛托夫雞尾酒",
+   "text_zh": "造成 2 點傷害。敵方隨機棄 1 張牌。友方回合結束時，棄掉此牌。"
+  },
+  "momentum": {
+   "en": "MOMENTUM",
+   "zh": "破竹之勢",
+   "text_zh": "若前線沒有敵方單位，將 2 個“一號坦克 B 型”加入前線。"
+  },
+  "monastyr": {
+   "en": "MONASTYR",
+   "zh": "修道院行動",
+   "text_zh": "消滅所有對戰詞條數不大於 1 的單位。"
+  },
+  "monsoon_rain": {
+   "en": "MONSOON RAIN",
+   "zh": "季風雨",
+   "text_zh": "雙方移除手中和/或場上 2 張花費最高的卡牌。"
+  },
+  "monsoon_rot": {
+   "en": "MONSOON ROT",
+   "zh": "季風侵襲",
+   "text_zh": "使所有敵方單位的防禦力為 1。"
+  },
+  "monty": {
+   "en": "MONTY",
+   "zh": "蒙哥馬利",
+   "text_zh": "壓制 1 個單位和其相鄰單位。抽 1 張牌。"
+  },
+  "mosquito_b_mk_iv": {
+   "en": "MOSQUITO B Mk IV",
+   "zh": "蚊式 B Mk IV",
+   "text_zh": "回合結束時，轉換為“蚊式 F Mk II”。"
+  },
+  "mosquito_f_mk_ii": {
+   "en": "MOSQUITO F Mk II",
+   "zh": "蚊式 F Mk II",
+   "text_zh": "回合結束時，轉換為“蚊式 B Mk IV”。"
+  },
+  "mosquito_fb_mk_vi": {
+   "en": "MOSQUITO FB Mk VI",
+   "zh": "蚊式 FB Mk VI",
+   "text_zh": "部署：對 1 個敵方單位造成 4 點傷害。"
+  },
+  "mother_russia": {
+   "en": "MOTHER RUSSIA",
+   "zh": "俄羅斯母親",
+   "text_zh": "將每張本回合被消滅的友方蘇聯單位的複製加入手牌。"
+  },
+  "motherland_calls": {
+   "en": "MOTHERLAND CALLS!",
+   "zh": "祖國在召喚！",
+   "text_zh": "將卡組中的 1 個蘇聯亡計單位加入支援陣線。使其獲得閃擊。回合結束時，將其消滅。"
+  },
+  "motti_tactic": {
+   "en": "MOTTI TACTIC",
+   "zh": "柴堆戰術",
+   "text_zh": "消滅 1 個單位。將 1 張此單位的複製加入手中。"
+  },
+  "mountain_offensive": {
+   "en": "MOUNTAIN OFFENSIVE",
+   "zh": "山地攻勢",
+   "text_zh": "隨機將花費為 1，2 和 3 的山地單位各 1 個加入支援陣線。"
+  },
+  "mud": {
+   "en": "MUD",
+   "zh": "泥濘",
+   "text_zh": "下個敵方回合，所有陸軍無法攻擊。"
+  },
+  "murase_battalion": {
+   "en": "MURASE BATTALION",
+   "zh": "村瀨大隊",
+   "text_zh": "一回合一次，友方失去指揮點槽時，獲得 3 個指揮點。"
+  },
+  "n1k1_kyofu": {
+   "en": "N1K1 KYOFU",
+   "zh": "N1K1 強風一一型",
+   "text_zh": "部署：將 1 張“IJN 御藏號”洗入卡組。"
+  },
+  "n1kj_shiden": {
+   "en": "N1K-J SHIDEN",
+   "zh": "N1K-J 紫電局地戰",
+   "text_zh": ""
+  },
+  "nakajima_b5n2": {
+   "en": "NAKAJIMA B5N2",
+   "zh": "B5N2 九七艦攻",
+   "text_zh": "友方使用情報牌時，獲得 +1+1。"
+  },
+  "nara_regiment": {
+   "en": "NARA REGIMENT",
+   "zh": "關島守備隊",
+   "text_zh": "所有友方單位忽略“無法攻擊敵方總部”。"
+  },
+  "national_fire_service": {
+   "en": "NATIONAL FIRE SERVICE",
+   "zh": "國家消防局",
+   "text_zh": "本回合，每次友方總部受到的傷害至多為 1。"
+  },
+  "national_service": {
+   "en": "NATIONAL SERVICE",
+   "zh": "國民服役",
+   "text_zh": "使卡組中所有英國單位獲得 +2 防禦力，使卡組中所有英國指令和反制獲得 -1 花費。"
+  },
+  "naval_battle": {
+   "en": "NAVAL BATTLE",
+   "zh": "海戰",
+   "text_zh": "抉擇：消滅所有奇數花費 或 所有偶數花費的單位。"
+  },
+  "naval_bombardment": {
+   "en": "NAVAL BOMBARDMENT",
+   "zh": "海軍轟炸",
+   "text_zh": "將 1 個單位返回手牌。若前線有敵方單位，具有 -2 花費。"
+  },
+  "naval_engagement": {
+   "en": "NAVAL ENGAGEMENT",
+   "zh": "海軍交戰",
+   "text_zh": "完全修復友方支援陣線所有單位。消滅敵方支援陣線所有單位。"
+  },
+  "naval_operation": {
+   "en": "NAVAL OPERATION",
+   "zh": "海軍行動",
+   "text_zh": "壓制所有敵方陸軍，對其造成 1 點傷害。"
+  },
+  "naval_power": {
+   "en": "NAVAL POWER",
+   "zh": "海軍力量",
+   "text_zh": "壓制 1 個敵方單位。使友方總部獲得 +3 防禦力。"
+  },
+  "naval_supply_run": {
+   "en": "NAVAL SUPPLY RUN",
+   "zh": "海上補給運輸",
+   "text_zh": "使所有友方單位獲得 +2+1。下個友方回合開始時，隨機棄 1 張牌。"
+  },
+  "naval_support": {
+   "en": "NAVAL SUPPORT",
+   "zh": "海軍支援",
+   "text_zh": "使 1 個單位的攻擊力等同於其防禦力。"
+  },
+  "naval_task_force": {
+   "en": "NAVAL TASK FORCE",
+   "zh": "海軍特遣隊",
+   "text_zh": "抉擇：將 1 張“海軍轟炸” 或 1 張“運輸補給”加入手牌。"
+  },
+  "nebelwerfer_42": {
+   "en": "NEBELWERFER 42",
+   "zh": "噴煙者 42 型",
+   "text_zh": "部署：對 1 個敵方單位造成 1 點傷害。"
+  },
+  "new_doctrine": {
+   "en": "NEW DOCTRINE",
+   "zh": "新式戰法",
+   "text_zh": "使 1 個單位忽略“無法攻擊敵方總部”。"
+  },
+  "night_attack": {
+   "en": "NIGHT ATTACK",
+   "zh": "夜間攻擊",
+   "text_zh": "移除 1 個單位，然後將其返回並使其獲得閃擊和衝擊。回合結束時，將其返回手牌。"
+  },
+  "night_bombing": {
+   "en": "NIGHT BOMBING",
+   "zh": "夜間轟炸",
+   "text_zh": "消滅 1 個未受傷單位，隨機排列所有敵方單位。"
+  },
+  "night_hunters": {
+   "en": "NIGHT HUNTERS",
+   "zh": "暗夜獵手",
+   "text_zh": "敵方單位部署時，將其消滅。抽 1 張牌。"
+  },
+  "night_patrol": {
+   "en": "NIGHT PATROL",
+   "zh": "黑夜巡視",
+   "text_zh": "抽 2 張牌。選擇 1 張手牌並將其返回卡組頂。"
+  },
+  "night_raid": {
+   "en": "NIGHT RAID",
+   "zh": "夜襲",
+   "text_zh": "隨機將敵方卡組中的 1 張指令的複製加入手中，將 1 個“第 10 突擊隊”加入支援陣線。"
+  },
+  "night_witches": {
+   "en": "NIGHT WITCHES",
+   "zh": "黑夜女巫",
+   "text_zh": "將 3 張“波-2-II”加入手牌。"
+  },
+  "no_10_commando": {
+   "en": "No. 10 COMMANDO",
+   "zh": "第 10 突擊隊",
+   "text_zh": "友方使用英國指令後，隨機對 1 個敵方目標造成 1 點傷害。"
+  },
+  "no_1_commando": {
+   "en": "No. 1 COMMANDO",
+   "zh": "第 1 突擊隊",
+   "text_zh": "消滅受到本單位對戰傷害的單位。"
+  },
+  "no_3_commando": {
+   "en": "No. 3 COMMANDO",
+   "zh": "第 3 突擊隊",
+   "text_zh": "攻擊力不小於 4 的單位無法攻擊。"
+  },
+  "no_43_commando": {
+   "en": "No. 43 COMMANDO",
+   "zh": "第 43 突擊隊",
+   "text_zh": "友方使用指令時，隨機對 1 個敵方目標造成 2 點傷害。"
+  },
+  "no_46_commando": {
+   "en": "No. 46 COMMANDO",
+   "zh": "第 46 突擊隊",
+   "text_zh": "部署：將 1 張“爆破”和 1 張“計畫”加入手中。"
+  },
+  "no_9_commando": {
+   "en": "No. 9 COMMANDO",
+   "zh": "第 9 突擊隊",
+   "text_zh": "部署：使 1 個敵方單位的防禦力為 1。"
+  },
+  "no_retreat": {
+   "en": "NO RETREAT",
+   "zh": "背水一戰",
+   "text_zh": "使 1 個單位獲得：“無法撤退或被抑制。”"
+  },
+  "no_surrender": {
+   "en": "NO SURRENDER",
+   "zh": "決不投降",
+   "text_zh": "將數個“輕步兵”加入支援陣線，直到已滿，使其獲得閃擊。"
+  },
+  "nzans": {
+   "en": "NZANS",
+   "zh": "紐西蘭陸軍護理隊",
+   "text_zh": "使友方總部獲得 +3 防禦力。額外獲得 1 個指揮點槽。"
+  },
+  "obice_da_7513": {
+   "en": "OBICE DA 75/13",
+   "zh": "75/13 式山炮",
+   "text_zh": "所有友方山地單位能在同一回合中移動並攻擊。"
+  },
+  "observer_corps": {
+   "en": "OBSERVER CORPS",
+   "zh": "觀察團",
+   "text_zh": "選擇 1 張花費不小於 5 的手牌，使其獲得 -2 花費。"
+  },
+  "old_hares": {
+   "en": "OLD HARES",
+   "zh": "老兔子",
+   "text_zh": "使 1 個步兵或坦克具有 +5 攻擊力，直到回合結束。"
+  },
+  "on_the_ascent": {
+   "en": "ON THE ASCENT",
+   "zh": "如日方升",
+   "text_zh": "消滅並收繳所有攻擊力最低的單位。"
+  },
+  "on_the_horizon": {
+   "en": "ON THE HORIZON",
+   "zh": "海平面",
+   "text_zh": "本回合，使所有友方單位具有免疫，且：“無法攻擊敵方總部。”"
+  },
+  "one_roof": {
+   "en": "ONE ROOF",
+   "zh": "虛妄之夢",
+   "text_zh": "抽 2 張牌。若本局對戰友方失去的指揮點槽數不小於 2，獲得 4 個指揮點。"
+  },
+  "order_227": {
+   "en": "ORDER 227",
+   "zh": "第 227 號命令",
+   "text_zh": "使所有友方受傷蘇聯單位獲得 +2 攻擊力，將其完全修復。"
+  },
+  "order_of_the_day": {
+   "en": "ORDER OF THE DAY",
+   "zh": "動員令",
+   "text_zh": "將 2 個“游擊隊員”加入支援陣線。使所有友方“游擊隊員”獲得：“敵方指向或攻擊本單位時，+1 花費。”"
+  },
+  "orders_from_above": {
+   "en": "ORDERS FROM ABOVE",
+   "zh": "上級指令",
+   "text_zh": "指向 1 個坦克或步兵。若是友方，每有 1 個受傷單位，使其獲得一次 +1+1。若是敵方，對其造成 3 點傷害。"
+  },
+  "orp_byskawica": {
+   "en": "ORP BŁYSKAWICA",
+   "zh": "ORP 閃電號",
+   "text_zh": "隨機複製敵方卡組中的 1 張指令，使友方總部獲得等同於其花費的防禦力。"
+  },
+  "orp_general_haller": {
+   "en": "ORP GENERAL HALLER",
+   "zh": "ORP 哈勒將軍號",
+   "text_zh": "將 1 個單位和其相鄰單位轉換為“潰軍”。"
+  },
+  "orp_orze": {
+   "en": "ORP ORZEŁ",
+   "zh": "ORP 鷹號",
+   "text_zh": "使 1 張敵方明牌獲得 +2 花費。"
+  },
+  "osaka_regiment": {
+   "en": "OSAKA REGIMENT",
+   "zh": "大阪聯隊",
+   "text_zh": ""
+  },
+  "ot34": {
+   "en": "OT-34",
+   "zh": "OT-34",
+   "text_zh": "對步兵和總部造成雙倍傷害。"
+  },
+  "out_of_the_mist": {
+   "en": "OUT OF THE MIST",
+   "zh": "穿雲破霧",
+   "text_zh": "對 1 個單位造成 1 點傷害。若其在本回合被消滅，將其收繳。"
+  },
+  "out_of_the_sun": {
+   "en": "OUT OF THE SUN",
+   "zh": "逆光攻擊",
+   "text_zh": "使所有友方空軍獲得 -1 行動花費。若本回合使用過晴天牌，使其獲得 +2 攻擊力。"
+  },
+  "out_with_the_old": {
+   "en": "OUT WITH THE OLD",
+   "zh": "推陳出新",
+   "text_zh": "指向 1 個受傷的蘇聯空軍。觸發其亡計，將其轉換為“雅克-9”。"
+  },
+  "outflank": {
+   "en": "OUTFLANK",
+   "zh": "包抄",
+   "text_zh": "消滅 1 個守護單位。"
+  },
+  "outmaneuver": {
+   "en": "OUTMANEUVER",
+   "zh": "以智取勝",
+   "text_zh": "使 1 個日本單位的行動花費為 0，直到回合結束。若是煙幕單位，使其獲得 +2+2。"
+  },
+  "outrage": {
+   "en": "OUTRAGE",
+   "zh": "激怒",
+   "text_zh": "開發 1 張“懲戒”。"
+  },
+  "overcast": {
+   "en": "OVERCAST",
+   "zh": "陰雲密佈",
+   "text_zh": "預報。使雙方總部獲得 +2 防禦力。雙方額外獲得 1 個指揮點槽，抽 1 張牌。"
+  },
+  "overpower": {
+   "en": "OVERPOWER",
+   "zh": "摧枯拉朽",
+   "text_zh": "消滅 1 個攻擊力不大於 2 的單位和其他同名單位。"
+  },
+  "overrun": {
+   "en": "OVERRUN",
+   "zh": "橫掃千軍",
+   "text_zh": "本回合，陸軍攻擊時，造成等同於其防禦力的傷害。"
+  },
+  "overwhelming_force": {
+   "en": "OVERWHELMING FORCE",
+   "zh": "勢不可擋",
+   "text_zh": "選擇並棄 1 張單位。使 1 個友方步兵或坦克獲得其攻擊力和防禦力。"
+  },
+  "ox_and_bucks": {
+   "en": "OX AND BUCKS",
+   "zh": "牛津郡和白金漢郡輕步兵團",
+   "text_zh": "部署：對 1 個敵方單位造成 2 點傷害。"
+  },
+  "oxford": {
+   "en": "OXFORD",
+   "zh": "牛津",
+   "text_zh": "友方守護單位部署或加入時，使其獲得 +1+3。"
+  },
+  "p1y1_model_11": {
+   "en": "P1Y1 MODEL 11",
+   "zh": "P1Y1 銀河一一型",
+   "text_zh": "友方單位失去煙幕時，使其獲得 +2+2。"
+  },
+  "p1y_ginga": {
+   "en": "P1Y GINGA",
+   "zh": "P1Y 銀河陸爆",
+   "text_zh": "被棄掉時，對所有敵方目標造成 1 點傷害。部署：對所有敵方目標造成 1 點傷害。"
+  },
+  "p38d_lightning": {
+   "en": "P-38D LIGHTNING",
+   "zh": "P-38D 閃電",
+   "text_zh": "所有友方轟炸機具有 +2 攻擊力。"
+  },
+  "p38h_lightning": {
+   "en": "P-38H LIGHTNING",
+   "zh": "P-38H 閃電",
+   "text_zh": "亡計：使卡組頂的單位獲得 +3 攻擊力和閃擊。"
+  },
+  "p39_airacobra": {
+   "en": "P-39 AIRACOBRA",
+   "zh": "P-39 飛蛇",
+   "text_zh": "對抗陸軍時，受到的對戰傷害 -2。"
+  },
+  "p40_k": {
+   "en": "P-40 K",
+   "zh": "P-40 K",
+   "text_zh": "友方轟炸機被消滅時，隨機消滅 1 個敵方單位。"
+  },
+  "p40_kittyhawk": {
+   "en": "P-40 KITTYHAWK",
+   "zh": "P-40 小鷹",
+   "text_zh": "部署：對 1 個敵方陸軍或總部造成 2 點傷害。"
+  },
+  "p40_n5": {
+   "en": "P-40 N-5",
+   "zh": "P-40 N-5",
+   "text_zh": "敵方單位部署時，使其獲得 +2 行動花費。"
+  },
+  "p40_warhawk": {
+   "en": "P-40 WARHAWK",
+   "zh": "P-40 戰鷹",
+   "text_zh": "對陸軍和總部造成的傷害 +3。"
+  },
+  "p40b_tomahawk": {
+   "en": "P-40B TOMAHAWK",
+   "zh": "P-40B 戰斧",
+   "text_zh": "友方步兵部署或加入時，使其獲得 +1+1。"
+  },
+  "p47d25re": {
+   "en": "P-47D-25-RE",
+   "zh": "P-47D-25-RE",
+   "text_zh": "部署：隨機消滅前線 1 個敵方單位。"
+  },
+  "p47d_thunderbolt": {
+   "en": "P-47D THUNDERBOLT",
+   "zh": "P-47D 雷電",
+   "text_zh": "本單位消滅敵方單位時，抽 1 張牌。"
+  },
+  "p51_b": {
+   "en": "P-51 B",
+   "zh": "P-51 B",
+   "text_zh": "亡計：使所有友方單位獲得 +2+2，抽 2 張牌。"
+  },
+  "p51_mustang": {
+   "en": "P-51 MUSTANG",
+   "zh": "P-51 野馬",
+   "text_zh": "部署：隨機對 1 個敵方空軍造成 5 點傷害。"
+  },
+  "p61_black_widow": {
+   "en": "P-61 BLACK WIDOW",
+   "zh": "P-61 黑寡婦",
+   "text_zh": "友方回合開始時，隨機使 1 個友方空軍具有免疫，直到回合結束。"
+  },
+  "pact_of_steel": {
+   "en": "PACT OF STEEL",
+   "zh": "鋼鐵條約",
+   "text_zh": "雙方玩家抽 1 張牌，棄掉花費更低的那張，再重複三次。"
+  },
+  "pak_36": {
+   "en": "PAK 36",
+   "zh": "Pak 36 反坦克炮",
+   "text_zh": "敵方坦克部署時，對其造成 1 點傷害。"
+  },
+  "pak_36_fi": {
+   "en": "PAK 36 FI",
+   "zh": "Pak 36 反坦克炮 FI",
+   "text_zh": "本單位攻擊時，隨機對 1 個敵方目標造成 1 點傷害。"
+  },
+  "pak_38": {
+   "en": "PAK 38",
+   "zh": "Pak 38 反坦克炮",
+   "text_zh": "對坦克造成三倍傷害。"
+  },
+  "pak_40": {
+   "en": "PAK 40",
+   "zh": "Pak 40 反坦克炮",
+   "text_zh": "部署：消滅 1 個花費不大於 2 的敵方單位。若是坦克，抽 1 張牌。"
+  },
+  "pams": {
+   "en": "PAMS",
+   "zh": "警察輔助信使隊",
+   "text_zh": "開發 1 張花費不大於 4 的英國指令。將其加入卡組，使其花費為 0。"
+  },
+  "panther_a": {
+   "en": "PANTHER A",
+   "zh": "豹式坦克 A 型",
+   "text_zh": "移至前線時，下個敵方回合開始時，敵方無法抽牌。"
+  },
+  "panther_a_zimmerit": {
+   "en": "PANTHER A ZIMMERIT",
+   "zh": "豹式坦克 A 型 防磁裝甲型",
+   "text_zh": "本單位行動後，獲得等同於本局對戰本單位行動次數的數值。"
+  },
+  "panther_d": {
+   "en": "PANTHER D",
+   "zh": "豹式坦克 D 型",
+   "text_zh": "本單位攻擊時，造成的傷害也會施加到敵方總部。"
+  },
+  "panther_g": {
+   "en": "PANTHER G",
+   "zh": "豹式坦克 G 型",
+   "text_zh": "無法被敵方指令指向。"
+  },
+  "panzer_35t": {
+   "en": "PANZER 35(t)",
+   "zh": "35(t) 坦克",
+   "text_zh": "部署：若有友方步兵，獲得 -1 行動花費。"
+  },
+  "panzer_38t": {
+   "en": "PANZER 38(t)",
+   "zh": "38(t) 坦克",
+   "text_zh": "部署：抽 1 張牌。"
+  },
+  "panzer_i_dak": {
+   "en": "PANZER I DAK",
+   "zh": "一號坦克 DAK",
+   "text_zh": "移至前線時，獲得衝擊。"
+  },
+  "panzer_ia": {
+   "en": "PANZER I-A",
+   "zh": "一號坦克 A 型",
+   "text_zh": "部署：若有友方步兵，抽 1 張牌。"
+  },
+  "panzer_ib": {
+   "en": "PANZER I-B",
+   "zh": "一號坦克 B 型",
+   "text_zh": "本單位對敵方總部造成傷害時，升為老兵。"
+  },
+  "panzer_ib_vet": {
+   "en": "PANZER I-B",
+   "zh": "一號坦克 B 型",
+   "text_zh": "升為老兵時，將 1 張“一號坦克 B 型”加入手牌。"
+  },
+  "panzer_iia": {
+   "en": "PANZER II-A",
+   "zh": "二號坦克 A 型",
+   "text_zh": ""
+  },
+  "panzer_iic": {
+   "en": "PANZER II-C",
+   "zh": "二號坦克 C 型",
+   "text_zh": "友方單位升為老兵時，使其獲得 +2+1。"
+  },
+  "panzer_iiie": {
+   "en": "PANZER III-E",
+   "zh": "三號坦克 E 型",
+   "text_zh": "其他友方閃擊坦克具有 +2 攻擊力。"
+  },
+  "panzer_iiif": {
+   "en": "PANZER III-F",
+   "zh": "三號坦克 F 型",
+   "text_zh": "所有友方德國坦克具有閃擊。部署：使其他友方坦克獲得 +1+1。"
+  },
+  "panzer_iiig": {
+   "en": "PANZER III-G",
+   "zh": "三號坦克 G 型",
+   "text_zh": "鉗擊：無法被壓制。"
+  },
+  "panzer_iiih": {
+   "en": "PANZER III-H",
+   "zh": "三號坦克 H 型",
+   "text_zh": "部署：從卡組頂的 3 張牌中選擇 1 張並抽取，將其餘 2 張置於卡組底。"
+  },
+  "panzer_iiij": {
+   "en": "PANZER III-J",
+   "zh": "三號坦克 J 型",
+   "text_zh": ""
+  },
+  "panzer_iiij_late": {
+   "en": "PANZER III-J LATE",
+   "zh": "三號坦克 J 型 晚期型",
+   "text_zh": "敵方總部累計受到的傷害不小於 4 時，成為老兵。"
+  },
+  "panzer_iiij_late_vet": {
+   "en": "PANZER III-J LATE",
+   "zh": "三號坦克 J 型 晚期型",
+   "text_zh": ""
+  },
+  "panzer_iiil": {
+   "en": "PANZER III-L",
+   "zh": "三號坦克 L 型",
+   "text_zh": "友方單位每有一種非坦克類型，具有 +1 攻擊力。"
+  },
+  "panzer_iv_f2": {
+   "en": "PANZER IV F2",
+   "zh": "四號坦克 F2 型",
+   "text_zh": "部署：使 1 個單位撤退。"
+  },
+  "panzer_ivg": {
+   "en": "PANZER IV-G",
+   "zh": "四號坦克 G 型",
+   "text_zh": ""
+  },
+  "panzer_ivh": {
+   "en": "PANZER IV-H",
+   "zh": "四號坦克 H 型",
+   "text_zh": "部署：與 1 個敵方單位戰鬥，若將其消滅，升為老兵。"
+  },
+  "panzer_ivh_vet": {
+   "en": "PANZER IV-H",
+   "zh": "四號坦克 H 型",
+   "text_zh": "所有攻擊力不小於 4 的友方陸軍具有閃擊。"
+  },
+  "panzer_ivj": {
+   "en": "PANZER IV-J",
+   "zh": "四號坦克 J 型",
+   "text_zh": "本單位攻擊後，獲得 +1 行動花費。"
+  },
+  "panzerzug_61_bp42": {
+   "en": "PANZERZUG 61 BP42",
+   "zh": "BP-42 裝甲列車",
+   "text_zh": "部署：將 2 個具有閃擊的“第 59 裝甲擲彈兵團”加入支援陣線。"
+  },
+  "parachute_assault": {
+   "en": "PARACHUTE ASSAULT",
+   "zh": "傘降突襲",
+   "text_zh": "將數個“第 506 空降步兵團”加入支援陣線，直到已滿。使其獲得閃擊和衝擊。"
+  },
+  "parade": {
+   "en": "PARADE",
+   "zh": "閱兵",
+   "text_zh": "抽 1 張單位，將 1 張複製加入手牌。"
+  },
+  "partisans": {
+   "en": "PARTISANS",
+   "zh": "游擊隊",
+   "text_zh": "控制 1 個敵方單位。友方回合結束時，將其返回所有者手牌。"
+  },
+  "partnership": {
+   "en": "PARTNERSHIP",
+   "zh": "合作關係",
+   "text_zh": "隨機將 1 個美國精英單位加入支援陣線。"
+  },
+  "patriotic_firestorm": {
+   "en": "PATRIOTIC FIRESTORM",
+   "zh": "愛國風暴",
+   "text_zh": "本回合，友方支援陣線所有單位具有 +2 攻擊力。"
+  },
+  "patriotic_zeal": {
+   "en": "PATRIOTIC ZEAL",
+   "zh": "愛國熱忱",
+   "text_zh": "將 1 個友方單位的攻擊力和防禦力翻倍。"
+  },
+  "patrol": {
+   "en": "PATROL",
+   "zh": "巡邏隊",
+   "text_zh": "使 1 個敵方單位失去守護、煙幕和亡計，對其造成 2 點傷害。"
+  },
+  "patton": {
+   "en": "PATTON",
+   "zh": "巴頓",
+   "text_zh": "本回合，手牌中的所有單位具有 -1 花費，部署後具有閃擊。"
+  },
+  "pb2y_coronado": {
+   "en": "PB2Y CORONADO",
+   "zh": "PB2Y 科羅納多",
+   "text_zh": "抽取：將 1 個“F2A 水牛”加入支援陣線。\\r\\n友方戰鬥機具有 +1 攻擊力。"
+  },
+  "pb4y2_privateer": {
+   "en": "PB4Y-2 PRIVATEER",
+   "zh": "PB4Y-2 私掠船",
+   "text_zh": "敵方指向或攻擊本單位時，+2 花費。"
+  },
+  "pby_catalina": {
+   "en": "PBY CATALINA",
+   "zh": "PBY 卡特琳娜",
+   "text_zh": "友方回合開始時，抽 2 張牌，將 1 張手牌放回卡組頂。"
+  },
+  "penicillin": {
+   "en": "PENICILLIN",
+   "zh": "青黴素",
+   "text_zh": "使所有友方單位和總部獲得 +6 防禦力，抽 4 張牌。"
+  },
+  "persian_corridor": {
+   "en": "PERSIAN CORRIDOR",
+   "zh": "波斯走廊",
+   "text_zh": "使 1 個友方英國或美國單位獲得：“亡計：觸發所有友方蘇聯單位的亡計。”"
+  },
+  "petlyakov_pe2": {
+   "en": "PETLYAKOV PE-2",
+   "zh": "佩-2",
+   "text_zh": ""
+  },
+  "petlyakov_pe2ft": {
+   "en": "PETLYAKOV Pe-2FT",
+   "zh": "佩-2 FT",
+   "text_zh": "雙方部署無法觸發。"
+  },
+  "phoney_war": {
+   "en": "PHONEY WAR",
+   "zh": "假戰",
+   "text_zh": "雙方抽數張牌，直到手牌數為 8。"
+  },
+  "pilot_escape": {
+   "en": "PILOT ESCAPE",
+   "zh": "異鄉之翼",
+   "text_zh": "開發 1 張主國空軍。 使其獲得 -1 花費和 -1 行動花費。"
+  },
+  "plan": {
+   "en": "PLAN",
+   "zh": "計畫",
+   "text_zh": "抽 1 張牌。"
+  },
+  "plan_d": {
+   "en": "PLAN D",
+   "zh": "迪勒計畫",
+   "text_zh": "抉擇：使所有友方單位本回合具有 +2 攻擊力 或 獲得 +2 防禦力。"
+  },
+  "plan_west": {
+   "en": "PLAN WEST",
+   "zh": "西線計畫",
+   "text_zh": "將 2 個“軍團”加入支援陣線。"
+  },
+  "planned_attack": {
+   "en": "PLANNED ATTACK",
+   "zh": "預定攻勢",
+   "text_zh": "抉擇：造成 2 點傷害並將 1 張“計畫”加入手中 或 抽 1 張牌並將 1 張“爆破”加入手中。"
+  },
+  "polikarpov_po2": {
+   "en": "POLIKARPOV PO-2",
+   "zh": "波-2",
+   "text_zh": ""
+  },
+  "polikarpov_po2ii": {
+   "en": "POLIKARPOV PO-2-II",
+   "zh": "波-2-II",
+   "text_zh": "亡計：將 1 張“來自人民”加入手牌。"
+  },
+  "pontoon_bridge": {
+   "en": "PONTOON BRIDGE",
+   "zh": "浮橋",
+   "text_zh": "使 1 個友方單位獲得 +1+2。若此前其攻擊力不小於 4，使其行動花費為 0。"
+  },
+  "potez_63_11": {
+   "en": "POTEZ 63.11",
+   "zh": "波泰 63.11",
+   "text_zh": "友方動員單位加入或部署時，抽 1 張牌，使友方總部獲得 +2 防禦力。"
+  },
+  "pound": {
+   "en": "POUND",
+   "zh": "重擊",
+   "text_zh": "對 1 個陸軍造成等同於所有友方空軍攻擊力之和的傷害。"
+  },
+  "precision_bombing": {
+   "en": "PRECISION BOMBING",
+   "zh": "精準轟炸",
+   "text_zh": "降低等同于友方轟炸機最高攻擊力的花費。消滅 1 個敵方單位。"
+  },
+  "pressurized_cabin": {
+   "en": "PRESSURIZED CABIN",
+   "zh": "加壓艙",
+   "text_zh": "將 1 張“B-29 超級堡壘”加入手牌。隨機消滅 1 個敵方單位。"
+  },
+  "production": {
+   "en": "PRODUCTION",
+   "zh": "生產",
+   "text_zh": "獲得 1 個指揮點。"
+  },
+  "production_order": {
+   "en": "PRODUCTION ORDER",
+   "zh": "生產令",
+   "text_zh": "抉擇：將 1 張“B-24D” 或 1 張“B-24J”加入手牌。"
+  },
+  "prolonged_siege": {
+   "en": "PROLONGED SIEGE",
+   "zh": "長久圍困",
+   "text_zh": "抽 4 張牌。下個友方回合結束時，將其棄掉。"
+  },
+  "promotion": {
+   "en": "PROMOTION",
+   "zh": "晉升",
+   "text_zh": "抽 1 張單位，使其部署時獲得 +2+2。"
+  },
+  "propaganda": {
+   "en": "PROPAGANDA",
+   "zh": "戰爭宣傳",
+   "text_zh": "選擇並棄 1 張反制，對敵方總部造成 3 點傷害。"
+  },
+  "protect_the_pocket": {
+   "en": "PROTECT THE POCKET",
+   "zh": "困獸猶鬥",
+   "text_zh": "抽 4 張牌。若友方鉗擊單位數不小於 4，立即結束下個敵方回合。"
+  },
+  "protected_convoy": {
+   "en": "PROTECTED CONVOY",
+   "zh": "護送航運",
+   "text_zh": "將 1 張“生產”和 1 張“計畫”加入手中。"
+  },
+  "provence_landing": {
+   "en": "PROVENCE LANDING",
+   "zh": "普羅旺斯登陸",
+   "text_zh": "本回合，友方單位部署時，移至前線。"
+  },
+  "pummel": {
+   "en": "PUMMEL",
+   "zh": "炮火連擊",
+   "text_zh": "抑制 1 個單位，若其花費不大於 3，將其消滅。"
+  },
+  "punish": {
+   "en": "PUNISH",
+   "zh": "嚴懲",
+   "text_zh": "敵方隨機棄 1 張牌。若是明牌，友方抽 1 張牌。"
+  },
+  "pursuit": {
+   "en": "PURSUIT",
+   "zh": "追擊",
+   "text_zh": "使 1 個單位撤退。本回合，使所有友方單位具有 -1 行動花費。"
+  },
+  "push": {
+   "en": "PUSH!",
+   "zh": "推進！",
+   "text_zh": "對友方總部造成 3 點傷害。對 1 個敵方目標造成等同於本回合此前友方總部所受傷害的傷害。"
+  },
+  "pz_befehlswagen_35t": {
+   "en": "Pz. BEFEHLSWAGEN 35t",
+   "zh": "35(t) 指揮車",
+   "text_zh": "友方佔領前線時，若本單位在手中，將其加入前線。"
+  },
+  "pzl_23_karas": {
+   "en": "PZL.23 KARAS",
+   "zh": "PZL.23 卡拉斯",
+   "text_zh": "友方回合結束時，將 1 張“總參二局”加入手牌。"
+  },
+  "pzl_37_o": {
+   "en": "PZL.37 ŁOŚ",
+   "zh": "PZL.37 麋鹿",
+   "text_zh": "友方波蘭空軍被消滅時，隨機將 1 張波蘭流亡牌加入手牌。"
+  },
+  "pzl_p_11": {
+   "en": "PZL P.11",
+   "zh": "PZL P.11",
+   "text_zh": "使手牌中所有流亡牌獲得 -1 花費。"
+  },
+  "pzl_p_7": {
+   "en": "PZL P.7",
+   "zh": "PZL P.7",
+   "text_zh": "敵方單位移至前線時，本單位撤退。"
+  },
+  "qf_40mm_mk_iii": {
+   "en": "QF 40mm Mk III",
+   "zh": "40 毫米高射炮  Mk III",
+   "text_zh": "部署：若本回合友方對敵方總部造成過傷害，複製本單位。"
+  },
+  "queens_own": {
+   "en": "QUEEN'S OWN",
+   "zh": "女王直屬卡梅倫高地人團",
+   "text_zh": "部署：將 1 個單位返回其所有者卡組頂。"
+  },
+  "quinine": {
+   "en": "QUININE",
+   "zh": "奎寧",
+   "text_zh": "使 1 個步兵獲得 +1+2 和 -1 行動花費。"
+  },
+  "raaf_hurricane_trop": {
+   "en": "RAAF HURRICANE TROP",
+   "zh": "RAAF 颶風 熱帶型",
+   "text_zh": "部署：若從手中最右側部署，獲得 +1+1 和閃擊。"
+  },
+  "raaf_lightning_f4": {
+   "en": "RAAF LIGHTNING F-4",
+   "zh": "RAAF 閃電 F-4",
+   "text_zh": "部署：使 1 個敵方單位撤退。"
+  },
+  "raaf_walrus": {
+   "en": "RAAF WALRUS",
+   "zh": "RAAF 海象",
+   "text_zh": "部署：預報。\\r\\n回合結束時，升為老兵。"
+  },
+  "raaf_walrus_vet": {
+   "en": "RAAF WALRUS",
+   "zh": "RAAF 海象",
+   "text_zh": "本單位左側所有單位具有 -1 行動花費。"
+  },
+  "radar": {
+   "en": "RADAR",
+   "zh": "雷達",
+   "text_zh": "抽 1 張牌。使友方總部獲得 +4 防禦力。"
+  },
+  "radar_alert": {
+   "en": "RADAR ALERT",
+   "zh": "雷達警報",
+   "text_zh": "敵方單位部署時，隨機將 1 個與其花費相近的英國空軍加入戰場。"
+  },
+  "raf_buffalo_mk_i": {
+   "en": "RAF BUFFALO Mk I",
+   "zh": "RAF 水牛 Mk I",
+   "text_zh": "本單位交戰並存活後，獲得 +1+1。"
+  },
+  "raf_ground_crew": {
+   "en": "RAF GROUND CREW",
+   "zh": "皇家空軍地勤",
+   "text_zh": "友方噴火具有 -2 花費，其部署時獲得 +1+1。"
+  },
+  "raf_mitchell": {
+   "en": "RAF MITCHELL",
+   "zh": "RAF 米切爾",
+   "text_zh": "若被守護，具有收繳。"
+  },
+  "raf_mustang": {
+   "en": "RAF MUSTANG",
+   "zh": "RAF 野馬",
+   "text_zh": "友方非英國卡牌具有 +2 花費。被敵方指向或攻擊時，抽 1 張牌。"
+  },
+  "raid": {
+   "en": "RAID",
+   "zh": "奇襲",
+   "text_zh": "下個敵方回合中，敵方手牌具有 +2 花費。"
+  },
+  "rally": {
+   "en": "RALLY",
+   "zh": "重整旗鼓",
+   "text_zh": "使所有友方單位具有 +1 攻擊力，直到回合結束。移除其壓制。抽 1 張牌。"
+  },
+  "rally_caledonia": {
+   "en": "RALLY CALEDONIA",
+   "zh": "喀里多尼亞歸附",
+   "text_zh": "將 1 個具有閃擊的“潰軍”加入支援陣線，每有 1 個敵方單位，使其獲得一次 +1+1。"
+  },
+  "rapid_engagement": {
+   "en": "RAPID ENGAGEMENT",
+   "zh": "迅速交戰",
+   "text_zh": "移除 1 個友方單位，然後將其返回並使其獲得閃擊。"
+  },
+  "rapid_response": {
+   "en": "RAPID RESPONSE",
+   "zh": "迅速回應",
+   "text_zh": "前線每有 1 個敵方單位，將 1 個“軍團”加入支援陣線。"
+  },
+  "rasputitsa": {
+   "en": "RASPUTITSA",
+   "zh": "泥濘季",
+   "text_zh": "對所有單位造成等同於其行動花費的傷害。"
+  },
+  "rationing": {
+   "en": "RATIONING",
+   "zh": "配給制",
+   "text_zh": "抉擇：使所有友方手牌失去協力 或 使友方總部獲得 +4 防禦力。"
+  },
+  "reckless_assault": {
+   "en": "RECKLESS ASSAULT",
+   "zh": "魯莽攻擊",
+   "text_zh": "使所有友方單位獲得 +2+2，且：“本單位造成傷害時，對友方總部造成等量傷害。”"
+  },
+  "recuperation": {
+   "en": "RECUPERATION",
+   "zh": "休養",
+   "text_zh": "使 1 個單位獲得 +2 攻擊力。若其被壓制，改為移除壓制並使其獲得 +4 攻擊力。"
+  },
+  "red_banner": {
+   "en": "RED BANNER",
+   "zh": "紅色旗幟",
+   "text_zh": "消滅 1 個友方單位。隨機將 1 個花費高 2 點的相同國家單位加入同一陣線。"
+  },
+  "red_bull": {
+   "en": "RED BULL",
+   "zh": "紅牛師",
+   "text_zh": "友方回合開始時，攻擊力翻倍。"
+  },
+  "red_dawn": {
+   "en": "RED DAWN",
+   "zh": "赤色黎明",
+   "text_zh": "抉擇：對 1 個單位和友方總部造成 3 點傷害 或 將 1 張“來自人民”加入手牌。"
+  },
+  "red_devils": {
+   "en": "RED DEVILS",
+   "zh": "紅魔空降步兵團",
+   "text_zh": "敵方指向或攻擊本單位時，+1 花費。"
+  },
+  "red_october": {
+   "en": "RED OCTOBER",
+   "zh": "紅色十月",
+   "text_zh": "使 1 個蘇聯坦克或步兵獲得 +3+3。"
+  },
+  "redeployment": {
+   "en": "REDEPLOYMENT",
+   "zh": "重新部署",
+   "text_zh": "將所有手牌洗入卡組，抽取洗入數量加 1 的卡牌。"
+  },
+  "refit": {
+   "en": "REFIT",
+   "zh": "整修",
+   "text_zh": "抉擇：抽 1 張噴火 或 使 1 個噴火獲得閃擊。"
+  },
+  "regia_aeronautica": {
+   "en": "REGIA AERONAUTICA",
+   "zh": "義大利皇家空軍",
+   "text_zh": "對所有敵方目標造成等同於友方空軍數的傷害。"
+  },
+  "regia_marina": {
+   "en": "REGIA MARINA",
+   "zh": "義大利皇家海軍",
+   "text_zh": "抽取花費最高的卡牌。若是構築之外的牌，重複此效果。"
+  },
+  "reich_research": {
+   "en": "REICH RESEARCH",
+   "zh": "德意志帝國研發",
+   "text_zh": "抉擇：將 1 張“V-1 飛行炸彈” 或 1 張“擴展德意志帝國研發”加入手牌。"
+  },
+  "reichsbank": {
+   "en": "REICHSBANK",
+   "zh": "德意志帝國銀行",
+   "text_zh": "下個友方回合，獲得 5 個指揮點，無法使用指令。"
+  },
+  "reinforcements": {
+   "en": "REINFORCEMENTS",
+   "zh": "增援",
+   "text_zh": "完全修復所有友方單位，抽 1 張牌。"
+  },
+  "reorganize": {
+   "en": "REORGANIZE",
+   "zh": "調整",
+   "text_zh": "選擇 1 張手牌洗入卡組，抽 1 張牌。"
+  },
+  "repel_the_attack": {
+   "en": "REPEL THE ATTACK",
+   "zh": "擊退進攻",
+   "text_zh": "使所有敵方單位撤退。若不是最右側手牌，結束回合。"
+  },
+  "rescue_mission": {
+   "en": "RESCUE MISSION",
+   "zh": "營救任務",
+   "text_zh": "友方單位被消滅時，將 2 張複製加入手牌。"
+  },
+  "reserves": {
+   "en": "RESERVES",
+   "zh": "預備役",
+   "text_zh": "將 2 張“輕步兵”加入手牌，此前每使用過 1 張“預備役”，額外加入 1 張。"
+  },
+  "resistance_b": {
+   "en": "RESISTANCE",
+   "zh": "抵抗",
+   "text_zh": "抽取：使用。失去 1 個指揮點。對友方總部造成 1 點傷害。壓制 1 個友方單位。抽 1 張牌。"
+  },
+  "resistance_council": {
+   "en": "RESISTANCE COUNCIL",
+   "zh": "全國抵抗委員會",
+   "text_zh": "壓制 1 個單位。對敵方總部造成 1 點傷害。將 1 張“抵抗”加入敵方卡組。"
+  },
+  "resolute_defense": {
+   "en": "RESOLUTE DEFENSE",
+   "zh": "堅決守護",
+   "text_zh": "使 1 個守護單位獲得 +1+3。"
+  },
+  "resourcefulness": {
+   "en": "RESOURCEFULNESS",
+   "zh": "足智多謀",
+   "text_zh": "抽 1 張突擊隊。"
+  },
+  "respite": {
+   "en": "RESPITE",
+   "zh": "喘息之機",
+   "text_zh": "使所有友方單位獲得 +1+3。使敵方總部獲得 +5 防禦力。"
+  },
+  "retaliation": {
+   "en": "RETALIATION",
+   "zh": "復仇",
+   "text_zh": "友方總部受到傷害後，對敵方總部造成同等傷害。"
+  },
+  "retribution": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "對 1 個單位造成 5 點傷害。"
+  },
+  "retribution_b": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "對 1 個單位造成 2 點傷害。"
+  },
+  "retribution_c": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "使 1 個友方單位造成等同於其攻擊力的傷害，隨機分配至所有敵方目標。"
+  },
+  "retribution_d": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "使 1 個友方單位獲得 +2+2 和閃擊。"
+  },
+  "retribution_e": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "對 1 個單位造成 2 點傷害。抽 1 張牌。"
+  },
+  "retribution_f": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "對敵方支援陣線 1 個目標造成 4 點傷害。使友方總部獲得 +2 防禦力。"
+  },
+  "retribution_g": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "開發 2 張“懲戒”。"
+  },
+  "retribution_h": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "對所有敵方單位造成 2 點傷害。"
+  },
+  "retribution_i": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "造成 3 點傷害。抽 3 張牌。額外獲得 3 個指揮點槽。使所有友方單位獲得 +3+3。"
+  },
+  "retribution_j": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "使 1 個友方單位獲得：“亡計：將 1 張複製加入所有者手牌。”"
+  },
+  "retribution_k": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "使 1 個單位獲得 +1+1。使其行動花費為 0 。"
+  },
+  "retribution_l": {
+   "en": "RETRIBUTION",
+   "zh": "懲戒",
+   "text_zh": "友方單位被消滅時，隨機消滅 1 個敵方單位。"
+  },
+  "ride_of_the_valkyries": {
+   "en": "RIDE OF THE VALKYRIES",
+   "zh": "女武神的騎行",
+   "text_zh": "使敵方總部獲得：“每回合，累計受到的傷害不小於 3 時，獲得 2 個指揮點。”"
+  },
+  "rm_bersagliere": {
+   "en": "RM BERSAGLIERE",
+   "zh": "RM 神射手號",
+   "text_zh": "抽 1 張構築之外的牌。使友方總部獲得等同於其花費的防禦力。"
+  },
+  "rm_roma": {
+   "en": "RM ROMA",
+   "zh": "RM 羅馬號",
+   "text_zh": "對 1 個敵方目標造成 4 點傷害。使卡組頂的牌算作是海軍，直到下個友方回合結束。"
+  },
+  "rnzaf_kittyhawk": {
+   "en": "RNZAF KITTYHAWK",
+   "zh": "RNZAF 小鷹",
+   "text_zh": "單位部署時，對敵方總部造成 1 點傷害，使友方總部獲得 +1 防禦力。"
+  },
+  "road_to_berlin": {
+   "en": "ROAD TO BERLIN",
+   "zh": "柏林之路",
+   "text_zh": "使敵方總部獲得：“每回合，累計受到的傷害不小於 3 時，使友方總部獲得 +3 防禦力。”"
+  },
+  "romanian_bridgehead": {
+   "en": "ROMANIAN BRIDGEHEAD",
+   "zh": "羅馬尼亞橋頭堡",
+   "text_zh": "使 1 個單位獲得 +2+2 和閃擊。兩回合後，將其消滅。"
+  },
+  "root_out_the_enemy": {
+   "en": "ROOT OUT THE ENEMY",
+   "zh": "斬草除根",
+   "text_zh": "使所有單位獲得 -1-2。"
+  },
+  "rout": {
+   "en": "ROUT",
+   "zh": "潰敵",
+   "text_zh": "將 1 個花費不大於 2 的單位轉換為“潰軍”。"
+  },
+  "routed_troops": {
+   "en": "ROUTED TROOPS",
+   "zh": "潰軍",
+   "text_zh": ""
+  },
+  "royal_fusiliers": {
+   "en": "ROYAL FUSILIERS",
+   "zh": "皇家燧發槍兵團",
+   "text_zh": "友方使用指令時，將本單位的攻擊力和行動花費交換。"
+  },
+  "royal_research": {
+   "en": "ROYAL RESEARCH",
+   "zh": "皇家研發",
+   "text_zh": "抉擇：將 1 張“雷達” 或 1 張“擴展皇家研發”加入手牌。"
+  },
+  "royal_scots": {
+   "en": "ROYAL SCOTS",
+   "zh": "皇家蘇格蘭團",
+   "text_zh": "本單位在手中或場上時，始終是隨機效果的目標。"
+  },
+  "royal_sussex_regiment": {
+   "en": "ROYAL SUSSEX REGIMENT",
+   "zh": "皇家薩塞克斯團",
+   "text_zh": "友方“爆破”造成的傷害 +1。\\r\\n友方“計畫”抽取的卡牌數 +1。\\r\\n友方“生產”增加的指揮點數 +1。"
+  },
+  "royal_ulster_rifles": {
+   "en": "ROYAL ULSTER RIFLES",
+   "zh": "皇家阿爾斯特步槍兵團",
+   "text_zh": "友方總部受到傷害時，改為由本單位承受。"
+  },
+  "royal_west_kents": {
+   "en": "ROYAL WEST KENTS",
+   "zh": "皇家西肯特郡團",
+   "text_zh": "其他友方守護單位具有 +2 攻擊力和閃擊。"
+  },
+  "ruffians": {
+   "en": "RUFFIANS",
+   "zh": "惡漢團",
+   "text_zh": "部署：每有 1 個其他友方步兵，獲得一次 +1+1。"
+  },
+  "rule_britannia": {
+   "en": "RULE BRITANNIA",
+   "zh": "統治吧！不列顛尼亞！",
+   "text_zh": "使所有友方英國單位獲得 +2 防禦力，使其攻擊力等同於其防禦力。"
+  },
+  "rule_the_skies": {
+   "en": "RULE THE SKIES",
+   "zh": "統治天空",
+   "text_zh": "使敵方總部獲得：“每回合，累計受到的傷害不小於 3 時，使所有友方空軍獲得 +1+1。”"
+  },
+  "run_the_battlefield": {
+   "en": "RUN THE BATTLEFIELD",
+   "zh": "掌控戰場",
+   "text_zh": "每個攻擊力不小於 4 的友方單位隨機觸發一項：獲得 3 個指揮點，獲得 +2+2 或抽 1 張牌。"
+  },
+  "rush": {
+   "en": "RUSH",
+   "zh": "強襲",
+   "text_zh": "對 1 個友方單位造成 1 點傷害。隨機對 1 個敵方單位造成 4 點傷害。"
+  },
+  "rush_production": {
+   "en": "RUSH PRODUCTION",
+   "zh": "加急生產",
+   "text_zh": "本回合，友方德國單位部署時，使其獲得 +2-1。"
+  },
+  "ryhm_susi": {
+   "en": "RYHMÄ SUSI",
+   "zh": "蘇西戰鬥群",
+   "text_zh": "友方回合開始時，失去 1 個指揮點，抽 1 張牌。"
+  },
+  "saar_offensive": {
+   "en": "SAAR OFFENSIVE",
+   "zh": "薩爾攻勢",
+   "text_zh": "對 1 個單位造成 7 點傷害。若是本回合使用的第一張指令，將 1 張“洛林十字”加入手牌。"
+  },
+  "sabae_regiment": {
+   "en": "SABAE REGIMENT",
+   "zh": "鯖江聯隊",
+   "text_zh": "一回合一次，友方洗切卡組時，造成等同於所有單位數的傷害，隨機分配至所有敵方目標。"
+  },
+  "sabotage": {
+   "en": "SABOTAGE",
+   "zh": "毀壞",
+   "text_zh": "從敵方 3 張手牌中選擇 1 張並棄掉，將 1 張複製加入友方手牌。"
+  },
+  "sakura_regiment": {
+   "en": "SAKURA REGIMENT",
+   "zh": "佐倉聯隊",
+   "text_zh": "若友方手牌數小於敵方，具有 +2 攻擊力。"
+  },
+  "salamander": {
+   "en": "SALAMANDER",
+   "zh": "He 162 蠑螈",
+   "text_zh": "本單位攻擊後，移除本單位，直到下個友方回合開始。"
+  },
+  "sally": {
+   "en": "SALLY",
+   "zh": "出動",
+   "text_zh": "指向 1 個單位。若是坦克，將其壓制；若是步兵，將其抑制；若是炮兵，將其消滅；若是空軍，使其撤退。"
+  },
+  "salpa_line": {
+   "en": "SALPA LINE",
+   "zh": "薩爾帕防線",
+   "text_zh": "將 1 個“游擊隊員”加入支援陣線，使所有友方“游擊隊員”獲得 +3 防禦力。"
+  },
+  "sapporo_regiment": {
+   "en": "SAPPORO REGIMENT",
+   "zh": "札幌聯隊",
+   "text_zh": "單位不因消滅離開戰場時，本單位獲得 +1+1 和 1 個隨機對戰詞條。"
+  },
+  "savoia_cavalleria": {
+   "en": "SAVOIA CAVALLERIA",
+   "zh": "薩沃亞騎兵團",
+   "text_zh": "也算作是坦克。"
+  },
+  "savoiamarchetti_sm_79": {
+   "en": "SAVOIA-MARCHETTI SM.79",
+   "zh": "薩沃亞-馬爾凱蒂 SM.79",
+   "text_zh": "部署：觸發 1 個友方單位的非指向部署。"
+  },
+  "sb2c_helldiver": {
+   "en": "SB2C HELLDIVER",
+   "zh": "SB2C 地獄俯衝者",
+   "text_zh": "友方額外獲得 1 個指揮點槽時，將 1 張本單位的複製加入手牌。"
+  },
+  "sbd_3_dauntless": {
+   "en": "SBD 3 DAUNTLESS",
+   "zh": "SBD 3 無畏",
+   "text_zh": ""
+  },
+  "scatter_tactics": {
+   "en": "SCATTER TACTICS",
+   "zh": "分散戰術",
+   "text_zh": "單位攻擊時，使所有敵方單位獲得 -2 攻擊力，直到回合結束。"
+  },
+  "scorched_earth": {
+   "en": "SCORCHED EARTH",
+   "zh": "焦土政策",
+   "text_zh": "使所有單位的行動花費為 4。"
+  },
+  "scorching_sun": {
+   "en": "SCORCHING SUN",
+   "zh": "驕陽",
+   "text_zh": "將手中所有單位加入戰場。將其壓制，直到回合結束。"
+  },
+  "scouting_party": {
+   "en": "SCOUTING PARTY",
+   "zh": "偵察隊",
+   "text_zh": "將 2 個“搜索第三十三聯隊”加入支援陣線。"
+  },
+  "scrap_metal": {
+   "en": "SCRAP METAL",
+   "zh": "金屬廢料",
+   "text_zh": "選擇並棄 1 張單位以抽 1 張牌。若是被收繳單位，獲得 4 個指揮點。"
+  },
+  "screening_force": {
+   "en": "SCREENING FORCE",
+   "zh": "掩護部隊",
+   "text_zh": "每有 1 個友方“F2A 水牛”，具有 -1 花費。將 2 個“SBD 3 無畏”加入支援陣線，使其獲得閃擊。"
+  },
+  "sd_kfz_10_pak_38": {
+   "en": "Sd Kfz 10 PAK 38",
+   "zh": "Sd Kfz 10 PaK 38",
+   "text_zh": "因其他卡牌增加攻擊力時，具有 +1 攻擊力，直到回合結束。"
+  },
+  "sd_kfz_222": {
+   "en": "Sd KFz 222",
+   "zh": "Sd KFz 222",
+   "text_zh": "相鄰陸軍具有 +1 攻擊力。"
+  },
+  "sd_kfz_2509": {
+   "en": "Sd Kfz 250/9",
+   "zh": "Sd Kfz 250/9",
+   "text_zh": "抽 1 張牌時，具有 +2 攻擊力，直到回合結束。"
+  },
+  "sdf": {
+   "en": "SDF",
+   "zh": "蘇丹防衛軍",
+   "text_zh": "每有 1 個友方守護單位，其他友方單位具有 +1 攻擊力。"
+  },
+  "sea_embargo": {
+   "en": "SEA EMBARGO",
+   "zh": "海運禁令",
+   "text_zh": "使 1 個單位獲得 +1+1。若是空軍，開發 1 張攻擊力不大於 2 的英國空軍。"
+  },
+  "sea_patrol": {
+   "en": "SEA PATROL",
+   "zh": "海上巡邏",
+   "text_zh": "對 1 個敵方目標造成 3 點傷害。每有 1 個友方空軍，具有 -1 花費。"
+  },
+  "seabees": {
+   "en": "SEABEES",
+   "zh": "海蜂隊",
+   "text_zh": "友方單位被完全修復時，使其獲得 +1 攻擊力和 -1 行動花費。"
+  },
+  "seaborne_invasion": {
+   "en": "SEABORNE INVASION",
+   "zh": "海上入侵",
+   "text_zh": "使前線所有敵方單位撤退，隨機將 2 個攻擊力之和為 6 的美國步兵加入前線。"
+  },
+  "seac": {
+   "en": "SEAC",
+   "zh": "東南亞司令部",
+   "text_zh": "抽 1 張構築之外的牌。將 1 張複製加入手中。"
+  },
+  "seaforth_highlanders": {
+   "en": "SEAFORTH HIGHLANDERS",
+   "zh": "錫福斯高地人團",
+   "text_zh": "敵方回合中，具有 +3 攻擊力。"
+  },
+  "seagull": {
+   "en": "SEAGULL",
+   "zh": "SO3C 海鷗",
+   "text_zh": "每回合，友方總部累計失去的防禦力至多為 4。"
+  },
+  "seahawk": {
+   "en": "SEAHAWK",
+   "zh": "SC 海鷹",
+   "text_zh": "敵方卡牌造成的傷害 -1。"
+  },
+  "second_chance": {
+   "en": "SECOND CHANCE",
+   "zh": "第二次機會",
+   "text_zh": "抽 2 張指令。"
+  },
+  "second_front": {
+   "en": "SECOND FRONT",
+   "zh": "第二戰線",
+   "text_zh": "移除 1 個德國陸軍。下個敵方回合結束時，將其返回並複製。"
+  },
+  "secret_operatives": {
+   "en": "SECRET OPERATIVES",
+   "zh": "秘密特工",
+   "text_zh": "敵方指令指向友方單位時，將其反制，使被指向單位獲得 +2 防禦力。"
+  },
+  "section_ii": {
+   "en": "SECTION II",
+   "zh": "總參二局",
+   "text_zh": "抽 1 張牌。"
+  },
+  "seek_and_destroy": {
+   "en": "SEEK AND DESTROY",
+   "zh": "窮追猛打",
+   "text_zh": "使所有友方單位獲得：“本單位攻擊敵方總部後，抽 1 張牌。”"
+  },
+  "semovente_da_7518": {
+   "en": "SEMOVENTE DA 75/18",
+   "zh": "75/18 式自走炮",
+   "text_zh": "對坦克造成雙倍傷害。"
+  },
+  "semper_fi": {
+   "en": "SEMPER FI",
+   "zh": "永遠忠誠",
+   "text_zh": "將卡組頂的前 8 張牌中的 4 張轉換為“第 22 陸戰團”。使其算作是海軍。"
+  },
+  "sendai_regiment": {
+   "en": "SENDAI REGIMENT",
+   "zh": "仙臺聯隊",
+   "text_zh": "部署：移除 1 個敵方單位，直到本單位離開戰場。"
+  },
+  "sexton": {
+   "en": "SEXTON",
+   "zh": "司事火炮",
+   "text_zh": "部署：壓制 1 個敵方單位。友方回合開始時，再次將其壓制。"
+  },
+  "shadow_strike": {
+   "en": "SHADOW STRIKE",
+   "zh": "暗影襲擊",
+   "text_zh": "使 1 個友方單位獲得衝擊。回合結束時，使其獲得煙幕。"
+  },
+  "shark_mk_iii": {
+   "en": "SHARK Mk III",
+   "zh": "鯊魚 Mk III",
+   "text_zh": "部署：對 1 個敵方目標造成等同於其他友方空軍數的傷害。"
+  },
+  "shelling": {
+   "en": "SHELLING",
+   "zh": "炮擊",
+   "text_zh": "壓制所有敵方單位，對其造成 1 點傷害。敵方失去 1 個指揮點槽。"
+  },
+  "sherwood_foresters": {
+   "en": "SHERWOOD FORESTERS",
+   "zh": "舍伍德森林人團",
+   "text_zh": "部署：將 1 個單位的複製返回其所有者卡組頂。"
+  },
+  "shibata_regiment": {
+   "en": "SHIBATA REGIMENT",
+   "zh": "新發田聯隊",
+   "text_zh": "敵方使用指令時，對其總部造成 1 點傷害。"
+  },
+  "shifting_attack": {
+   "en": "SHIFTING ATTACK",
+   "zh": "轉變攻擊",
+   "text_zh": "將 1 個友方單位返回手牌。使其花費為 0，直到回合結束。"
+  },
+  "shifting_doctrine": {
+   "en": "SHIFTING DOCTRINE",
+   "zh": "轉變戰法",
+   "text_zh": "隨機將 1 張手牌洗入卡組，抽 2 張牌。"
+  },
+  "shinyo_motorboats": {
+   "en": "SHINYO MOTORBOATS",
+   "zh": "震洋特攻摩托艇",
+   "text_zh": "失去 1 個指揮點槽。對 1 個單位造成等同於本局對戰友方失去的指揮點槽數 +1 的傷害。"
+  },
+  "shock_attack": {
+   "en": "SHOCK ATTACK",
+   "zh": "震懾衝擊",
+   "text_zh": "本回合，友方單位失去煙幕時，使其獲得 +2+2。"
+  },
+  "shock_tactics": {
+   "en": "SHOCK TACTICS",
+   "zh": "突擊戰術",
+   "text_zh": "抉擇：使 1 個陸軍獲得閃擊 或 衝擊。若有攻擊力不小於 4 的友方單位，兩項都觸發。"
+  },
+  "shoge_detachment": {
+   "en": "SHOGE DETACHMENT",
+   "zh": "莊下支隊",
+   "text_zh": "亡計：抽 1 張牌。"
+  },
+  "shore_bombardment": {
+   "en": "SHORE BOMBARDMENT",
+   "zh": "對岸轟炸",
+   "text_zh": "抉擇：對 1 個單位造成 3 點傷害 或 使 1 個單位獲得 +2+3。"
+  },
+  "shturmovik_il2m": {
+   "en": "SHTURMOVIK Il-2M",
+   "zh": "伊爾-2M",
+   "text_zh": "本單位攻擊並消滅 1 個單位後，溢出的傷害會轉移到敵方總部。"
+  },
+  "siberian_transfer": {
+   "en": "SIBERIAN TRANSFER",
+   "zh": "西伯利亞轉移",
+   "text_zh": "將 1 個“T-34 1942”加入支援陣線，友方回合結束時，將其消滅。"
+  },
+  "sincerely_yours": {
+   "en": "SINCERELY YOURS",
+   "zh": "誠摯問候",
+   "text_zh": "使友方總部獲得 +6 防禦力。抽 2 張牌。"
+  },
+  "sissi": {
+   "en": "SISSI",
+   "zh": "游擊隊員",
+   "text_zh": "消滅受到本單位對戰傷害的單位。"
+  },
+  "sissiosasto_5_d": {
+   "en": "SISSIOSASTO 5.D",
+   "zh": "第 5 師獨立游擊支隊",
+   "text_zh": "敵方單位加入、部署或被消滅時，獲得 +1+1。"
+  },
+  "sisu": {
+   "en": "SISU",
+   "zh": "西蘇精神",
+   "text_zh": "友方總部受到傷害時，改為由敵方總部承受。"
+  },
+  "ski_troops": {
+   "en": "SKI TROOPS",
+   "zh": "滑雪部隊",
+   "text_zh": "敵方單位部署時，將其抑制，然後將 1 個“游擊隊員”加入支援陣線。"
+  },
+  "sky_barons": {
+   "en": "SKY BARONS",
+   "zh": "空中男爵",
+   "text_zh": "消滅 1 個空軍，抽 1 張牌。"
+  },
+  "slashers": {
+   "en": "SLASHERS",
+   "zh": "砍殺者團",
+   "text_zh": "友方單位對戰並存活後，將 1 個“衛戍”加入支援陣線。"
+  },
+  "sloped_armor": {
+   "en": "SLOPED ARMOR",
+   "zh": "傾斜裝甲",
+   "text_zh": "將 1 個“IS-2”加入支援陣線。使其與 1 個敵方單位戰鬥。回合結束時，將其返回手中。"
+  },
+  "sneak_attack": {
+   "en": "SNEAK ATTACK",
+   "zh": "潛行突擊",
+   "text_zh": "消滅 1 個單位，從其所有者的手牌和卡組中移除所有複製。"
+  },
+  "sneak_maneuver": {
+   "en": "SNEAK MANEUVER",
+   "zh": "潛伏特訓",
+   "text_zh": "使 1 個行動花費為 0 的步兵或坦克獲得 +2 攻擊力。"
+  },
+  "sniped": {
+   "en": "SNIPED",
+   "zh": "阻擊",
+   "text_zh": "敵方單位攻擊時，將其變為 2/2。"
+  },
+  "snowstorm": {
+   "en": "SNOWSTORM",
+   "zh": "暴風雪",
+   "text_zh": "使所有單位的行動花費為 4，直到下個友方回合開始。"
+  },
+  "somua_s35": {
+   "en": "SOMUA S35",
+   "zh": "索瑪 S35",
+   "text_zh": "每回合，友方部署第一個單位時，使其獲得 +1+1 和 -1 行動花費。"
+  },
+  "sortie": {
+   "en": "SORTIE",
+   "zh": "出擊",
+   "text_zh": "抉擇：使 1 個友方單位獲得動員 或 將 1 張“攻擊”加入手牌。"
+  },
+  "soul_of_old_japan": {
+   "en": "SOUL OF OLD JAPAN",
+   "zh": "葦原之魂",
+   "text_zh": "從 3 張隨機日本精英單位中選擇 1 張加入手牌。"
+  },
+  "southern_plan": {
+   "en": "SOUTHERN PLAN",
+   "zh": "南進計畫",
+   "text_zh": "額外獲得 1 個指揮點槽。敵方失去 1 個指揮點槽。"
+  },
+  "soviet_military_research": {
+   "en": "SOVIET MILITARY RESEARCH",
+   "zh": "蘇聯軍事研發",
+   "text_zh": "抉擇：將 1 張“氣動雪橇” 或 1 張“擴展蘇聯研發”加入手中。"
+  },
+  "spars": {
+   "en": "SPARS",
+   "zh": "婦女預備隊",
+   "text_zh": "抉擇：抽取卡組頂的單位 或 使其獲得伏擊和衝擊。"
+  },
+  "spearhead": {
+   "en": "SPEARHEAD",
+   "zh": "先鋒",
+   "text_zh": "消滅 1 個友方單位和其相鄰單位。使友方單位獲得等同於被消滅單位數的攻擊力和防禦力。"
+  },
+  "special_assignment": {
+   "en": "SPECIAL ASSIGNMENT",
+   "zh": "特別任務",
+   "text_zh": "選擇手中的 1 張單位，將其加入戰場。"
+  },
+  "special_attack": {
+   "en": "SPECIAL ATTACK",
+   "zh": "特攻",
+   "text_zh": "失去 1 個指揮點槽。使所有友方單位獲得：“亡計：對敵方總部造成 1 點傷害。獲得 1 個指揮點槽。”"
+  },
+  "special_delivery": {
+   "en": "SPECIAL DELIVERY",
+   "zh": "特快專遞",
+   "text_zh": "棄掉手牌中所有花費不大於 2 的牌，抽 2 張牌。"
+  },
+  "special_reinforcements": {
+   "en": "SPECIAL REINFORCEMENTS",
+   "zh": "特殊增援",
+   "text_zh": "將上 1 個被消滅的友方單位的複製加入手牌。"
+  },
+  "spirit_of_rome": {
+   "en": "SPIRIT OF ROME",
+   "zh": "羅馬精神",
+   "text_zh": "友方總部防禦力每大於敵方總部 1 點，使 1 個友方步兵獲得一次 +1+1。"
+  },
+  "spitfire_mk_ia": {
+   "en": "SPITFIRE Mk Ia",
+   "zh": "噴火 Mk Ia",
+   "text_zh": ""
+  },
+  "spitfire_mk_ii": {
+   "en": "SPITFIRE Mk II",
+   "zh": "噴火 Mk II",
+   "text_zh": "若被守護，具有 +2 攻擊力。"
+  },
+  "spitfire_mk_iia": {
+   "en": "SPITFIRE Mk IIa",
+   "zh": "噴火 Mk IIa",
+   "text_zh": "部署：若有敵方空軍，獲得 +2+2。否則，獲得奮戰。"
+  },
+  "spitfire_mk_v": {
+   "en": "SPITFIRE Mk V",
+   "zh": "噴火 Mk V",
+   "text_zh": ""
+  },
+  "spitfire_mk_v_pl": {
+   "en": "SPITFIRE Mk V PL",
+   "zh": "噴火 Mk V PL",
+   "text_zh": "部署：使 1 個友方陸軍獲得 +1+1 和守護。"
+  },
+  "spoils_of_war": {
+   "en": "SPOILS OF WAR",
+   "zh": "戰利品",
+   "text_zh": "從卡組頂 3 張牌中選擇 1 張並抽取，將其餘 2 張置於卡組底。"
+  },
+  "spring_offensive": {
+   "en": "SPRING OFFENSIVE",
+   "zh": "春季攻勢",
+   "text_zh": "抽 2 張牌。每抽到 1 張攻擊力不小於 4 的單位，獲得 2 個指揮點。"
+  },
+  "spy_ring": {
+   "en": "SPY RING",
+   "zh": "間諜組織",
+   "text_zh": "隨機將 1 張研發加入手牌。"
+  },
+  "stalins_organ": {
+   "en": "STALIN'S ORGAN",
+   "zh": "史達林管風琴",
+   "text_zh": "造成 8 點傷害，隨機分配至所有敵方目標。"
+  },
+  "stand_fast": {
+   "en": "STAND FAST",
+   "zh": "堅守不退",
+   "text_zh": "使 1 個步兵或坦克獲得 +5+5 和 +5 行動花費。"
+  },
+  "stand_together": {
+   "en": "STAND TOGETHER",
+   "zh": "同仇敵愾",
+   "text_zh": "消滅 1 個友方步兵。隨機將 1 個花費相同的蘇聯坦克加入同一陣線。使其獲得閃擊。"
+  },
+  "standard_ammo": {
+   "en": "STANDARD AMMO",
+   "zh": "標準彈藥",
+   "text_zh": "使手中和卡組中所有友方單位獲得 -1 花費和 -1 行動花費。"
+  },
+  "stars_stripes": {
+   "en": "STARS & STRIPES",
+   "zh": "星條旗",
+   "text_zh": "對敵方支援陣線所有單位造成等同於該陣線單位數的傷害。"
+  },
+  "stealth_mission": {
+   "en": "STEALTH MISSION",
+   "zh": "潛行任務",
+   "text_zh": "使 1 個友方單位獲得：“友方回合開始時，移除本單位，獲得 6 個指揮點並抽 3 張牌。”"
+  },
+  "stiff_upper_lip": {
+   "en": "STIFF UPPER LIP",
+   "zh": "咬緊牙關",
+   "text_zh": "抽 1 張牌。若有友方守護單位，額外抽 1 張牌。"
+  },
+  "stirling_mk_i_s3": {
+   "en": "STIRLING Mk I S3",
+   "zh": "斯特林 Mk I S3",
+   "text_zh": "部署：將 1 個“角鬥士護航機”加入支援陣線。"
+  },
+  "stirling_mk_iii": {
+   "en": "STIRLING Mk III",
+   "zh": "斯特林 Mk III",
+   "text_zh": "部署：將 1 張“地毯式轟炸”洗入卡組。"
+  },
+  "storm_division": {
+   "en": "STORM DIVISION",
+   "zh": "嵐兵團",
+   "text_zh": "其他友方日本單位具有 +2 攻擊力。"
+  },
+  "strafing": {
+   "en": "STRAFING",
+   "zh": "低空掃射",
+   "text_zh": "抉擇：消滅 1 個炮兵 或 壓制前線所有單位。"
+  },
+  "stranglehold": {
+   "en": "STRANGLEHOLD",
+   "zh": "截斷",
+   "text_zh": "敵方部署單位時，失去剩餘指揮點。"
+  },
+  "strategic_bombing": {
+   "en": "STRATEGIC BOMBING",
+   "zh": "戰略轟炸",
+   "text_zh": "對敵方支援陣線所有目標造成 3 點傷害。敵方失去 1 個指揮點槽。"
+  },
+  "strategic_focus": {
+   "en": "STRATEGIC FOCUS",
+   "zh": "戰略重心",
+   "text_zh": "抉擇：對所有陸軍 或 空軍造成 5 點傷害。"
+  },
+  "strategic_planning": {
+   "en": "STRATEGIC PLANNING",
+   "zh": "戰略規劃",
+   "text_zh": "將所有友方單位的攻擊力和防禦力翻倍。"
+  },
+  "stretch_the_line": {
+   "en": "STRETCH THE LINE",
+   "zh": "延長戰線",
+   "text_zh": "將 1 個“軍團”加入支援陣線，觸發等同於友方“軍團”數量的情報。"
+  },
+  "strike_from_the_woods": {
+   "en": "STRIKE FROM THE WOODS",
+   "zh": "林間襲擊",
+   "text_zh": "壓制 1 個單位。將 1 個“游擊隊員”加入支援陣線。"
+  },
+  "strike_group": {
+   "en": "STRIKE GROUP",
+   "zh": "航母打擊群",
+   "text_zh": "抽取：抽 1 張空軍。\\r\\n使所有友方空軍獲得 +1+1。"
+  },
+  "strong_bond": {
+   "en": "STRONG BOND",
+   "zh": "戮力同心",
+   "text_zh": "使 1 個友方陸軍獲得守護，且：“友方回合開始時，將 1 個花費為 3 的美國單位加入支援陣線。”"
+  },
+  "stubborn_defense": {
+   "en": "STUBBORN DEFENSE",
+   "zh": "殊死防守",
+   "text_zh": "友方單位被攻擊時，使其在傷害造成前獲得 +1 防禦力。若其存活，抽 1 張牌。"
+  },
+  "stug_iii_g_schrzen": {
+   "en": "STUG III G SCHÜRZEN",
+   "zh": "三號突擊炮 G 型 裙甲型",
+   "text_zh": "鉗擊：+1 重甲。"
+  },
+  "stug_iiif": {
+   "en": "STUG III-F",
+   "zh": "三號突擊炮 F 型",
+   "text_zh": "對坦克造成雙倍傷害。"
+  },
+  "stug_iiig": {
+   "en": "STUG III-G",
+   "zh": "三號突擊炮 G 型",
+   "text_zh": "本單位的傷害無視重甲。"
+  },
+  "stug_iv": {
+   "en": "STUG IV",
+   "zh": "四號突擊炮",
+   "text_zh": "對坦克造成雙倍傷害。"
+  },
+  "stuka_87g": {
+   "en": "STUKA 87G",
+   "zh": "Ju 87 G 斯圖卡",
+   "text_zh": "敵方陸軍被消滅後，升為老兵。"
+  },
+  "stuka_87g_vet": {
+   "en": "STUKA 87G",
+   "zh": "Ju 87 G 斯圖卡",
+   "text_zh": "友方單位攻擊並消滅 1 個陸軍時，敵方隨機棄 1 張牌。"
+  },
+  "sturmbrigade_rhodos": {
+   "en": "STURM-BRIGADE RHODOS",
+   "zh": "羅得突擊旅",
+   "text_zh": "若在手牌中，每次友方反制觸發時，獲得 -2 花費。"
+  },
+  "sturmi": {
+   "en": "STURMI",
+   "zh": "三號突擊炮 FI",
+   "text_zh": "敵方指向或攻擊本單位時，+2 花費。"
+  },
+  "stz5_katyusha": {
+   "en": "STZ-5 KATYUSHA",
+   "zh": "STZ-5 喀秋莎",
+   "text_zh": "本單位造成對戰傷害時，將等量的“爆破”加入手中。"
+  },
+  "su100": {
+   "en": "SU-100",
+   "zh": "SU-100",
+   "text_zh": "受傷時具有 +4 攻擊力。"
+  },
+  "su76m": {
+   "en": "SU-76M",
+   "zh": "SU-76M",
+   "text_zh": "部署：對友方總部造成 2 點傷害。"
+  },
+  "su85": {
+   "en": "SU-85",
+   "zh": "SU-85",
+   "text_zh": "友方蘇聯坦克攻擊時，使友方總部獲得 +3 防禦力。"
+  },
+  "su_152": {
+   "en": "SU 152",
+   "zh": "SU-152",
+   "text_zh": "部署：使其他友方坦克獲得 +1 攻擊力和 +1 重甲。"
+  },
+  "sudden_strike": {
+   "en": "SUDDEN STRIKE",
+   "zh": "突然襲擊",
+   "text_zh": "消滅 1 個花費不大於 2 的單位。"
+  },
+  "sunderland_mk_v": {
+   "en": "SUNDERLAND Mk V",
+   "zh": "桑德蘭 Mk V",
+   "text_zh": "友方回合結束時，抽 1 張海軍牌。"
+  },
+  "sunrise_division": {
+   "en": "SUNRISE DIVISION",
+   "zh": "旭兵團",
+   "text_zh": "部署：若友方總部防禦力不大於 10，獲得 +6+6。"
+  },
+  "supply_chain": {
+   "en": "SUPPLY CHAIN",
+   "zh": "供應鏈",
+   "text_zh": "抽 1 張牌。被棄掉時，將 2 張花費為 1 的複製加入手牌。"
+  },
+  "supply_drop": {
+   "en": "SUPPLY DROP",
+   "zh": "空投補給",
+   "text_zh": "使 1 個坦克或步兵獲得 +4 防禦力和守護，失去煙幕。"
+  },
+  "supply_front": {
+   "en": "SUPPLY FRONT",
+   "zh": "前線補給",
+   "text_zh": "完全修復前線所有單位，使其獲得 +1+2。"
+  },
+  "supply_priorities": {
+   "en": "SUPPLY PRIORITIES",
+   "zh": "補給優先",
+   "text_zh": "抉擇：對所有單位造成 1 點傷害 或 完全修復所有單位。"
+  },
+  "supply_shipment": {
+   "en": "SUPPLY SHIPMENT",
+   "zh": "運輸補給",
+   "text_zh": "使前線 1 個單位獲得 +2+3。"
+  },
+  "supply_shortage": {
+   "en": "SUPPLY SHORTAGE",
+   "zh": "物資短缺",
+   "text_zh": "使所有敵方單位獲得：“本單位所有者回合開始時，對本單位造成 1 點傷害。”"
+  },
+  "support_column": {
+   "en": "SUPPORT COLUMN",
+   "zh": "支援縱隊",
+   "text_zh": "使 1 個單位獲得：“相鄰陸軍具有 +1 攻擊力和 -1 行動花費。”"
+  },
+  "suppression": {
+   "en": "SUPPRESSION",
+   "zh": "抑制",
+   "text_zh": "抑制 1 個單位。若有友方空軍，抽 1 張牌。"
+  },
+  "surazh_gate": {
+   "en": "SURAZH GATE",
+   "zh": "蘇拉日之門",
+   "text_zh": "壓制 1 個單位，對其相鄰單位造成 2 點傷害。"
+  },
+  "surging_power": {
+   "en": "SURGING POWER",
+   "zh": "澎湃力量",
+   "text_zh": "使卡組頂的前 4 張單位依次獲得 +1+1、+2+2、+3+3 和 +4+4。"
+  },
+  "surprise_attack": {
+   "en": "SURPRISE ATTACK",
+   "zh": "偷襲",
+   "text_zh": "壓制 1 個敵方單位。若其已被壓制，將其消滅。"
+  },
+  "surprise_engagement": {
+   "en": "SURPRISE ENGAGEMENT",
+   "zh": "突發交戰",
+   "text_zh": "若本回合使用過降雨牌，具有 -2 花費。隨機消滅 1 個敵方單位。抽 1 張卡組頂的單位。"
+  },
+  "surveil": {
+   "en": "SURVEIL",
+   "zh": "監視",
+   "text_zh": "選擇 1 張手牌。將其轉換為 1 個單位。"
+  },
+  "sustained_pressure": {
+   "en": "SUSTAINED PRESSURE",
+   "zh": "持續施壓",
+   "text_zh": "對 1 個單位造成等同於本回合單位行動花費的指揮點數的傷害。"
+  },
+  "swift_response": {
+   "en": "SWIFT RESPONSE",
+   "zh": "快速回應",
+   "text_zh": "友方單位被消滅時，使所有友方單位獲得 +1+1 和衝擊。"
+  },
+  "swift_victory": {
+   "en": "SWIFT VICTORY",
+   "zh": "快速勝利",
+   "text_zh": "造成 3 點傷害。使敵方卡組中的所有單位獲得 +3 攻擊力。"
+  },
+  "swordfish_mk_i": {
+   "en": "SWORDFISH Mk I",
+   "zh": "劍魚 Mk I",
+   "text_zh": ""
+  },
+  "sykes_regulars": {
+   "en": "SYKES REGULARS",
+   "zh": "賽克斯正規軍",
+   "text_zh": "移至前線時，抽 3 張牌。"
+  },
+  "synthetic_oil": {
+   "en": "SYNTHETIC OIL",
+   "zh": "合成機油",
+   "text_zh": "下個回合開始時，獲得 10 個指揮點並抽 1 張牌。"
+  },
+  "synthetic_rubber": {
+   "en": "SYNTHETIC RUBBER",
+   "zh": "合成橡膠",
+   "text_zh": "使 1 個單位獲得 +4 防禦力，使其攻擊力等同於其防禦力。"
+  },
+  "t19_howitzer": {
+   "en": "T19 HOWITZER",
+   "zh": "T19 榴彈炮",
+   "text_zh": "被本單位攻擊的單位失去守護，直到回合結束。"
+  },
+  "t26_fi": {
+   "en": "T-26 FI",
+   "zh": "T-26 FI",
+   "text_zh": "對抗攻擊力更高的單位時，具有 +2 攻擊力。"
+  },
+  "t28": {
+   "en": "T-28",
+   "zh": "T-28",
+   "text_zh": "鉗擊：本單位被消滅時，返回所有者卡組頂。"
+  },
+  "t3476d": {
+   "en": "T-34/76D",
+   "zh": "T-34-76D",
+   "text_zh": "亡計：抽 1 張 T-34，使其獲得 -2 花費。"
+  },
+  "t3485": {
+   "en": "T-34-85",
+   "zh": "T-34-85",
+   "text_zh": "被敵方指令指向時，抽 1 張牌。"
+  },
+  "t3485_1944": {
+   "en": "T-34-85 1944",
+   "zh": "T-34-85 1944",
+   "text_zh": "若友方單位數不小於 3，具有閃擊和守護。"
+  },
+  "t3485_1945": {
+   "en": "T-34-85 1945",
+   "zh": "T-34-85 1945",
+   "text_zh": "無法被抑制或失去衝擊。"
+  },
+  "t34_1942": {
+   "en": "T-34 1942",
+   "zh": "T-34 1942",
+   "text_zh": ""
+  },
+  "t34_1942_b": {
+   "en": "T-34 1942",
+   "zh": "T-34 1942",
+   "text_zh": "回合結束時，消滅本單位。"
+  },
+  "t34_76_pl": {
+   "en": "T-34 76 PL",
+   "zh": "T-34-76 PL",
+   "text_zh": ""
+  },
+  "t35": {
+   "en": "T-35",
+   "zh": "T-35",
+   "text_zh": "友方回合結束時，對雙方總部造成 1 點傷害。"
+  },
+  "t60": {
+   "en": "T-60",
+   "zh": "T-60",
+   "text_zh": "亡計：將 1 張“T-34 1942”加入手牌。"
+  },
+  "t70": {
+   "en": "T-70",
+   "zh": "T-70",
+   "text_zh": ""
+  },
+  "t70_b": {
+   "en": "T-70",
+   "zh": "T-70",
+   "text_zh": "下個友方回合結束時，消滅本單位。"
+  },
+  "t80": {
+   "en": "T-80",
+   "zh": "T-80",
+   "text_zh": "亡計：對友方總部造成 1 點傷害。"
+  },
+  "tactical_retreat": {
+   "en": "TACTICAL RETREAT",
+   "zh": "暫避鋒芒",
+   "text_zh": "友方單位被攻擊時，在傷害造成前將其返回手中。"
+  },
+  "tactical_strike": {
+   "en": "TACTICAL STRIKE",
+   "zh": "戰術打擊",
+   "text_zh": "對 1 個單位造成 2 點傷害。若其在支援陣線，改為造成 4 點傷害。"
+  },
+  "tactical_withdrawal": {
+   "en": "TACTICAL WITHDRAWAL",
+   "zh": "戰術撤退",
+   "text_zh": "使前線 1 個友方單位撤退，將其完全修復。本回合此單位能再次行動。"
+  },
+  "takasaki_regiment": {
+   "en": "TAKASAKI REGIMENT",
+   "zh": "高崎聯隊",
+   "text_zh": "亡計：敵方隨機棄 1 張牌。"
+  },
+  "take_initiative": {
+   "en": "TAKE INITIATIVE",
+   "zh": "先發制人",
+   "text_zh": "抽 1 張牌。將“先發制人”加入敵方手牌，使其所有數值 +1。"
+  },
+  "take_liberty": {
+   "en": "TAKE LIBERTY",
+   "zh": "池魚籠鳥",
+   "text_zh": "雙方將所有手牌洗入卡組，抽 4 張牌。"
+  },
+  "tamanskaya": {
+   "en": "TAMANSKAYA!",
+   "zh": "塔曼斯卡亞！",
+   "text_zh": "完全修復所有友方陸軍。"
+  },
+  "tank_maneuver": {
+   "en": "TANK MANEUVER",
+   "zh": "坦克機動",
+   "text_zh": "使 1 個友方坦克獲得 +2+1。將 1 張“空中支援”加入手中。"
+  },
+  "tank_wedge": {
+   "en": "TANK WEDGE",
+   "zh": "裝甲楔形陣",
+   "text_zh": "使 1 個友方德國坦克和其相鄰單位獲得 +1+1。"
+  },
+  "target_acquired": {
+   "en": "TARGET ACQUIRED",
+   "zh": "目標鎖定",
+   "text_zh": "消滅 1 個本回合被攻擊的單位。"
+  },
+  "task_force_44": {
+   "en": "TASK FORCE 44",
+   "zh": "第 44 特混艦隊",
+   "text_zh": "預報。對 1 個單位造成 2 點傷害。若從手中最左側使用，改為造成 3 點傷害。"
+  },
+  "tbf1_avenger": {
+   "en": "TBF-1 AVENGER",
+   "zh": "TBF-1 復仇者",
+   "text_zh": "部署：隨機消滅 1 個防禦力不小於 5 的敵方單位。"
+  },
+  "tempest_mk_v": {
+   "en": "TEMPEST Mk V",
+   "zh": "暴風 Mk V",
+   "text_zh": "敵方回合中，具有 +4 攻擊力。"
+  },
+  "the_alliance": {
+   "en": "THE ALLIANCE",
+   "zh": "同盟國",
+   "text_zh": "使所有友方非美國單位獲得 +2+2。"
+  },
+  "the_american_guard": {
+   "en": "THE AMERICAN GUARD",
+   "zh": "美國人衛隊",
+   "text_zh": "部署：選擇 1 張手牌。將卡組頂的牌轉換為此牌。"
+  },
+  "the_anzac_spirit": {
+   "en": "THE ANZAC SPIRIT",
+   "zh": "澳新軍團精神",
+   "text_zh": "對所有敵方目標造成 2 點傷害。抽 2 張牌。額外獲得 2 個指揮點槽。"
+  },
+  "the_big_three": {
+   "en": "THE BIG THREE",
+   "zh": "三巨頭",
+   "text_zh": "使所有友方單位每有 1 個不同國家的友方單位，獲得一次 +1+1。"
+  },
+  "the_biscuit_boys": {
+   "en": "THE BISCUIT BOYS",
+   "zh": "餅乾男孩步兵團",
+   "text_zh": "友方使用中立牌時，使友方總部獲得 +1 防禦力。"
+  },
+  "the_bleeders": {
+   "en": "THE BLEEDERS",
+   "zh": "流血者團",
+   "text_zh": "友方使用協力牌時，獲得 +1+1。"
+  },
+  "the_commonwealth": {
+   "en": "THE COMMONWEALTH",
+   "zh": "英聯邦",
+   "text_zh": "若友方總部防禦力不小於 30，對 1 個總部造成 20 點傷害。抽 4 張牌。"
+  },
+  "the_dagger_strikes": {
+   "en": "THE DAGGER STRIKES",
+   "zh": "單刀直入",
+   "text_zh": "壓制 1 個單位，若其具有唯一最高的攻擊力，將其消滅。"
+  },
+  "the_desert_rats": {
+   "en": "THE DESERT RATS",
+   "zh": "沙漠之鼠",
+   "text_zh": "對 1 個敵方單位造成 1 點傷害，將其壓制。"
+  },
+  "the_deuce": {
+   "en": "THE DEUCE",
+   "zh": "杜斯團",
+   "text_zh": "友方隱蔽單位具有 -1 花費。"
+  },
+  "the_double_sunrise": {
+   "en": "THE DOUBLE SUNRISE",
+   "zh": "雙日出航線",
+   "text_zh": "隨機使場上和手中的 1 個友方單位獲得 +2+1。"
+  },
+  "the_empire_strikes": {
+   "en": "THE EMPIRE STRIKES",
+   "zh": "帝國進擊",
+   "text_zh": "對所有敵方目標造成等同於友方轟炸機數 +1 的傷害。"
+  },
+  "the_glamour_boys": {
+   "en": "THE GLAMOUR BOYS",
+   "zh": "魅力男孩高地人團",
+   "text_zh": "部署：使友方總部獲得 +4 防禦力。"
+  },
+  "the_great_expanse": {
+   "en": "THE GREAT EXPANSE",
+   "zh": "闊土",
+   "text_zh": "使友方指揮點槽數與敵方相等。每獲得 1 個指揮點槽，使所有友方單位獲得一次 +1 攻擊力。"
+  },
+  "the_hammer": {
+   "en": "THE HAMMER",
+   "zh": "鐵錘",
+   "text_zh": "對 1 個陸軍造成 6 點傷害。"
+  },
+  "the_holy_boys": {
+   "en": "THE HOLY BOYS",
+   "zh": "神聖男孩步兵團",
+   "text_zh": "一回合一次，友方使用中立牌後，使所有友方單位獲得 +1+1。"
+  },
+  "the_land_girls": {
+   "en": "THE LAND GIRLS",
+   "zh": "土地女孩",
+   "text_zh": "抽 2 張牌。"
+  },
+  "the_merchant_navy": {
+   "en": "THE MERCHANT NAVY",
+   "zh": "商船隊",
+   "text_zh": "敵方單位攻擊時，使其撤退。"
+  },
+  "the_mighty_fall": {
+   "en": "THE MIGHTY FALL",
+   "zh": "巨人隕落",
+   "text_zh": "消滅 1 個老兵單位。"
+  },
+  "the_peoples_army": {
+   "en": "THE PEOPLE'S ARMY",
+   "zh": "人民軍",
+   "text_zh": "將數張“輕步兵”加入手牌和支援陣線，直到已滿。使其獲得閃擊。"
+  },
+  "the_polar_bears": {
+   "en": "THE POLAR BEARS",
+   "zh": "北極熊師",
+   "text_zh": "部署：若上回合友方部署過英國步兵，獲得 +1+1。"
+  },
+  "the_pompadours": {
+   "en": "THE POMPADOURS",
+   "zh": "蓬帕杜團",
+   "text_zh": "若在手中，每次友方使用協力牌，使友方總部獲得 +1 防禦力。"
+  },
+  "the_professionals": {
+   "en": "THE PROFESSIONALS",
+   "zh": "專家步兵團",
+   "text_zh": "亡計：使卡組中的所有單位獲得 +2+3 和 1 個隨機對戰詞條。"
+  },
+  "the_rangers": {
+   "en": "THE RANGERS",
+   "zh": "遊騎兵營",
+   "text_zh": "友方單位造成的非對戰或非攻擊傷害 +1。"
+  },
+  "the_regulars": {
+   "en": "THE REGULARS",
+   "zh": "正規軍裝甲步兵團",
+   "text_zh": "被完全修復時，升為老兵。"
+  },
+  "the_regulars_vet": {
+   "en": "THE REGULARS",
+   "zh": "正規軍裝甲步兵團",
+   "text_zh": "升為老兵時，將 1 張“團結就是力量”加入手牌。"
+  },
+  "the_rock_of_gibraltar": {
+   "en": "THE ROCK OF GIBRALTAR",
+   "zh": "直布羅陀巨岩",
+   "text_zh": "開發 1 張敵方卡組中的牌，然後開發 1 張友方卡組中的牌。"
+  },
+  "the_silent_seventh": {
+   "en": "THE SILENT SEVENTH",
+   "zh": "沉默七師",
+   "text_zh": "一回合一次，友方使用最左側手牌時，抽 1 張牌。第三次後，升為老兵。"
+  },
+  "the_silent_seventh_vet": {
+   "en": "THE SILENT SEVENTH",
+   "zh": "沉默七師",
+   "text_zh": "友方最左側手牌具有 -2 花費，至少為 1。"
+  },
+  "the_tide_turns": {
+   "en": "THE TIDE TURNS",
+   "zh": "潮起潮落",
+   "text_zh": "將所有手牌洗入卡組，抽取等量卡牌。對所有單位造成等同於洗入的海軍牌數的傷害。"
+  },
+  "the_tigers": {
+   "en": "THE TIGERS",
+   "zh": "老虎團",
+   "text_zh": "友方使用構築之外的牌時，獲得 +1+1。"
+  },
+  "the_war_machine": {
+   "en": "THE WAR MACHINE",
+   "zh": "戰爭機器",
+   "text_zh": "額外獲得 1 個指揮點槽。"
+  },
+  "the_white_death": {
+   "en": "THE WHITE DEATH",
+   "zh": "白色死神",
+   "text_zh": "抑制所有敵方單位。將 1 個具有閃擊的“游擊隊員”加入支援陣線。"
+  },
+  "through_the_breach": {
+   "en": "THROUGH THE BREACH",
+   "zh": "乘虛而入",
+   "text_zh": "對 1 個單位造成 1 點傷害。若其在支援陣線，改為造成 2 點傷害。"
+  },
+  "through_the_ice": {
+   "en": "THROUGH THE ICE",
+   "zh": "步履薄冰",
+   "text_zh": "對 1 個單位和其他同名單位造成 2 點傷害。"
+  },
+  "thunder_division": {
+   "en": "THUNDER DIVISION",
+   "zh": "雷兵團",
+   "text_zh": "一回合一次，友方使用情報牌時，使其他友方單位獲得 +2+2。"
+  },
+  "thunderbolt": {
+   "en": "THUNDERBOLT",
+   "zh": "霹靂師",
+   "text_zh": "部署：抽 2 張牌。選擇 1 張手牌並將其返回卡組頂。"
+  },
+  "thunderstorm": {
+   "en": "THUNDERSTORM",
+   "zh": "雷暴",
+   "text_zh": "造成 3 點傷害，隨機分配至所有敵方目標。"
+  },
+  "tiger_ie": {
+   "en": "TIGER I-E",
+   "zh": "虎式坦克 E 型",
+   "text_zh": "無法被敵方指令指向。"
+  },
+  "tiger_ih": {
+   "en": "TIGER I-H",
+   "zh": "虎式坦克 H 型",
+   "text_zh": "無法被壓制。"
+  },
+  "tiger_moth": {
+   "en": "TIGER MOTH",
+   "zh": "虎蛾",
+   "text_zh": "部署：使 1 個友方單位獲得 +1 防禦力，使其攻擊力等同於其防禦力。"
+  },
+  "tigercat": {
+   "en": "TIGERCAT",
+   "zh": "F7F 虎貓",
+   "text_zh": "友方回合結束時，將 1 個“SBD 3 無畏”加入支援陣線。"
+  },
+  "timely_supplies": {
+   "en": "TIMELY SUPPLIES",
+   "zh": "及時補給",
+   "text_zh": "抽 1 張牌，使其具有 -2 花費，直到回合結束。"
+  },
+  "tip_of_the_spear": {
+   "en": "TIP OF THE SPEAR",
+   "zh": "矛尖",
+   "text_zh": "消滅 1 個花費不大於 3 的單位。可以指向隱蔽單位。"
+  },
+  "tks": {
+   "en": "TKS",
+   "zh": "TKS",
+   "text_zh": ""
+  },
+  "to_the_last_man": {
+   "en": "TO THE LAST MAN",
+   "zh": "至死方休",
+   "text_zh": "消滅所有單位。"
+  },
+  "tora_tora_tora": {
+   "en": "TORA! TORA! TORA!",
+   "zh": "虎！虎！虎！",
+   "text_zh": "對所有敵方目標造成 1 點傷害。"
+  },
+  "torpedo_attack": {
+   "en": "TORPEDO ATTACK",
+   "zh": "魚雷攻擊",
+   "text_zh": "消滅前線 1 個敵方單位。"
+  },
+  "torrential_rain": {
+   "en": "TORRENTIAL RAIN",
+   "zh": "驟雨",
+   "text_zh": "使所有友方步兵和總部獲得 +3 防禦力，使其他友方單位獲得 +2 防禦力。"
+  },
+  "tottori_regiment": {
+   "en": "TOTTORI REGIMENT",
+   "zh": "鳥取聯隊",
+   "text_zh": "所有單位無法被修復。"
+  },
+  "toyama_regiment": {
+   "en": "TOYAMA REGIMENT",
+   "zh": "富山聯隊",
+   "text_zh": ""
+  },
+  "tractor_factories": {
+   "en": "TRACTOR FACTORIES",
+   "zh": "拖拉機廠",
+   "text_zh": "將 2 個“T-34 1942”加入支援陣線。"
+  },
+  "trento_division": {
+   "en": "TRENTO DIVISION",
+   "zh": "特倫托師",
+   "text_zh": "部署：若有其他攻擊力不小於 4 的友方單位，消滅 1 個敵方單位。"
+  },
+  "tropic_lightning": {
+   "en": "TROPIC LIGHTNING",
+   "zh": "熱帶閃電師",
+   "text_zh": "友方第一次額外獲得 1 個指揮點槽時，抽 1 張牌。第二次時，使所有友方單位獲得 +2+2。第三次時，升為老兵。"
+  },
+  "tropic_lightning_vet": {
+   "en": "TROPIC LIGHTNING",
+   "zh": "熱帶閃電師",
+   "text_zh": "友方回合開始時，從“好人寥寥”、“脅迫”和“為了自由”中開發 1 張。"
+  },
+  "tropical_storm": {
+   "en": "TROPICAL STORM",
+   "zh": "熱帶風暴",
+   "text_zh": "雙方將所有手牌洗入卡組，抽取等同於最大洗入數量的卡牌。"
+  },
+  "tsu_regiment": {
+   "en": "TSU REGIMENT",
+   "zh": "津聯隊",
+   "text_zh": "部署：指定 1 個單位。\\r\\n亡計：消滅目標單位。"
+  },
+  "tsuruga_regiment": {
+   "en": "TSURUGA REGIMENT",
+   "zh": "敦賀聯隊",
+   "text_zh": "亡計：對敵方總部造成等同於本單位攻擊力的傷害。"
+  },
+  "tupolev_sb2": {
+   "en": "TUPOLEV SB-2",
+   "zh": "斯勃-2",
+   "text_zh": "鉗擊：敵方指向或攻擊本單位時，+2 花費。"
+  },
+  "tupolev_tb3": {
+   "en": "TUPOLEV TB-3",
+   "zh": "特勃-3",
+   "text_zh": "部署：將 2 個“伊-16 毛驢”加入本單位相鄰處。"
+  },
+  "tupolev_tu2": {
+   "en": "TUPOLEV TU-2",
+   "zh": "圖-2",
+   "text_zh": "友方單位升為老兵時，抽 1 張單位。"
+  },
+  "turmoil": {
+   "en": "TURMOIL",
+   "zh": "動亂",
+   "text_zh": "對 1 個單位造成 2 點傷害。若其已受傷，改為造成 4 點傷害。"
+  },
+  "turning_point": {
+   "en": "TURNING POINT",
+   "zh": "轉捩點",
+   "text_zh": "本回合，使所有友方 T-34 的行動花費為 0，其攻擊造成的溢出傷害轉移到敵方總部。"
+  },
+  "type_1_37mm": {
+   "en": "TYPE 1 37mm",
+   "zh": "一式反坦克炮",
+   "text_zh": "部署：若友方總部防禦力不大於 10，獲得 +1+1 和閃擊。"
+  },
+  "type_1_chihe": {
+   "en": "TYPE 1 Chi-He",
+   "zh": "一式中戰車",
+   "text_zh": "友方回合中，具有 +4 攻擊力。"
+  },
+  "type_3_chinu": {
+   "en": "TYPE 3 Chi-Nu",
+   "zh": "三式中戰車",
+   "text_zh": "在支援陣線時，具有伏擊和守護。"
+  },
+  "type_4_chito": {
+   "en": "TYPE 4 Chi-To",
+   "zh": "四式中戰車",
+   "text_zh": "友方衝擊單位具有 +2 攻擊力。"
+  },
+  "type_4_horo": {
+   "en": "TYPE 4 Ho-Ro",
+   "zh": "四式自走炮",
+   "text_zh": ""
+  },
+  "type_88_aa_gun": {
+   "en": "TYPE 88 AA GUN",
+   "zh": "八八式高射炮",
+   "text_zh": "空軍與本單位交戰後，將其壓制。"
+  },
+  "type_89_chiro": {
+   "en": "TYPE 89 Chi-Ro",
+   "zh": "八九式中戰車",
+   "text_zh": "總部獲得防禦力時，改為受到等量傷害。"
+  },
+  "type_92_105mm_field_gun": {
+   "en": "TYPE 92 105mm FIELD GUN",
+   "zh": "九二式野戰炮",
+   "text_zh": "所有友方步兵具有 +1 攻擊力。"
+  },
+  "type_92_jyushokosha": {
+   "en": "TYPE 92 Jyu-Shokosha",
+   "zh": "九二式重裝甲車",
+   "text_zh": "本單位對敵方總部造成傷害後，獲得 +1 攻擊力。"
+  },
+  "type_93": {
+   "en": "TYPE 93",
+   "zh": "九三式裝甲車",
+   "text_zh": "其他友方單位具有 +1 攻擊力。"
+  },
+  "type_94_tk": {
+   "en": "TYPE 94 TK",
+   "zh": "九四式輕裝甲車",
+   "text_zh": "部署：將 1 張“偷襲”加入手牌。"
+  },
+  "type_94_tk_early": {
+   "en": "TYPE 94 TK EARLY",
+   "zh": "九四式輕裝甲車早期型",
+   "text_zh": "本單位對敵方總部造成傷害後，獲得 +1 攻擊力。"
+  },
+  "type_95_hago": {
+   "en": "TYPE 95 Ha-Go",
+   "zh": "九五式輕戰車",
+   "text_zh": "雙方使用指令時，對其總部造成 1 點傷害。"
+  },
+  "type_96_aa_gun": {
+   "en": "TYPE 96 AA GUN",
+   "zh": "九六式高射炮",
+   "text_zh": "敵方空軍進入戰場時，使其防禦力為 1。亡計：抽 1 張牌。"
+  },
+  "type_97_chiha": {
+   "en": "TYPE 97 Chi-Ha",
+   "zh": "九七式中戰車",
+   "text_zh": "所有友方步兵具有 +1 攻擊力。"
+  },
+  "type_97_shinhoto": {
+   "en": "TYPE 97 SHINHOTO",
+   "zh": "九七式改中戰車",
+   "text_zh": ""
+  },
+  "type_98_keni": {
+   "en": "TYPE 98 Ke-Ni",
+   "zh": "九八式輕戰車",
+   "text_zh": "本回合，此前若有其他友方單位攻擊過，具有 +1 攻擊力。"
+  },
+  "type_xxi_uboat": {
+   "en": "TYPE XXI U-BOAT",
+   "zh": "XXI 級 U 型潛艇",
+   "text_zh": "消滅 1 個單位，敵方隨機棄 2 張牌。"
+  },
+  "typhoon_mk_ib": {
+   "en": "TYPHOON Mk IB",
+   "zh": "颱風 Mk Ib",
+   "text_zh": "陸軍撤退時，抽 1 張牌。"
+  },
+  "u16": {
+   "en": "U-16",
+   "zh": "U-16",
+   "text_zh": "使 1 個單位撤退。若卡組頂是海軍牌，抽 1 張牌。"
+  },
+  "u375": {
+   "en": "U-375",
+   "zh": "U-375",
+   "text_zh": "敵方隨機棄掉 1 張花費不大於 5 的手牌。"
+  },
+  "u48": {
+   "en": "U-48",
+   "zh": "U-48",
+   "text_zh": "下個敵方回合中，敵方無法部署單位。"
+  },
+  "ultra": {
+   "en": "ULTRA",
+   "zh": "ULTRA",
+   "text_zh": "敵方使用指令時，將其反制，抽 1 張牌。"
+  },
+  "uncle_sam": {
+   "en": "UNCLE SAM",
+   "zh": "山姆大叔",
+   "text_zh": "隨機複製手牌中的 1 張單位。"
+  },
+  "under_fire": {
+   "en": "UNDER FIRE",
+   "zh": "槍林彈雨",
+   "text_zh": "對 1 個敵方單位和其相鄰目標造成 1 點傷害。壓制受到此傷害的單位。"
+  },
+  "underground_state": {
+   "en": "UNDERGROUND STATE",
+   "zh": "地下國",
+   "text_zh": "使 1 個敵方單位撤退。將 1 個“軍團”加入支援陣線。"
+  },
+  "unexpected_resistance": {
+   "en": "UNEXPECTED RESISTANCE",
+   "zh": "意外反抗",
+   "text_zh": "單位移至前線時，將其壓制。若其具有閃擊，改為將其消滅。"
+  },
+  "united_we_stand": {
+   "en": "UNITED WE STAND",
+   "zh": "團結則存",
+   "text_zh": "對 1 個單位造成 2 點傷害。若將其消滅，雙方額外獲得 1 個指揮點槽。"
+  },
+  "unity_is_strength": {
+   "en": "UNITY IS STRENGTH",
+   "zh": "團結就是力量",
+   "text_zh": "每有 1 個友方步兵，使 1 個友方步兵獲得一次 +1+1。"
+  },
+  "universal_carrier": {
+   "en": "UNIVERSAL CARRIER",
+   "zh": "通用載具",
+   "text_zh": "友方“計畫”具有 -1 花費。友方使用“計畫”時，將 1 張“爆破”加入手中。"
+  },
+  "upgrade": {
+   "en": "UPGRADE",
+   "zh": "改裝",
+   "text_zh": "消滅 1 個友方坦克，隨機將 1 個花費高 3 點的相同國家坦克加入同一陣線。"
+  },
+  "uprising": {
+   "en": "UPRISING",
+   "zh": "起義",
+   "text_zh": "對所有單位造成等同於本局對戰此前被消滅的波蘭單位數的傷害。"
+  },
+  "ura": {
+   "en": "URA!",
+   "zh": "嗚啦！",
+   "text_zh": "本回合，使所有友方蘇聯單位具有 +3 攻擊力，溢出的傷害會轉移到敵方總部。"
+  },
+  "ural_factories": {
+   "en": "URAL FACTORIES",
+   "zh": "烏拉爾工廠",
+   "text_zh": "消滅 1 個友方單位。隨機將 1 個花費高 1 點的相同國家單位加入同一陣線。"
+  },
+  "uranprojekt": {
+   "en": "URANPROJEKT",
+   "zh": "鈾工程",
+   "text_zh": "消滅所有敵方單位。每消滅 1 個單位，獲得 1 個指揮點。"
+  },
+  "urban_fighting": {
+   "en": "URBAN FIGHTING",
+   "zh": "巷戰",
+   "text_zh": "使 1 個單位的行動花費為 4。消滅其相鄰受傷單位。"
+  },
+  "us_military_research": {
+   "en": "US MILITARY RESEARCH",
+   "zh": "美國軍事研發",
+   "text_zh": "抉擇：將 1 張“深水炸彈” 或 1 張“擴展美國研發”加入手牌。"
+  },
+  "us_weather_bureau": {
+   "en": "US WEATHER BUREAU",
+   "zh": "美國氣象局",
+   "text_zh": "抉擇：預報 或 抽 1 張牌。"
+  },
+  "usaaf": {
+   "en": "USAAF",
+   "zh": "美國陸軍航空隊",
+   "text_zh": "抽 1 張美國轟炸機和 1 張美國戰鬥機。"
+  },
+  "usaaf_spitfire_ix": {
+   "en": "USAAF SPITFIRE IX",
+   "zh": "USAAF 噴火 IX",
+   "text_zh": "部署：抽 1 張空軍。"
+  },
+  "usace": {
+   "en": "USACE",
+   "zh": "陸軍工程兵團",
+   "text_zh": "使 1 個坦克或步兵獲得 +1+1。"
+  },
+  "uss_archerfish": {
+   "en": "USS ARCHERFISH",
+   "zh": "USS 射水魚號",
+   "text_zh": "隨機消滅 1 個敵方單位。若卡組頂是海軍牌，重複一次。"
+  },
+  "uss_fitch": {
+   "en": "USS FITCH",
+   "zh": "USS 菲奇號",
+   "text_zh": "使所有友方單位獲得 +1+1。若卡組頂是海軍牌，改為獲得 +2+2。"
+  },
+  "uss_missouri": {
+   "en": "USS MISSOURI",
+   "zh": "USS 密蘇裏號",
+   "text_zh": "消滅前線 1 個單位。使相鄰單位撤退。"
+  },
+  "uss_the_sullivans": {
+   "en": "USS THE SULLIVANS",
+   "zh": "USS 沙利文兄弟號",
+   "text_zh": "使 1 個單位和卡組頂的單位獲得 +1+1。抽 1 張牌。"
+  },
+  "uss_yorktown": {
+   "en": "USS YORKTOWN",
+   "zh": "USS 約克城號",
+   "text_zh": "將 4 個“F2A 水牛”加入戰場，若可能，加入前線。"
+  },
+  "utsunomiya_regiment": {
+   "en": "UTSUNOMIYA REGIMENT",
+   "zh": "宇都宮聯隊",
+   "text_zh": "敵方使用指令時，對其總部造成 2 點傷害。"
+  },
+  "uusimaa_regiment": {
+   "en": "UUSIMAA REGIMENT",
+   "zh": "新地團",
+   "text_zh": "友方“游擊隊員”對總部造成的傷害 +4。友方回合結束時，將 1 個“游擊隊員”加入同一陣線。"
+  },
+  "v1_flying_bomb": {
+   "en": "V-1 FLYING BOMB",
+   "zh": "V-1 飛行炸彈",
+   "text_zh": "消滅 1 個花費不大於 3 的單位。"
+  },
+  "valentine_mk_ii": {
+   "en": "VALENTINE Mk II",
+   "zh": "瓦倫丁 Mk II",
+   "text_zh": "部署：若上回合友方部署過英國步兵，獲得閃擊。"
+  },
+  "valentine_mk_iii": {
+   "en": "VALENTINE Mk III",
+   "zh": "瓦倫丁 Mk III",
+   "text_zh": ""
+  },
+  "vanguard": {
+   "en": "VANGUARD",
+   "zh": "先峰",
+   "text_zh": "使 1 個友方山地單位獲得閃擊，且：“本單位造成傷害時，使友方總部獲得同等防禦力。”"
+  },
+  "veteran_pilots": {
+   "en": "VETERAN PILOTS",
+   "zh": "資深飛行員",
+   "text_zh": "抉擇：使 1 個蘇聯空軍獲得 +1+2 或 在本回合具有免疫。"
+  },
+  "vicious_salvo": {
+   "en": "VICIOUS SALVO",
+   "zh": "激烈齊射",
+   "text_zh": "對 1 個單位造成 3 點傷害。抑制其相鄰單位。"
+  },
+  "victory_banners": {
+   "en": "VICTORY BANNERS",
+   "zh": "勝利旗幟",
+   "text_zh": "指向 1 個單位。將其所有者的所有單位轉換為此單位。"
+  },
+  "victory_garden": {
+   "en": "VICTORY GARDEN",
+   "zh": "勝利花園",
+   "text_zh": "使卡組中的所有美國單位獲得：“亡計：使卡組頂的單位獲得 +1+1。”"
+  },
+  "victory_march": {
+   "en": "VICTORY MARCH",
+   "zh": "勝利進軍",
+   "text_zh": "使所有友方單位的行動花費為 0。使友方總部獲得等同於降低的行動花費總和的防禦力。"
+  },
+  "vildebeest": {
+   "en": "VILDEBEEST",
+   "zh": "牛羚",
+   "text_zh": "友方單位造成 1 點對戰傷害時，對敵方總部造成 2 點傷害。"
+  },
+  "vive_la_resistance": {
+   "en": "VIVE LA RESISTANCE!",
+   "zh": "抵抗萬歲！",
+   "text_zh": "將 2 張“抵抗”加入敵方卡組。抽 1 張牌。"
+  },
+  "volunteer_corps": {
+   "en": "VOLUNTEER CORPS",
+   "zh": "國民義勇隊",
+   "text_zh": "移除 1 個單位，直到回合結束。"
+  },
+  "vystrel_course": {
+   "en": "VYSTREL COURSE",
+   "zh": "高級步兵戰術進修",
+   "text_zh": "指向 1 個友方坦克或步兵。下個友方回合開始時，使其獲得 +3+3。"
+  },
+  "wakamatsu_regiment": {
+   "en": "WAKAMATSU REGIMENT",
+   "zh": "馬坦尼考守備隊",
+   "text_zh": "亡計：消滅所有友方“馬坦尼考守備隊”。"
+  },
+  "war_bonds": {
+   "en": "WAR BONDS",
+   "zh": "戰爭債券",
+   "text_zh": "額外獲得 2 個指揮點槽。下個友方回合開始時，額外抽 1 張牌。"
+  },
+  "war_production": {
+   "en": "WAR PRODUCTION",
+   "zh": "戰時生產",
+   "text_zh": "獲得 2 個指揮點。棄掉所有非單位。"
+  },
+  "wave_after_wave": {
+   "en": "WAVE AFTER WAVE",
+   "zh": "高潮迭起",
+   "text_zh": "對所有敵方單位造成 2 點傷害。若是本回合使用的第二張指令，改為造成 4 點傷害。"
+  },
+  "way_of_subjects": {
+   "en": "WAY OF SUBJECTS",
+   "zh": "臣民之道",
+   "text_zh": "使卡組中的所有日本牌獲得協力，且：“使用時，使友方總部獲得 +1 防禦力。”"
+  },
+  "we_can_do_it": {
+   "en": "WE CAN DO IT!",
+   "zh": "我們能做到！",
+   "text_zh": "所有友方單位和總部獲得 +3 防禦力，抽 1 張牌。"
+  },
+  "welch_regiment": {
+   "en": "WELCH REGIMENT",
+   "zh": "威爾奇團",
+   "text_zh": ""
+  },
+  "wellington": {
+   "en": "WELLINGTON",
+   "zh": "威靈頓",
+   "text_zh": "若在手牌中，友方使用指令時，獲得 -2 花費。"
+  },
+  "welsh_guards": {
+   "en": "WELSH GUARDS",
+   "zh": "威爾士衛隊",
+   "text_zh": "部署：使 1 個目標獲得 +1 防禦力。"
+  },
+  "wespe": {
+   "en": "WESPE",
+   "zh": "黃蜂式自行火炮",
+   "text_zh": "若有友方坦克，具有 +1 攻擊力。"
+  },
+  "western_allies": {
+   "en": "WESTERN ALLIES",
+   "zh": "西方盟友",
+   "text_zh": "將卡組頂的 1 張非法國單位加入支援陣線。"
+  },
+  "whirlwind": {
+   "en": "WHIRLWIND",
+   "zh": "旋風",
+   "text_zh": "敵方指向或攻擊本單位時，對其總部造成 3 點傷害。"
+  },
+  "white_guard": {
+   "en": "WHITE GUARD",
+   "zh": "白衛隊",
+   "text_zh": "消滅受到本單位對戰傷害的單位。"
+  },
+  "windhund_division": {
+   "en": "WINDHUND DIVISION",
+   "zh": "灰獵犬師",
+   "text_zh": "本單位攻擊並消滅單位後，能再次行動。"
+  },
+  "winter_offensive": {
+   "en": "WINTER OFFENSIVE",
+   "zh": "冬季攻勢",
+   "text_zh": "對所有目標造成 4 點傷害。"
+  },
+  "winter_regiment": {
+   "en": "WINTER REGIMENT",
+   "zh": "冬聯隊",
+   "text_zh": "本單位收繳單位時，完全修復本單位。"
+  },
+  "winter_warfare": {
+   "en": "WINTER WARFARE",
+   "zh": "冬季戰爭",
+   "text_zh": "對所有目標造成 1 點傷害。"
+  },
+  "wirbelwind": {
+   "en": "WIRBELWIND",
+   "zh": "旋風防空坦克",
+   "text_zh": "本單位在前線時，敵方空軍進入戰場時會被壓制。"
+  },
+  "wolfhounds": {
+   "en": "WOLFHOUNDS",
+   "zh": "獵狼犬團",
+   "text_zh": "友方部署或加入步兵時，獲得 +1+1，然後若攻擊力不小於 6，升為老兵。"
+  },
+  "wolfhounds_vet": {
+   "en": "WOLFHOUNDS",
+   "zh": "獵狼犬團",
+   "text_zh": "一回合一次，友方部署或加入步兵後，使所有友方步兵獲得 +1+2。"
+  },
+  "wolfpack": {
+   "en": "WOLFPACK",
+   "zh": "狼群戰術",
+   "text_zh": "將 1 個單位返回手牌。敵方隨機棄 1 張牌。"
+  },
+  "wolves_of_tuscany": {
+   "en": "WOLVES OF TUSCANY",
+   "zh": "托斯卡納之狼步兵師",
+   "text_zh": "本單位在前線時，所有友方空軍具有 +2 攻擊力。"
+  },
+  "women_at_work": {
+   "en": "WOMEN AT WORK",
+   "zh": "半邊天",
+   "text_zh": "選擇手中 1 張美國單位。使其失去等同於其行動花費的花費。"
+  },
+  "workers_unite": {
+   "en": "WORKERS UNITE!",
+   "zh": "無產者，聯合起來！",
+   "text_zh": "棄掉所有“輕步兵”。每棄 1 張，獲得 1 個指揮點並抽 1 張牌。"
+  },
+  "yak_3": {
+   "en": "YAK 3",
+   "zh": "雅克-3",
+   "text_zh": "部署：若有友方非蘇聯單位，獲得 +1 攻擊力和伏擊。"
+  },
+  "yak_7": {
+   "en": "YAK 7",
+   "zh": "雅克-7",
+   "text_zh": "友方回合開始時，抽 1 張牌，對友方總部造成 1 點傷害。"
+  },
+  "yak_9": {
+   "en": "YAK 9",
+   "zh": "雅克-9",
+   "text_zh": "亡計：抽 1 張蘇聯牌。"
+  },
+  "yak_9_pl": {
+   "en": "YAK 9 PL",
+   "zh": "雅克-9 PL",
+   "text_zh": "使友方流亡單位具有閃擊。"
+  },
+  "yamagata_regiment": {
+   "en": "YAMAGATA REGIMENT",
+   "zh": "山形聯隊",
+   "text_zh": "若友方沒有手牌，具有伏擊、閃擊和奮戰。"
+  },
+  "yank": {
+   "en": "YANK",
+   "zh": "洋基週刊",
+   "text_zh": "使友方總部獲得：“每回合，友方首次開發時，再開發 1 張“懲戒”。”"
+  },
+  "yokosuka_e14y": {
+   "en": "YOKOSUKA E14Y",
+   "zh": "E14Y 零式小型水偵",
+   "text_zh": "部署：預報。若指揮點數為 0，抽 1 張牌。"
+  },
+  "your_courage": {
+   "en": "YOUR COURAGE",
+   "zh": "你的勇氣",
+   "text_zh": "使手中的協力牌獲得 -1 花費。使手中、卡組和場上的所有友方協力單位獲得 +1+1。"
+  },
+  "z_special_unit": {
+   "en": "Z SPECIAL UNIT",
+   "zh": "Z 隊",
+   "text_zh": "對 1 個單位造成 4 點傷害。若從手中最左側使用，使友方總部獲得 +5 防禦力。"
+  },
+  "zamo_uprising": {
+   "en": "ZAMOŚĆ UPRISING",
+   "zh": "紮莫希奇起義",
+   "text_zh": "使 1 個單位撤退。"
+  },
+  "zaza_division": {
+   "en": "ZAZA DIVISION",
+   "zh": "紮紮師",
+   "text_zh": "本單位受到傷害時，抽 1 張牌。"
+  },
+  "zhukov": {
+   "en": "ZHUKOV",
+   "zh": "朱可夫",
+   "text_zh": "抽 1 張蘇聯步兵，使其部署時獲得 +1+1 和閃擊。"
+  },
+  "zis2": {
+   "en": "ZiS-2",
+   "zh": "ZiS-2",
+   "text_zh": "鉗擊：閃擊。"
+  }
+ }
+}
